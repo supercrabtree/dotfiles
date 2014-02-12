@@ -5,25 +5,29 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 ZSH_THEME="pure"
 
-# Example aliases
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(zsh-syntax-highlighting z)
+
+source $ZSH/oh-my-zsh.sh
+
+export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/.rvm/bin:/usr/local/share/npm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$PATH
+
 alias zshconfig="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
 alias dev="cd ~/Dropbox/dev"
 alias gulp='nocorrect gulp'
 alias mongod='nocorrect mongod'
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git zsh-syntax-highlighting z)
-
-source $ZSH/oh-my-zsh.sh
-
-export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/.rvm/bin:/usr/local/share/npm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$PATH
-
+# git sync
 gs() {
+  MESSAGE=""
+  for i in "$@"; do
+    MESSAGE+=$i" "
+  done
   git add -A
-  git commit -m $1
+  git commit -m $MESSAGE
   git push origin master
   git pull
 }

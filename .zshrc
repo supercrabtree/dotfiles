@@ -14,6 +14,8 @@ source $ZSH/oh-my-zsh.sh
 
 export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/.rvm/bin:/usr/local/share/npm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$PATH
 
+export EDITOR=/usr/bin/nano
+
 alias zshconfig="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
 alias dev="cd ~/Dropbox/dev"
@@ -26,10 +28,11 @@ gs() {
   for i in "$@"; do
     MESSAGE+=$i" "
   done
+
   git add -A
   git commit -m $MESSAGE
+  git pull origin master
   git push origin master
-  git pull
 }
 
 mkcd () {
@@ -44,12 +47,27 @@ zz() {
 play() {
   if [ $1 ]
   then
-    cd ~/Dropbox/dev/yeah && mkdir $1-$[($RANDOM % 13843) + 1] && cd $_
+    if [ $2 ]
+    then
+      NAME=$1-$2
+    else
+      NAME=$1-$[($RANDOM % 13843) + 1]
+    fi
+    cd ~/Dropbox/dev/yeah && mkdir $NAME && cd $_
     yo $1
     subl .
   else
     cd ~/Dropbox/dev/yeah && mkdir yeah-$[($RANDOM % 13843) + 1] && cd $_
   fi
+}
+
+clean() {
+  find . -type f -iregex ".* Report.txt" | while read FILENAME
+  do
+    echo "Deleting:"
+    echo "${FILENAME}"
+    rm "${FILENAME}"
+  done
 }
 
 

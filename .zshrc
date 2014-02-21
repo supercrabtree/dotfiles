@@ -22,17 +22,17 @@ alias dev="cd ~/Dropbox/dev"
 alias gulp='nocorrect gulp'
 alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
+alias gitsync='gs'
 
-# git sync
-gs() {
+gitsync() {
 
   MESSAGE=""
   for i in "$@"; do
     MESSAGE+=$i" "
   done
 
-  set -x
   set -e
+  set -x
 
   git add -A
   git commit -m $MESSAGE

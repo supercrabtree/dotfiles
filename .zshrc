@@ -33,13 +33,13 @@ gs() {
 
   set -e
 
-  echo "\033[0;31mgit add -A\033[0m\n"
+  echo "\033[0;31mgit add -A\033[0m"
   git add -A
-  echo "\033[0;31mgit commit -m " + $MESSAGE + "\033[0m\n"
+  echo "\n\033[0;31mgit commit -m $MESSAGE\033[0m"
   git commit -m $MESSAGE
-  echo "\033[0;31mgit pull origin master\033[0m\n"
+  echo "\n\033[0;31mgit pull origin master\033[0m"
   git pull origin master
-  echo "\033[0;31mgit push origin master\033[0m\n"
+  echo "\n\033[0;31mgit push origin master\033[0m"
   git push origin master
 }
 

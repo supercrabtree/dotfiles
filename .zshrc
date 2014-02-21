@@ -25,6 +25,9 @@ alias reload='source ~/.zshrc'
 
 # git sync
 gs() {
+  set -x
+  set -e
+
   MESSAGE=""
   for i in "$@"; do
     MESSAGE+=$i" "

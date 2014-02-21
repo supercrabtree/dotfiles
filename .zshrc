@@ -21,6 +21,7 @@ alias ohmyzsh="subl ~/.oh-my-zsh"
 alias dev="cd ~/Dropbox/dev"
 alias gulp='nocorrect gulp'
 alias mongod='nocorrect mongod'
+alias reload='source ~/.zshrc'
 
 # git sync
 gs() {

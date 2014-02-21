@@ -33,7 +33,7 @@ gs() {
 
   set -e
 
-  echo "\033[0;31mgit add -A\033[0m"
+  echo "\n\033[0;31mgit add -A\033[0m"
   git add -A
   echo "\n\033[0;31mgit commit -m $MESSAGE\033[0m"
   git commit -m $MESSAGE

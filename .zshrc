@@ -25,13 +25,14 @@ alias reload='source ~/.zshrc'
 
 # git sync
 gs() {
-  set -x
-  set -e
 
   MESSAGE=""
   for i in "$@"; do
     MESSAGE+=$i" "
   done
+
+  set -x
+  set -e
 
   git add -A
   git commit -m $MESSAGE

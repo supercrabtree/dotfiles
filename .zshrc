@@ -22,9 +22,9 @@ alias dev="cd ~/Dropbox/dev"
 alias gulp='nocorrect gulp'
 alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
-alias gitsync='gs'
+alias ajfgit='git config user.name "George Crabtree" && git config user.email gcrabtree@ajfpartnership.com.au'
 
-gitsync() {
+gs() {
 
   MESSAGE=""
   for i in "$@"; do
@@ -32,11 +32,14 @@ gitsync() {
   done
 
   set -e
-  set -x
 
+  echo "\033[0;31mgit add -A\033[0m\n"
   git add -A
+  echo "\033[0;31mgit commit -m " + $MESSAGE + "\033[0m\n"
   git commit -m $MESSAGE
+  echo "\033[0;31mgit pull origin master\033[0m\n"
   git pull origin master
+  echo "\033[0;31mgit push origin master\033[0m\n"
   git push origin master
 }
 
@@ -78,32 +81,6 @@ clean() {
 colortest () {
   for x in 0 1 4 5 7 8; do for i in `seq 30 37`; do for a in `seq 40 47`; do echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "; done; echo; done; done; echo "";
 }
-
-
-
-
-
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Uncomment this to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment to change how often before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want to disable command autocorrection
-# DISABLE_CORRECTION="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment following line if you want to disable marking untracked files under
 # VCS as dirty. This makes repository status check for large repositories much,

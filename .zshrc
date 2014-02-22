@@ -24,14 +24,24 @@ alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
 alias ajfgit='git config user.name "George Crabtree" && git config user.email gcrabtree@ajfpartnership.com.au'
 
-gs() {
+l() {
+  # \\033[31m
+  # \\033[0m
+  var="$(script -q /dev/null ls -laG | sed 's/^\(d\)/\\033[31m\1\\033[0m/g')"
+  echo "$var"
+}
 
+gs() {
   MESSAGE=""
   for i in "$@"; do
     MESSAGE+=$i" "
   done
 
-  set -e
+  # if [$MESSAGE==""]
+  #   then
+  #   echo "\n\033[0;31mYou must enter a commit message.\033[0m"
+  #   exit 1
+  # fi
 
   echo "\n\033[0;31mgit add -A\033[0m"
   git add -A
@@ -54,9 +64,9 @@ zz() {
 
 play() {
   if [ $1 ]
-  then
-    if [ $2 ]
     then
+    if [ $2 ]
+      then
       NAME=$1-$2
     else
       NAME=$1-$[($RANDOM % 13843) + 1]

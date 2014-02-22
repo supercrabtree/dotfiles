@@ -42,13 +42,13 @@ gs() {
   # fi
 
   echo "\n\033[0;31mgit add -A\033[0m"
-  git add -A
-  echo "\n\033[0;31mgit commit -m $MESSAGE\033[0m"
-  git commit -m $MESSAGE
+  # git add -A
+  echo "\n\033[0;31mgit commit -m \033[0;33m$MESSAGE\033[0m"
+  # git commit -m $MESSAGE
   echo "\n\033[0;31mgit pull origin master\033[0m"
-  git pull origin master
+  # git pull origin master
   echo "\n\033[0;31mgit push origin master\033[0m"
-  git push origin master
+  # git push origin master
 }
 
 mkcd () {

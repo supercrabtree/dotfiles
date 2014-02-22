@@ -25,10 +25,9 @@ alias reload='source ~/.zshrc'
 alias ajfgit='git config user.name "George Crabtree" && git config user.email gcrabtree@ajfpartnership.com.au'
 
 l() {
-  # \\033[31m
-  # \\033[0m
-  var="$(script -q /dev/null ls -laG | sed 's/^\(d\)/\\033[31m\1\\033[0m/g')"
-  echo "$var"
+  LSRESULTS="$(script -q /dev/null ls -laG | sed 's/^\(d\)/\\033[36m\1\\033[0m/g' | sed 's/^\(l\)/\\033[35m\1\\033[0m/g'"
+  # 's/^(.{1})(rwx)/\1\2/g' should work but cant get it to
+  echo "$LSRESULTS"
 }
 
 gs() {

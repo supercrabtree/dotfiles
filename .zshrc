@@ -30,25 +30,28 @@ l() {
 }
 
 gs() {
+  if [ ! $1 ]
+    then
+    echo "\n\033[0;31mYou must enter a commit message.\033[0m"
+    return 1
+  fi
+
+  echo "\n\033[0;34mgit add -A\033[0m"
+  git add -A || { return 1; }
+
   MESSAGE=""
   for i in "$@"; do
     MESSAGE+=$i" "
   done
 
-  # if [$MESSAGE==""]
-  #   then
-  #   echo "\n\033[0;31mYou must enter a commit message.\033[0m"
-  #   exit 1
-  # fi
-
-  echo "\n\033[0;31mgit add -A\033[0m"
-  # git add -A
-  echo "\n\033[0;31mgit commit -m \033[0;33m$MESSAGE\033[0m"
-  # git commit -m $MESSAGE
-  echo "\n\033[0;31mgit pull origin master\033[0m"
-  # git pull origin master
-  echo "\n\033[0;31mgit push origin master\033[0m"
-  # git push origin master
+  echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$MESSAGE\033[0m"
+  git commit -m $MESSAGE || { return 1; }
+  
+  echo "\n\033[0;34mgit pull origin master\033[0m"
+  git pull origin master || { return 1; }
+  
+  echo "\n\033[0;34mgit push origin master\033[0m"
+  git push origin master || { return 1; }
 }
 
 mkcd () {
@@ -80,8 +83,7 @@ play() {
 clean() {
   find . -type f -iregex ".* Report.txt" | while read FILENAME
   do
-    echo "Deleting:"
-    echo "${FILENAME}"
+    echo "Deleting: ${FILENAME}"
     rm "${FILENAME}"
   done
 }

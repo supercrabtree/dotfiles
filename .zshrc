@@ -51,8 +51,8 @@ k() {
 gs() {
 
   MESSAGE=""
-  for i in "$@"; do
-    MESSAGE+=$i" "
+  for i in "$@"
+    do MESSAGE+=$i" "
   done
 
   if [ ! $1 ]

@@ -25,8 +25,31 @@ alias reload='source ~/.zshrc'
 alias ajfgit='git config user.name "George Crabtree" && git config user.email gcrabtree@ajfpartnership.com.au'
 
 l() {
-  #     #retain linebrakes              #find anyone writable stuff and background color red   #look for r-x after 7 chars and make it green       #look for r-x after 4 chars and make it yellow      #look for rwx after 1 chars and make it red         #if first char is d make it red        #if first char is d make it magenta         
+  #     #retain linebrakes              #find world writable stuff and background color red    #look for r-x after 7 chars and make it green       #look for r-x after 4 chars and make it yellow      #look for rwx after 1 chars and make it red         #if first char is d make it red        #if first char is d make it magenta
   echo "$(script -q /dev/null ls -laG | sed 's/^\(.\{7\}\)\(.w.\)/\\033[30;41m\1\2\\033[0m/' | sed 's/^\(.\{7\}\)\(r-x\)/\1\\033[32m\2\\033[0m/' | sed 's/^\(.\{4\}\)\(r-x\)/\1\\033[33m\2\\033[0m/' | sed 's/^\(.\{1\}\)\(rwx\)/\1\\033[31m\2\\033[0m/' | sed 's/^\(d\)/\\033[36m\1\\033[0m/g' | sed 's/^\(l\)/\\033[35m\1\\033[0m/g')"
+}
+
+
+
+
+
+k() {
+  # ls with file sizes highlighted
+  # echo " $( script -q /dev/null ls -laG | sed 's/^\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*\)\([ ]*[0-9]*\)/\1\2\3\4\\033[41m\5\\033[0m/' ) "
+
+  # Get all the file sizes from a ls call (i know this is bad, but i dont know any better)
+  FILESIZES="$( script -q /dev/null ls -laG | sed 's/^\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*\)\([ ]*[0-9]*\)\(.*\)/\5/' )"
+  # Split them into array on linebreaks
+  SIZE_ARRAY=("${(@f)FILESIZES}")
+
+  # Get all the results from a ls call
+  LSRESULTS="$( script -q /dev/null ls -laG )"
+  # Split them into array on linebreaks
+  LSRESULT_ARRAY=("${(@f)LSRESULTS}")
+
+  for ((i = 0; i < $#SIZE_ARRAY+1; i++))
+    do echo $SIZE_ARRAY[i] $LSRESULT_ARRAY[i]
+  done
 }
 
 gs() {
@@ -46,10 +69,10 @@ gs() {
 
   echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$MESSAGE\033[0m"
   git commit -m $MESSAGE || { return 1; }
-  
+
   echo "\n\033[0;34mgit pull origin master\033[0m"
   git pull origin master || { return 1; }
-  
+
   echo "\n\033[0;34mgit push origin master\033[0m"
   git push origin master || { return 1; }
 }

@@ -50,16 +50,16 @@ k() {
 
 gs() {
 
-  MESSAGE=""
-  for i in "$@"
-    do MESSAGE+=$i" "
-  done
+  echo "${args[@]}"
 
   if [ ! $1 ]
     then
     echo "\n\033[0;31mYou must enter a commit message.\033[0m"
     return 1
   fi
+
+  # debug
+  return 1
 
   echo "\n\033[0;34mgit add -A\033[0m"
   git add -A || { return 1; }

@@ -29,10 +29,6 @@ l() {
   echo "$(script -q /dev/null ls -laG | sed 's/^\(.\{7\}\)\(.w.\)/\\033[30;41m\1\2\\033[0m/' | sed 's/^\(.\{7\}\)\(r-x\)/\1\\033[32m\2\\033[0m/' | sed 's/^\(.\{4\}\)\(r-x\)/\1\\033[33m\2\\033[0m/' | sed 's/^\(.\{1\}\)\(rwx\)/\1\\033[31m\2\\033[0m/' | sed 's/^\(d\)/\\033[36m\1\\033[0m/g' | sed 's/^\(l\)/\\033[35m\1\\033[0m/g')"
 }
 
-
-
-
-
 k() {
   # ls with file sizes highlighted
   # echo " $( script -q /dev/null ls -laG | sed 's/^\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*\)\([ ]*[0-9]*\)/\1\2\3\4\\033[41m\5\\033[0m/' ) "
@@ -48,11 +44,17 @@ k() {
   LSRESULT_ARRAY=("${(@f)LSRESULTS}")
 
   for ((i = 0; i < $#SIZE_ARRAY+1; i++))
-    do echo $SIZE_ARRAY[i] $LSRESULT_ARRAY[i]
+    do echo $SIZE_ARRAY[i] $LSRESULT_ARRAY[i]linebreaks
   done
 }
 
 gs() {
+
+  MESSAGE=""
+  for i in "$@"; do
+    MESSAGE+=$i" "
+  done
+
   if [ ! $1 ]
     then
     echo "\n\033[0;31mYou must enter a commit message.\033[0m"
@@ -61,11 +63,6 @@ gs() {
 
   echo "\n\033[0;34mgit add -A\033[0m"
   git add -A || { return 1; }
-
-  MESSAGE=""
-  for i in "$@"; do
-    MESSAGE+=$i" "
-  done
 
   echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$MESSAGE\033[0m"
   git commit -m $MESSAGE || { return 1; }

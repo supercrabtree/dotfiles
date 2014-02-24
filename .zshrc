@@ -50,22 +50,19 @@ k() {
 
 gs() {
 
-  echo "${args[@]}"
-
   if [ ! $1 ]
     then
     echo "\n\033[0;31mYou must enter a commit message.\033[0m"
     return 1
   fi
-
   # debug
-  return 1
+  # return 0
 
   echo "\n\033[0;34mgit add -A\033[0m"
   git add -A || { return 1; }
 
-  echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$MESSAGE\033[0m"
-  git commit -m $MESSAGE || { return 1; }
+  echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$1\033[0m"
+  git commit -m $1 || { return 1; }
 
   echo "\n\033[0;34mgit pull origin master\033[0m"
   git pull origin master || { return 1; }

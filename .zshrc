@@ -26,18 +26,13 @@ alias ajfgit='git config user.name "George Crabtree" && git config user.email gc
 
 zmodload zsh/mathfunc
 
-cols() {
-  for ((i = 235; i < 255; i++))
-    do echo "\033[38;5;"$i"mGEORGE\033[0m"
-  done
-}
-
 l() {
   #     #retain linebrakes              #find world writable stuff and background color red    #look for r-x after 7 chars and make it green       #look for r-x after 4 chars and make it yellow      #look for rwx after 1 chars and make it red         #if first char is d make it red        #if first char is d make it magenta
   echo "$(script -q /dev/null ls -laG | sed 's/^\(.\{7\}\)\(.w.\)/\\033[30;41m\1\2\\033[0m/' | sed 's/^\(.\{7\}\)\(r-x\)/\1\\033[32m\2\\033[0m/' | sed 's/^\(.\{4\}\)\(r-x\)/\1\\033[33m\2\\033[0m/' | sed 's/^\(.\{1\}\)\(rwx\)/\1\\033[31m\2\\033[0m/' | sed 's/^\(d\)/\\033[36m\1\\033[0m/g' | sed 's/^\(l\)/\\033[35m\1\\033[0m/g')"
 }
 
 k() {
+  GREEN_TO_RED=(46 82 118 154 190 226 220 214 208 202 196)
   # ls with file sizes highlighted
   # echo " $( script -q /dev/null ls -laG | sed 's/^\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*\)\([ ]*[0-9]*\)/\1\2\3\4\\033[41m\5\\033[0m/' ) "
 
@@ -55,13 +50,29 @@ k() {
   SIZE_UNIQ=(${(u)SIZE_ARRAY})
   SIZE_UNIQ_SORTED=(${(o)SIZE_UNIQ})
 
-  # echo $((#SIZE_UNIQ_SORTED * $RES))
+  # get the lowest filesize
+  LOWEST=$SIZE_UNIQ_SORTED[1]
 
-  ((JUMP=255.0 / #SIZE_UNIQ_SORTED))
+  # get the highest filesize
+  HIGHEST=$SIZE_UNIQ_SORTED[$#SIZE_UNIQ_SORTED]
 
-  for ((i = 0; i < $#SIZE_UNIQ_SORTED; i++))
-    do echo $i $((int($i * $JUMP))) "\t" $SIZE_UNIQ_SORTED[$i]
-  done
+  # get the difference between the highest and lowest filesizes
+  DIFF=$(($HIGHEST-$LOWEST))
+
+  STEP=$(($DIFF/11.0))
+
+  echo $(($DIFF/$STEP))
+
+  # echo $DIFF $LOWEST
+
+  # for ((i = 1; i <= $#SIZE_UNIQ_SORTED; i++))
+    # do echo $(($SIZE_UNIQ_SORTED[$i] - $LOWEST))
+  # done
+
+  # ((JUMP=11.0 / #SIZE_UNIQ_SORTED))
+  # for ((i = 1; i <= $#SIZE_UNIQ_SORTED; i++))
+  #   do echo $i $((int($i * $JUMP))) "\t" $SIZE_UNIQ_SORTED[$i]
+  # done
 }
 
 gs() {
@@ -121,16 +132,7 @@ clean() {
   done
 }
 
-colortest () {
-  for x in 0 1 4 5 7 8; do for i in 30 31 32 33 34 35 36 37; do for a in 40 41 42 43 44 45 46 47; do echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "; done; echo; done; done; echo "";
-}
-
-color255(){
-  for ((i = 0; i < 255; i++))
-    do echo $i "\033[38;5;"$i"mGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGEGEORGE\033[0m"
-  done
-}
-colors() {
+colortest() {
   echo -en "\n   +  "
   for i in {0..35}; do
     printf "%2b " $i
@@ -150,6 +152,7 @@ colors() {
   done
   echo -e "\n"
 }
+
 # Uncomment following line if you want to disable marking untracked files under
 # VCS as dirty. This makes repository status check for large repositories much,
 # much faster.

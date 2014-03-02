@@ -1,7 +1,7 @@
 {
-  "node": false,
-  "browser": true,
-  "esnext": false,
+  "node": true,
+  "browser": false,
+  "esnext": true,
 
   "bitwise": false,
   "camelcase": true,
@@ -26,11 +26,7 @@
   "white": true,
   "noempty": false,
   "globals": {
-    "_": false,
-    "angular": false,
-    "Modernizr": false,
-    "TweenMax": false,
-    "Back": false
+    "_": false
   }
 }
 

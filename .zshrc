@@ -102,6 +102,10 @@ mkcd () {
   mkdir -p -v $1 && cd $1
 }
 
+cdwhich() {
+  cd "$(dirname $(which $1))"
+}
+
 zz() {
   z $1
   subl .

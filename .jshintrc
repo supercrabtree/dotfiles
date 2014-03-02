@@ -1,7 +1,7 @@
 {
-  // NODE SPECIFIC
-  // "node": false,
-  // "esnext": true,
+  "node": false,
+  "esnext": false,
+
 
   "browser": true,
   "esnext": true,
@@ -21,12 +21,12 @@
   "quotmark": "single",
   "regexp": true,
   "undef": true,
-  "unused": false, // set to true for release
+  "unused": false,
   "strict": true,
   "trailing": true,
   "smarttabs": true,
   "white": true,
-  "noempty": false, // set to true for release
+  "noempty": false,
   "globals": {
     "_": false,
     "angular": false,

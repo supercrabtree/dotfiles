@@ -1,0 +1,37 @@
+{
+  // NODE SPECIFIC
+  // "node": false,
+  // "esnext": true,
+
+  "browser": true,
+  "esnext": true,
+  "bitwise": false,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "freeze": true,
+  "immed": true,
+  "indent": 2,
+  "latedef": "nofunc",
+  "laxcomma": true,
+  "newcap": true,
+  "noarg": true,
+  "nonbsp": true,
+  "nonew": true,
+  "quotmark": "single",
+  "regexp": true,
+  "undef": true,
+  "unused": false, // set to true for release
+  "strict": true,
+  "trailing": true,
+  "smarttabs": true,
+  "white": true,
+  "noempty": false, // set to true for release
+  "globals": {
+    "_": false,
+    "angular": false,
+    "Modernizr": false,
+    "TweenMax": false,
+    "Back": false
+  }
+}

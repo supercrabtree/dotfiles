@@ -16,8 +16,8 @@ export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/.rvm/bin:/usr/local/
 
 export EDITOR=/usr/bin/nano
 
-alias zshconfig="subl ~/.zshrc"
-alias ohmyzsh="subl ~/.oh-my-zsh"
+alias zshconfig="atom ~/.zshrc"
+alias ohmyzsh="atom ~/.oh-my-zsh"
 alias dev="cd ~/Dropbox/dev"
 alias gulp='nocorrect gulp'
 alias mongod='nocorrect mongod'
@@ -121,7 +121,7 @@ cdwhich() {
 
 zz() {
   z $1
-  subl .
+  atom .
 }
 
 play() {
@@ -135,7 +135,7 @@ play() {
     fi
     cd ~/Dropbox/dev/yeah && mkdir $NAME && cd $_
     yo $1
-    subl .
+    atom .
   else
     cd ~/Dropbox/dev/yeah && mkdir yeah-$[($RANDOM % 13843) + 1] && cd $_
   fi

@@ -18,7 +18,7 @@ export EDITOR=/usr/bin/nano
 
 alias zshconfig="atom ~/.zshrc"
 alias ohmyzsh="atom ~/.oh-my-zsh"
-alias dev="cd ~/Dropbox/dev"
+alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
 alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'

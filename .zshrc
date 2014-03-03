@@ -110,6 +110,9 @@ gs() {
   echo "\n\033[0;34mgit push origin master\033[0m"
   git push origin master || { return 1; }
 }
+gc() {
+ echo "add, remove, update, refactor, fix"
+}
 
 mkcd () {
   mkdir -p -v $1 && cd $1

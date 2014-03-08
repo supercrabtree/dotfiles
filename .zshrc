@@ -26,54 +26,7 @@ alias ajfgit='git config user.name "George Crabtree" && git config user.email gc
 
 zmodload zsh/mathfunc
 
-l() {
-  #     #retain linebrakes              #find world writable stuff and background color red    #look for r-x after 7 chars and make it green       #look for r-x after 4 chars and make it yellow      #look for rwx after 1 chars and make it red         #if first char is d make it red        #if first char is d make it magenta
-  echo "$(script -q /dev/null ls -laG | sed 's/^\(.\{7\}\)\(.w.\)/\\033[30;41m\1\2\\033[0m/' | sed 's/^\(.\{7\}\)\(r-x\)/\1\\033[32m\2\\033[0m/' | sed 's/^\(.\{4\}\)\(r-x\)/\1\\033[33m\2\\033[0m/' | sed 's/^\(.\{1\}\)\(rwx\)/\1\\033[31m\2\\033[0m/' | sed 's/^\(d\)/\\033[36m\1\\033[0m/g' | sed 's/^\(l\)/\\033[35m\1\\033[0m/g')"
-}
-
-k() {
-  GREEN_TO_RED=(46 82 118 154 190 226 220 214 208 202 196)
-  # ls with file sizes highlighted
-  # echo " $( script -q /dev/null ls -laG | sed 's/^\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*\)\([ ]*[0-9]*\)/\1\2\3\4\\033[41m\5\\033[0m/' ) "
-
-  # Get all the file sizes from a ls call (i know this is bad, but i dont know any better)
-  FILESIZES="$(script -q /dev/null ls -laG | sed 's/^\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*[ ]*\)\([^ ]*\)\([ ]*[0-9]*\)\(.*\)/\5/')"
-  # Split them into array on linebreaks
-  SIZE_ARRAY=("${(@f)FILESIZES}")
-
-  # Get all the results from a ls call
-  LSRESULTS="$(script -q /dev/null ls -laG)"
-  # Split them into array on linebreaks
-  LSRESULT_ARRAY=("${(@f)LSRESULTS}")
-
-  # make them unique
-  SIZE_UNIQ=(${(u)SIZE_ARRAY})
-  SIZE_UNIQ_SORTED=(${(o)SIZE_UNIQ})
-
-  # get the lowest filesize
-  LOWEST=$SIZE_UNIQ_SORTED[1]
-
-  # get the highest filesize
-  HIGHEST=$SIZE_UNIQ_SORTED[$#SIZE_UNIQ_SORTED]
-
-  # get the difference between the highest and lowest filesizes
-  DIFF=$(($HIGHEST-$LOWEST))
-
-  STEP=$(($DIFF/11.0))
-
-  echo $(($DIFF/$STEP))
-
-  # echo $DIFF $LOWEST
-
-  # for ((i = 1; i <= $#SIZE_UNIQ_SORTED; i++))
-    # do echo $(($SIZE_UNIQ_SORTED[$i] - $LOWEST))
-  # done
-
-  # ((JUMP=11.0 / #SIZE_UNIQ_SORTED))
-  # for ((i = 1; i <= $#SIZE_UNIQ_SORTED; i++))
-  #   do echo $i $((int($i * $JUMP))) "\t" $SIZE_UNIQ_SORTED[$i]
-  # done
-}
+source ~/dev/k/k.sh
 
 # No arguments: `git status`
 # With arguments: acts like `git`
@@ -97,7 +50,6 @@ gs() {
 
   # debug
   # return 0
-
   echo "\n\033[0;34mgit add -A\033[0m"
   git add -A || { return 1; }
 
@@ -110,6 +62,7 @@ gs() {
   echo "\n\033[0;34mgit push origin master\033[0m"
   git push origin master || { return 1; }
 }
+# git commands, here so i dont forget them
 gc() {
  echo "add, remove, update, refactor, fix"
 }

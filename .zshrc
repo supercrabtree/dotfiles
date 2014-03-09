@@ -16,8 +16,8 @@ export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/.rvm/bin:/usr/local/
 
 export EDITOR=/usr/bin/nano
 
-alias zshconfig="atom ~/.zshrc"
-alias ohmyzsh="atom ~/.oh-my-zsh"
+alias zshconfig="subl ~/.zshrc"
+alias ohmyzsh="subl ~/.oh-my-zsh"
 alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
 alias mongod='nocorrect mongod'
@@ -37,7 +37,6 @@ g() {
     git status
   fi
 }
-
 # Complete g like git
 compdef g=git
 
@@ -51,7 +50,7 @@ gs() {
   # debug
   # return 0
   echo "\n\033[0;34mgit add -A\033[0m"
-  git add -A || { return 1; }
+  git add -A . || { return 1; }
 
   echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$1\033[0m"
   git commit -m $1 || { return 1; }
@@ -77,7 +76,7 @@ cdwhich() {
 
 zz() {
   z $1
-  atom .
+  subl .
 }
 
 play() {
@@ -91,7 +90,7 @@ play() {
     fi
     cd ~/Dropbox/dev/yeah && mkdir $NAME && cd $_
     yo $1
-    atom .
+    subl .
   else
     cd ~/Dropbox/dev/yeah && mkdir yeah-$[($RANDOM % 13843) + 1] && cd $_
   fi

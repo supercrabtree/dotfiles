@@ -26,12 +26,6 @@ alias reload='source ~/.zshrc'
 
 zmodload zsh/mathfunc
 
-
-l() {
-  #     #retain linebrakes              #find world writable stuff and background color red    #look for r-x after 7 chars and make it green       #look for r-x after 4 chars and make it yellow      #look for rwx after 1 chars and make it red         #if first char is d make it red        #if first char is d make it magenta
-  echo "$(script -q /dev/null ls -laG | sed 's/^\(.\{7\}\)\(.w.\)/\\033[30;41m\1\2\\033[0m/' | sed 's/^\(.\{7\}\)\(r-x\)/\1\\033[32m\2\\033[0m/' | sed 's/^\(.\{4\}\)\(r-x\)/\1\\033[33m\2\\033[0m/' | sed 's/^\(.\{1\}\)\(rwx\)/\1\\033[31m\2\\033[0m/' | sed 's/^\(d\)/\\033[36m\1\\033[0m/g' | sed 's/^\(l\)/\\033[35m\1\\033[0m/g')"
-}
-
 ajfgit() {
   if [ -f './.git/config' ];
   then
@@ -44,7 +38,6 @@ ajfgit() {
   fi
 }
 
-
 # No arguments: `git status`
 # With arguments: acts like `git`
 g() {
@@ -54,7 +47,6 @@ g() {
     git status
   fi
 }
-
 # Complete g like git
 compdef g=git
 
@@ -67,9 +59,8 @@ gs() {
 
   # debug
   # return 0
-
   echo "\n\033[0;34mgit add -A\033[0m"
-  git add -A || { return 1; }
+  git add -A . || { return 1; }
 
   echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$1\033[0m"
   git commit -m $1 || { return 1; }
@@ -80,6 +71,7 @@ gs() {
   echo "\n\033[0;34mgit push origin master\033[0m"
   git push origin master || { return 1; }
 }
+# git commands, here so i dont forget them
 gc() {
  echo "add, remove, update, refactor, fix"
 }

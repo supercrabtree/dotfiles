@@ -13,9 +13,11 @@ plugins=(zsh-syntax-highlighting z)
 source $ZSH/oh-my-zsh.sh
 source ~/dev/k/k.sh
 
-export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/.rvm/bin:/usr/local/share/npm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/.rvm/bin:/bin/usr/local/share/npm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$PATH
 
 export EDITOR=/usr/bin/nano
+
+export GIT_MERGE_AUTOEDIT=no
 
 alias zshconfig="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"

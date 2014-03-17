@@ -59,8 +59,6 @@ gs() {
     return 1
   fi
 
-  # debug
-  # return 0
   echo "\n\033[0;34mgit add -A\033[0m"
   git add -A . || { return 1; }
 
@@ -72,10 +70,6 @@ gs() {
 
   echo "\n\033[0;34mgit push origin master\033[0m"
   git push origin master || { return 1; }
-}
-# git commands, here so i dont forget them
-gc() {
- echo "add, remove, update, refactor, fix"
 }
 
 mkcd () {

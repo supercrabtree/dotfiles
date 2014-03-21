@@ -53,6 +53,8 @@ g() {
 compdef g=git
 
 gs() {
+  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD);
+
   if [ ! $1 ]
     then
     echo "\n\033[0;31mYou must enter a commit message.\033[0m"
@@ -60,16 +62,16 @@ gs() {
   fi
 
   echo "\n\033[0;34mgit add -A\033[0m"
-  git add -A . || { return 1; }
+  git add -A || { return 1; }
 
   echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$1\033[0m"
   git commit -m $1 || { return 1; }
 
-  echo "\n\033[0;34mgit pull origin master\033[0m"
-  git pull origin master || { return 1; }
+  echo "\n\033[0;34mgit pull origin $CURRENT_BRANCH\033[0m"
+  git pull origin $CURRENT_BRANCH || { return 1; }
 
-  echo "\n\033[0;34mgit push origin master\033[0m"
-  git push origin master || { return 1; }
+  echo "\n\033[0;34mgit push origin $CURRENT_BRANCH\033[0m"
+  git push origin $CURRENT_BRANCH || { return 1; }
 }
 
 mkcd () {

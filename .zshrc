@@ -75,13 +75,13 @@ gs() {
 }
 
 # Serve some static stuff from CWD fast
-server() {
-  if [ "$1" != "" ]
-  then
-    python -m SimpleHTTPServer $1
-  else
-    python -m SimpleHTTPServer
+serve() {
+  PORT=8001
+  if [ "$1" != "" ]; then
+    PORT=$1
   fi
+  open "http://localhost:$PORT"
+  python -m SimpleHTTPServer $PORT
 }
 
 mkcd () {

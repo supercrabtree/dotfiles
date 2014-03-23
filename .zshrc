@@ -19,7 +19,7 @@ export EDITOR=/usr/bin/nano
 
 export GIT_MERGE_AUTOEDIT=no
 
-alias zshconfig="subl ~/.zshrc"
+alias zshconf="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
 alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
@@ -72,6 +72,16 @@ gs() {
 
   echo "\n\033[0;34mgit push origin $CURRENT_BRANCH\033[0m"
   git push origin $CURRENT_BRANCH || { return 1; }
+}
+
+# Serve some static stuff from CWD fast
+server() {
+  if [ "$1" != "" ]
+  then
+    python -m SimpleHTTPServer $1
+  else
+    python -m SimpleHTTPServer
+  fi
 }
 
 mkcd () {

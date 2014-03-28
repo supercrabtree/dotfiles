@@ -12,6 +12,7 @@
   "indent": 2,
   "latedef": "nofunc",
   "laxcomma": true,
+  "globalstrict": true,
   "newcap": true,
   "noarg": true,
   "nonbsp": true,

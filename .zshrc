@@ -25,7 +25,8 @@ alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
 alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
-alias glogv='git log --graph --oneline --all --decorate'
+# git log verbose
+alias glv='git log --graph --oneline --all --decorate'
 
 zmodload zsh/mathfunc
 

@@ -68,7 +68,7 @@ gs() {
   git commit -m $1 || { return 1; }
 
   echo "\n\033[0;34mgit pull origin $CURRENT_BRANCH\033[0m"
-  git pull origin $CURRENT_BRANCH || { return 1; }
+  git pull --rebase origin $CURRENT_BRANCH || { return 1; }
 
   echo "\n\033[0;34mgit push origin $CURRENT_BRANCH\033[0m"
   git push origin $CURRENT_BRANCH || { return 1; }
@@ -147,3 +147,6 @@ colortest() {
 # VCS as dirty. This makes repository status check for large repositories much,
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

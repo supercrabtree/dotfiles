@@ -70,8 +70,8 @@ gs() {
   echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$1\033[0m"
   git commit -m $1 || { return 1; }
 
-  echo "\n\033[0;34mgit pull --rebase origin $CURRENT_BRANCH\033[0m"
-  git pull --rebase origin $CURRENT_BRANCH || { return 1; }
+  echo "\n\033[0;34mgit pull origin $CURRENT_BRANCH\033[0m"
+  git pull origin $CURRENT_BRANCH || { return 1; }
 
   echo "\n\033[0;34mgit push origin $CURRENT_BRANCH\033[0m"
   git push origin $CURRENT_BRANCH || { return 1; }

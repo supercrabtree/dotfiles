@@ -19,12 +19,15 @@ export EDITOR=/usr/bin/nano
 
 export GIT_MERGE_AUTOEDIT=no
 
-alias zshconfig="subl ~/.zshrc"
+alias zshconf="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
 alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
 # alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
+alias o="subl ."
+# git log verbose
+alias glv='git log --graph --oneline --all --decorate'
 
 zmodload zsh/mathfunc
 
@@ -72,6 +75,16 @@ gs() {
 
   echo "\n\033[0;34mgit push origin $CURRENT_BRANCH\033[0m"
   git push origin $CURRENT_BRANCH || { return 1; }
+}
+
+# Serve some static stuff from CWD fast
+serve() {
+  PORT=8001
+  if [ "$1" != "" ]; then
+    PORT=$1
+  fi
+  open "http://localhost:$PORT"
+  python -m SimpleHTTPServer $PORT
 }
 
 mkcd () {

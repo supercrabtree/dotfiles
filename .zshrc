@@ -23,7 +23,7 @@ alias zshconfig="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
 alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
-alias mongod='nocorrect mongod'
+# alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
 
 zmodload zsh/mathfunc
@@ -137,3 +137,6 @@ colortest() {
 # VCS as dirty. This makes repository status check for large repositories much,
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

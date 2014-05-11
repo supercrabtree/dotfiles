@@ -60,8 +60,9 @@ gs() {
 
   if [ ! $1 ]
     then
-    echo "\n\033[0;31mYou must enter a commit message.\033[0m"
-    return 1
+    echo "\n\033[0;34mgit pull origin $CURRENT_BRANCH\033[0m"
+    git pull origin $CURRENT_BRANCH || { return 1; }
+    return 0
   fi
 
   echo "\n\033[0;34mgit add -A\033[0m"

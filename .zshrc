@@ -23,7 +23,7 @@ alias zshconf="subl ~/.zshrc"
 alias ohmyzsh="subl ~/.oh-my-zsh"
 alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
-alias mongod='nocorrect mongod'
+# alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
 alias o="subl ."
 # git log verbose

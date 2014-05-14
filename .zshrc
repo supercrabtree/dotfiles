@@ -13,7 +13,7 @@ plugins=(zsh-syntax-highlighting z)
 source $ZSH/oh-my-zsh.sh
 source ~/dev/k/k.sh
 
-export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/.rvm/bin:/bin/usr/local/share/npm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/global_npm_modules/bin:/Users/GCrabtree/.rvm/bin:/bin/usr/local/share/npm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$PATH
 
 export EDITOR=/usr/bin/nano
 
@@ -26,6 +26,7 @@ alias gulp='nocorrect gulp'
 # alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
 alias o="subl ."
+alias oo="open ."
 # git log verbose
 alias glv='git log --graph --oneline --all --decorate'
 

@@ -59,7 +59,7 @@ compdef g=git
 gs() {
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD);
 
-  if [ ! $1 ]; then
+  if [ $1 ]; then
     echo "\n\033[0;34mgit add -A\033[0m"
     git add -A || { return 1; }
 

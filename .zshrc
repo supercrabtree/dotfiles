@@ -29,7 +29,6 @@ alias o="subl ."
 alias oo="open ."
 # git log verbose
 alias glv='git log --graph --oneline --all --decorate'
-alias gc='git commit -am $1'
 
 zmodload zsh/mathfunc
 
@@ -68,11 +67,24 @@ gs() {
     git commit -m $1 || { return 1; }
   fi
 
-  echo "\n\033[0;34mgit pull origin $CURRENT_BRANCH\033[0m"
+  echo "\n\033[0;34mgit pull --rebase origin $CURRENT_BRANCH\033[0m"
   git pull origin $CURRENT_BRANCH || { return 1; }
 
   echo "\n\033[0;34mgit push origin $CURRENT_BRANCH\033[0m"
   git push origin $CURRENT_BRANCH || { return 1; }
+}
+
+gc() {
+  if [ $1 ]; then
+    echo "\n\033[0;34mgit add -A\033[0m"
+    git add -A || { return 1; }
+
+    echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$1\033[0m"
+    git commit -m $1 || { return 1; }
+  else
+     echo "\033[0;31mYou must enter a commit message.\033[0m"
+     return 1;
+  fi
 }
 
 # Serve some static stuff from CWD fast

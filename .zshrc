@@ -29,6 +29,7 @@ alias o="subl ."
 alias oo="open ."
 # git log verbose
 alias glv='git log --graph --oneline --all --decorate'
+alias gc='git commit -am $1'
 
 zmodload zsh/mathfunc
 

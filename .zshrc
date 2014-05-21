@@ -28,7 +28,8 @@ alias reload='source ~/.zshrc'
 alias o="subl ."
 alias oo="open ."
 # git log verbose
-alias glv='git log --graph --oneline --all --decorate'
+alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
+alias gl='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
 
 zmodload zsh/mathfunc
 

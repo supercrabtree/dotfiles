@@ -68,7 +68,7 @@ gs() {
   fi
 
   echo "\n\033[0;34mgit pull --rebase origin $CURRENT_BRANCH\033[0m"
-  git pull origin $CURRENT_BRANCH || { return 1; }
+  git pull origin --rebase $CURRENT_BRANCH || { return 1; }
 
   echo "\n\033[0;34mgit push origin $CURRENT_BRANCH\033[0m"
   git push origin $CURRENT_BRANCH || { return 1; }

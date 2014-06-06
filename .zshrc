@@ -13,7 +13,17 @@ plugins=(zsh-syntax-highlighting z)
 source $ZSH/oh-my-zsh.sh
 source ~/dev/k/k.sh
 
-export PATH=/usr/local/bin:/usr/local/sbin:/Users/GCrabtree/global_npm_modules/bin:/Users/supercrabtree/global_npm_modules/bin:/Users/GCrabtree/.rvm/bin:/bin/usr/local/share/npm/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:$PATH
+export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
+export PATH=/Users/GCrabtree/global_npm_modules/bin:$PATH
+export PATH=/Users/GCrabtree/.rvm/bin:$PATH
+export PATH=/bin/usr/local/share/npm/bin:$PATH
+export PATH=/usr/bin:$PATH
+export PATH=/bin:$PATH
+export PATH=/usr/sbin:$PATH
+export PATH=/sbin:$PATH
+export PATH=/usr/local/git/bin:$PATH
+export PATH=/usr/local/heroku/bin:$PATH
 
 export EDITOR=/usr/bin/nano
 
@@ -158,10 +168,4 @@ colortest() {
   echo -e "\n"
 }
 
-# Uncomment following line if you want to disable marking untracked files under
-# VCS as dirty. This makes repository status check for large repositories much,
-# much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"

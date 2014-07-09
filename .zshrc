@@ -8,15 +8,15 @@ ZSH_THEME="pure"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(zsh-syntax-highlighting z)
+plugins=(z zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 source ~/dev/k/k.sh
 
 export PATH=/usr/local/bin:$PATH
 export PATH=/usr/local/sbin:$PATH
-export PATH=/Users/GCrabtree/global_npm_modules/bin:$PATH
-export PATH=/Users/GCrabtree/.rvm/bin:$PATH
+export PATH=/Users/georgecrabtree/npm/bin:$PATH
+export PATH=/Users/georgecrabtree/bin:$PATH
 export PATH=/bin/usr/local/share/npm/bin:$PATH
 export PATH=/usr/bin:$PATH
 export PATH=/bin:$PATH
@@ -165,7 +165,25 @@ colortest() {
       echo -en "\033[48;5;${val}m  \033[m "
     done
   done
-  echo -e "\n"
+  echo
+  -e "\n"
 }
 
+export SHELL=/bin/zsh
 
+export PIX_ROOT="/Users/georgecrabtree/dev"
+export PIX_FRONTEND="$PIX_ROOT/platform.WEB"
+export PIX_BACKEND="$PIX_ROOT/platform.SERVICES"
+export PIX_WIKI="$PIX_ROOT/platform.SERVICES.wiki"
+export PIX_SUB="$PIX_ROOT/platform.PIXSUB"
+#Use the line below fitting your ruby version manager
+#For RVM
+#RVM is no longer supported. Please use Rbenv instead.
+#For Rbenv
+export RUBY_SERVER_SCRIPT_COMMAND="bundle exec rails server"
+
+#The init script
+eval "$($PIX_SUB/bin/pix init -)"
+
+#Rbenv
+eval "$(rbenv init -)"

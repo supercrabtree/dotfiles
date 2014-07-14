@@ -44,6 +44,25 @@ alias gl='git --no-pager log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgre
 
 zmodload zsh/mathfunc
 
+pr() {
+  if [ $1 ]; then
+    if [ $2 ]; then
+      TO_BRANCH=$2
+    else
+      TO_BRANCH=dev;
+    fi
+    if [ $3 ]; then
+      FROM_BRANCH=$3;
+    else
+      FROM_BRANCH=$(git rev-parse --abbrev-ref HEAD);
+    fi
+    echo "\n\033[0;34mhub pull-request -m $1 -b $TO_BRANCH -h $FROM_BRANCH;\033[0m"
+  else
+    echo "\n\033[0;31mYou must enter a pull request message.\033[0m\n"
+    return 1;
+  fi
+}
+
 mygit() {
   if [ -f './.git/config' ];
   then

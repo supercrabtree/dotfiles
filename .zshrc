@@ -44,12 +44,12 @@ alias gl='git --no-pager log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgre
 
 zmodload zsh/mathfunc
 
-ajfgit() {
+mygit() {
   if [ -f './.git/config' ];
   then
     git config user.name "George Crabtree" || { return 1; }
-    git config user.email gcrabtree@ajfpartnership.com.au || { return 1; }
-    echo "\nSetting local Git Config\nUsername: \033[0;34mGeorge Crabtree\033[0m\nEmail: \033[0;34mgcrabtree@ajfpartnership.com.au\033[0m\n"
+    git config user.email supercrabtree@googlemail.com || { return 1; }
+    echo "\nSetting local Git Config\nUsername: \033[0;34mGeorge Crabtree\033[0m\nEmail: \033[0;34msupercrabtree@googlemail.com\033[0m\n"
   else
      echo "\n\033[0;31mNo git repository found in this directory.\033[0m\n"
      return 1;

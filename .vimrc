@@ -19,24 +19,38 @@ Plugin 'tpope/vim-commentary'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'digitaltoad/vim-jade'
-PLugin 'pangloss/vim-javascript'
-PLugin 'jelera/vim-javascript-syntax'
-PLugin 'groenewege/vim-less'
-PLugin 'plasticboy/vim-markdown'
-PLugin 'terryma/vim-multiple-cursors'
+Plugin 'pangloss/vim-javascript'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'groenewege/vim-less'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'maxbrunsfeld/vim-yankstack'
 
 call vundle#end()                   " required
 filetype plugin indent on           " required
-" End Vundle -----------------------------------------------------------
-" ----------------------------------------------------------------------
+
 
 " ----------------------------------------------------------------------
 " Vim Settings ---------------------------------------------------------
 syntax on
 set background=dark
 colorscheme solarized
+set laststatus=2
+
+" Colors
+hi StatusLine ctermbg=0 ctermfg=12
 
 " ----------------------------------------------------------------------
 " Keys -----------------------------------------------------------------
+inoremap jj <esc>
 nnoremap ; :
+
+
+" ----------------------------------------------------------------------
+" Others ---------------------------------------------------------------
+set statusline=
+set statusline+=%2*[%n%H%M%R%W]%*\        " flags and buf no
+set statusline+=%<\                       " cut at
+set statusline+=%f\                       " path
+set statusline+=%=                        " align right
+set statusline+=(%c,%l/%L)\               " line and colum

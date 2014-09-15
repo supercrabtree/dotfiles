@@ -33,6 +33,7 @@ filetype plugin indent on           " required
 " ----------------------------------------------------------------------
 " Vim Settings ---------------------------------------------------------
 syntax on
+set encoding=utf-8
 set laststatus=2
 set relativenumber
 set number
@@ -60,13 +61,17 @@ hi CursorLineNR ctermbg=8 ctermfg=12
 " ----------------------------------------------------------------------
 " Keys -----------------------------------------------------------------
 let mapleader = ","
-noremap jj <esc>
+nmap <leader>v :e $MYVIMRC<cr>
+nmap <leader>, :noh<cr>
+nmap <leader>/ :Ag -l -g 
+inoremap jj <esc>
 nnoremap ; :
 nnoremap <c-j> :bnext<cr>
 nnoremap <c-k> :bprevious<cr>
 
 " ----------------------------------------------------------------------
 " Plugin Settings
+" CtrlP --
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_use_caching = 0
 let g:ctrlp_open_multiple_files = 'i'
@@ -87,6 +92,10 @@ func! Function_Name_2()
   set laststatus=2
 endfunc 
 
+" NERDTree --
+nmap <leader>t :NERDTreeToggle<cr>
+let g:NERDTreeWinSize = 40
+let g:NERDTreeMapActivateNode='<space>'
 
 " ----------------------------------------------------------------------
 " Others ---------------------------------------------------------------

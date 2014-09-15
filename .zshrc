@@ -242,8 +242,8 @@ rt () {
 export SHELL=/bin/zsh
 
 export PIX_ROOT="/Users/georgecrabtree/dev"
-export PIX_FRONTEND="$PIX_ROOT/platform.WEB"
-export PIX_BACKEND="$PIX_ROOT/platform.SERVICES"
+export PIX_FRONTEND="$PIX_ROOT/pix-frontend"
+export PIX_BACKEND="$PIX_ROOT/pix-backend"
 export PIX_WIKI="$PIX_ROOT/platform.SERVICES.wiki"
 export PIX_SUB="$PIX_ROOT/platform.PIXSUB"
 #Use the line below fitting your ruby version manager

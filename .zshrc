@@ -25,12 +25,13 @@ export PATH=/sbin:$PATH
 export PATH=/usr/local/git/bin:$PATH
 export PATH=/usr/local/heroku/bin:$PATH
 
-export EDITOR=/usr/bin/nano
-
 export GIT_MERGE_AUTOEDIT=no
+export GIT_EDITOR=vim
+export VISUAL=vim
+export EDITOR=vim
 
-alias zshconf="subl ~/.zshrc"
-alias ohmyzsh="subl ~/.oh-my-zsh"
+alias vim="/usr/local/Cellar/vim/7.4.335/bin/vim"
+alias zshrc="vim ~/.zshrc"
 alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
 # alias mongod='nocorrect mongod'
@@ -40,10 +41,22 @@ alias oo="open ."
 # git log verbose
 alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
 alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
-alias gl='git --no-pager log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn" -40'
+alias gr='git add -A && git rebase --continue'
+alias vimrc='vim ~/.vimrc'
+
 
 zmodload zsh/mathfunc
-
+gl() {
+  LINES=20
+  if [ $1 ]; then
+    LINES=$1
+  fi
+  git --no-pager log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn" "-$LINES"
+}
+killport() {
+  PORT=$1
+  lsof -P | grep ':$PORT' | awk '{print $2}' | xargs kill -9
+}
 pr() {
   if [ $1 ]; then
     if [ $2 ]; then
@@ -186,6 +199,44 @@ colortest() {
   done
   echo
   -e "\n"
+}
+
+t () {
+  searchFor=""
+  sayIt='false'
+  for i in $@; do
+    if [ $i = "-s" ]; then
+      sayIt='true'
+    else
+      searchFor+="$i "
+    fi
+  done
+  __CF_USER_TEXT_ENCODING=0x1F5:0x8000100:0x8000100
+  res=`curl -s -i --user-agent "" -d "sl=en" -d "tl=de" --data-urlencode "text=$searchFor" https://translate.google.com | ack '(?:<span id=result_box[^>]*>[^>]*>)(.*?)(?:</span>)' --output '$1' | iconv -f LATIN1 -t UTF8`
+  echo $res | tr -d  '\n' | pbcopy
+  echo "\n  \033[0;33m$res\033[0m"
+  if [ $sayIt = 'true' ]; then
+    `say -v Anna $res -r 220`
+  fi
+}
+
+rt () {
+  searchFor=""
+  sayIt='false'
+  for i in $@; do
+    if [ $i = "-s" ]; then
+      sayIt='true'
+    else
+      searchFor+="$i "
+    fi
+  done
+  __CF_USER_TEXT_ENCODING=0x1F5:0x8000100:0x8000100
+  res=`curl -s -i --user-agent "" -d "sl=de" -d "tl=en" --data-urlencode "text=$searchFor" https://translate.google.com | ack '(?:<span id=result_box[^>]*>[^>]*>)(.*?)(?:</span>)' --output '$1' | iconv -f LATIN1 -t UTF8`
+  echo $res | tr -d  '\n' | pbcopy
+  echo "\n  \033[0;33m$res\033[0m"
+  if [ $sayIt = 'true' ]; then
+    `say $res -r 220`
+  fi
 }
 
 export SHELL=/bin/zsh

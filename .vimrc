@@ -25,6 +25,7 @@ Plugin 'groenewege/vim-less'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'othree/javascript-libraries-syntax.vim'
 
 call vundle#end()                   " required
 filetype plugin indent on           " required
@@ -100,6 +101,12 @@ endfunc
 nmap <leader>t :NERDTreeToggle<cr>
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMapActivateNode='<space>'
+
+" DelimitMate
+let delimitMate_expand_cr = 1
+
+" javascript-libraries-syntax
+let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
 
 " ----------------------------------------------------------------------
 " Others ---------------------------------------------------------------

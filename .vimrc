@@ -48,6 +48,7 @@ set term=xterm-256color
 set backspace=2
 set splitbelow
 set splitright
+set scrolloff=5
 
 " White Space
 set expandtab
@@ -73,6 +74,8 @@ nnoremap ; :
 nnoremap <c-u> :bwipe<cr>
 nnoremap <c-j> :bnext<cr>
 nnoremap <c-k> :bprevious<cr>
+nnoremap <space> 3<c-e>
+nnoremap <bs> 3<c-y>
 
 " ----------------------------------------------------------------------
 " Plugin Settings

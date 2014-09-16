@@ -80,7 +80,7 @@ nnoremap <bs> 3<c-y>
 " ----------------------------------------------------------------------
 " Plugin Settings
 " CtrlP --
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_user_command = 'ag %s --skip-vcs-ignores --ignore "node_modules" --ignore "app-build" --ignore "lib" -l --nocolor -g ""'
 let g:ctrlp_use_caching = 0
 let g:ctrlp_open_multiple_files = 'i'
 let g:ctrlp_custom_ignore = {

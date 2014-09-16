@@ -30,7 +30,7 @@ export GIT_EDITOR=vim
 export VISUAL=vim
 export EDITOR=vim
 
-alias vim="/usr/local/Cellar/vim/7.4.335/bin/vim"
+alias vim="/usr/local/Cellar/vim/7.4.430/bin/vim"
 alias zshrc="vim ~/.zshrc"
 alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'

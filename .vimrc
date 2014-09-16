@@ -44,12 +44,15 @@ set noshowmode
 set nowrap
 set mouse=a
 set term=xterm-256color
+set backspace=2
+set splitbelow
+set splitright
 
 " White Space
 set expandtab
+set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set backspace=2
 
 " Colors
 set background=dark
@@ -66,6 +69,7 @@ nmap <leader>, :noh<cr>
 nmap <leader>/ :Ag -l -g 
 inoremap jj <esc>
 nnoremap ; :
+nnoremap <c-u> :bwipe<cr>
 nnoremap <c-j> :bnext<cr>
 nnoremap <c-k> :bprevious<cr>
 

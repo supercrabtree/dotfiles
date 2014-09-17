@@ -69,6 +69,7 @@ let mapleader = ","
 nmap <leader>v :e $MYVIMRC<cr>
 nmap <leader>, :noh<cr>
 nmap <leader>/ :Ag -l -g 
+inoremap jk <esc>
 inoremap jj <esc>
 nnoremap ; :
 nnoremap <c-u> :bwipe<cr>

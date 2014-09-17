@@ -43,6 +43,8 @@ set incsearch
 set timeoutlen=1000 ttimeoutlen=0
 set noshowmode
 set nowrap
+set textwidth=0
+set wrapmargin=0
 set mouse=a
 set term=xterm-256color
 set backspace=2
@@ -68,7 +70,7 @@ hi CursorLineNR ctermbg=8 ctermfg=12
 let mapleader = ","
 nmap <leader>v :e $MYVIMRC<cr>
 nmap <leader>, :noh<cr>
-nmap <leader>/ :Ag -l -g 
+nmap <leader>/ :Ag --skip-vcs-ignores --ignore=node_modules --ignore=dist --ignore=lib 
 inoremap jk <esc>
 inoremap jj <esc>
 nnoremap ; :
@@ -111,6 +113,9 @@ let delimitMate_expand_cr = 1
 
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
+
+" Ag - The Silver Searcher
+let g:aghighlight=1
 
 " ----------------------------------------------------------------------
 " Others ---------------------------------------------------------------

@@ -51,6 +51,7 @@ set backspace=2
 set splitbelow
 set splitright
 set scrolloff=5
+set hidden
 
 " White Space
 set expandtab
@@ -103,7 +104,7 @@ func! Function_Name_2()
   set laststatus=2
 endfunc 
 
-" NERDTree --
+" NERDTree
 nmap <leader>t :NERDTreeToggle<cr>
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMapActivateNode='<space>'
@@ -112,7 +113,7 @@ let g:NERDTreeMapActivateNode='<space>'
 let delimitMate_expand_cr = 1
 
 " javascript-libraries-syntax
-let g:used_javascript_libs = 'underscore,angularjs,angularui,requirejs'
+let g:used_javascript_libs = 'underscore,angularjs,angularui'
 
 " Ag - The Silver Searcher
 let g:aghighlight=1

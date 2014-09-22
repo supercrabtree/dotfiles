@@ -7,8 +7,8 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 "Plugin 'Valloric/YouCompleteMe'
-"Plugin 'rking/ag.vim'
-"Plugin 'kien/ctrlp.vim'
+Plugin 'rking/ag.vim'
+Plugin 'kien/ctrlp.vim'
 "Plugin 'Raimondi/delimitMate'
 "Plugin 'scrooloose/nerdtree'
 "Plugin 'godlygeek/tabular'
@@ -49,7 +49,7 @@ set term=xterm-256color
 set backspace=2
 set splitbelow
 set splitright
-set scrolloff=5
+"set scrolloff=5
 set hidden
 
 " White Space
@@ -74,17 +74,20 @@ nmap <leader>/ :Ag --skip-vcs-ignores --ignore=node_modules --ignore=dist --igno
 inoremap jk <esc>
 inoremap jj <esc>
 nnoremap ; :
+"nnoremap j <c-e>j
+"nnoremap k <c-y>k
 nnoremap <c-u> :bwipe<cr>
 nnoremap <c-j> :bnext<cr>
 nnoremap <c-k> :bprevious<cr>
 nnoremap <space> 3<c-e>3j
-nnoremap <bs> 3<c-y>
+nnoremap <bs> 3<c-y>3k
 nnoremap <leader>o o<esc>
 nnoremap <leader>O O<esc>
 
 " ----------------------------------------------------------------------
 " Plugin Settings
 " CtrlP --
+let g:ctrlp_map ='\'
 let g:ctrlp_user_command = 'ag %s --skip-vcs-ignores --ignore "node_modules" --ignore "app-build" --ignore "lib" -l --nocolor -g ""'
 let g:ctrlp_use_caching = 0
 let g:ctrlp_open_multiple_files = 'i'

@@ -15,7 +15,7 @@ Plugin 'kien/ctrlp.vim'
 "Plugin 'marijnh/tern_for_vim'
 "Plugin 'PeterRincker/vim-argumentative'
 "Plugin 'vim-scripts/vim-auto-save'
-"Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-commentary'
 "Plugin 'airblade/vim-gitgutter'
 "Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'digitaltoad/vim-jade'
@@ -40,7 +40,7 @@ set number
 set hlsearch
 set incsearch
 set timeoutlen=1000 ttimeoutlen=0
-set noshowmode
+"set noshowmode
 set nowrap
 set textwidth=0
 set wrapmargin=0
@@ -51,6 +51,7 @@ set splitbelow
 set splitright
 "set scrolloff=5
 set hidden
+set cursorline
 
 " White Space
 set expandtab
@@ -64,8 +65,12 @@ colorscheme solarized
 hi StatusLine ctermbg=0 ctermfg=12
 hi CursorLineNR ctermbg=8 ctermfg=12
 
+" highlight the 81st colomm
+highlight ColorColumn ctermbg=0
+set colorcolumn=81
 
-" ----------------------------------------------------------------------
+
+" ------------------------------------------------------------------------------
 " Keys -----------------------------------------------------------------
 let mapleader = ","
 nmap <leader>v :e $MYVIMRC<cr>

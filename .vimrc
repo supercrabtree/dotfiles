@@ -69,6 +69,8 @@ hi CursorLineNR ctermbg=8 ctermfg=12
 highlight ColorColumn ctermbg=0
 set colorcolumn=81
 
+" matching braces
+hi MatchParen ctermbg=4 ctermfg=7
 
 " ------------------------------------------------------------------------------
 " Keys -----------------------------------------------------------------

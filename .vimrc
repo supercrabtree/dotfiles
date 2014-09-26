@@ -24,8 +24,10 @@ Plugin 'digitaltoad/vim-jade'
 Plugin 'groenewege/vim-less'
 "Plugin 'plasticboy/vim-markdown'
 "Plugin 'terryma/vim-multiple-cursors'
+Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'dahu/vim-fanfingtastic'
 
 call vundle#end()                   " required
 filetype plugin indent on           " required
@@ -78,6 +80,9 @@ let mapleader = ","
 nmap <leader>v :e $MYVIMRC<cr>
 nmap <leader>, :noh<cr>
 nmap <leader>/ :Ag --skip-vcs-ignores --ignore=node_modules --ignore=dist --ignore=lib 
+inoremap § <esc>
+vnoremap § <esc>
+nnoremap § <esc>
 inoremap jk <esc>
 inoremap jj <esc>
 nnoremap ; :
@@ -90,6 +95,7 @@ nnoremap <space> 3<c-e>3j
 nnoremap <bs> 3<c-y>3k
 nnoremap <leader>o o<esc>
 nnoremap <leader>O O<esc>
+cmap w!! w !sudo tee > /dev/null %
 
 " ----------------------------------------------------------------------
 " Plugin Settings
@@ -97,6 +103,7 @@ nnoremap <leader>O O<esc>
 let g:ctrlp_map ='\'
 let g:ctrlp_user_command = 'ag %s --skip-vcs-ignores --ignore "node_modules" --ignore "app-build" --ignore "lib" -l --nocolor -g ""'
 let g:ctrlp_use_caching = 0
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_open_multiple_files = 'i'
 let g:ctrlp_custom_ignore = {
   \'dir': 'node_modules\|app-build\|lib',
@@ -130,7 +137,7 @@ let g:used_javascript_libs = 'underscore,angularjs,angularui'
 let g:aghighlight=1
 
 " YankStack
-nmap <c-p> <Plug>yankstack_substitute_older_paste
+nmap <c-p> <Plug>yankstack_substitute_newer_paste
 
 " ----------------------------------------------------------------------
 " Others ---------------------------------------------------------------

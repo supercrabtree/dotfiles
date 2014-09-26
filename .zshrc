@@ -45,7 +45,13 @@ alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(au
 alias gr='git add -A && git rebase --continue'
 alias vimrc='vim ~/.vimrc'
 
-
+ff() {
+  if [ $1 ]; then
+    find . | grep $1
+  else
+    find .
+  fi
+}
 zmodload zsh/mathfunc
 gl() {
   LINES=20
@@ -246,7 +252,7 @@ export PIX_ROOT="/Users/georgecrabtree/dev"
 export PIX_FRONTEND="$PIX_ROOT/pix-frontend"
 export PIX_BACKEND="$PIX_ROOT/pix-backend"
 export PIX_WIKI="$PIX_ROOT/platform.SERVICES.wiki"
-export PIX_SUB="$PIX_ROOT/platform.PIXSUB"
+export PIX_SUB="$PIX_ROOT/platform.pixsub"
 #Use the line below fitting your ruby version manager
 #For RVM
 #RVM is no longer supported. Please use Rbenv instead.

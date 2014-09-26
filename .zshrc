@@ -47,7 +47,11 @@ alias vimrc='vim ~/.vimrc'
 
 ff() {
   if [ $1 ]; then
-    find . | grep $1
+    if [ $2 ]; then
+      find $1 | grep $2
+    else
+      find . | grep $1
+    fi
   else
     find .
   fi

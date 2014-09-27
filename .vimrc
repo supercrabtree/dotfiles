@@ -24,6 +24,7 @@ Plugin 'digitaltoad/vim-jade'
 Plugin 'groenewege/vim-less'
 "Plugin 'plasticboy/vim-markdown'
 "Plugin 'terryma/vim-multiple-cursors'
+Plugin 'mhinz/vim-startify'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'othree/javascript-libraries-syntax.vim'
@@ -79,7 +80,7 @@ hi MatchParen ctermbg=4 ctermfg=7
 let mapleader = ","
 nmap <leader>v :e $MYVIMRC<cr>
 nmap <leader>, :noh<cr>
-nmap <leader>/ :Ag --ignore=lib/manual 
+nmap <leader>/ :Ag --ignore=lib/manual
 inoremap § <esc>
 vnoremap § <esc>
 nnoremap § <esc>
@@ -101,7 +102,7 @@ cmap w!! w !sudo tee > /dev/null %
 " Plugin Settings
 " CtrlP --
 let g:ctrlp_map ='\'
-let g:ctrlp_user_command = 'ag %s --ignore "lib/manual" -l --hidden --nocolor -g ""'
+let g:ctrlp_user_command = 'ag %s --ignore "lib/manual" --ignore ".git" -l --hidden --nocolor -g ""'
 let g:ctrlp_use_caching = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_open_multiple_files = 'i'
@@ -120,7 +121,7 @@ endfunc
 
 func! Function_Name_2()
   set laststatus=2
-endfunc 
+endfunc
 
 " NERDTree
 nmap <leader>t :NERDTreeToggle<cr>
@@ -139,6 +140,19 @@ let g:aghighlight=1
 " YankStack
 nmap <c-p> <Plug>yankstack_substitute_newer_paste
 
+" Startify
+let g:startify_custom_header = [
+\ '                                                          __       __                                                                                                                                                                       |',
+\ '                                                         /\ \     /\ \__                                                                                                                                                                    |',
+\ '  ____  __  __  _____      __   _ __   ___   _ __    __  \ \ \____\ \ ,_\  _ __    __     __                                                                                                                                                |',
+\ ' /'',__\/\ \/\ \/\ ''__`\  /''__`\/\`''__\/''___\/\`''__\/''__`\ \ \ ''__`\\ \ \/ /\`''__\/''__`\ /''__`\                                                                                                                                              |',
+\ '/\__, `\ \ \_\ \ \ \L\ \/\  __/\ \ \//\ \__/\ \ \//\ \L\.\_\ \ \L\ \\ \ \_\ \ \//\  __//\  __/                                                                                                                                              |',
+\ '\/\____/\ \____/\ \ ,__/\ \____\\ \_\\ \____\\ \_\\ \__/.\_\\ \_,__/ \ \__\\ \_\\ \____\ \____\                                                                                                                                             |',
+\ ' \/___/  \/___/  \ \ \/  \/____/ \/_/ \/____/ \/_/ \/__/\/_/ \/___/   \/__/ \/_/ \/____/\/____/                                                                                                                                             |',
+\ '                  \ \_\                                                                                                                                                                                                                     |',
+\ '                   \/_/                                                                                                                                                                                                                     |',
+\ '',
+\ ]
 " ----------------------------------------------------------------------
 " Others ---------------------------------------------------------------
 set statusline=

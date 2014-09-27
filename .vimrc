@@ -79,7 +79,7 @@ hi MatchParen ctermbg=4 ctermfg=7
 let mapleader = ","
 nmap <leader>v :e $MYVIMRC<cr>
 nmap <leader>, :noh<cr>
-nmap <leader>/ :Ag --skip-vcs-ignores --ignore=node_modules --ignore=dist --ignore=lib 
+nmap <leader>/ :Ag --ignore=lib/manual 
 inoremap § <esc>
 vnoremap § <esc>
 nnoremap § <esc>
@@ -101,7 +101,7 @@ cmap w!! w !sudo tee > /dev/null %
 " Plugin Settings
 " CtrlP --
 let g:ctrlp_map ='\'
-let g:ctrlp_user_command = 'ag %s --skip-vcs-ignores --ignore "node_modules" --ignore "app-build" --ignore "lib" -l --nocolor -g ""'
+let g:ctrlp_user_command = 'ag %s --ignore "lib/manual" -l --hidden --nocolor -g ""'
 let g:ctrlp_use_caching = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_open_multiple_files = 'i'

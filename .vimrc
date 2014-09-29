@@ -1,5 +1,5 @@
-" ----------------------------------------------------------------------
-" Vundle Setup ---------------------------------------------------------
+" ------------------------------------------------------------------------------
+" Vundle Setup -----------------------------------------------------------------
 set nocompatible                    " be iMproved, required
 filetype off                        " required
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -33,8 +33,8 @@ Plugin 'dahu/vim-fanfingtastic'
 call vundle#end()                   " required
 filetype plugin indent on           " required
 
-" ----------------------------------------------------------------------
-" Vim Settings ---------------------------------------------------------
+" ------------------------------------------------------------------------------
+" Vim Settings -----------------------------------------------------------------
 syntax on
 set encoding=utf-8
 set laststatus=2
@@ -76,26 +76,25 @@ set colorcolumn=81
 hi MatchParen ctermbg=4 ctermfg=7
 
 " line cursor for insert mode
-let &t_SI = "\<Eisc>]50;CursorShape=1\x7"
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " disable automatic comment insertion
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " ------------------------------------------------------------------------------
-" Keys -----------------------------------------------------------------
+" Keys -------------------------------------------------------------------------
 let mapleader = ","
 nmap <leader>v :e $MYVIMRC<cr>
 nmap <leader>, :noh<cr>
-nmap <leader>/ :Ag --ignore=lib/manual
+nmap <leader>/ :Ag! 
+" nmap <leader>c :
 inoremap § <esc>
 vnoremap § <esc>
 nnoremap § <esc>
 inoremap jk <esc>
 inoremap jj <esc>
 nnoremap ; :
-"nnoremap j <c-e>j
-"nnoremap k <c-y>k
 nnoremap <c-u> :bwipe<cr>
 nnoremap <c-j> :bnext<cr>
 nnoremap <c-k> :bprevious<cr>
@@ -104,8 +103,13 @@ nnoremap <bs> 3<c-y>3k
 nnoremap <leader>o o<esc>
 nnoremap <leader>O O<esc>
 cmap w!! w !sudo tee > /dev/null %
+nnoremap * *N
+" Make horizontal scrolling easier
+nmap <silent> <C-o> 10zl
+nmap <silent> <C-i> 10zh
 
-" ----------------------------------------------------------------------
+
+" ------------------------------------------------------------------------------
 " Plugin Settings
 " CtrlP --
 let g:ctrlp_map ='\'
@@ -113,10 +117,7 @@ let g:ctrlp_user_command = 'ag %s --ignore "lib/manual" --ignore ".git" -l --hid
 let g:ctrlp_use_caching = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_open_multiple_files = 'i'
-let g:ctrlp_custom_ignore = {
-  \'dir': 'node_modules\|app-build\|lib',
-  \'file': 'v[\/]\.(git)$'
-  \}
+
 " hide the status bar
 let g:ctrlp_buffer_func = {
   \'enter': 'Function_Name_1',
@@ -160,8 +161,8 @@ let g:startify_custom_header = [
 \ '                   \/_/                                                                                                                                                                                                                     |',
 \ '',
 \ ]
-" ----------------------------------------------------------------------
-" Others ---------------------------------------------------------------
+" ------------------------------------------------------------------------------
+" Others -----------------------------------------------------------------------
 set statusline=
 set statusline+=%2*[%n%H%M%R%W]%*\        " flags and buf no
 set statusline+=%<\                       " cut at

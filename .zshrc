@@ -1,49 +1,53 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+source ~/dev/dotfiles/antigen/antigen.zsh
+
+antigen use oh-my-zsh
+
+antigen bundle command-not-found
+antigen bundle z
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+antigen theme supercrabtree/pure pure
+
+antigen apply
 
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-ZSH_THEME="pure"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(z zsh-syntax-highlighting)
-
-source $ZSH/oh-my-zsh.sh
+source ~/.zshloadvim
 source ~/dev/k/k.sh
 
-export PATH=/usr/local/bin:$PATH
-export PATH=/usr/local/sbin:$PATH
-export PATH=/Users/georgecrabtree/npm/bin:$PATH
-export PATH=/Users/georgecrabtree/bin:$PATH
-export PATH=/bin/usr/local/share/npm/bin:$PATH
-export PATH=/usr/bin:$PATH
-export PATH=/bin:$PATH
-export PATH=/usr/sbin:$PATH
-export PATH=/sbin:$PATH
-export PATH=/usr/local/git/bin:$PATH
-export PATH=/usr/local/heroku/bin:$PATH
+export SHELL=/bin/zsh
+
+export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:/usr/local/sbin
+export PATH=$PATH:$HOME/npm/bin
+export PATH=$PATH:$HOME/bin
+export PATH=$PATH:/bin/usr/local/share/npm/bin
+export PATH=$PATH:/usr/bin
+export PATH=$PATH:/bin
+export PATH=$PATH:/usr/sbin
+export PATH=$PATH:/sbin
+export PATH=$PATH:/usr/local/git/bin
+export PATH=$PATH:/usr/local/heroku/bin
+export PATH=$PATH:$HOME/npm/bin
 
 export GIT_MERGE_AUTOEDIT=no
 export GIT_EDITOR=vim
 export VISUAL=vim
 export EDITOR=vim
 
-source ~/.zshloadvim
 alias zshrc="vim ~/.zshrc"
+alias vimrc='vim ~/.vimrc'
 alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
 # alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
-alias o="subl ."
+alias o="vim ."
 alias oo="open ."
-# git log verbose
+
 alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
 alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
-alias gr='git add -A && git rebase --continue'
-alias vimrc='vim ~/.vimrc'
+alias grc='git add -A && git rebase --continue'
+
+zmodload zsh/mathfunc
 
 ff() {
   if [ $1 ]; then
@@ -56,7 +60,6 @@ ff() {
     find .
   fi
 }
-zmodload zsh/mathfunc
 gl() {
   LINES=20
   if [ $1 ]; then
@@ -109,7 +112,7 @@ g() {
   fi
 }
 # Complete g like git
-compdef g=git
+# compdef g=git
 
 gs() {
   CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD);
@@ -162,7 +165,7 @@ cdwhich() {
 
 zz() {
   z $1
-  subl .
+  vim .
 }
 
 play() {
@@ -176,18 +179,10 @@ play() {
     fi
     cd ~/dev/yeah && mkdir $NAME && cd $_
     yo $1
-    subl .
+    vim .
   else
     cd ~/dev/yeah && mkdir yeah-$[($RANDOM % 13843) + 1] && cd $_
   fi
-}
-
-clean() {
-  find . -type f -iregex ".* Report.txt" | while read FILENAME
-  do
-    echo "Deleting: ${FILENAME}"
-    rm "${FILENAME}"
-  done
 }
 
 colortest() {
@@ -250,13 +245,13 @@ rt () {
   fi
 }
 
-export SHELL=/bin/zsh
 
-export PIX_ROOT="/Users/georgecrabtree/dev"
+
+export PIX_ROOT="$HOME/dev"
 export PIX_FRONTEND="$PIX_ROOT/pix-frontend"
 export PIX_BACKEND="$PIX_ROOT/pix-backend"
-export PIX_WIKI="$PIX_ROOT/platform.SERVICES.wiki"
-export PIX_SUB="$PIX_ROOT/platform.pixsub"
+export PIX_WIKI="$PIX_ROOT/pix-backend.wiki"
+export PIX_SUB="$PIX_ROOT/pix-sub"
 #Use the line below fitting your ruby version manager
 #For RVM
 #RVM is no longer supported. Please use Rbenv instead.

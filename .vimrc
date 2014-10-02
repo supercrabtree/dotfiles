@@ -56,6 +56,7 @@ set splitright
 "set scrolloff=5
 set hidden
 set cursorline
+set ve=all
 
 " White Space
 set expandtab
@@ -108,7 +109,7 @@ nnoremap * *N
 " Make horizontal scrolling easier
 nmap <silent> <C-o> 10zl
 nmap <silent> <C-i> 10zh
-
+map <F1> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
 " ------------------------------------------------------------------------------
 " Plugin Settings
@@ -180,8 +181,16 @@ augroup reload_vimrc " {
 augroup END " }
 
 func! EnterInsertMode()
-  hi CursorLineNR ctermbg=5 ctermfg=0
+  if &background == "dark"
+    hi CursorLineNR ctermbg=5 ctermfg=0
+  else
+    hi CursorLineNR ctermbg=5 ctermfg=9
+  endif
 endfunc
 func! LeaveInsertMode()
-  hi CursorLineNR ctermbg=8 ctermfg=12
+  if &background == "dark"
+    hi CursorLineNR ctermbg=8 ctermfg=12
+  else
+    hi CursorLineNR ctermbg=15 ctermfg=9
+  endif
 endfunc

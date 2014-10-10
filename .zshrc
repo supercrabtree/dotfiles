@@ -40,8 +40,9 @@ alias dev="cd ~/dev"
 alias gulp='nocorrect gulp'
 # alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
-alias o="vim ."
-alias oo="open ."
+alias v="vim ."
+alias o="open ."
+alias !!!=!-2
 
 alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
 alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'

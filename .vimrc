@@ -30,6 +30,7 @@ Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'dahu/vim-fanfingtastic'
 Plugin 'ervandew/supertab'
+Plugin 'wikitopian/hardmode'
 
 call vundle#end()
 filetype plugin indent on
@@ -146,6 +147,10 @@ nnoremap j gj
 nnoremap k gk
 xnoremap j gj
 xnoremap k gk
+
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+
+nnoremap <leader>h <Esc>:call ToggleHardMode()
 
 " quick edits of my vimrc, tweeky fiddley
 nmap <leader>v :e $MYVIMRC<cr>

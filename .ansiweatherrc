@@ -1,0 +1,21 @@
+location:Berlin,DE
+fetch_cmd:curl -s
+units:metric
+symbols:false
+forecast:0
+daylight:true
+dateformat:%a %b
+timeformat:%r
+
+# Text and Colors
+background:\033[8m
+text:\033[36;1m
+data:\033[33;1m
+delimiter:\033[35m=>
+dashes:\n
+greeting_text:
+wind_text: Wind -----
+humidity_text: Humidity -
+pressure_text: Pressure -
+sunrise_text: Sunrise --
+sunset_text: Sunset ---

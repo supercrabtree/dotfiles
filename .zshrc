@@ -5,11 +5,13 @@ antigen use oh-my-zsh
 antigen bundle command-not-found
 antigen bundle z
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle supercrabtree/ansiweather
 
 antigen theme supercrabtree/pure pure
 
 antigen apply
 
+ansiweather
 
 source ~/.zshloadvim
 source ~/dev/k/k.sh

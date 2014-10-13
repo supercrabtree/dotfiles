@@ -282,6 +282,7 @@ augroup georges_autocommands " {
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
   autocmd BufReadPost * if &filetype == "gitcommit" | set colorcolumn=51,73 | endif
+  autocmd filetype gitcommit setlocal spell
 
   " return to the last edited position when opening a file
   " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif

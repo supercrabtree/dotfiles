@@ -21,7 +21,7 @@ Plugin 'digitaltoad/vim-jade'
 "Plugin 'pangloss/vim-javascript'
 "Plugin 'jelera/vim-javascript-syntax'
 Plugin 'groenewege/vim-less'
-Plugin 'kana/vim-arpeggio'
+"Plugin 'kana/vim-arpeggio'
 "Plugin 'plasticboy/vim-markdown'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'mhinz/vim-startify'
@@ -30,7 +30,6 @@ Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'dahu/vim-fanfingtastic'
 Plugin 'ervandew/supertab'
-Plugin 'wikitopian/hardmode'
 
 call vundle#end()
 filetype plugin indent on
@@ -135,9 +134,6 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 " ------------------------------------------------------------------------------
 " Keys -------------------------------------------------------------------------
 let mapleader="\<space>"
-
-" quick edits of my vimrc, tweeky fiddley
-nmap <leader>v :e $MYVIMRC<cr>
 
 " double tap space to clear search highlights and refresh screen
 noremap <silent><leader><space> :noh<cr><c-l>

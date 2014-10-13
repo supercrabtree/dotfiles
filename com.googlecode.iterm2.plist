@@ -32,6 +32,20 @@
 	<real>10</real>
 	<key>GlobalKeyMap</key>
 	<dict>
+		<key>0x5b-0x100000</key>
+		<dict>
+			<key>Action</key>
+			<integer>13</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0x5d-0x100000</key>
+		<dict>
+			<key>Action</key>
+			<integer>13</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
 		<key>0x9-0x40000</key>
 		<dict>
 			<key>Action</key>
@@ -166,7 +180,7 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>981 77 459 270 0 0 1440 878 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>572 1576 1016 502 -212 900 1920 1178 </string>
+	<string>572 1596 937 465 -212 900 1920 1178 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>-212 1456 700 622 -212 900 1920 1178 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
@@ -434,12 +448,16 @@
 			<false/>
 			<key>Foreground Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.51685798168182373</real>
+				<real>0.4171556843891403</real>
+				<key>Color Space</key>
+				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.50962930917739868</real>
+				<real>0.41223205919573286</real>
 				<key>Red Component</key>
-				<real>0.44058024883270264</real>
+				<real>0.35514062725762596</real>
 			</dict>
 			<key>Guid</key>
 			<string>6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</string>
@@ -800,7 +818,7 @@
 				<real>0.023</real>
 			</dict>
 			<key>Minimum Contrast</key>
-			<real>0.17442147943037975</real>
+			<real>0.20722903481012658</real>
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
@@ -1636,7 +1654,7 @@
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>ShowPaneTitles</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>

@@ -119,7 +119,7 @@ colorscheme solarized
 hi StatusLine ctermbg=12 ctermfg=0
 hi CursorLineNR ctermbg=8 ctermfg=12
 
-" highlight the 81st colomm
+" highlight the 81st colomm (changed in autocmd section below for git commits)
 highlight ColorColumn ctermbg=0
 set colorcolumn=81
 
@@ -280,6 +280,8 @@ augroup georges_autocommands " {
 
   " auto source this .vimrc on save
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
+  autocmd BufReadPost * if &filetype == "gitcommit" | set colorcolumn=51,73 | endif
 
   " return to the last edited position when opening a file
   " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif

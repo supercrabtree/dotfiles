@@ -106,7 +106,7 @@ set lazyredraw
 
 " show me those ugly tabs so i can kill them
 set list
-set listchars=tab:❯—
+set listchars=tab:❯—,nbsp:§
 
 " white space
 set expandtab
@@ -134,7 +134,24 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " ------------------------------------------------------------------------------
 " Keys -------------------------------------------------------------------------
-map <Space> <Leader>
+let mapleader="\<space>"
+
+" quick edits of my vimrc, tweeky fiddley
+nmap <leader>v :e $MYVIMRC<cr>
+
+" double tap space to clear search highlights and refresh screen
+noremap <silent><leader><space> :noh<cr><c-l>
+
+" find in all files
+nmap <leader>/ :Ag!
+
+" faster copy paste from the clipboard
+nmap <leader>p "+p
+nmap <leader>P "+P
+nmap <leader>y "+y
+nmap <leader>Y "+Y
+nmap <leader>w :w<cr>
+nmap <leader>q :q<cr>
 
 " faster navigation
 nmap J 5j
@@ -148,27 +165,14 @@ nnoremap k gk
 xnoremap j gj
 xnoremap k gk
 
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-
-nnoremap <leader>h <Esc>:call ToggleHardMode()
-
-" quick edits of my vimrc, tweeky fiddley
-nmap <leader>v :e $MYVIMRC<cr>
-
-" double tap space to clear search highlights
-nmap <leader><space> :noh<cr>
-
-" find in all files
-nmap <leader>/ :Ag!
-
 " exit insert mode
 inoremap jj <esc>
 
 " quicker commands
-nnoremap ; :
+" nnoremap ; :
 
 " buffer navigation
-nnoremap <c-u> :bwipe<cr>
+nnoremap <silent><c-u> :CloseBuffer<cr>
 nnoremap <c-j> :bnext<cr>
 nnoremap <c-k> :bprevious<cr>
 
@@ -288,6 +292,14 @@ augroup georges_autocommands " {
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup END " }
 
+command! CloseBuffer call s:CloseBuffer()
+function! s:CloseBuffer()
+  if &filetype == ""
+    qall
+  else
+    bwipe
+  endif
+endfunction
 
 func! EnterInsertMode()
   if &background == "dark"

@@ -143,14 +143,14 @@ nmap <leader>v :e $MYVIMRC<cr>
 noremap <silent><leader><space> :noh<cr><c-l>
 
 " find in all files
-nmap <leader>/ :Ag!
+nmap <leader>/ :Ag! 
 
 " faster copy paste from the clipboard
 nmap <leader>p "+p
 nmap <leader>P "+P
 nmap <leader>y "+y
 nmap <leader>Y "+Y
-nmap <leader>w :w<cr>
+nmap <leader>w :up<cr>
 nmap <leader>q :q<cr>
 
 " faster navigation

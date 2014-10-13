@@ -291,9 +291,9 @@ augroup END " }
 command! CloseBuffer call s:CloseBuffer()
 function! s:CloseBuffer()
   if &filetype == ""
-    qall
+    q
   else
-    bwipe
+    bdelete
   endif
 endfunction
 

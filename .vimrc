@@ -142,10 +142,10 @@ noremap <silent><leader><space> :noh<cr><c-l>
 nmap <leader>/ :Ag! 
 
 " faster copy paste from the clipboard
-nmap <leader>p "+p
-nmap <leader>P "+P
-nmap <leader>y "+y
-nmap <leader>Y "+Y
+nmap <leader>p "*p
+nmap <leader>P "*P
+nmap <leader>y "*y
+nmap <leader>Y "*Y
 nmap <leader>w :up<cr>
 nmap <leader>q :q<cr>
 

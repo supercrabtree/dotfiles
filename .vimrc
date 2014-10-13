@@ -62,7 +62,7 @@ set incsearch
 set timeoutlen=1000 ttimeoutlen=0
 
 " don't show vim mode in bottom right
-set noshowmode
+" set noshowmode
 
 " no line wrap
 set nowrap
@@ -282,7 +282,7 @@ augroup georges_autocommands " {
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
   " return to the last edited position when opening a file
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " when opening a new line in a comment, don't continue the comment, empty line please
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o

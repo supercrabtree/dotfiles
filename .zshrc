@@ -11,6 +11,7 @@ antigen theme supercrabtree/pure pure
 
 antigen apply
 
+
 ansiweather
 
 source ~/.zshloadvim

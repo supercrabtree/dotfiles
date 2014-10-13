@@ -281,7 +281,7 @@ augroup georges_autocommands " {
   " auto source this .vimrc on save
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
-  autocmd BufReadPost * if &filetype == "gitcommit" | set colorcolumn=51,73 | endif
+  autocmd filetype gitcommit set colorcolumn=51,73
   autocmd filetype gitcommit setlocal spell
 
   " return to the last edited position when opening a file

@@ -69,7 +69,7 @@ gl() {
   if [ $1 ]; then
     LINES=$1
   fi
-  git --no-pager log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn" "-$LINES"
+  git --no-pager log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)%d" "-$LINES"
 }
 killport() {
   PORT=$1

@@ -30,6 +30,8 @@ Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'dahu/vim-fanfingtastic'
 Plugin 'ervandew/supertab'
+Plugin 'takac/vim-hardtime'
+Plugin 'justinmk/vim-sneak'
 
 call vundle#end()
 filetype plugin indent on
@@ -44,7 +46,7 @@ set term=xterm-256color
 set laststatus=2
 
 " show relative line numbers
-set relativenumber
+" set relativenumber
 
 " show the current line number rather than zero
 set number
@@ -94,8 +96,12 @@ set hidden
 set nowritebackup
 
 " don't dirty up my repos
-set backupdir=~/vim-tmp
-set directory=~/vim-tmp
+set backupdir=~/.vim/tmp
+set directory=~/.vim/tmp
+
+" holy sheeet persistant undo
+set undodir=~/.vim/undo
+set undofile
 
 " dont move the cursor to the start of a line when switching buffers
 set nostartofline
@@ -112,6 +118,9 @@ set expandtab
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
+
+" Don't try to highlight lines longer than 800 characters.
+set synmaxcol=800
 
 " colors
 set background=dark
@@ -133,13 +142,14 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " ------------------------------------------------------------------------------
 " Keys -------------------------------------------------------------------------
-let mapleader="\<space>"
+let mapleader=" "
+nnoremap <space> <nop>
 
 " double tap space to clear search highlights and refresh screen
-noremap <silent><leader><space> :noh<cr><c-l>
+noremap <silent><leader>r :noh<cr><c-l>
 
 " find in all files
-nmap <leader>/ :Ag! 
+nmap <leader>/ :Ag! --ignore=".git" --ignore="dist" --ignore="lib" --hidden 
 
 " faster copy paste from the clipboard
 nmap <leader>p "*p
@@ -150,10 +160,10 @@ nmap <leader>w :up<cr>
 nmap <leader>q :q<cr>
 
 " faster navigation
-nmap J 5j
-nmap K 5k
-xmap J 5j
-xmap K 5k
+" nmap J 5j
+" nmap K 5k
+" xmap J 5j
+" xmap K 5k
 
 " navigate through visible lines too, when word wrapping
 nnoremap j gj
@@ -162,13 +172,14 @@ xnoremap j gj
 xnoremap k gk
 
 " exit insert mode
-inoremap jj <esc>
+" inoremap jj <esc>
 
 " quicker commands
 " nnoremap ; :
 
 " buffer navigation
-nnoremap <silent><c-u> :CloseBuffer<cr>
+" nnoremap <silent><c-u> :CloseBuffer<cr>
+nnoremap <c-n> :bdelete<cr>
 nnoremap <c-j> :bnext<cr>
 nnoremap <c-k> :bprevious<cr>
 
@@ -178,10 +189,11 @@ nnoremap <leader>O O<esc>
 
 " don't jumo to the next word, thats really annoying
 nnoremap * *N
+nnoremap # #N
 
 " Make horizontal scrolling easier
-nmap <silent> <C-o> 10zl
-nmap <silent> <C-i> 10zh
+" nmap <silent> <C-o> 10zl
+" nmap <silent> <C-i> 10zh
 
 " make Y act like the other capitals and only delete until the end of the line
 nnoremap Y y$
@@ -202,9 +214,13 @@ cmap w!! w !sudo tee > /dev/null %
 
 " ------------------------------------------------------------------------------
 " Plugin Settings
+" Hardtime ---------------------------------------------------------------------
+" let g:hardtime_showmsg = 1
+let g:hardtime_default_on = 1
+
 " CtrlP ------------------------------------------------------------------------
 let g:ctrlp_map ='\'
-let g:ctrlp_user_command = 'ag %s --ignore "lib/manual" --ignore ".git" -l --hidden --nocolor -g ""'
+let g:ctrlp_user_command = 'ag %s --ignore "lib/manual" --ignore ".git" --ignore "dist" -l --hidden --nocolor -g ""'
 let g:ctrlp_use_caching = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_open_multiple_files = 'i'
@@ -285,7 +301,7 @@ augroup georges_autocommands " {
   autocmd filetype gitcommit setlocal spell
 
   " return to the last edited position when opening a file
-  " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
   " when opening a new line in a comment, don't continue the comment, empty line please
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o

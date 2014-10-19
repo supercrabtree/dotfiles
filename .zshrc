@@ -37,6 +37,8 @@ export GIT_EDITOR=$VIM
 export VISUAL=$VIM
 export EDITOR=$VIM
 
+export MYZSHRC='~/.zshrc'
+
 alias vim=$VIM
 alias zshrc="vim ~/.zshrc"
 alias vimrc='vim ~/.vimrc'

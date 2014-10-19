@@ -227,7 +227,7 @@ nmap <leader>y "*y
 nmap <leader>Y "*Y
 nmap <leader>w :update<cr>
 nmap <leader>q :quit<cr>
-map <leader>e :update<cr>:quit<cr>
+nmap <leader>e :write<cr>:quit<cr>
 nmap <leader>sd :call SetBackgroundDark()<cr>
 nmap <leader>sl :call SetBackgroundLight()<cr>
 
@@ -254,6 +254,7 @@ xnoremap k gk
 nnoremap <c-n> :bdelete<cr>
 nnoremap <c-j> :bnext<cr>:echo<cr>
 nnoremap <c-k> :bprevious<cr>:echo<cr>
+nnoremap gb :ls<CR>:b<Space>
 
 " quickly add lots of whitespace
 nnoremap <leader>o o<esc>
@@ -363,7 +364,7 @@ augroup georges_autocommands " {
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
   " return to the last edited position when opening a file
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
   " highlight colums in git commit messages
   autocmd filetype gitcommit set colorcolumn=51,73
@@ -372,4 +373,11 @@ augroup georges_autocommands " {
   " when opening a new line in a comment, don't continue the comment, empty line please
   autocmd FileType * set formatoptions-=r formatoptions-=o
   autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+
+  " auto create global marks when leaving
+  autocmd BufLeave,BufWritePost $MYVIMRC      normal! mV
+  autocmd BufLeave,BufWritePost $MYZSHRC      normal! mZ
+  autocmd BufLeave,BufWritePost *.js          normal! mJ
+  autocmd BufLeave,BufWritePost *.css,*.less  normal! mC
+  autocmd BufLeave,BufWritePost *.html,*.jade normal! mH
 augroup END " }

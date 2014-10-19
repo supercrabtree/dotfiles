@@ -260,6 +260,9 @@ nnoremap gb :ls<CR>:b<Space>
 nnoremap <leader>o o<esc>
 nnoremap <leader>O O<esc>
 
+" faster goto line
+nmap <cr> G
+
 " don't jumo to the next word, thats really annoying
 nnoremap * *N
 nnoremap # #N

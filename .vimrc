@@ -156,6 +156,9 @@ set hidden
 " allow cursor to move anywhere
 " set ve=all
 
+" smarter? indenting
+set autoindent
+
 " off for some reason, can't remember why...
 set nowritebackup
 
@@ -212,7 +215,7 @@ let mapleader="\<Space>"
 nnoremap <space> <nop>
 
 " clear search highlights and refresh screen
-  noremap <esc><esc><esc> :noh<cr><c-l>
+noremap <esc><esc><esc> :noh<cr><c-l>
 
 " find in all files
 nmap <leader>/ :Ag! --ignore=".git" --ignore="dist" --ignore="lib" --hidden 
@@ -224,8 +227,10 @@ nmap <leader>y "*y
 nmap <leader>Y "*Y
 nmap <leader>w :update<cr>
 nmap <leader>q :quit<cr>
-nmap <leader>sbd :call SetBackgroundDark()<cr>
-nmap <leader>sbl :call SetBackgroundLight()<cr>
+map <leader>e :update<cr>:quit<cr>
+nmap <leader>sd :call SetBackgroundDark()<cr>
+nmap <leader>sl :call SetBackgroundLight()<cr>
+
 " faster navigatibn
 " nmap J 5j
 " nmap K 5k
@@ -277,7 +282,7 @@ nnoremap !! :<Up><CR>
 " remapped back in here using their escape keys
 map <silent> <esc>[A <c-j>
 map <silent> <esc>[B <c-k>
->
+
 " sudo save
 cmap w!! w !sudo tee > /dev/null %
 
@@ -365,5 +370,6 @@ augroup georges_autocommands " {
   autocmd filetype gitcommit setlocal spell
 
   " when opening a new line in a comment, don't continue the comment, empty line please
-  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  autocmd FileType * set formatoptions-=r formatoptions-=o
+  autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 augroup END " }

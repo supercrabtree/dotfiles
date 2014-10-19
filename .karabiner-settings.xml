@@ -38,7 +38,19 @@
           ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L
       </autogen>
     </item>
+    <item>
+      <name>Hyper Return</name>
+      <identifier>private.hyper_return</identifier>
+      <appendix>Allow Return in Hypermode</appendix>
+      <autogen>
+        --KeyToKey--
+        KeyCode::RETURN,
 
+        ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
+        ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
+        KeyCode::RETURN
+      </autogen>
+    </item>
     <item>
       <name>Hyper Backspace</name>
       <identifier>private.hyper_backspace</identifier>

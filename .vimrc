@@ -1,6 +1,6 @@
 set nocompatible
-" ------------------------------------------------------------------------------
 " Vundle Setup -----------------------------------------------------------------
+" ------------------------------------------------------------------------------
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -31,13 +31,77 @@ Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'dahu/vim-fanfingtastic'
 Plugin 'ervandew/supertab'
 Plugin 'takac/vim-hardtime'
-Plugin 'justinmk/vim-sneak'
+" Plugin 'justinmk/vim-sneak'
+Plugin 'sjbach/lusty'
 
 call vundle#end()
 filetype plugin indent on
 
+
+" Custom Functions
 " ------------------------------------------------------------------------------
+function! EnterInsertMode()
+  if &background == "dark"
+    highlight CursorLineNR ctermbg=5 ctermfg=0
+  else
+    highlight CursorLineNR ctermbg=5 ctermfg=7
+  endif
+endfunction
+function! LeaveInsertMode()
+  if &background == "dark"
+    highlight CursorLineNR ctermbg=8 ctermfg=12
+  else
+    highlight CursorLineNR ctermbg=15 ctermfg=8
+  endif
+endfunction
+
+function! SetBackgroundDark()
+  set background=dark
+  highlight StatusLine ctermbg=12 ctermfg=0
+  highlight CursorLineNR ctermbg=8 ctermfg=12
+endfunction
+function! SetBackgroundLight()
+  set background=light
+    highlight StatusLine ctermbg=12 ctermfg=7
+    highlight CursorLineNR ctermbg=15 ctermfg=8
+endfunction
+
+function! Enter_CtrlP()
+  " hide status bar
+  " set laststatus=0
+endfunction
+
+function! Exit_CtrlP()
+  " show status bar
+  " set laststatus=2
+endfunction
+
+function! s:CloseBuffer()
+  if &filetype == ""
+    q
+  else
+    bdelete
+  endif
+endfunction
+" command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
+    " \ | diffthis | wincmd p | diffthis
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+
+
+" Custom Commands
+" ------------------------------------------------------------------------------
+command! CloseBuffer call s:CloseBuffer()
+com! DiffSaved call s:DiffWithSaved()
+
+
 " Vim Settings -----------------------------------------------------------------
+" ------------------------------------------------------------------------------
 syntax on
 set encoding=utf-8
 set term=xterm-256color
@@ -51,10 +115,10 @@ set laststatus=2
 " show the current line number rather than zero
 set number
 
-" hightlight current cursor line
+" highlight current cursor line
 set cursorline
 
-" hightlight search results
+" highlight search results
 set hlsearch
 
 " incremental search
@@ -109,7 +173,10 @@ set nostartofline
 " dont redraw when executing macros
 set lazyredraw
 
-" show me those ugly tabs so i can kill them
+" fancy line indenting on text wrap
+set breakindent
+
+" show me those ugly chars so i can kill them
 set list
 set listchars=tab:❯—,nbsp:§
 
@@ -123,30 +190,29 @@ set softtabstop=2
 set synmaxcol=800
 
 " colors
-set background=dark
 colorscheme solarized
-hi StatusLine ctermbg=12 ctermfg=0
-hi CursorLineNR ctermbg=8 ctermfg=12
+call SetBackgroundDark()
+
 
 " highlight the 81st colomm (changed in autocmd section below for git commits)
 highlight ColorColumn ctermbg=0
 set colorcolumn=81
 
 " matching braces highlight them blue bg and white fg
-hi MatchParen ctermbg=4 ctermfg=7
+highlight MatchParen ctermbg=4 ctermfg=7
 
 " different cursor shapes for insert mode
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 
-" ------------------------------------------------------------------------------
 " Keys -------------------------------------------------------------------------
-let mapleader=" "
+  " ------------------------------------------------------------------------------
+let mapleader="\<Space>"
 nnoremap <space> <nop>
 
-" double tap space to clear search highlights and refresh screen
-noremap <silent><leader>r :noh<cr><c-l>
+" clear search highlights and refresh screen
+  noremap <esc><esc><esc> :noh<cr><c-l>
 
 " find in all files
 nmap <leader>/ :Ag! --ignore=".git" --ignore="dist" --ignore="lib" --hidden 
@@ -156,10 +222,11 @@ nmap <leader>p "*p
 nmap <leader>P "*P
 nmap <leader>y "*y
 nmap <leader>Y "*Y
-nmap <leader>w :up<cr>
-nmap <leader>q :q<cr>
-
-" faster navigation
+nmap <leader>w :update<cr>
+nmap <leader>q :quit<cr>
+nmap <leader>sbd :call SetBackgroundDark()<cr>
+nmap <leader>sbl :call SetBackgroundLight()<cr>
+" faster navigatibn
 " nmap J 5j
 " nmap K 5k
 " xmap J 5j
@@ -180,8 +247,8 @@ xnoremap k gk
 " buffer navigation
 " nnoremap <silent><c-u> :CloseBuffer<cr>
 nnoremap <c-n> :bdelete<cr>
-nnoremap <c-j> :bnext<cr>
-nnoremap <c-k> :bprevious<cr>
+nnoremap <c-j> :bnext<cr>:echo<cr>
+nnoremap <c-k> :bprevious<cr>:echo<cr>
 
 " quickly add lots of whitespace
 nnoremap <leader>o o<esc>
@@ -192,6 +259,8 @@ nnoremap * *N
 nnoremap # #N
 
 " Make horizontal scrolling easier
+nmap <leader>l 10zl
+nmap <leader>h 10zh
 " nmap <silent> <C-o> 10zl
 " nmap <silent> <C-i> 10zh
 
@@ -206,14 +275,16 @@ nnoremap !! :<Up><CR>
 
 " iterm uses <c-j> and <c-k> to toggle through old commands so they have to be
 " remapped back in here using their escape keys
-map <silent> <esc>[A :bnext<cr>:echo<cr>
-map <silent> <esc>[B :bprevious<cr>:echo<cr>
-
+map <silent> <esc>[A <c-j>
+map <silent> <esc>[B <c-k>
+>
 " sudo save
 cmap w!! w !sudo tee > /dev/null %
 
-" ------------------------------------------------------------------------------
+
 " Plugin Settings
+" ------------------------------------------------------------------------------
+
 " Hardtime ---------------------------------------------------------------------
 " let g:hardtime_showmsg = 1
 let g:hardtime_default_on = 1
@@ -224,20 +295,10 @@ let g:ctrlp_user_command = 'ag %s --ignore "lib/manual" --ignore ".git" --ignore
 let g:ctrlp_use_caching = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_open_multiple_files = 'i'
-
 let g:ctrlp_buffer_func = {
   \'enter': 'Enter_CtrlP',
   \'exit':  'Exit_CtrlP',
   \}
-func! Enter_CtrlP()
-  " hide status bar
-  set laststatus=0
-endfunc
-
-func! Exit_CtrlP()
-  " show status bar
-  set laststatus=2
-endfunc
 
 " NERDTree ---------------------------------------------------------------------
 nmap <leader>t :NERDTreeToggle<cr>
@@ -261,8 +322,7 @@ let g:yankstack_map_keys = 0
 nmap <c-p> <Plug>yankstack_substitute_older_paste
 nmap <c-_> <Plug>yankstack_substitute_newer_paste
 
-
-" Startify
+" Startify ---------------------------------------------------------------------
 let g:startify_custom_header = [
 \ '                                                          __       __                                                                                                                                                                       |',
 \ '                                                         /\ \     /\ \__                                                                                                                                                                    |',
@@ -277,8 +337,8 @@ let g:startify_custom_header = [
 \ ]
 
 
-" ------------------------------------------------------------------------------
 " Status Line ------------------------------------------------------------------
+" ------------------------------------------------------------------------------
 set statusline=
 set statusline+=%2*[%n%H%M%R%W]%*\        " flags and buf no
 set statusline+=%<\                       " when the winow is too narrow, cut it here
@@ -287,8 +347,8 @@ set statusline+=%=                        " align from here on to the right
 set statusline+=[%c\|%l/%L]\              " [column,line/totalLines]
 
 
-" ------------------------------------------------------------------------------
 " Auto Commands ----------------------------------------------------------------
+" ------------------------------------------------------------------------------
 augroup georges_autocommands " {
   autocmd!
   autocmd InsertEnter * call EnterInsertMode()
@@ -297,36 +357,13 @@ augroup georges_autocommands " {
   " auto source this .vimrc on save
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
-  autocmd filetype gitcommit set colorcolumn=51,73
-  autocmd filetype gitcommit setlocal spell
-
   " return to the last edited position when opening a file
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+  " highlight colums in git commit messages
+  autocmd filetype gitcommit set colorcolumn=51,73
+  autocmd filetype gitcommit setlocal spell
 
   " when opening a new line in a comment, don't continue the comment, empty line please
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup END " }
-
-command! CloseBuffer call s:CloseBuffer()
-function! s:CloseBuffer()
-  if &filetype == ""
-    q
-  else
-    bdelete
-  endif
-endfunction
-
-func! EnterInsertMode()
-  if &background == "dark"
-    hi CursorLineNR ctermbg=5 ctermfg=0
-  else
-    hi CursorLineNR ctermbg=5 ctermfg=9
-  endif
-endfunc
-func! LeaveInsertMode()
-  if &background == "dark"
-    hi CursorLineNR ctermbg=8 ctermfg=12
-  else
-    hi CursorLineNR ctermbg=15 ctermfg=9
-  endif
-endfunc

@@ -14,7 +14,7 @@ antigen apply
 
 ansiweather
 
-source ~/.zshloadvim
+source ~/.vimlocation
 source ~/dev/k/k.sh
 
 export SHELL=/bin/zsh
@@ -33,10 +33,11 @@ export PATH=$PATH:/usr/local/heroku/bin
 export PATH=$PATH:$HOME/npm/bin
 
 export GIT_MERGE_AUTOEDIT=no
-export GIT_EDITOR=vim
-export VISUAL=vim
-export EDITOR=vim
+export GIT_EDITOR=$VIM
+export VISUAL=$VIM
+export EDITOR=$VIM
 
+alias vim=$VIM
 alias zshrc="vim ~/.zshrc"
 alias vimrc='vim ~/.vimrc'
 alias dev="cd ~/dev"

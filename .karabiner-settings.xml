@@ -78,7 +78,7 @@
       </autogen>
       <autogen>
         --KeyToKey--
-        KeyCode::J,
+        KeyCode::I,
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
@@ -86,7 +86,7 @@
       </autogen>
       <autogen>
         --KeyToKey--
-        KeyCode::M,
+        KeyCode::O,
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
@@ -94,7 +94,7 @@
       </autogen>
       <autogen>
         --KeyToKey--
-        KeyCode::I,
+        KeyCode::J,
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
@@ -110,7 +110,7 @@
       </autogen>
       <autogen>
         --KeyToKey--
-        KeyCode::COMMA,
+        KeyCode::L,
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
@@ -118,7 +118,7 @@
       </autogen>
       <autogen>
         --KeyToKey--
-        KeyCode::O,
+        KeyCode::M,
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
@@ -126,7 +126,7 @@
       </autogen>
       <autogen>
         --KeyToKey--
-        KeyCode::L,
+        KeyCode::COMMA,
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,

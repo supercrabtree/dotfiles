@@ -24,6 +24,7 @@
          -->
         <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::SHIFT_R, KeyCode::KEY_0, ModifierFlag::SHIFT_L, KeyCode::SPACE</autogen>
     </item>
+
     <item>
       <name>Remap Left Control to Hyper</name>
       <appendix>OS X doesn't have a Hyper. This maps Left Control to Control + Shift + Option + Command.</appendix>
@@ -36,6 +37,17 @@
 
           KeyCode::COMMAND_L,
           ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L
+      </autogen>
+
+      <autogen>
+        __KeyOverlaidModifier__
+
+        KeyCode::Q, ModifierFlag::NONE,
+
+        KeyCode::COMMAND_L,
+        ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
+
+        KeyCode::Q, ModifierFlag::NONE,
       </autogen>
     </item>
     <item>
@@ -74,7 +86,7 @@
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
-        KeyCode::KEY_1
+        KeyCode::KEY_7
       </autogen>
       <autogen>
         --KeyToKey--
@@ -82,7 +94,7 @@
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
-        KeyCode::KEY_2
+        KeyCode::KEY_8
       </autogen>
       <autogen>
         --KeyToKey--
@@ -90,7 +102,7 @@
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
-        KeyCode::KEY_3
+        KeyCode::KEY_9
       </autogen>
       <autogen>
         --KeyToKey--
@@ -122,7 +134,7 @@
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
-        KeyCode::KEY_7
+        KeyCode::KEY_1
       </autogen>
       <autogen>
         --KeyToKey--
@@ -130,7 +142,7 @@
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
-        KeyCode::KEY_8
+        KeyCode::KEY_2
       </autogen>
       <autogen>
         --KeyToKey--
@@ -138,11 +150,11 @@
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
-        KeyCode::KEY_9
+        KeyCode::KEY_3
       </autogen>
       <autogen>
         --KeyToKey--
-        KeyCode::SEMICOLON,
+        KeyCode::SPACE,
 
         ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
         ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,

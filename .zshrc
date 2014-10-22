@@ -48,11 +48,12 @@ alias gulp='nocorrect gulp'
 alias reload='source ~/.zshrc'
 alias v="vim ."
 alias o="open ."
-alias !!!=!-2
 
 alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
 alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
 alias grc='git add -A && git rebase --continue'
+alias gc='git commit'
+alias gaa='git add -A'
 
 zmodload zsh/mathfunc
 
@@ -137,19 +138,6 @@ gs() {
 
   echo "\n\033[0;34mgit push origin $CURRENT_BRANCH\033[0m"
   git push origin $CURRENT_BRANCH || { return 1; }
-}
-
-gc() {
-  if [ $1 ]; then
-    echo "\n\033[0;34mgit add -A\033[0m"
-    git add -A || { return 1; }
-
-    echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$1\033[0m"
-    git commit -m $1 || { return 1; }
-  else
-     echo "\033[0;31mYou must enter a commit message.\033[0m"
-     return 1;
-  fi
 }
 
 # Serve some static stuff from CWD fast
@@ -264,7 +252,8 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-
+# Pixformance stuff
+# ------------------------------------------------------------------------------
 export PIX_ROOT="$HOME/dev"
 export PIX_FRONTEND="$PIX_ROOT/pix-frontend"
 export PIX_BACKEND="$PIX_ROOT/pix-backend"
@@ -275,9 +264,7 @@ export PIX_SUB="$PIX_ROOT/pix-sub"
 #RVM is no longer supported. Please use Rbenv instead.
 #For Rbenv
 export RUBY_SERVER_SCRIPT_COMMAND="bundle exec rails server"
-
 #The init script
 eval "$($PIX_SUB/bin/pix init -)"
-
 #Rbenv
 eval "$(rbenv init -)"

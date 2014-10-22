@@ -9,19 +9,15 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'rking/ag.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Raimondi/delimitMate'
-"Plugin 'scrooloose/nerdtree'
-"Plugin 'godlygeek/tabular'
-"Plugin 'marijnh/tern_for_vim'
 "Plugin 'PeterRincker/vim-argumentative'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-"Plugin 'nathanaelkane/vim-indent-guides'
+" Plugin 'tpope/vim-fugitive'
 Plugin 'digitaltoad/vim-jade'
-"Plugin 'pangloss/vim-javascript'
-"Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
+Plugin 'jelera/vim-javascript-syntax'
 Plugin 'groenewege/vim-less'
-"Plugin 'kana/vim-arpeggio'
 "Plugin 'plasticboy/vim-markdown'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'mhinz/vim-startify'
@@ -30,9 +26,8 @@ Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'dahu/vim-fanfingtastic'
 Plugin 'ervandew/supertab'
-Plugin 'takac/vim-hardtime'
-" Plugin 'justinmk/vim-sneak'
-Plugin 'sjbach/lusty'
+"Plugin 'takac/vim-hardtime'
+Plugin 'scrooloose/nerdtree'
 
 call vundle#end()
 filetype plugin indent on
@@ -66,16 +61,6 @@ function! SetBackgroundLight()
     highlight CursorLineNR ctermbg=15 ctermfg=8
 endfunction
 
-function! Enter_CtrlP()
-  " hide status bar
-  " set laststatus=0
-endfunction
-
-function! Exit_CtrlP()
-  " show status bar
-  " set laststatus=2
-endfunction
-
 function! s:CloseBuffer()
   if &filetype == ""
     q
@@ -83,8 +68,7 @@ function! s:CloseBuffer()
     bdelete
   endif
 endfunction
-" command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_
-    " \ | diffthis | wincmd p | diffthis
+
 function! s:DiffWithSaved()
   let filetype=&ft
   diffthis
@@ -97,7 +81,7 @@ endfunction
 " Custom Commands
 " ------------------------------------------------------------------------------
 command! CloseBuffer call s:CloseBuffer()
-com! DiffSaved call s:DiffWithSaved()
+command! DiffSaved call s:DiffWithSaved()
 
 
 " Vim Settings -----------------------------------------------------------------
@@ -127,7 +111,7 @@ set incsearch
 " set no timeout when swapping modes
 set timeoutlen=1000 ttimeoutlen=0
 
-" don't show vim mode in bottom right
+" don't show vim mode in bottom left
 " set noshowmode
 
 " no line wrap
@@ -152,6 +136,9 @@ set scrolloff=3
 
 " allow buffers to be hidden
 set hidden
+
+" for easierness show the command in the bottom right
+set showcmd
 
 " allow cursor to move anywhere
 " set ve=all
@@ -197,7 +184,7 @@ colorscheme solarized
 call SetBackgroundDark()
 
 
-" highlight the 81st colomm (changed in autocmd section below for git commits)
+" highlight the 81st colomm (changed in autocmd section for git commits)
 highlight ColorColumn ctermbg=0
 set colorcolumn=81
 
@@ -210,7 +197,7 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 
 " Keys -------------------------------------------------------------------------
-  " ------------------------------------------------------------------------------
+" ------------------------------------------------------------------------------
 let mapleader="\<Space>"
 nnoremap <space> <nop>
 
@@ -232,10 +219,10 @@ nmap <leader>sd :call SetBackgroundDark()<cr>
 nmap <leader>sl :call SetBackgroundLight()<cr>
 
 " faster navigatibn
-" nmap J 5j
-" nmap K 5k
-" xmap J 5j
-" xmap K 5k
+nmap J 5j
+nmap K 5k
+xmap J 5j
+xmap K 5k
 
 " navigate through visible lines too, when word wrapping
 nnoremap j gj
@@ -244,7 +231,7 @@ xnoremap j gj
 xnoremap k gk
 
 " exit insert mode
-" inoremap jj <esc>
+inoremap jj <esc>
 
 " quicker commands
 " nnoremap ; :
@@ -254,7 +241,16 @@ xnoremap k gk
 nnoremap <c-n> :bdelete<cr>
 nnoremap <c-j> :bnext<cr>:echo<cr>
 nnoremap <c-k> :bprevious<cr>:echo<cr>
-nnoremap gb :ls<CR>:b<Space>
+nnoremap <leader>ff :CtrlP<cr>
+nnoremap <leader>fb :CtrlPBuffer<cr>
+nnoremap <leader>fr :CtrlPMRUFiles<cr>
+nnoremap <leader>fm :CtrlPMixed<cr>
+
+" Faster split nav
+map <leader>j <c-w><c-w> 
+
+" More sensible redo, I always typo <c-r> to <s-r> and it breaks everything
+nnoremap U <c-r>
 
 " quickly add lots of whitespace
 nnoremap <leader>o o<esc>
@@ -290,7 +286,6 @@ map <silent> <esc>[B <c-k>
 " sudo save
 cmap w!! w !sudo tee > /dev/null %
 
-
 " Plugin Settings
 " ------------------------------------------------------------------------------
 
@@ -299,20 +294,17 @@ cmap w!! w !sudo tee > /dev/null %
 let g:hardtime_default_on = 1
 
 " CtrlP ------------------------------------------------------------------------
-let g:ctrlp_map ='\'
+let g:ctrlp_reuse_window = 'startify'
 let g:ctrlp_user_command = 'ag %s --ignore "lib/manual" --ignore ".git" --ignore "dist" -l --hidden --nocolor -g ""'
 let g:ctrlp_use_caching = 0
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_open_multiple_files = 'i'
-let g:ctrlp_buffer_func = {
-  \'enter': 'Enter_CtrlP',
-  \'exit':  'Exit_CtrlP',
-  \}
 
 " NERDTree ---------------------------------------------------------------------
 nmap <leader>t :NERDTreeToggle<cr>
 let g:NERDTreeWinSize = 40
-let g:NERDTreeMapActivateNode='<space>'
+let NERDTreeShowHidden=1
+" let g:NERDTreeMapActivateNode='<space>'
 
 " DelimitMate ------------------------------------------------------------------
 let delimitMate_expand_cr = 1
@@ -349,11 +341,14 @@ let g:startify_custom_header = [
 " Status Line ------------------------------------------------------------------
 " ------------------------------------------------------------------------------
 set statusline=
-set statusline+=%2*[%n%H%M%R%W]%*\        " flags and buf no
+set statusline+=%*[%n%H%M%R%W]%*\         " flags and buf no
+set statusline+=%p%%                      " percentage through file
 set statusline+=%<\                       " when the winow is too narrow, cut it here
 set statusline+=%f\                       " path & filename
 set statusline+=%=                        " align from here on to the right
-set statusline+=[%c\|%l/%L]\              " [column,line/totalLines]
+set statusline+=%{getcwd()}               " show current working directory of vim instance
+set statusline+=\ [%{v:register}]         " show the current register in use
+" set statusline+=%c\:\%l\\|\%P           " [column,line/totalLines]
 
 
 " Auto Commands ----------------------------------------------------------------
@@ -383,4 +378,7 @@ augroup georges_autocommands " {
   autocmd BufLeave,BufWritePost *.js          normal! mJ
   autocmd BufLeave,BufWritePost *.css,*.less  normal! mC
   autocmd BufLeave,BufWritePost *.html,*.jade normal! mH
+
+  " help files on the right
+  autocmd FileType help wincmd L
 augroup END " }

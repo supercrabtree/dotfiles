@@ -180,9 +180,9 @@
 	<key>NSTableView Sort Ordering KeyBingingTable</key>
 	<array/>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>807 43 459 270 0 0 1440 878 </string>
+	<string>981 0 459 270 0 0 1440 878 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>406 414 918 464 0 0 1440 878 </string>
+	<string>784 794 606 456 0 0 1920 1200 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>372 192 700 622 0 0 1440 878 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
@@ -528,6 +528,13 @@
 					<key>Text</key>
 					<string>0x7f</string>
 				</dict>
+				<key>0x3b-0x100000</key>
+				<dict>
+					<key>Action</key>
+					<integer>13</integer>
+					<key>Text</key>
+					<string></string>
+				</dict>
 				<key>0x57-0x120000</key>
 				<dict>
 					<key>Action</key>
@@ -542,14 +549,14 @@
 					<key>Text</key>
 					<string></string>
 				</dict>
-				<key>0x6a-0x40000</key>
+				<key>0x6a-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>10</integer>
 					<key>Text</key>
 					<string>[A</string>
 				</dict>
-				<key>0x6b-0x40000</key>
+				<key>0x6b-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>10</integer>
@@ -876,7 +883,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.0</real>
+			<real>0.046035965236686391</real>
 			<key>Triggers</key>
 			<array>
 				<dict>
@@ -1646,13 +1653,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2014-10-19T14:11:09Z</date>
+	<date>2014-10-24T02:39:27Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>ShowPaneTitles</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>

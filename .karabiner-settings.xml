@@ -42,12 +42,12 @@
       <autogen>
         __KeyOverlaidModifier__
 
-        KeyCode::Q, ModifierFlag::NONE,
+        KeyCode::Z, ModifierFlag::NONE,
 
         KeyCode::COMMAND_L,
         ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
 
-        KeyCode::Q, ModifierFlag::NONE,
+        KeyCode::Z, ModifierFlag::NONE,
       </autogen>
     </item>
     <item>

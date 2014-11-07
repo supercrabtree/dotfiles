@@ -10,7 +10,6 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 " Plugin 'rking/ag.vim'
 Plugin 'Raimondi/delimitMate'
-"Plugin 'PeterRincker/vim-argumentative'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
@@ -35,6 +34,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/neomru.vim'
+Plugin 'vim-scripts/argtextobj.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -61,11 +61,13 @@ function! SetBackgroundDark()
   set background=dark
   highlight StatusLine ctermbg=12 ctermfg=0
   highlight CursorLineNR ctermbg=8 ctermfg=12
+  highlight ColorColumn ctermbg=0
 endfunction
 function! SetBackgroundLight()
   set background=light
-    highlight StatusLine ctermbg=12 ctermfg=7
-    highlight CursorLineNR ctermbg=15 ctermfg=8
+  highlight StatusLine ctermbg=12 ctermfg=7
+  highlight CursorLineNR ctermbg=15 ctermfg=8
+  highlight ColorColumn ctermbg=7
 endfunction
 
 function! s:DiffWithSaved()
@@ -125,6 +127,7 @@ set listchars=tab:❯—,nbsp:§
 set synmaxcol=800        " Don't try to highlight lines longer than 800 characters.
 set ignorecase           " case insensitive search
 set smartcase            " pig == PIG, Pig == Pig, but Pig != pig
+set clipboard=unnamed    " share the clipboard
 set expandtab            " white space
 set tabstop=2
 set shiftwidth=2
@@ -132,54 +135,86 @@ set softtabstop=2
 
 " colors stuff
 colorscheme solarized
-call SetBackgroundDark()
+if $BACKGROUND == "light"
+  call SetBackgroundLight()
+else
+  call SetBackgroundDark()
+end
+
+highlight PmenuSel ctermbg=15
 
 " highlight the 81st colomm (changed in autocmd section for git commits)
-highlight ColorColumn ctermbg=0
 set colorcolumn=81
 
 " matching braces highlight them blue bg and white fg
 highlight MatchParen ctermbg=4 ctermfg=7
-
+highlight Search ctermbg=7 ctermfg=4
 " different cursor shapes for insert mode
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 
+let s:filters = {
+\   "name" : "my_converter",
+\}
+
+function! s:filters.filter(candidates, context)
+  for candidate in a:candidates
+    let bufname = bufname(candidate.action__buffer_nr)
+    let filename = fnamemodify(bufname, ':p:t')
+    let path = fnamemodify(bufname, ':p:h')
+
+    " Customize output format.
+    let candidate.abbr = printf("%s", filename)
+  endfor
+  return a:candidates
+endfunction
+
+call unite#define_filter(s:filters)
+unlet s:filters
+
+
+call unite#custom#source('buffer', 'converters', 'my_converter')
 " Keys -------------------------------------------------------------------------
 " ------------------------------------------------------------------------------
 let mapleader="\<Space>"
+
 nnoremap <space> <nop>
 nmap <leader><space> :
 
 " Raw shortcuts ++++++++++++++++++++++++
 " save deserves a super short shortcuts, fact
-" nnoremap s :write<cr>:echo strftime("%I:%M:%S %p")<cr>
 
 " clear search highlights and refresh screen
 map <leader>r :noh<cr>:redraw<cr>
 
 " Leaders ++++++++++++++++++++++++++++++
 " Unite - Find [f]ings [c]wd [r]ecent, [b]uffer, [h]ere, [t]here, [a]nywhere
-nmap <leader>ff :Unite -buffer-name=buffer-files-mru -start-insert              buffer file_mru file_rec/async:!<cr>
-nmap <leader>fc :Unite -buffer-name=files            -start-insert              file_rec/async:!<cr>
-nmap <leader>fr :Unite -buffer-name=mru              -start-insert              file_mru<cr>
-nmap <leader>fb :Unite -buffer-name=buffer           -quick-match               buffer<cr>
-nmap <leader>fd :Unite -buffer-name=here                                        file<cr>
-nmap <leader>ft :Unite -buffer-name=there            -path=/Users/supercrabtree file<cr>
-nmap <leader>fa :Unite -buffer-name=any              -path=/                    file<cr>
-nmap <leader>/  :Unite -buffer-name=ag               -auto-preview              grep:.<cr>
-
-" OSX not copying t clipboard??
-noremap <leader>p :silent! set paste<CR>"*p:set nopaste<CR>
-vnoremap <leader>y :<c-u>call g:CopyToClipboard()<cr>
+" nmap <leader>ff :Unite -buffer-name=files-mru -start-insert              file_mru file_rec/async:!<cr>
+nmap <leader>ff :Unite -buffer-name=files     -start-insert              file_rec/async:!<cr>
+nmap <leader>fr :Unite -buffer-name=mru       -start-insert              file_mru<cr>
+nmap <leader>fb :Unite -buffer-name=buffer    -quick-match               buffer<cr>
+nmap <leader>fh :Unite -buffer-name=here                                 file<cr>
+nmap <leader>ft :Unite -buffer-name=there     -path=/Users/supercrabtree file<cr>
+nmap <leader>fa :Unite -buffer-name=any       -path=/                    file<cr>
+nmap <leader>fg :Unite -buffer-name=ag        -auto-preview              grep:.<cr>
 
 nmap <leader>q :quit<cr>
 nmap <leader>w :write<cr>
-nmap <leader>Q :write<cr>:quit<cr>
+nmap <leader>Q :q!<cr>
 
 nmap <leader>sd :call SetBackgroundDark()<cr>
 nmap <leader>sl :call SetBackgroundLight()<cr>
+set pastetoggle=<leader>sp
+
+" argument append
+nmap <leader>aa /function.*<cr>:silent noh<cr>f(%i
+" argument append above
+nmap <leader>Aa ?function.*<cr>:silent noh<cr>f(%i
+" argument insert
+nmap <leader>ai /function.*<cr>:silent noh<cr>f(a
+" argument insert
+nmap <leader>Ai ?function.*<cr>:silent noh<cr>f(a
 
 " sick of shitty indenting
 nmap <leader>} <i[
@@ -217,7 +252,17 @@ nmap <cr> G
 " don't jumo to the next word, thats really annoying
 nnoremap * *N
 nnoremap # #N
+nnoremap n n:call HLNext()<cr>
+nnoremap N N:call HLNext()<cr>
 
+function! HLNext ()
+  highlight WhiteOnRed ctermfg=white ctermbg=5
+  let [bufnum, lnum, col, off] = getpos('.')
+  let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
+  let target_pat = '\c\%#'.@/
+  let ring = matchadd('WhiteOnRed', target_pat, 101)
+  redraw
+endfunction
 " Make horizontal scrolling easier
 nmap <leader>l 10zl
 nmap <leader>h 10zh
@@ -255,8 +300,10 @@ let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --ignore ".git" -
 let g:unite_source_grep_command = 'ag'
 let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ".git" --ignore "lib/manual" --ignore ".tmp" --ignore "node_modules"'
 let g:unite_source_grep_recursive_opt = ''
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#matcher_default#use(['matcher_fuzzy', 'converter_relative_word'])
 call unite#filters#sorter_default#use(['sorter_rank'])
+" call unite#custom#source('file_rec,file_rec/async', 'matchers', ['converter_relative_word', 'matcher_fuzzy'])
+" call unite#custom#source('file_rec', )
 
 " Custom mappings for the unite buffer
 function! s:unite_settings()
@@ -337,4 +384,8 @@ augroup georges_autocommands " {
   autocmd FileType less setlocal iskeyword+=-
   autocmd FileType html setlocal iskeyword+=-
   autocmd FileType jade setlocal iskeyword+=-
+
+  autocmd * nnoremap s :write<cr>:echo strftime("%I:%M:%S %p")<cr>
 augroup END " }
+
+

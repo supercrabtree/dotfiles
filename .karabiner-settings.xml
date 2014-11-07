@@ -39,16 +39,6 @@
           ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L
       </autogen>
 
-      <autogen>
-        __KeyOverlaidModifier__
-
-        KeyCode::Z, ModifierFlag::NONE,
-
-        KeyCode::COMMAND_L,
-        ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L,
-
-        KeyCode::Z, ModifierFlag::NONE,
-      </autogen>
     </item>
     <item>
       <name>Hyper Return</name>

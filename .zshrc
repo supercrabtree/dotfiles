@@ -12,7 +12,7 @@ antigen theme supercrabtree/pure pure
 antigen apply
 
 
-ansiweather
+# ansiweather
 
 source ~/.vimlocation
 source ~/dev/k/k.sh
@@ -36,6 +36,7 @@ export GIT_MERGE_AUTOEDIT=no
 export GIT_EDITOR=$VIM
 export VISUAL=$VIM
 export EDITOR=$VIM
+export BACKGROUND=dark
 
 export MYZSHRC='~/.zshrc'
 
@@ -56,6 +57,7 @@ alias gc='git commit'
 alias gaa='git add -A'
 
 zmodload zsh/mathfunc
+autoload zmv
 
 ff() {
   if [ $1 ]; then

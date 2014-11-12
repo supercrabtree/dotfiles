@@ -83,21 +83,26 @@ killport() {
 }
 pr() {
   if [ $1 ]; then
-    if [ $2 ]; then
-      TO_BRANCH=$2
-    else
-      TO_BRANCH=dev;
-    fi
-    if [ $3 ]; then
-      FROM_BRANCH=$3;
-    else
-      FROM_BRANCH=$(git rev-parse --abbrev-ref HEAD);
-    fi
-    hub pull-request -m $1 -b $TO_BRANCH -h $FROM_BRANCH;
+    MESSAGE=$1
   else
-    echo "\n\033[0;31mYou must enter a pull request message.\033[0m\n"
-    return 1;
+    MESSAGE=$(git log -1 --pretty=%s)
   fi
+  echo $MESSAGE
+  if [ $2 ]; then
+    TO_BRANCH=$2
+  else
+    TO_BRANCH=dev;
+  fi
+  if [ $3 ]; then
+    FROM_BRANCH=$3;
+  else
+    FROM_BRANCH=$(git rev-parse --abbrev-ref HEAD);
+  fi
+  hub pull-request -m $MESSAGE -b $TO_BRANCH -h $FROM_BRANCH | pbcopy
+}
+
+gvim() {
+  vim `git status --porcelain | sed -ne 's/^ M //p'`
 }
 
 mygit() {
@@ -118,7 +123,7 @@ g() {
   if [[ $# > 0 ]]; then
     git $@
   else
-    git status -s --ignored
+    git status -s 
   fi
 }
 # Complete g like git

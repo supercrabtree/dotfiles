@@ -14,6 +14,7 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rsi'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'pangloss/vim-javascript'
 Plugin 'jelera/vim-javascript-syntax'
@@ -35,6 +36,7 @@ Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/neomru.vim'
 Plugin 'vim-scripts/argtextobj.vim'
+Plugin 'moll/vim-bbye'
 
 call vundle#end()
 filetype plugin indent on
@@ -100,7 +102,7 @@ set number               " show the current line number rather than zero
 set cursorline           " highlight current cursor line
 set hlsearch             " highlight search results
 set incsearch            " incremental search
-set timeoutlen=1000      " set no timeout when swapping modes
+set timeoutlen=700      " set no timeout when swapping modes
 set ttimeoutlen=0
 set nowrap               " no line wrap
 set textwidth=0          " settings to stop automatic line wrapping when typing
@@ -180,7 +182,7 @@ call unite#custom#source('buffer', 'converters', 'my_converter')
 let mapleader="\<Space>"
 
 nnoremap <space> <nop>
-nmap <leader><space> :
+nmap <leader>j :
 
 " Raw shortcuts ++++++++++++++++++++++++
 " save deserves a super short shortcuts, fact
@@ -189,8 +191,8 @@ nmap <leader><space> :
 map <leader>r :noh<cr>:redraw<cr>
 
 " Leaders ++++++++++++++++++++++++++++++
-" Unite - Find [f]ings [c]wd [r]ecent, [b]uffer, [h]ere, [t]here, [a]nywhere
-" nmap <leader>ff :Unite -buffer-name=files-mru -start-insert              file_mru file_rec/async:!<cr>
+" Unite - Find [f]ings [c]wd [r]ecent, [b]uffer, [h]ere, [t]here, [a]nywhere, [g]rep
+" nmap <leader>ff :unite -buffer-name=files-mru -start-insert              file_mru file_rec/async:!<cr>
 nmap <leader>ff :Unite -buffer-name=files     -start-insert              file_rec/async:!<cr>
 nmap <leader>fr :Unite -buffer-name=mru       -start-insert              file_mru<cr>
 nmap <leader>fb :Unite -buffer-name=buffer    -quick-match               buffer<cr>
@@ -205,7 +207,6 @@ nmap <leader>Q :q!<cr>
 
 nmap <leader>sd :call SetBackgroundDark()<cr>
 nmap <leader>sl :call SetBackgroundLight()<cr>
-set pastetoggle=<leader>sp
 
 " argument append
 nmap <leader>aa /function.*<cr>:silent noh<cr>f(%i
@@ -222,6 +223,8 @@ nmap <leader>{ >i[
 nmap <leader>[ <i{
 nmap <leader>] >i{
 
+nnoremap gp `[v`]`
+
 " faster navigatibn
 nmap J 5j
 nmap K 5k
@@ -235,7 +238,7 @@ xnoremap j gj
 xnoremap k gk
 
 " buffer navigation easier
-nnoremap <c-n> :bdelete<cr>
+nnoremap <c-n> :Bdelete<cr>
 nnoremap <c-j> :bnext<cr>:echo<cr>
 nnoremap <c-k> :bprevious<cr>:echo<cr>
 
@@ -252,8 +255,8 @@ nmap <cr> G
 " don't jumo to the next word, thats really annoying
 nnoremap * *N
 nnoremap # #N
-nnoremap n n:call HLNext()<cr>
-nnoremap N N:call HLNext()<cr>
+nnoremap <silent> n n:call HLNext()<cr>
+nnoremap <silent> N N:call HLNext()<cr>
 
 function! HLNext ()
   highlight WhiteOnRed ctermfg=white ctermbg=5
@@ -296,9 +299,9 @@ let g:hardtime_default_on = 0
 let g:better_whitespace_filetypes_blacklist=['unite', 'startify']
 
 " Unite ------------------------------------------------------------------------
-let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --ignore ".git" --ignore "lib/manual" --ignore ".tmp" --ignore "node_modules" --hidden -g ""'
+let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules" --hidden -g ""'
 let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ".git" --ignore "lib/manual" --ignore ".tmp" --ignore "node_modules"'
+let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules"'
 let g:unite_source_grep_recursive_opt = ''
 call unite#filters#matcher_default#use(['matcher_fuzzy', 'converter_relative_word'])
 call unite#filters#sorter_default#use(['sorter_rank'])
@@ -384,7 +387,8 @@ augroup georges_autocommands " {
   autocmd FileType less setlocal iskeyword+=-
   autocmd FileType html setlocal iskeyword+=-
   autocmd FileType jade setlocal iskeyword+=-
-
+  au BufLeave * if !&diff | let b:winview = winsaveview() | endif
+  au BufEnter * if exists('b:winview') && !&diff | call   winrestview(b:winview) | endif
   autocmd * nnoremap s :write<cr>:echo strftime("%I:%M:%S %p")<cr>
 augroup END " }
 

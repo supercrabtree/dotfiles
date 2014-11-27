@@ -24,7 +24,36 @@
          -->
         <autogen>--KeyToKey-- KeyCode::SPACE, ModifierFlag::SHIFT_R, KeyCode::KEY_0, ModifierFlag::SHIFT_L, KeyCode::SPACE</autogen>
     </item>
+    <item>
+		<name>Ctrl hjkl as Arrow keys</name>
+		<appendix>Ctrl hjkl as Arrow keys</appendix>
 
+		<identifier>space_cadet.hjkl</identifier>
+		<autogen>
+	        --KeyToKey--
+	        KeyCode::H, ModifierFlag::CONTROL_L,
+
+	        KeyCode::CURSOR_LEFT
+		</autogen>
+		<autogen>
+	        --KeyToKey--
+	        KeyCode::J, ModifierFlag::CONTROL_L,
+
+	        KeyCode::CURSOR_DOWN
+		</autogen>
+		<autogen>
+	        --KeyToKey--
+	        KeyCode::K, ModifierFlag::CONTROL_L,
+
+	        KeyCode::CURSOR_UP
+		</autogen>
+		<autogen>
+	        --KeyToKey--
+	        KeyCode::L, ModifierFlag::CONTROL_L,
+
+	        KeyCode::CURSOR_RIGHT
+		</autogen>
+	</item>
     <item>
       <name>Remap Left Control to Hyper</name>
       <appendix>OS X doesn't have a Hyper. This maps Left Control to Control + Shift + Option + Command.</appendix>

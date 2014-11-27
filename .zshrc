@@ -102,9 +102,11 @@ pr() {
 }
 
 gvim() {
-  vim `git status --porcelain | sed -ne 's/^ M //p'`
+  vim `git ls-files -m`
 }
-
+cvim() {
+ vim `git diff --name-only --diff-filter=U`
+}
 mygit() {
   if [ -f './.git/config' ];
   then

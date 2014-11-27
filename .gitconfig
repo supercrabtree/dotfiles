@@ -1,0 +1,11 @@
+[user]
+  name = George Crabtree
+  email = supercrabtree@googlemail.com
+[core]
+  excludesfile = /Users/supercrabtree/.gitignore
+[pull]
+  rebase = true
+[push]
+	default = current
+[alias]
+  c = commit

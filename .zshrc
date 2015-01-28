@@ -14,10 +14,11 @@ antigen apply
 
 # ansiweather
 
-source ~/.vimlocation
+# source ~/.vimlocation
 source ~/dev/k/k.sh
 
 export SHELL=/bin/zsh
+export GOPATH=$HOME/dev/go
 
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
@@ -31,16 +32,17 @@ export PATH=$PATH:/sbin
 export PATH=$PATH:/usr/local/git/bin
 export PATH=$PATH:/usr/local/heroku/bin
 export PATH=$PATH:$HOME/npm/bin
+export PATH=$PATH:$GOPATH/bin
 
 export GIT_MERGE_AUTOEDIT=no
-export GIT_EDITOR=$VIM
-export VISUAL=$VIM
-export EDITOR=$VIM
+export GIT_EDITOR=vim
+export VISUAL=vim
+export EDITOR=vim
 export BACKGROUND=dark
 
 export MYZSHRC='~/.zshrc'
 
-alias vim=$VIM
+# alias vim=vim
 alias zshrc="vim ~/.zshrc"
 alias vimrc='vim ~/.vimrc'
 alias dev="cd ~/dev"
@@ -49,12 +51,16 @@ alias gulp='nocorrect gulp'
 alias reload='source ~/.zshrc'
 alias v="vim"
 alias o="open ."
+alias deploy="./deploy.sh"
 
 alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
 alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
 alias grc='git add -A && git rebase --continue'
 alias gc='git commit'
 alias gaa='git add -A'
+alias nw='/Applications/node-webkit.app/Contents/MacOS/node-webkit .'
+
+alias clearvim='rm -rf ~/.vim/tmp/*'
 
 zmodload zsh/mathfunc
 autoload zmv
@@ -77,6 +83,13 @@ gl() {
   fi
   git --no-pager log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)%d" "-$LINES"
 }
+glb() {
+  LINES=20
+  if [ $1 ]; then
+    LINES=$1
+  fi
+  git --no-pager log --decorate --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)%d" "-$LINES"
+}
 killport() {
   PORT=$1
   lsof -P | grep ':$PORT' | awk '{print $2}' | xargs kill -9
@@ -85,7 +98,7 @@ pr() {
   if [ $1 ]; then
     MESSAGE=$1
   else
-    MESSAGE=$(git log -1 --pretty=%s)
+    MESSAGE=$(git rev-parse --abbrev-ref HEAD)
   fi
   echo $MESSAGE
   if [ $2 ]; then
@@ -125,7 +138,7 @@ g() {
   if [[ $# > 0 ]]; then
     git $@
   else
-    git status -s 
+    git status -s
   fi
 }
 # Complete g like git
@@ -183,7 +196,7 @@ play() {
     fi
     cd ~/dev/yeah && mkdir $NAME && cd $_
     yo $1
-    vim .
+    vim
   else
     cd ~/dev/yeah && mkdir yeah-$[($RANDOM % 13843) + 1] && cd $_
   fi
@@ -263,11 +276,11 @@ bindkey '^Z' fancy-ctrl-z
 
 # Pixformance stuff
 # ------------------------------------------------------------------------------
-export PIX_ROOT="$HOME/dev"
-export PIX_FRONTEND="$PIX_ROOT/pix-frontend"
-export PIX_BACKEND="$PIX_ROOT/pix-backend"
-export PIX_WIKI="$PIX_ROOT/pix-backend.wiki"
-export PIX_SUB="$PIX_ROOT/pix-sub"
+export PIX_ROOT="$HOME/dev/pix"
+export PIX_FRONTEND="$PIX_ROOT/web.platform"
+export PIX_BACKEND="$PIX_ROOT/api.services"
+export PIX_WIKI="$PIX_ROOT/api.services.wiki"
+export PIX_SUB="$PIX_ROOT/dev.pixsub"
 #Use the line below fitting your ruby version manager
 #For RVM
 #RVM is no longer supported. Please use Rbenv instead.

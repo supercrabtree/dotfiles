@@ -12,7 +12,7 @@ Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/neomru.vim'
 
-" pope stack
+" Pope stack
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
@@ -48,7 +48,6 @@ Plugin 'takac/vim-hardtime'
 Plugin 'csscomb/vim-csscomb'
 Plugin 'wavded/vim-stylus'
 Plugin 'vim-scripts/AutoComplPop'
-Plugin 'kien/rainbow_parentheses.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -244,39 +243,17 @@ function! g:CopyTheText()
   let @z = old_z
 endfunction
 
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
 
 " Vim Settings -----------------------------------------------------------------
 set t_Co=256
 set encoding=utf-8
 set term=xterm-256color
 set laststatus=2         " always show status bar
-set number               " show the current line number rather than zero
+set number               " show the current line number
 set cursorline           " highlight current cursor line
 set hlsearch             " highlight search results
 set incsearch            " incremental search
-set timeoutlen=700      " set no timeout when swapping modes
+set timeoutlen=700       " set no timeout when swapping modes
 set ttimeoutlen=0
 set nowrap               " no line wrap
 set textwidth=0          " settings to stop automatic line wrapping when typing
@@ -446,4 +423,3 @@ hi jadeNbsp ctermfg=65
 
 
 syntax enable
-

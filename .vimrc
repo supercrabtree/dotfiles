@@ -18,6 +18,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rsi'
+Plugin 'tpope/vim-dispatch'
 
 " Usability
 Plugin 'moll/vim-bbye'
@@ -48,6 +49,10 @@ Plugin 'takac/vim-hardtime'
 Plugin 'csscomb/vim-csscomb'
 Plugin 'wavded/vim-stylus'
 Plugin 'vim-scripts/AutoComplPop'
+Plugin 'mbbill/undotree'
+Plugin 'chrisbra/Recover.vim'
+" Plugin 'dahu/SearchParty'
+
 
 call vundle#end()
 filetype plugin indent on
@@ -56,16 +61,7 @@ filetype plugin indent on
 " Keyboard Shortcuts -----------------------------------------------------------
 imap jj <esc>
 
-" auto select from AutoComplPop menu
-" imap <expr> . pumvisible() ? '<cr>.' : '.'
-" imap <expr> , pumvisible() ? '<cr>,' : ','
-" imap <expr> ( pumvisible() ? '<cr>(' : '('
-" imap <expr> [ pumvisible() ? '<cr>[' : '['
-" imap <expr> / pumvisible() ? '<cr>/' : '/'
-" imap <expr> <space> pumvisible() ? '<cr><space>' : '<space>'
-
-
-" use minus to interact with the copy clipboard
+" use minus to interact with the system clipboard
 vmap - :<c-u>call g:CopyTheText()<cr>
 nmap - :r !pbpaste<cr>
 
@@ -76,6 +72,14 @@ nmap dk k
 " faster navigation
 nmap J 5j
 nmap K 5k
+
+" Bubble single lines
+" nmap ^[[18;2~ ddkP
+" nmap ^[[17;2~ ddp
+
+" " Bubble multiple lines
+" vmap ^[[18;2~ xkP`[V`]
+" vmap ^[[17;2~ xp`[V`]
 
 " now give join back
 nmap + mzj0d^i<bs><esc>`z
@@ -91,6 +95,15 @@ nmap <silent> <left> <c-^>
 " ctrl-no
 nmap <silent> <c-n> :Bdelete<cr>
 
+" allow suspension in insert mode
+imap <c-z> <esc><c-z>
+
+" fixes word from autocompleting
+imap <c-y> <esc>klylji<c-r>0<right><bs>
+
+" fixes word from autocompleting
+imap <C-^> <esc>jlylki<c-r>0<right><bs>
+
 " don't jumo to the next word, thats really annoying
 nnoremap * *N
 nnoremap # #N
@@ -104,6 +117,8 @@ nnoremap Y y$
 " quick jump
 nnoremap <cr> G
 
+" redindent pasting
+nnoremap p p=`]
 " replay last command
 nnoremap !! :<Up><CR>
 
@@ -117,6 +132,15 @@ nmap <space>aa f)i
 " debugger toggle
 nmap <space>d <esc>odebugger;<esc>==
 
+" make use strict javascript
+nmap <space>us mzggO'use strict';<cr><esc>`z
+
+" Test
+" nmap <c-t> :w<cr>:!clear && npm test<cr>
+" imap <c-t> <esc>:w<cr>:!clear && npm test<cr>
+nmap <c-t> :w<cr>:Dispatch<cr>
+imap <c-t> <esc>:w<cr>:Dispatch<cr>
+
 " toggle bufline
 
 " show highlight group under cursor
@@ -128,6 +152,8 @@ nmap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> 
 map <space>ms :mksession! ~/.vim/sessions/default <cr>
 map <space>ls :source ~/.vim/sessions/default <cr>
 
+imap <c-x><right> <c-x><c-l>
+
 " Plugin Settings --------------------------------------------------------------
 " sneak
 nmap f <Plug>Sneak_f
@@ -136,6 +162,19 @@ xmap f <Plug>Sneak_f
 xmap F <Plug>Sneak_F
 omap f <Plug>Sneak_f
 omap F <Plug>Sneak_F
+
+" Undotree
+nmap <space>ut :UndotreeToggle<cr>
+let g:undotree_SplitWidth = 40
+let g:undotree_DiffpanelHeight = 18
+let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_WindowLayout = 2
+function g:Undotree_CustomMap()
+    map <buffer> <down> J
+    map <buffer> <up> K
+    map <buffer> C <nop>
+    map <buffer> gg ggjj
+endfunction
 
 " Hardtime
 " let g:hardtime_default_on = 0
@@ -156,9 +195,15 @@ let delimitMate_expand_cr = 1
 " javascript-libraries-syntax
 let g:used_javascript_libs = 'underscore,angularjs,angularui'
 
+" Dispatch
+augroup dispatch
+  autocmd!
+  autocmd FileType javascript let b:dispatch = 'npm test'
+augroup END
+
 " Unite
 nmap <space>f          :Unite -start-insert file_rec/async:!<cr>
-nmap <space>r          :Unite               file_mru<cr>
+nmap <space>r          :Unite -start-insert file_mru<cr>
 nmap <space>b          :Unite -quick-match  buffer<cr>
 nmap <space>h          :Unite -no-split     file<cr>
 nmap <space>y          :Unite               history/yank<cr>
@@ -223,6 +268,19 @@ call unite#custom#source('buffer', 'converters', 'my_converter')
 
 
 " Functions --------------------------------------------------------------------
+function s:MkNonExDir(file, buf)
+  if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+    let dir=fnamemodify(a:file, ':h')
+    if !isdirectory(dir)
+      call mkdir(dir, 'p')
+    endif
+  endif
+endfunction
+
+function! AdjustWindowHeight(minheight, maxheight)
+  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
+
 function! s:RevealInFinder()
   if filereadable(expand("%"))
     let l:command = "open -R %"
@@ -243,6 +301,28 @@ function! g:CopyTheText()
   let @z = old_z
 endfunction
 
+" show search count in status line
+let s:prevcountcache=[[], 0]
+function! ShowCount()
+    let key=[@/, b:changedtick]
+    if s:prevcountcache[0]==#key
+        return s:prevcountcache[1]
+    endif
+    let s:prevcountcache[0]=key
+    let s:prevcountcache[1]=0
+    let pos=getpos('.')
+    try
+        redir => subscount
+        silent %s///gne
+        redir END
+        let result=matchstr(subscount, '\d\+')
+        let s:prevcountcache[1]=result
+        return result
+    finally
+        call setpos('.', pos)
+    endtry
+endfunction
+
 
 " Vim Settings -----------------------------------------------------------------
 set t_Co=256
@@ -258,7 +338,7 @@ set ttimeoutlen=0
 set nowrap               " no line wrap
 set textwidth=0          " settings to stop automatic line wrapping when typing
 set wrapmargin=0
-" set mouse=a              " gimme mouse
+set mouse=a              " gimme mouse
 set backspace=2          " let the backspace work normally
 set splitbelow           " new split panes always on the bottom
 set splitright           " new split panes always on the right
@@ -271,6 +351,7 @@ set backupdir=~/.vim/tmp " don't dirty up my repos
 set directory=~/.vim/tmp
 set undodir=~/.vim/undo  " holy sheeet persistant undo
 set undofile
+set undolevels=10000     " howmany undos per file
 set nostartofline        " dont move the cursor to the start of a line when switching buffers
 set lazyredraw           " dont redraw when executing macros
 set list                 " show me those ugly chars so i can kill them
@@ -281,11 +362,12 @@ set smartcase            " pig == PIG, Pig == Pig, but Pig != pig
 " set clipboard=unnamed    " share the clipboard
 set expandtab            " white space
 set completeopt-=preview " dont show annoying preview window
-set fillchars=vert:\ 
+set fillchars=vert:\|
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set colorcolumn=81
+set history=1000
 " set ve=all             " allow cursor to move anywhere
 " set breakindent          " fancy line indenting on text wrap
 
@@ -293,6 +375,8 @@ set colorcolumn=81
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
 
 " Status Line ------------------------------------------------------------------
@@ -302,7 +386,8 @@ set statusline+=%c\|%p%%                  " percentage through file
 set statusline+=%<\                       " when the winow is too narrow, cut it here
 set statusline+=%f\                       " path & filename
 set statusline+=%=                        " align from here on to the right
-set statusline+=%{getcwd()}               " show current working directory of vim instance
+set statusline+=%{getcwd()}\                " show current working directory of vim instance
+set statusline+=%{ShowCount()}
 
 " Auto Commands ----------------------------------------------------------------
 augroup georges_autocommands
@@ -348,6 +433,13 @@ augroup georges_autocommands
 
   au BufLeave * if !&diff | let b:winview = winsaveview() | endif
   au BufEnter * if exists('b:winview') && !&diff | call   winrestview(b:winview) | endif
+
+  autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+
+  au FileType qf call AdjustWindowHeight(3, 35)
+
+  " <cr> is mapped to G normally, not so good here
+  autocmd CmdwinEnter * nnoremap <buffer> <cr> <cr>
 augroup END
 
 

@@ -5,14 +5,14 @@ antigen use oh-my-zsh
 antigen bundle command-not-found
 antigen bundle z
 antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle supercrabtree/ansiweather
+antigen bundle mollifier/cd-gitroot
+antigen bundle akoenig/gulp-autocompletion-zsh
 
 antigen theme supercrabtree/pure pure
 
 antigen apply
 
 
-# ansiweather
 
 # source ~/.vimlocation
 source ~/dev/k/k.sh
@@ -46,10 +46,8 @@ export MYZSHRC='~/.zshrc'
 alias zshrc="vim ~/.zshrc"
 alias vimrc='vim ~/.vimrc'
 alias dev="cd ~/dev"
-alias gulp='nocorrect gulp'
 # alias mongod='nocorrect mongod'
 alias reload='source ~/.zshrc'
-alias v="vim"
 alias o="open ."
 alias deploy="./deploy.sh"
 
@@ -57,12 +55,15 @@ alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(
 alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
 alias grc='git add -A && git rebase --continue'
 alias gc='git commit'
+alias gca='git add -A && git commit -av'
 alias gaa='git add -A'
 alias nw='/Applications/node-webkit.app/Contents/MacOS/node-webkit .'
 
 alias clearvim='rm -rf ~/.vim/tmp/*'
 alias k="k -a"
 alias l="k -a --no-vcs"
+alias rm="trash"
+alias cdr='cd-gitroot'
 
 zmodload zsh/mathfunc
 autoload zmv
@@ -266,6 +267,13 @@ rt () {
   if [ $sayIt = 'true' ]; then
     `say $res -r 220`
   fi
+}
+
+ssh-pix () {
+  echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_pix_rsa\n' > ~/.ssh/config
+}
+ssh-me () {
+  echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n' > ~/.ssh/config
 }
 
 fancy-ctrl-z () {

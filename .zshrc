@@ -7,6 +7,7 @@ antigen bundle z
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle mollifier/cd-gitroot
 antigen bundle akoenig/gulp-autocompletion-zsh
+antigen bundle tarruda/zsh-autosuggestions
 
 antigen theme supercrabtree/pure pure
 
@@ -41,6 +42,7 @@ export EDITOR=vim
 export BACKGROUND=dark
 
 export MYZSHRC='~/.zshrc'
+export SSHIDENT=pix
 
 # alias vim=vim
 alias zshrc="vim ~/.zshrc"
@@ -67,6 +69,11 @@ alias cdr='cd-gitroot'
 
 zmodload zsh/mathfunc
 autoload zmv
+
+# zle-line-init() {
+#     zle autosuggest-start
+# }
+# zle -N zle-line-init
 
 ff() {
   if [ $1 ]; then
@@ -276,6 +283,20 @@ ssh-me () {
   echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n' > ~/.ssh/config
 }
 
+ssh-toggle() {
+  if [ $SSHIDENT = "pix" ]
+  then
+    export SSHIDENT=me
+    echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n' > ~/.ssh/config
+    echo "\n\033[38;5;242;mUsing ssh key\033[0m ~/.ssh/id_rsa"
+  else
+    export SSHIDENT=pix
+    echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_pix_rsa\n' > ~/.ssh/config
+    echo "\n\033[38;5;242;mUsing ssh key\033[0m ~/.ssh/id_pix_rsa"
+  fi
+}
+alias st='ssh-toggle'
+
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
     BUFFER="fg"
@@ -285,6 +306,7 @@ fancy-ctrl-z () {
     zle clear-screen
   fi
 }
+
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 

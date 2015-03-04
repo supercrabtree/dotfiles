@@ -1,4 +1,4 @@
-source ~/dev/dotfiles/antigen/antigen.zsh
+source ~/dev/antigen/antigen.zsh
 
 antigen use oh-my-zsh
 
@@ -21,18 +21,20 @@ source ~/dev/k/k.sh
 export SHELL=/bin/zsh
 export GOPATH=$HOME/dev/go
 
+export PATH=$PATH:/usr/local/bin/git
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:$HOME/npm/bin
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:/bin/usr/local/share/npm/bin
+# export PATH=$PATH:$HOME/.rvm/bin
 export PATH=$PATH:/usr/bin
 export PATH=$PATH:/bin
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/sbin
 export PATH=$PATH:/usr/local/git/bin
 export PATH=$PATH:/usr/local/heroku/bin
-export PATH=$PATH:$HOME/npm/bin
+export PATH=$PATH:$HOME/.npm/bin
 export PATH=$PATH:$GOPATH/bin
 
 export GIT_MERGE_AUTOEDIT=no
@@ -64,7 +66,6 @@ alias nw='/Applications/node-webkit.app/Contents/MacOS/node-webkit .'
 alias clearvim='rm -rf ~/.vim/tmp/*'
 alias k="k -a"
 alias l="k -a --no-vcs"
-alias rm="trash"
 alias cdr='cd-gitroot'
 
 zmodload zsh/mathfunc
@@ -324,5 +325,5 @@ export PIX_SUB="$PIX_ROOT/dev.pixsub"
 export RUBY_SERVER_SCRIPT_COMMAND="bundle exec rails server"
 #The init script
 eval "$($PIX_SUB/bin/pix init -)"
-#Rbenv
-eval "$(rbenv init -)"
+
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

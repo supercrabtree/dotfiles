@@ -33,7 +33,6 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'pangloss/vim-javascript'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'marijnh/tern_for_vim'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'groenewege/vim-less'
 Plugin 'fatih/vim-go'
@@ -46,63 +45,61 @@ Plugin 'thinca/vim-textobj-function-javascript'
 
 " Trialing/tmp
 Plugin 'takac/vim-hardtime'
-Plugin 'csscomb/vim-csscomb'
 Plugin 'wavded/vim-stylus'
 Plugin 'vim-scripts/AutoComplPop'
 Plugin 'mbbill/undotree'
 Plugin 'chrisbra/Recover.vim'
-" Plugin 'dahu/SearchParty'
-
 
 call vundle#end()
 filetype plugin indent on
 
+runtime macros/matchit.vim
 
 " Keyboard Shortcuts -----------------------------------------------------------
-imap jj <esc>
+inoremap jj <esc>
 
 " use minus to interact with the system clipboard
-vmap - :<c-u>call g:CopyTheText()<cr>
-nmap - :r !pbpaste<cr>
+vnoremap - :<c-u>call g:CopyTheText()<cr>
+nnoremap - :r !pbpaste<cr>
 
 " i am always deleting lines
-nmap dj j
-nmap dk k
+nnoremap dj j
+nnoremap dk k
 
 " faster navigation
-nmap J 5j
-nmap K 5k
-
-" Bubble single lines
-" nmap ^[[18;2~ ddkP
-" nmap ^[[17;2~ ddp
-
-" " Bubble multiple lines
-" vmap ^[[18;2~ xkP`[V`]
-" vmap ^[[17;2~ xp`[V`]
+nnoremap J 5j
+nnoremap K 5k
 
 " now give join back
-nmap + mzj0d^i<bs><esc>`z
+nnoremap + mzj0d^i<bs><esc>`z
+
+" Bubble single lines
+nnoremap <esc>[17;2~ ddkP
+nnoremap <esc>[18;2~ ddp
+
+" " Bubble multiple lines
+vnoremap <esc>[18;2~ xp`[V`]
+vnoremap <esc>[17;2~ xkP`[V`]
 
 " clear search highlights and refresh screen
-nmap <silent> <bs> :noh<cr>:redraw<cr>jk
+nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk
 
 " rapid buffer nav
-nmap <silent> <down> :bprevious<cr>
-nmap <silent> <up> :bnext<cr>
-nmap <silent> <left> <c-^>
+nnoremap <silent> <down> :bprevious<cr>
+nnoremap <silent> <up> :bnext<cr>
+nnoremap <silent> <left> <c-^>
 
 " ctrl-no
-nmap <silent> <c-n> :Bdelete<cr>
+nnoremap <silent> <c-n> :Bdelete<cr>
 
 " allow suspension in insert mode
-imap <c-z> <esc><c-z>
+inoremap <c-z> <esc><c-z>
 
 " fixes word from autocompleting
-imap <c-y> <esc>klylji<c-r>0<right><bs>
+inoremap <c-y> <esc>klylji<c-r>0<right><bs>
 
 " fixes word from autocompleting
-imap <C-^> <esc>jlylki<c-r>0<right><bs>
+inoremap <C-^> <esc>jlylki<c-r>0<right><bs>
 
 " don't jumo to the next word, thats really annoying
 nnoremap * *N
@@ -124,27 +121,31 @@ nnoremap !! :<Up><CR>
 
 " Leaders
 " append function parameter
-nmap <space>af 0/function.*<cr>:silent noh<cr>f(%i
+nnoremap <space>af 0/function.*<cr>:silent noh<cr>f(%i
+
+" show cwd
+nnoremap <space>cwd :echo getcwd()<cr>
 
 " append parameter
-nmap <space>aa f)i
+nnoremap <space>aa f)i
 
 " debugger toggle
-nmap <space>d <esc>odebugger;<esc>==
+" nnoremap <space>d <esc>odebugger;<esc>==
+nnoremap <silent> <space>d :ToggleDebugger<cr>
 
 " make use strict javascript
-nmap <space>us mzggO'use strict';<cr><esc>`z
+nnoremap <space>us mzggO'use strict';<cr><esc>`z
 
 " Test
-" nmap <c-t> :w<cr>:!clear && npm test<cr>
-" imap <c-t> <esc>:w<cr>:!clear && npm test<cr>
-nmap <c-t> :w<cr>:Dispatch<cr>
-imap <c-t> <esc>:w<cr>:Dispatch<cr>
+" nnoremap <c-t> :w<cr>:!clear && npm test<cr>
+" inoremap <c-t> <esc>:w<cr>:!clear && npm test<cr>
+nnoremap <c-t> :w<cr>:Dispatch<cr>
+inoremap <c-t> <esc>:w<cr>:Dispatch<cr>
 
 " toggle bufline
 
 " show highlight group under cursor
-nmap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
@@ -152,28 +153,28 @@ nmap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> 
 map <space>ms :mksession! ~/.vim/sessions/default <cr>
 map <space>ls :source ~/.vim/sessions/default <cr>
 
-imap <c-x><right> <c-x><c-l>
+inoremap <c-x><right> <c-x><c-l>
 
 " Plugin Settings --------------------------------------------------------------
 " sneak
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
+nnoremap f <Plug>Sneak_f
+nnoremap F <Plug>Sneak_F
+xnoremap f <Plug>Sneak_f
+xnoremap F <Plug>Sneak_F
+onoremap f <Plug>Sneak_f
+onoremap F <Plug>Sneak_F
 
 " Undotree
-nmap <space>ut :UndotreeToggle<cr>
+nnoremap <space>ut :UndotreeToggle<cr>
 let g:undotree_SplitWidth = 40
 let g:undotree_DiffpanelHeight = 18
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
 function g:Undotree_CustomMap()
-    map <buffer> <down> J
-    map <buffer> <up> K
-    map <buffer> C <nop>
-    map <buffer> gg ggjj
+    noremap <buffer> <down> J
+    noremap <buffer> <up> K
+    noremap <buffer> C <nop>
+    noremap <buffer> gg ggjj
 endfunction
 
 " Hardtime
@@ -202,20 +203,20 @@ augroup dispatch
 augroup END
 
 " Unite
-nmap <space>f          :Unite -start-insert file_rec/async:!<cr>
-nmap <space>r          :Unite -start-insert file_mru<cr>
-nmap <space>b          :Unite -quick-match  buffer<cr>
-nmap <space>h          :Unite -no-split     file<cr>
-nmap <space>y          :Unite               history/yank<cr>
+nnoremap <space>f          :Unite -start-insert file_rec/async:!<cr>
+nnoremap <space>r          :Unite -start-insert file_mru<cr>
+nnoremap <space>b          :Unite -quick-match  buffer<cr>
+nnoremap <space>h          :Unite -no-split     file<cr>
+nnoremap <space>y          :Unite               history/yank<cr>
 
 " Notes
-nmap <space>j          :Unite -path=/Users/supercrabtree/Dropbox/Notes file<cr>
+nnoremap <space>j          :Unite -path=/Users/supercrabtree/Dropbox/Notes file<cr>
 
 " Grep
-nmap <space>g          :Unite -auto-preview -no-split -smartcase -no-empty grep:.<cr>
-nmap <space>G          :Unite -auto-preview -no-split -smartcase -no-empty grep:$buffers<cr>
-nmap <space>k :execute 'Unite grep:.::' . expand("<cword>") . ' -auto-preview -no-split -smartcase -no-empty'<cr>
-nmap <space>K :execute 'Unite grep:$buffers::' . expand("<cword>") . ' -auto-preview -no-split -smartcase -no-empty'<cr>
+nnoremap <space>g          :Unite -auto-preview -no-split -smartcase -no-empty grep:.<cr>
+nnoremap <space>G          :Unite -auto-preview -no-split -smartcase -no-empty grep:$buffers<cr>
+nnoremap <space>k :execute 'Unite grep:.::' . expand("<cword>") . ' -auto-preview -no-split -smartcase -no-empty'<cr>
+nnoremap <space>K :execute 'Unite grep:$buffers::' . expand("<cword>") . ' -auto-preview -no-split -smartcase -no-empty'<cr>
 
 " Custom mappings for the unite buffer
 function! s:unite_settings()
@@ -268,6 +269,19 @@ call unite#custom#source('buffer', 'converters', 'my_converter')
 
 
 " Functions --------------------------------------------------------------------
+function! s:ToggleDebuggerStatement()
+  let current_line = getline('.')
+  let found =  matchstr(current_line, '\s*\S*')
+  if empty(found)
+    normal ccdebugger;
+  elseif !empty(matchstr(found, '\s*debugger;'))
+    normal ddk
+  else
+    normal odebugger;
+  endif
+endfunction
+command! ToggleDebugger call <SID>ToggleDebuggerStatement()
+
 function s:MkNonExDir(file, buf)
   if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
     let dir=fnamemodify(a:file, ':h')
@@ -301,7 +315,7 @@ function! g:CopyTheText()
   let @z = old_z
 endfunction
 
-" show search count in status line
+" " show search count in status line
 let s:prevcountcache=[[], 0]
 function! ShowCount()
     let key=[@/, b:changedtick]
@@ -315,7 +329,7 @@ function! ShowCount()
         redir => subscount
         silent %s///gne
         redir END
-        let result=matchstr(subscount, '\d\+')
+        let result='|x'.matchstr(subscount, '\d\+')
         let s:prevcountcache[1]=result
         return result
     finally
@@ -339,7 +353,6 @@ set nowrap               " no line wrap
 set textwidth=0          " settings to stop automatic line wrapping when typing
 set wrapmargin=0
 set mouse=a              " gimme mouse
-set backspace=2          " let the backspace work normally
 set splitbelow           " new split panes always on the bottom
 set splitright           " new split panes always on the right
 set scrolloff=3          " always keep some context when moving about
@@ -359,35 +372,35 @@ set listchars=tab:❯—,nbsp:§
 set synmaxcol=800        " Don't try to highlight lines longer than 800 characters.
 set ignorecase           " case insensitive search
 set smartcase            " pig == PIG, Pig == Pig, but Pig != pig
-" set clipboard=unnamed    " share the clipboard
+set clipboard=unnamed    " share the clipboard
 set expandtab            " white space
 set completeopt-=preview " dont show annoying preview window
+set backspace=indent,eol,start         " let the backspace work normally
 set fillchars=vert:\|
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set colorcolumn=81
 set history=1000
-" set ve=all             " allow cursor to move anywhere
-" set breakindent          " fancy line indenting on text wrap
+set wildmenu
 
 " different cursor shapes for insert mode
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+" let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
 
 " Status Line ------------------------------------------------------------------
 set statusline=
 set statusline+=%*[%n%H%M%R%W]%*\         " flags and buf no
 set statusline+=%c\|%p%%                  " percentage through file
-set statusline+=%<\                       " when the winow is too narrow, cut it here
-set statusline+=%f\                       " path & filename
+set statusline+=%{ShowCount()}\           " show last search count
+" set statusline+=%{getcwd()}\             " show current working directory of vim instance
+set statusline+=%<                        " when the winow is too narrow, cut it here
+set statusline+=%f                        " path & filename
 set statusline+=%=                        " align from here on to the right
-set statusline+=%{getcwd()}\                " show current working directory of vim instance
-set statusline+=%{ShowCount()}
 
 " Auto Commands ----------------------------------------------------------------
 augroup georges_autocommands
@@ -414,9 +427,6 @@ augroup georges_autocommands
   " auto create global marks when leaving
   autocmd BufLeave,BufWritePost $MYVIMRC normal! mV
   autocmd BufLeave,BufWritePost $MYZSHRC normal! mZ
-
-  " help file in a right slit please
-  autocmd FileType help wincmd L
 
   " css completion
   autocmd FileType css setlocal iskeyword+=-
@@ -512,6 +522,5 @@ hi jsFutureKeys ctermfg=124
 " custom sytax varibles
 syn match jadeNbsp "nbsp"
 hi jadeNbsp ctermfg=65
-
 
 syntax enable

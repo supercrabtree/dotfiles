@@ -69,6 +69,20 @@
 
       </item>
       <item>
+        <name>Left Ctrl and Backspace to Del</name>
+        <appendix>Unused and so now a bit easier to type</appendix>
+
+        <identifier>space_cadet.left_control_and_backspace_to_del</identifier>
+
+        <autogen>
+          --KeyToKey--
+          KeyCode::DELETE, ModifierFlag::CONTROL_L,
+
+          KeyCode::DELETE, ModifierFlag::FN 
+        </autogen>
+
+      </item>
+      <item>
         <name>Remap Left Control to Hyper</name>
         <appendix>OS X doesn't have a Hyper. This maps Left Control to Control + Shift + Option + Command.</appendix>
 
@@ -76,7 +90,7 @@
 
         <autogen>
           --KeyToKey--
-          KeyCode::F19,
+          KeyCode::CONTROL_L,
 
           KeyCode::COMMAND_L,
           ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L

@@ -4,10 +4,12 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" Plugins ----------------------------------------------------------------------
+
+" Plugins
+" ------------------------------------------------------------------------------
 Plugin 'gmarik/Vundle.vim'
 
-"Unite
+" Unite
 Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/neomru.vim'
@@ -15,10 +17,9 @@ Plugin 'Shougo/neomru.vim'
 " Pope stack
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rsi'
-Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-obsession'
 
 " Usability
 Plugin 'moll/vim-bbye'
@@ -26,45 +27,94 @@ Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'justinmk/vim-sneak'
 Plugin 'AndrewRadev/linediff.vim'
 Plugin 'ap/vim-buftabline'
+Plugin 'vim-scripts/AutoComplPop'
+Plugin 'mbbill/undotree'
 
 " Language Specific
 Plugin 'digitaltoad/vim-jade'
 Plugin 'Raimondi/delimitMate'
 Plugin 'pangloss/vim-javascript'
-Plugin 'jelera/vim-javascript-syntax'
+" Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'groenewege/vim-less'
 Plugin 'fatih/vim-go'
-
-" Custom Text Objects
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-function'
-Plugin 'vim-scripts/argtextobj.vim'
-Plugin 'thinca/vim-textobj-function-javascript'
+Plugin 'wavded/vim-stylus'
 
 " Trialing/tmp
 Plugin 'takac/vim-hardtime'
-Plugin 'wavded/vim-stylus'
-Plugin 'vim-scripts/AutoComplPop'
-Plugin 'mbbill/undotree'
 Plugin 'chrisbra/Recover.vim'
+Plugin 'jaxbot/semantic-highlight.vim'
 
+Plugin 'terryma/vim-multiple-cursors'
 call vundle#end()
 filetype plugin indent on
 
 runtime macros/matchit.vim
 
-" Keyboard Shortcuts -----------------------------------------------------------
+
+" Vim Settings
+" ------------------------------------------------------------------------------
+set t_Co=256
+set encoding=utf-8
+set term=xterm-256color
+set laststatus=2               " always show status bar
+set number                     " show the current line number
+set cursorline                 " highlight current cursor line
+set hlsearch                   " highlight search results
+set incsearch                  " incremental search
+set timeoutlen=1000            " set no timeout when swapping modes
+set ttimeoutlen=0
+set nowrap                     " no line wrap
+set textwidth=0                " settings to stop automatic line wrapping when typing
+set wrapmargin=0               " hate text wrap
+set mouse=a                    " gimme mouse
+set splitbelow                 " new split panes always on the bottom
+set splitright                 " new split panes always on the right
+set scrolloff=3                " always keep some context when moving about
+set hidden                     " allow buffers to be hidden
+set showcmd                    " for easierness show the command in the bottom right
+set autoindent                 " smarter? indenting
+set nowritebackup              " off for some reason, can't remember why...
+set backupdir=~/.vim/tmp       " don't dirty up my repos
+set directory=~/.vim/tmp
+set undodir=~/.vim/undo        " holy sheeet persistant undo
+set undofile
+set undolevels=1000            " howmany undos per file
+set nostartofline              " dont move the cursor to the start of a line when switching buffers
+set lazyredraw                 " dont redraw when executing macros
+set list                       " show me those ugly chars so i can kill them
+set listchars=tab:❯—,nbsp:§
+set synmaxcol=800              " Don't try to highlight lines longer than 800 characters.
+set ignorecase                 " case insensitive search
+set smartcase                  " pig == PIG, Pig == Pig, but Pig != pig
+set clipboard=unnamed          " share the clipboard
+set expandtab                  " white space
+set completeopt-=preview       " dont show annoying preview window
+set backspace=indent,eol,start " let the backspace work normally
+set fillchars=vert:\|
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set colorcolumn=81
+set history=1000
+set wildmenu
+
+" different cursor shapes for insert mode
+if &term == 'xterm-256color' || &term == 'screen-256color'
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+if exists('$TMUX')
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+endif
+
+
+" Keyboard Shortcuts
+" ------------------------------------------------------------------------------
 inoremap jj <esc>
-
-" use minus to interact with the system clipboard
-vnoremap - :<c-u>call g:CopyTheText()<cr>
-nnoremap - :r !pbpaste<cr>
-
-" i am always deleting lines
-nnoremap dj j
-nnoremap dk k
 
 " faster navigation
 nnoremap J 5j
@@ -72,14 +122,6 @@ nnoremap K 5k
 
 " now give join back
 nnoremap + mzj0d^i<bs><esc>`z
-
-" Bubble single lines
-nnoremap <esc>[17;2~ ddkP
-nnoremap <esc>[18;2~ ddp
-
-" " Bubble multiple lines
-vnoremap <esc>[18;2~ xp`[V`]
-vnoremap <esc>[17;2~ xkP`[V`]
 
 " clear search highlights and refresh screen
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk
@@ -89,17 +131,11 @@ nnoremap <silent> <down> :bprevious<cr>
 nnoremap <silent> <up> :bnext<cr>
 nnoremap <silent> <left> <c-^>
 
-" ctrl-no
-nnoremap <silent> <c-n> :Bdelete<cr>
+" ctrl-loose
+nnoremap <silent> <right> :Bdelete<cr>
 
 " allow suspension in insert mode
 inoremap <c-z> <esc><c-z>
-
-" fixes word from autocompleting
-inoremap <c-y> <esc>klylji<c-r>0<right><bs>
-
-" fixes word from autocompleting
-inoremap <C-^> <esc>jlylki<c-r>0<right><bs>
 
 " don't jumo to the next word, thats really annoying
 nnoremap * *N
@@ -111,58 +147,63 @@ nnoremap Q @q
 " Make Y act like the other capitals
 nnoremap Y y$
 
-" quick jump
-nnoremap <cr> G
-
 " redindent pasting
 nnoremap p p=`]
+
 " replay last command
 nnoremap !! :<Up><CR>
 
-" Leaders
+
+" Space Leaders
+" ------------------------------------------------------------------------------
 " append function parameter
 nnoremap <space>af 0/function.*<cr>:silent noh<cr>f(%i
-
-" show cwd
-nnoremap <space>cwd :echo getcwd()<cr>
 
 " append parameter
 nnoremap <space>aa f)i
 
+" insert empty lines easily
+nnoremap <space>o o<esc>
+nnoremap <space>O O<esc>
+  au VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
+  au VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
+  au VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
+
 " debugger toggle
-" nnoremap <space>d <esc>odebugger;<esc>==
 nnoremap <silent> <space>d :ToggleDebugger<cr>
 
 " make use strict javascript
 nnoremap <space>us mzggO'use strict';<cr><esc>`z
 
-" Test
-" nnoremap <c-t> :w<cr>:!clear && npm test<cr>
-" inoremap <c-t> <esc>:w<cr>:!clear && npm test<cr>
-nnoremap <c-t> :w<cr>:Dispatch<cr>
-inoremap <c-t> <esc>:w<cr>:Dispatch<cr>
-
-" toggle bufline
+nnoremap <space>l :ls<cr>:b 
 
 " show highlight group under cursor
 nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
-" sessions
-map <space>ms :mksession! ~/.vim/sessions/default <cr>
-map <space>ls :source ~/.vim/sessions/default <cr>
 
-inoremap <c-x><right> <c-x><c-l>
+" Status Line
+" ------------------------------------------------------------------------------
+set statusline=
+set statusline+=%*[%n%H%M%R%W]%*\         " flags and buf no
+set statusline+=%c\|%p%%                  " percentage through file
+" set statusline+=%{ShowCount()}\         " show last search count
+" set statusline+=%{getcwd()}\            " show current working directory of vim instance
+set statusline+=%<                        " when the winow is too narrow, cut it here
+set statusline+=%f                        " path & filename
+set statusline+=%=                        " align from here on to the right
 
-" Plugin Settings --------------------------------------------------------------
-" sneak
-nnoremap f <Plug>Sneak_f
-nnoremap F <Plug>Sneak_F
-xnoremap f <Plug>Sneak_f
-xnoremap F <Plug>Sneak_F
-onoremap f <Plug>Sneak_f
-onoremap F <Plug>Sneak_F
+
+" Plugin Settings
+" ------------------------------------------------------------------------------
+" Sneak
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
 
 " Undotree
 nnoremap <space>ut :UndotreeToggle<cr>
@@ -170,18 +211,15 @@ let g:undotree_SplitWidth = 40
 let g:undotree_DiffpanelHeight = 18
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
-function g:Undotree_CustomMap()
-    noremap <buffer> <down> J
-    noremap <buffer> <up> K
-    noremap <buffer> C <nop>
-    noremap <buffer> gg ggjj
-endfunction
 
-" Hardtime
-" let g:hardtime_default_on = 0
-let g:list_of_normal_keys = ["h", "j", "k", "l"]
-let g:list_of_visual_keys = ["h", "j", "k", "l"]
-let g:list_of_insert_keys = ["h", "j", "k", "l"]
+function! g:Undotree_CustomMap()
+  noremap <buffer> <down> <nop>
+  noremap <buffer> <up> <nop>
+  noremap <buffer> <down> J
+  noremap <buffer> <up> K
+  noremap <buffer> C <nop>
+  noremap <buffer> gg ggjj
+endfunction
 
 " Bufline
 let g:buftabline_indicators=1
@@ -190,24 +228,11 @@ let g:buftabline_show=1
 " Whitespace
 let g:better_whitespace_filetypes_blacklist=['unite', 'gitcommit', 'help']
 
-" DelimitMate
-let delimitMate_expand_cr = 1
-
-" javascript-libraries-syntax
-let g:used_javascript_libs = 'underscore,angularjs,angularui'
-
-" Dispatch
-augroup dispatch
-  autocmd!
-  autocmd FileType javascript let b:dispatch = 'npm test'
-augroup END
-
 " Unite
 nnoremap <space>f          :Unite -start-insert file_rec/async:!<cr>
 nnoremap <space>r          :Unite -start-insert file_mru<cr>
-nnoremap <space>b          :Unite -quick-match  buffer<cr>
+nnoremap <space>b          :Unite -quick-match  -auto-resize buffer<cr>
 nnoremap <space>h          :Unite -no-split     file<cr>
-nnoremap <space>y          :Unite               history/yank<cr>
 
 " Notes
 nnoremap <space>j          :Unite -path=/Users/supercrabtree/Dropbox/Notes file<cr>
@@ -225,20 +250,16 @@ function! s:unite_settings()
   imap <buffer> <tab> <nop>
   imap <buffer> <down>  <Plug>(unite_select_next_line)
   imap <buffer> <up>    <Plug>(unite_select_previous_line)
-  imap <buffer> <c-n>   <Plug>(unite_toggle_mark_current_candidate)
-  nmap <buffer> <c-n>   <Plug>(unite_toggle_mark_current_candidate)
-  nmap <buffer> n       <Plug>(unite_toggle_mark_current_candidate)
+  imap <buffer> <right> <Plug>(unite_toggle_mark_current_candidate)
+  nmap <buffer> <right> <Plug>(unite_toggle_mark_current_candidate)
   imap <buffer> <right> <Plug>(unite_redraw)
   nmap <buffer> <right> <Plug>(unite_redraw)
   nmap <buffer> <C-c>   <Plug>(unite_exit)
   imap <buffer> <C-c>   <Plug>(unite_exit)
   nmap <buffer> <esc> <nop>
   nmap <buffer> q <nop>
-  " nmap <buffer> <esc>   <Plug>(unite_exit)
-  call acp#disable()
 endfunction
 
-let g:unite_source_history_yank_enable = 1
 let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules" --hidden -g ""'
 let g:unite_source_grep_command = 'ag'
 let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules"'
@@ -268,7 +289,8 @@ unlet s:filters
 call unite#custom#source('buffer', 'converters', 'my_converter')
 
 
-" Functions --------------------------------------------------------------------
+" Functions
+" ------------------------------------------------------------------------------
 function! s:ToggleDebuggerStatement()
   let current_line = getline('.')
   let found =  matchstr(current_line, '\s*\S*')
@@ -282,7 +304,7 @@ function! s:ToggleDebuggerStatement()
 endfunction
 command! ToggleDebugger call <SID>ToggleDebuggerStatement()
 
-function s:MkNonExDir(file, buf)
+function! s:MkNonExDir(file, buf)
   if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
     let dir=fnamemodify(a:file, ':h')
     if !isdirectory(dir)
@@ -337,74 +359,24 @@ function! ShowCount()
     endtry
 endfunction
 
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  exe 'AutoComplPopDisable'
+endfunction
 
-" Vim Settings -----------------------------------------------------------------
-set t_Co=256
-set encoding=utf-8
-set term=xterm-256color
-set laststatus=2         " always show status bar
-set number               " show the current line number
-set cursorline           " highlight current cursor line
-set hlsearch             " highlight search results
-set incsearch            " incremental search
-set timeoutlen=700       " set no timeout when swapping modes
-set ttimeoutlen=0
-set nowrap               " no line wrap
-set textwidth=0          " settings to stop automatic line wrapping when typing
-set wrapmargin=0
-set mouse=a              " gimme mouse
-set splitbelow           " new split panes always on the bottom
-set splitright           " new split panes always on the right
-set scrolloff=3          " always keep some context when moving about
-set hidden               " allow buffers to be hidden
-set showcmd              " for easierness show the command in the bottom right
-set autoindent           " smarter? indenting
-set nowritebackup        " off for some reason, can't remember why...
-set backupdir=~/.vim/tmp " don't dirty up my repos
-set directory=~/.vim/tmp
-set undodir=~/.vim/undo  " holy sheeet persistant undo
-set undofile
-set undolevels=10000     " howmany undos per file
-set nostartofline        " dont move the cursor to the start of a line when switching buffers
-set lazyredraw           " dont redraw when executing macros
-set list                 " show me those ugly chars so i can kill them
-set listchars=tab:❯—,nbsp:§
-set synmaxcol=800        " Don't try to highlight lines longer than 800 characters.
-set ignorecase           " case insensitive search
-set smartcase            " pig == PIG, Pig == Pig, but Pig != pig
-set clipboard=unnamed    " share the clipboard
-set expandtab            " white space
-set completeopt-=preview " dont show annoying preview window
-set backspace=indent,eol,start         " let the backspace work normally
-set fillchars=vert:\|
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set colorcolumn=81
-set history=1000
-set wildmenu
-
-" different cursor shapes for insert mode
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-
-" let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-" let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+  exe 'AutoComplPopEnable'
+endfunction
 
 
-" Status Line ------------------------------------------------------------------
-set statusline=
-set statusline+=%*[%n%H%M%R%W]%*\         " flags and buf no
-set statusline+=%c\|%p%%                  " percentage through file
-set statusline+=%{ShowCount()}\           " show last search count
-" set statusline+=%{getcwd()}\             " show current working directory of vim instance
-set statusline+=%<                        " when the winow is too narrow, cut it here
-set statusline+=%f                        " path & filename
-set statusline+=%=                        " align from here on to the right
-
-" Auto Commands ----------------------------------------------------------------
+" Auto Commands
+" ------------------------------------------------------------------------------
 augroup georges_autocommands
   autocmd!
+  " auto reload config on save
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
   autocmd FileType unite call s:unite_settings()
 
   " disable acp in unite windows
@@ -430,7 +402,9 @@ augroup georges_autocommands
 
   " css completion
   autocmd FileType css setlocal iskeyword+=-
-  autocmd FileType less setlocal iskeyword+=-
+  autocmd FileType less.css setlocal iskeyword+=-
+  autocmd FileType sass setlocal iskeyword+=-
+  autocmd FileType scss setlocal iskeyword+=-
   autocmd FileType html setlocal iskeyword+=-
   autocmd FileType jade setlocal iskeyword+=-
 
@@ -441,25 +415,23 @@ augroup georges_autocommands
   " golang
   autocmd filetype go setlocal listchars=tab:\ \ ,nbsp:§
 
-  au BufLeave * if !&diff | let b:winview = winsaveview() | endif
-  au BufEnter * if exists('b:winview') && !&diff | call   winrestview(b:winview) | endif
+  autocmd BufLeave * if !&diff | let b:winview = winsaveview() | endif
+  autocmd BufEnter * if exists('b:winview') && !&diff | call winrestview(b:winview) | endif
 
   autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 
-  au FileType qf call AdjustWindowHeight(3, 35)
+  autocmd FileType qf call AdjustWindowHeight(3, 35)
 
-  " <cr> is mapped to G normally, not so good here
-  autocmd CmdwinEnter * nnoremap <buffer> <cr> <cr>
+  " save session by default when saving
+  autocmd VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
+
 augroup END
 
-
-
-" Colors -----------------------------------------------------------------------
+" Colors
+" ------------------------------------------------------------------------------
 set background=dark
 hi clear
 syntax reset
-
-"fg=71
 
 " ui
 hi ColorColumn ctermbg=234
@@ -468,7 +440,7 @@ hi MatchParen ctermbg=none ctermfg=196
 hi SneakPluginTarget ctermbg=203 ctermfg=233
 hi SneakPluginTarget ctermbg=203 ctermfg=233
 hi LineNr ctermfg=240
-hi CursorLineNr ctermfg=255
+hi CursorLineNr ctermfg=252
 hi Search ctermbg=214 ctermfg=232
 hi IncSearch ctermfg=71 ctermbg=232
 hi ExtraWhitespace ctermbg=124
@@ -477,11 +449,15 @@ hi PMenu ctermbg=236 ctermfg=244
 hi PMenuSel ctermbg=238 ctermfg=110
 hi uniteMarkedLine ctermfg=65
 hi DiffChange ctermbg=none
+hi StatusLine ctermfg=236 ctermbg=252
 hi StatusLineNC ctermfg=234 ctermbg=240
 hi VertSplit ctermfg=234
 hi TabLine cterm=none ctermfg=235 ctermbg=234
 hi TabLineSel cterm=none ctermfg=250 ctermbg=233
 hi TabLineFill cterm=none ctermfg=235 ctermbg=234
+
+" Buftabline
+hi BufTabLineActive ctermfg=242
 
 " git
 hi diffAdded ctermfg=65
@@ -522,5 +498,24 @@ hi jsFutureKeys ctermfg=124
 " custom sytax varibles
 syn match jadeNbsp "nbsp"
 hi jadeNbsp ctermfg=65
+hi StartifyPath ctermfg=236
+hi StartifyFile ctermfg=250
+
+
+" light ------------------------------------------------------------------------
+" hi ColorColumn ctermbg=255
+" hi CursorLine ctermbg=255 cterm=none
+" hi LineNr ctermfg=240
+" hi PMenu ctermbg=254 ctermfg=236
+" hi PMenuSel ctermbg=250 ctermfg=234
+" hi uniteMarkedLine ctermfg=65
+
+" hi TabLine cterm=none ctermfg=233 ctermbg=250
+" hi TabLineSel cterm=none ctermfg=233 ctermbg=255
+" hi TabLineFill cterm=none ctermfg=255 ctermbg=256
+
+" hi StatusLine ctermfg=255 ctermbg=236
+" hi StatusLineNC ctermfg=234 ctermbg=240
+" hi VertSplit ctermfg=234
 
 syntax enable

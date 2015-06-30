@@ -13,6 +13,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'Shougo/unite.vim'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/neomru.vim'
+Plugin 'Shougo/neocomplete.vim'
 
 " Pope stack
 Plugin 'tpope/vim-commentary'
@@ -27,7 +28,6 @@ Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'justinmk/vim-sneak'
 Plugin 'AndrewRadev/linediff.vim'
 Plugin 'ap/vim-buftabline'
-Plugin 'vim-scripts/AutoComplPop'
 Plugin 'mbbill/undotree'
 
 " Language Specific
@@ -42,10 +42,10 @@ Plugin 'fatih/vim-go'
 Plugin 'wavded/vim-stylus'
 
 " Trialing/tmp
-Plugin 'takac/vim-hardtime'
+" Plugin 'takac/vim-hardtime'
 Plugin 'chrisbra/Recover.vim'
-Plugin 'jaxbot/semantic-highlight.vim'
-
+" Plugin 'jaxbot/semantic-highlight.vim'
+Plugin 'junegunn/rainbow_parentheses.vim'
 Plugin 'terryma/vim-multiple-cursors'
 call vundle#end()
 filetype plugin indent on
@@ -80,7 +80,7 @@ set backupdir=~/.vim/tmp       " don't dirty up my repos
 set directory=~/.vim/tmp
 set undodir=~/.vim/undo        " holy sheeet persistant undo
 set undofile
-set undolevels=1000            " howmany undos per file
+set undolevels=10000           " howmany undos per file
 set nostartofline              " dont move the cursor to the start of a line when switching buffers
 set lazyredraw                 " dont redraw when executing macros
 set list                       " show me those ugly chars so i can kill them
@@ -88,7 +88,7 @@ set listchars=tab:❯—,nbsp:§
 set synmaxcol=800              " Don't try to highlight lines longer than 800 characters.
 set ignorecase                 " case insensitive search
 set smartcase                  " pig == PIG, Pig == Pig, but Pig != pig
-set clipboard=unnamed          " share the clipboard
+" set clipboard=unnamed          " share the clipboard
 set expandtab                  " white space
 set completeopt-=preview       " dont show annoying preview window
 set backspace=indent,eol,start " let the backspace work normally
@@ -115,6 +115,8 @@ endif
 " Keyboard Shortcuts
 " ------------------------------------------------------------------------------
 inoremap jj <esc>
+noremap <C-C> <Esc>
+vnoremap Y y`]
 
 " faster navigation
 nnoremap J 5j
@@ -153,6 +155,15 @@ nnoremap p p=`]
 " replay last command
 nnoremap !! :<Up><CR>
 
+" use - to interact with the system keyboard
+vnoremap - :<c-u>call g:CopyTheText()<cr>
+nnoremap - :r !pbpaste<cr>
+
+" ctrl-a copies register to system clipboard
+nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>
+
+" ctrl-s to substitute
+nnoremap <c-s> :<c-u>%smagic/
 
 " Space Leaders
 " ------------------------------------------------------------------------------
@@ -165,17 +176,12 @@ nnoremap <space>aa f)i
 " insert empty lines easily
 nnoremap <space>o o<esc>
 nnoremap <space>O O<esc>
-  au VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
-  au VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
-  au VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
 
 " debugger toggle
 nnoremap <silent> <space>d :ToggleDebugger<cr>
 
 " make use strict javascript
 nnoremap <space>us mzggO'use strict';<cr><esc>`z
-
-nnoremap <space>l :ls<cr>:b 
 
 " show highlight group under cursor
 nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -187,7 +193,7 @@ nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .
 " ------------------------------------------------------------------------------
 set statusline=
 set statusline+=%*[%n%H%M%R%W]%*\         " flags and buf no
-set statusline+=%c\|%p%%                  " percentage through file
+set statusline+=%c\|%p%%\                 " percentage through file
 " set statusline+=%{ShowCount()}\         " show last search count
 " set statusline+=%{getcwd()}\            " show current working directory of vim instance
 set statusline+=%<                        " when the winow is too narrow, cut it here
@@ -228,6 +234,22 @@ let g:buftabline_show=1
 " Whitespace
 let g:better_whitespace_filetypes_blacklist=['unite', 'gitcommit', 'help']
 
+" Neocomplete
+let g:neocomplete#enable_at_startup=1
+let g:neocomplete#enable_auto_select=1
+
+nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
+
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  exe 'NeoCompleteLock'
+endfunction
+
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+  exe 'NeoCompleteUnlock'
+endfunction
+
 " Unite
 nnoremap <space>f          :Unite -start-insert file_rec/async:!<cr>
 nnoremap <space>r          :Unite -start-insert file_mru<cr>
@@ -250,8 +272,8 @@ function! s:unite_settings()
   imap <buffer> <tab> <nop>
   imap <buffer> <down>  <Plug>(unite_select_next_line)
   imap <buffer> <up>    <Plug>(unite_select_previous_line)
-  imap <buffer> <right> <Plug>(unite_toggle_mark_current_candidate)
-  nmap <buffer> <right> <Plug>(unite_toggle_mark_current_candidate)
+  imap <buffer> <c-n>   <Plug>(unite_toggle_mark_current_candidate)
+  nmap <buffer> <c-n>   <Plug>(unite_toggle_mark_current_candidate)
   imap <buffer> <right> <Plug>(unite_redraw)
   nmap <buffer> <right> <Plug>(unite_redraw)
   nmap <buffer> <C-c>   <Plug>(unite_exit)
@@ -288,6 +310,8 @@ unlet s:filters
 
 call unite#custom#source('buffer', 'converters', 'my_converter')
 
+let g:unite_source_file_rec_max_cache_files = 0
+call unite#custom#source('file_mru,file_rec,file_rec/async,grep', 'max_candidates', 0)
 
 " Functions
 " ------------------------------------------------------------------------------
@@ -359,15 +383,6 @@ function! ShowCount()
     endtry
 endfunction
 
-" Called once right before you start selecting multiple cursors
-function! Multiple_cursors_before()
-  exe 'AutoComplPopDisable'
-endfunction
-
-" Called once only when the multiple selection is canceled (default <Esc>)
-function! Multiple_cursors_after()
-  exe 'AutoComplPopEnable'
-endfunction
 
 
 " Auto Commands
@@ -378,9 +393,6 @@ augroup georges_autocommands
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
   autocmd FileType unite call s:unite_settings()
-
-  " disable acp in unite windows
-  autocmd WinEnter * :if &ft=='unite' | AcpDisable | else | AcpEnable | endif
 
   " auto source this .vimrc on save
   autocmd BufWritePost $MYVIMRC source $MYVIMRC
@@ -400,6 +412,8 @@ augroup georges_autocommands
   autocmd BufLeave,BufWritePost $MYVIMRC normal! mV
   autocmd BufLeave,BufWritePost $MYZSHRC normal! mZ
 
+  au VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
+
   " css completion
   autocmd FileType css setlocal iskeyword+=-
   autocmd FileType less.css setlocal iskeyword+=-
@@ -408,11 +422,11 @@ augroup georges_autocommands
   autocmd FileType html setlocal iskeyword+=-
   autocmd FileType jade setlocal iskeyword+=-
 
+  autocmd FileType css,css.lss,sass,scss setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 
   autocmd BufNewFile,BufRead *.less set ft=less.css
 
-  " golang
   autocmd filetype go setlocal listchars=tab:\ \ ,nbsp:§
 
   autocmd BufLeave * if !&diff | let b:winview = winsaveview() | endif

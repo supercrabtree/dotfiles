@@ -42,11 +42,14 @@ Plugin 'fatih/vim-go'
 Plugin 'wavded/vim-stylus'
 
 " Trialing/tmp
-" Plugin 'takac/vim-hardtime'
+Plugin 'takac/vim-hardtime'
 Plugin 'chrisbra/Recover.vim'
 " Plugin 'jaxbot/semantic-highlight.vim'
 Plugin 'junegunn/rainbow_parentheses.vim'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'junegunn/vim-peekaboo'
+
 call vundle#end()
 filetype plugin indent on
 
@@ -144,7 +147,13 @@ nnoremap * *N
 nnoremap # #N
 
 " get rid of Ex mode, and play the last recorded q regigster instead
-nnoremap Q @q
+nmap Q @q
+
+" map ctrl q to quit
+noremap <c-q> <esc>:<c-u>q<cr>
+
+" map ctrl s to save
+nnoremap <c-s> <esc>:<c-u>w<cr>
 
 " Make Y act like the other capitals
 nnoremap Y y$
@@ -162,8 +171,12 @@ nnoremap - :r !pbpaste<cr>
 " ctrl-a copies register to system clipboard
 nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>
 
-" ctrl-s to substitute
-nnoremap <c-s> :<c-u>%smagic/
+" " ctrl-s to substitute
+" nnoremap <c-s> :<c-u>%smagic/
+
+nnoremap gV `[V`]
+
+nnoremap gu u*<c-r>n
 
 " Space Leaders
 " ------------------------------------------------------------------------------
@@ -227,6 +240,9 @@ function! g:Undotree_CustomMap()
   noremap <buffer> gg ggjj
 endfunction
 
+" Peekaboo
+let g:peekaboo_window = 'vertical botright 40new'
+
 " Bufline
 let g:buftabline_indicators=1
 let g:buftabline_show=1
@@ -253,8 +269,8 @@ endfunction
 " Unite
 nnoremap <space>f          :Unite -start-insert file_rec/async:!<cr>
 nnoremap <space>r          :Unite -start-insert file_mru<cr>
-nnoremap <space>b          :Unite -quick-match  -auto-resize buffer<cr>
-nnoremap <space>h          :Unite -no-split     file<cr>
+nnoremap <space>b          :Unite -start-insert -auto-resize buffer<cr>
+nnoremap <space>h          :Unite -start-insert -no-split file file/new<cr>
 
 " Notes
 nnoremap <space>j          :Unite -path=/Users/supercrabtree/Dropbox/Notes file<cr>
@@ -280,6 +296,7 @@ function! s:unite_settings()
   imap <buffer> <C-c>   <Plug>(unite_exit)
   nmap <buffer> <esc> <nop>
   nmap <buffer> q <nop>
+  imap <silent><buffer><expr> <c-r>     unite#do_action('rename')
 endfunction
 
 let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules" --hidden -g ""'
@@ -419,6 +436,7 @@ augroup georges_autocommands
   autocmd FileType less.css setlocal iskeyword+=-
   autocmd FileType sass setlocal iskeyword+=-
   autocmd FileType scss setlocal iskeyword+=-
+  autocmd FileType styl setlocal iskeyword+=-
   autocmd FileType html setlocal iskeyword+=-
   autocmd FileType jade setlocal iskeyword+=-
 

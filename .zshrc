@@ -306,6 +306,15 @@ fancy-ctrl-z () {
     zle clear-screen
   fi
 }
+fancy-ctrl-q () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="vim -S"
+    zle accept-line
+  else
+    zle push-input
+    zle clear-screen
+  fi
+}
 ################################################################################
 ## fzf stuff
 export FZF_DEFAULT_OPTS="--reverse --cycle"
@@ -440,6 +449,8 @@ eval "$(gulp --completion=zsh)"
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
+zle -N fancy-ctrl-q
+bindkey '^Q' fancy-ctrl-q
 
 # Pixformance stuff
 # ------------------------------------------------------------------------------

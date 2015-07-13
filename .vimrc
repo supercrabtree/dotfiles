@@ -1,56 +1,55 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
+call plug#begin('~/.vim/plugged')
 
 " Plugins
 " ------------------------------------------------------------------------------
-Plugin 'gmarik/Vundle.vim'
 
 " Unite
-Plugin 'Shougo/unite.vim'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Shougo/neomru.vim'
-Plugin 'Shougo/neocomplete.vim'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/neocomplete.vim'
 
 " Pope stack
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-rsi'
-Plugin 'tpope/vim-obsession'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-obsession'
+
+" June Gunn
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/vim-xmark', { 'do': 'make' }
 
 " Usability
-Plugin 'moll/vim-bbye'
-Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'justinmk/vim-sneak'
-Plugin 'AndrewRadev/linediff.vim'
-Plugin 'ap/vim-buftabline'
-Plugin 'mbbill/undotree'
+Plug 'moll/vim-bbye'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'justinmk/vim-sneak'
+Plug 'AndrewRadev/linediff.vim'
+Plug 'ap/vim-buftabline'
+Plug 'mbbill/undotree'
 
 " Language Specific
-Plugin 'digitaltoad/vim-jade'
-Plugin 'Raimondi/delimitMate'
-Plugin 'pangloss/vim-javascript'
-" Plugin 'jelera/vim-javascript-syntax'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'groenewege/vim-less'
-Plugin 'fatih/vim-go'
-Plugin 'wavded/vim-stylus'
+Plug 'digitaltoad/vim-jade'
+Plug 'Raimondi/delimitMate'
+Plug 'pangloss/vim-javascript'
+" Plug 'jelera/vim-javascript-syntax'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'groenewege/vim-less'
+Plug 'fatih/vim-go'
+Plug 'wavded/vim-stylus'
 
 " Trialing/tmp
-Plugin 'takac/vim-hardtime'
-Plugin 'chrisbra/Recover.vim'
-" Plugin 'jaxbot/semantic-highlight.vim'
-Plugin 'junegunn/rainbow_parentheses.vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'junegunn/vim-peekaboo'
+Plug 'takac/vim-hardtime'
+Plug 'chrisbra/Recover.vim'
+" Plug 'jaxbot/semantic-highlight.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'airblade/vim-gitgutter'
 
-call vundle#end()
 filetype plugin indent on
 
 runtime macros/matchit.vim
@@ -254,6 +253,11 @@ let g:better_whitespace_filetypes_blacklist=['unite', 'gitcommit', 'help']
 let g:neocomplete#enable_at_startup=1
 let g:neocomplete#enable_auto_select=1
 
+call neocomplete#util#set_default_dictionary(
+  \ 'g:neocomplete#same_filetypes',
+  \ 'html,xhtml,jade', 'css,stylus,less')
+
+" Multiple Cursors
 nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
 
 " Called once right before you start selecting multiple cursors
@@ -299,9 +303,9 @@ function! s:unite_settings()
   imap <silent><buffer><expr> <c-r>     unite#do_action('rename')
 endfunction
 
-let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules" --hidden -g ""'
+let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules" --ignore "fonts" --hidden -g ""'
 let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules"'
+let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules" --ignore "fonts"'
 let g:unite_source_grep_recursive_opt = ''
 call unite#filters#matcher_default#use(['matcher_fuzzy', 'converter_relative_word'])
 call unite#filters#sorter_default#use(['sorter_rank'])
@@ -406,13 +410,7 @@ endfunction
 " ------------------------------------------------------------------------------
 augroup georges_autocommands
   autocmd!
-  " auto reload config on save
-  autocmd BufWritePost $MYVIMRC source $MYVIMRC
-
   autocmd FileType unite call s:unite_settings()
-
-  " auto source this .vimrc on save
-  autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
   " return to the last edited position when opening a file
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -429,14 +427,12 @@ augroup georges_autocommands
   autocmd BufLeave,BufWritePost $MYVIMRC normal! mV
   autocmd BufLeave,BufWritePost $MYZSHRC normal! mZ
 
-  au VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
-
   " css completion
   autocmd FileType css setlocal iskeyword+=-
   autocmd FileType less.css setlocal iskeyword+=-
   autocmd FileType sass setlocal iskeyword+=-
   autocmd FileType scss setlocal iskeyword+=-
-  autocmd FileType styl setlocal iskeyword+=-
+  autocmd FileType stylus setlocal iskeyword+=-
   autocmd FileType html setlocal iskeyword+=-
   autocmd FileType jade setlocal iskeyword+=-
 
@@ -465,6 +461,12 @@ set background=dark
 hi clear
 syntax reset
 
+" old blue 110
+
+" blue 67
+" green 65
+" bright green 71
+
 " ui
 hi ColorColumn ctermbg=234
 hi CursorLine ctermbg=234 cterm=none
@@ -478,8 +480,8 @@ hi IncSearch ctermfg=71 ctermbg=232
 hi ExtraWhitespace ctermbg=124
 hi SpellBad ctermfg=160 ctermbg=none
 hi PMenu ctermbg=236 ctermfg=244
-hi PMenuSel ctermbg=238 ctermfg=110
-hi uniteMarkedLine ctermfg=65
+hi PMenuSel ctermbg=238 ctermfg=67
+hi uniteMarkedLine ctermfg=71
 hi DiffChange ctermbg=none
 hi StatusLine ctermfg=236 ctermbg=252
 hi StatusLineNC ctermfg=234 ctermbg=240
@@ -494,7 +496,7 @@ hi BufTabLineActive ctermfg=242
 " git
 hi diffAdded ctermfg=65
 hi diffRemoved ctermfg=124
-hi gitcommitBranch ctermfg=110
+hi gitcommitBranch ctermfg=67
 
 " Text
 hi Normal ctermfg=250
@@ -508,10 +510,10 @@ hi SpecialKey ctermfg=17
 hi Keyword ctermfg=247
 hi Type ctermfg=246
 hi Constant ctermfg=246
-hi String ctermfg=110
-hi Boolean ctermfg=110
+hi String ctermfg=67
+hi Boolean ctermfg=67
 hi Preproc ctermfg=246
-hi Number ctermfg=110
+hi Number ctermfg=67
 hi Identifier ctermfg=242
 hi Statement ctermfg=245
 hi Title ctermfg=255
@@ -520,7 +522,7 @@ hi Todo ctermfg=234 ctermbg=249
 " Language Specific
 hi jsBooleanFalse ctermfg=124
 hi jsBooleanTrue ctermfg=65
-hi jsGlobalObjects ctermfg=65 " Math, Date, Number, console etc
+hi jsGlobalObjects ctermfg=250 " Math, Date, Number, console etc
 hi jsStorageClass ctermfg=240 " var
 hi jsFunction ctermfg=240 " function
 hi jsFuncName ctermfg=247 " functionName

@@ -37,6 +37,7 @@ export MYVIMRC=~/.vimrc
 export SSHIDENT=pix
 export PROTOTYPE_FOLDER=~/dev/yeah
 
+alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
 alias zshrc="vim ~/.zshrc"
 alias vimrc='vim ~/.vimrc'
 alias dev="cd ~/dev"
@@ -168,8 +169,8 @@ serve() {
   if [ "$1" != "" ]; then
     PORT=$1
   fi
-  open "http://localhost:$PORT"
   python -m SimpleHTTPServer $PORT
+  open "http://localhost:$PORT"
 }
 
 mkcd () {

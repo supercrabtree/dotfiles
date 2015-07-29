@@ -8,7 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 " Unite
 Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neocomplete.vim'
 
@@ -23,6 +23,7 @@ Plug 'tpope/vim-obsession'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-xmark', { 'do': 'make' }
+Plug 'junegunn/vim-easy-align'
 
 " Usability
 Plug 'moll/vim-bbye'
@@ -49,6 +50,8 @@ Plug 'chrisbra/Recover.vim'
 " Plug 'jaxbot/semantic-highlight.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
+
+call plug#end()
 
 filetype plugin indent on
 
@@ -152,7 +155,8 @@ nmap Q @q
 noremap <c-q> <esc>:<c-u>q<cr>
 
 " map ctrl s to save
-nnoremap <c-s> <esc>:<c-u>w<cr>
+nnoremap <NUL> <esc>:<c-u>w<cr>
+inoremap <NUL> <esc>:<c-u>w<cr>a
 
 " Make Y act like the other capitals
 nnoremap Y y$
@@ -168,14 +172,20 @@ vnoremap - :<c-u>call g:CopyTheText()<cr>
 nnoremap - :r !pbpaste<cr>
 
 " ctrl-a copies register to system clipboard
-nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>
+nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>:echo 'Copied:' @"<cr>
 
 " " ctrl-s to substitute
-" nnoremap <c-s> :<c-u>%smagic/
+nnoremap <c-s> :<c-u>%smagic/
 
 nnoremap gV `[V`]
 
 nnoremap gu u*<c-r>n
+
+" neocomplete close pum
+inoremap <expr> <c-c> pumvisible() ? "\<c-o>:pclose<cr>" : "\<esc>"
+
+vmap <Enter> <Plug>(EasyAlign)
+
 
 " Space Leaders
 " ------------------------------------------------------------------------------
@@ -199,6 +209,8 @@ nnoremap <space>us mzggO'use strict';<cr><esc>`z
 nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+vnoremap // y/<C-R>"<CR>N
 
 
 " Status Line
@@ -253,9 +265,9 @@ let g:better_whitespace_filetypes_blacklist=['unite', 'gitcommit', 'help']
 let g:neocomplete#enable_at_startup=1
 let g:neocomplete#enable_auto_select=1
 
-call neocomplete#util#set_default_dictionary(
-  \ 'g:neocomplete#same_filetypes',
-  \ 'html,xhtml,jade', 'css,stylus,less')
+let g:neocomplete#same_filetypes = {}
+let g:neocomplete#same_filetypes._ = '_'
+
 
 " Multiple Cursors
 nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
@@ -275,9 +287,9 @@ nnoremap <space>f          :Unite -start-insert file_rec/async:!<cr>
 nnoremap <space>r          :Unite -start-insert file_mru<cr>
 nnoremap <space>b          :Unite -start-insert -auto-resize buffer<cr>
 nnoremap <space>h          :Unite -start-insert -no-split file file/new<cr>
-
+nnoremap <space>l          :UniteWithCurrentDir -start-insert file_rec/async:!<cr>
 " Notes
-nnoremap <space>j          :Unite -path=/Users/supercrabtree/Dropbox/Notes file<cr>
+nnoremap <space>j          :Unite -start-insert -path=/Users/supercrabtree/Dropbox/Notes file file/new<cr>
 
 " Grep
 nnoremap <space>g          :Unite -auto-preview -no-split -smartcase -no-empty grep:.<cr>
@@ -336,6 +348,11 @@ call unite#custom#source('file_mru,file_rec,file_rec/async,grep', 'max_candidate
 
 " Functions
 " ------------------------------------------------------------------------------
+function! s:JSONPrettyify()
+  execute "%!python -m json.tool"
+endfunction
+command! JSONPretty call <SID>JSONPrettyify()
+
 function! s:ToggleDebuggerStatement()
   let current_line = getline('.')
   let found =  matchstr(current_line, '\s*\S*')
@@ -428,16 +445,10 @@ augroup georges_autocommands
   autocmd BufLeave,BufWritePost $MYZSHRC normal! mZ
 
   " css completion
-  autocmd FileType css setlocal iskeyword+=-
-  autocmd FileType less.css setlocal iskeyword+=-
-  autocmd FileType sass setlocal iskeyword+=-
-  autocmd FileType scss setlocal iskeyword+=-
-  autocmd FileType stylus setlocal iskeyword+=-
-  autocmd FileType html setlocal iskeyword+=-
-  autocmd FileType jade setlocal iskeyword+=-
+  autocmd FileType * set iskeyword+=-
 
-  autocmd FileType css,css.lss,sass,scss setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+  " autocmd FileType css,css.lss,sass,scss setlocal omnifunc=csscomplete#CompleteCSS
+  " autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 
   autocmd BufNewFile,BufRead *.less set ft=less.css
 
@@ -452,6 +463,8 @@ augroup georges_autocommands
 
   " save session by default when saving
   autocmd VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
+
+  " autocmd FileType unite hi! link CursorLine PmenuSel
 
 augroup END
 
@@ -468,8 +481,8 @@ syntax reset
 " bright green 71
 
 " ui
-hi ColorColumn ctermbg=234
-hi CursorLine ctermbg=234 cterm=none
+hi ColorColumn ctermbg=235
+hi CursorLine ctermbg=235 cterm=none
 hi MatchParen ctermbg=none ctermfg=196
 hi SneakPluginTarget ctermbg=203 ctermfg=233
 hi SneakPluginTarget ctermbg=203 ctermfg=233

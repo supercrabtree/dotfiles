@@ -5,8 +5,7 @@ antigen bundle rupa/z
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle mollifier/cd-gitroot
 antigen bundle tarruda/zsh-autosuggestions
-antigen theme supercrabtree/pure pure
-
+antigen theme /Users/supercrabtree/dev/pure pure
 antigen apply
 
 source ~/dev/k/k.sh
@@ -59,6 +58,17 @@ alias st="ssh-toggle"
 
 bindkey -r '\C-s'
 stty -ixon
+
+FLIP_FLOP=0
+s () {
+  if [ $FLIP_FLOP -eq 0 ]; then
+    FLIP_FLOP=1
+    echo -e "\033]50;SetProfile=supercrabtree-light\a"
+  else
+    FLIP_FLOP=0
+    echo -e "\033]50;SetProfile=supercrabtree-dark\a"
+  fi
+}
 
 gvim() {
   vim `git ls-files -m`
@@ -408,9 +418,6 @@ fco() {
     (echo "$localbranches"; echo "$remotebranches"; echo "$tags";) |
     fzf --no-hscroll --ansi +m -d "\t" -n 2) || return
   git checkout $(echo "$target" | awk '{print $2}')
-}
-freflog () {
-
 }
 
 fkill() {

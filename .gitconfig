@@ -1,7 +1,20 @@
-[user]
-  name = George Crabtree
-  email = supercrabtree@googlemail.com
-[core]
-  excludesfile = /Users/supercrabtree/.gitignore
 [push]
   default = current
+[user]
+  name = George
+  email = gcrabtree@pixformance.com
+[core]
+  excludesfile = ~/.gitignore
+[filter "hawser"]
+  clean = git hawser clean %f
+  smudge = git hawser smudge %f
+  required = true
+[alias]
+  trash = !git stash && git stash drop
+  br = git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(refname:short) %(color:8)%(committerdate:relative)%(color:reset)'
+[web]
+  browser = google-chrome
+[filter "lfs"]
+  clean = git lfs clean %f
+  smudge = git lfs smudge %f
+  required = true

@@ -297,38 +297,42 @@ ssh-me () {
 }
 
 ssh-toggle() {
-  if [ $SSHIDENT = "pix" ]
-  then
-    export SSHIDENT=me
-    echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n' > ~/.ssh/config
-    echo "\n\033[38;5;242;mUsing ssh key\033[0m ~/.ssh/id_rsa"
-  else
-    export SSHIDENT=pix
-    echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_pix_rsa\n' > ~/.ssh/config
-    echo "\n\033[38;5;242;mUsing ssh key\033[0m ~/.ssh/id_pix_rsa"
-  fi
+if [ $SSHIDENT = "pix" ]
+then
+  export SSHIDENT=me
+  echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n' > ~/.ssh/config
+  echo "\n\033[38;5;242;mUsing ssh key\033[0m ~/.ssh/id_rsa"
+else
+  export SSHIDENT=pix
+  echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_pix_rsa\n' > ~/.ssh/config
+  echo "\n\033[38;5;242;mUsing ssh key\033[0m ~/.ssh/id_pix_rsa"
+fi
 }
 fancy-ctrl-z () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="fg"
-    zle accept-line
-  else
-    zle push-input
-    zle clear-screen
-  fi
+if [[ $#BUFFER -eq 0 ]]; then
+  BUFFER="fg"
+  zle accept-line
+else
+  zle push-input
+  zle clear-screen
+fi
 }
 fancy-ctrl-q () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="vim -S"
-    zle accept-line
-  else
-    zle push-input
-    zle clear-screen
-  fi
+if [[ $#BUFFER -eq 0 ]]; then
+  BUFFER="vim -S"
+  zle accept-line
+else
+  zle push-input
+  zle clear-screen
+fi
 }
-################################################################################
+
 ## fzf stuff
-export FZF_DEFAULT_OPTS="--reverse --cycle"
+export FZF_DEFAULT_OPTS="--extended --multi --reverse --cycle\
+  --bind=ctrl-n:toggle-down\
+  --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:4,hl+:2,prompt:2,marker:2,pointer:2,info:5"
+
+
 fbr() {
   local branches branch
   branches=$(git branch) &&
@@ -357,12 +361,15 @@ fshow() {
     fi
   done
 }
-
+# git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" | xargs printf 'yoyoyoyoyoyo\n%s' 
+# --header-file="/Users/supercrabtree/.fstashheader"\
 fstash() {
   local out q k sha
     while out=$(
-      git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
+      echo "enter: show stash contents | ctrl-d: diff stash against HEAD | ctrl-a: apply stash | ctrl-b: checkout new branch containing stash\n\
+$(git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs")" |
       fzf --ansi --no-sort --query="$q" --print-query \
+          --header-lines=1\
           --expect=ctrl-d,ctrl-b,ctrl-p,ctrl-a);
     do
       q=$(head -1 <<< "$out")
@@ -459,6 +466,7 @@ bindkey '^Z' fancy-ctrl-z
 
 zle -N fancy-ctrl-q
 bindkey '^Q' fancy-ctrl-q
+
 
 # Pixformance stuff
 # ------------------------------------------------------------------------------

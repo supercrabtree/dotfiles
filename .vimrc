@@ -7,7 +7,7 @@ call plug#begin('~/.vim/plugged')
 " ------------------------------------------------------------------------------
 
 " Unite
-Plug 'Shougo/unite.vim'
+" Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neocomplete.vim'
@@ -18,11 +18,14 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-surround'
 
 " June Gunn
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-xmark', { 'do': 'make' }
 Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/fzf.vim'
 
 " Usability
 Plug 'ntpeters/vim-better-whitespace'
@@ -33,6 +36,8 @@ Plug 'mbbill/undotree'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'chrisbra/Recover.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'dyng/ctrlsf.vim'
+Plug 'wellle/targets.vim'
 
 " Language Specific
 Plug 'digitaltoad/vim-jade'
@@ -44,7 +49,7 @@ Plug 'fatih/vim-go'
 Plug 'wavded/vim-stylus'
 
 " Trialing/tmp
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'takac/vim-hardtime'
 
 call plug#end()
 
@@ -126,11 +131,12 @@ set <F19>=[18;2~
 " Keyboard Shortcuts
 " ------------------------------------------------------------------------------
 inoremap jj <esc>
-noremap <C-C> <Esc>
+noremap <c-c> <Esc>
 vnoremap Y y`]
 
 " now give join back
 nnoremap + mzj0d^i<bs><esc>`z
+nnoremap g+ mzj0d^i<bs> <esc>`z
 
 " clear search highlights and refresh screen
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk
@@ -179,7 +185,7 @@ nnoremap Y y$
 nnoremap p p=`]
 
 " replay last command
-nnoremap !! :<Up><CR>
+nnoremap !! :<Up><cr>
 
 " use - to interact with the system keyboard
 vnoremap - :<c-u>call g:CopyTheText()<cr>
@@ -198,10 +204,13 @@ nnoremap gu u*<c-r>n
 nnoremap g0 ^
 
 " neocomplete close pum
-" inoremap <expr> <esc> pumvisible() ? "\<c-o>:pclose<cr>" : "\<esc>"
+inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : "\<esc>"
+inoremap <silent> <C-y> :NeoCompleteDisable<cr><c-y>:NeoCompleteEnable<cr>
 
 vmap <Enter> <Plug>(EasyAlign)
 
+" delete content, like dd but make it so you can jam it in another line somewhere
+nnoremap dc ^v$hd"_dd
 
 " Space Leaders
 " ------------------------------------------------------------------------------
@@ -224,9 +233,11 @@ nnoremap <space>us mzggO'use strict';<cr><esc>`z
 " show highlight group under cursor
 nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 
-vnoremap // y/<C-R>"<CR>N
+vnoremap * y/<c-r>"<cr>N
+
+
 
 
 " Arglist stuff
@@ -267,11 +278,11 @@ function! <sid>ArgsCleanDuplicates()
   for arg in uniq(args)
     execute 'arga ' . arg
   endfor
-  call <SID>ArgsShow()
+  call <sid>ArgsShow()
 endfunction
 
-command! ArgsReorderByBufNum :call <SID>ArgsReorderByBufNum()
-function! <SID>ArgsReorderByBufNum()
+command! ArgsReorderByBufNum :call <sid>ArgsReorderByBufNum()
+function! <sid>ArgsReorderByBufNum()
   let args = argv()
   function! SortByBufferNumber(arg1, arg2)
     return bufnr(a:arg1) > bufnr(a:arg2) ? 1 : -1
@@ -281,11 +292,11 @@ function! <SID>ArgsReorderByBufNum()
   for arg in reorderedArgs
     execute 'arga ' . arg
   endfor
-  call <SID>ArgsShow()
+  call <sid>ArgsShow()
 endfunction
 
-command! ArgNext :call <SID>ArgNext()
-function! <SID>ArgNext()
+command! ArgNext :call <sid>ArgNext()
+function! <sid>ArgNext()
   let argListLength = len(argv())
   if argListLength == 0
     echo 'Arg list empty'
@@ -301,11 +312,11 @@ function! <SID>ArgNext()
   catch /E165/
     silent first
   endtry
-  call <SID>ArgsShow()
+  call <sid>ArgsShow()
 endfunction
 
-command! ArgPrevious :call <SID>ArgPrevious()
-function! <SID>ArgPrevious()
+command! ArgPrevious :call <sid>ArgPrevious()
+function! <sid>ArgPrevious()
   let argListLength = len(argv())
   if argListLength == 0
     echo 'Arg list empty'
@@ -321,11 +332,11 @@ function! <SID>ArgPrevious()
   catch /E164/
     silent last
   endtry
-  call <SID>ArgsShow()
+  call <sid>ArgsShow()
 endfunction
 
-command! ArgToggle :call <SID>ArgToggle()
-function! <SID>ArgToggle()
+command! ArgToggle :call <sid>ArgToggle()
+function! <sid>ArgToggle()
   let hasToggled = 0
   for arg in argv()
     if arg == @%
@@ -345,8 +356,8 @@ function! <SID>ArgToggle()
   endif
 endfunction
 
-command! ArgsShow :call <SID>ArgsShow()
-function! <SID>ArgsShow()
+command! ArgsShow :call <sid>ArgsShow()
+function! <sid>ArgsShow()
   let argv = argv()
   if argv == []
     echo 'Arg list empty'
@@ -384,11 +395,19 @@ xmap F <Plug>Sneak_F
 omap f <Plug>Sneak_f
 omap F <Plug>Sneak_F
 
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
+
 omap s <Plug>Sneak_s
 omap S <Plug>Sneak_S
 
-let g:sneak#textobject_z = 0
+" let g:sneak#textobject_z = 0
 let g:sneak#s_next = 1
+let g:sneak#use_ic_scs = 1
 
 " Undotree
 nnoremap <space>ut :UndotreeToggle<cr>
@@ -407,14 +426,14 @@ function! g:Undotree_CustomMap()
 endfunction
 
 " Peekaboo
-let g:peekaboo_window = 'vertical botright 40new'
+let g:peekaboo_window = 'vertical botright 80new'
 
 " Bufline
 let g:buftabline_indicators=1
 let g:buftabline_show=1
 
 " Whitespace
-let g:better_whitespace_filetypes_blacklist=['unite', 'gitcommit', 'help']
+let g:better_whitespace_filetypes_blacklist=['unite', 'gitcommit', 'help', 'ctrlsf']
 
 " Neocomplete
 let g:neocomplete#enable_at_startup=1
@@ -423,9 +442,160 @@ let g:neocomplete#enable_auto_select=1
 let g:neocomplete#same_filetypes = {}
 let g:neocomplete#same_filetypes._ = '_'
 
+" Ctrlsf
+let g:ctrlsf_regex_pattern = 1
+let g:ctrlsf_confirm_save = 0
+let g:ctrlsf_indent = 2
+
+vmap <c-s>  <Plug>CtrlSFVwordExec
+nmap <c-s>s <Plug>CtrlSFCwordExec
+nmap <c-s>/ <Plug>CtrlSFPwordExec
+
+nnoremap <c-s>       :echoerr 'too slow!'<cr>
+nnoremap <c-s><c-s>  :CtrlSF 
+nnoremap <c-s><up>   :CtrlSF <up>
+nnoremap <c-s><down> :CtrlSF <down>
+nnoremap <c-s>o      :CtrlSFOpen<cr>
+nnoremap <c-s>t      :CtrlSFToggle<cr>
+inoremap <c-s>t      <Esc>:CtrlSFToggle<cr>
+
+let g:ctrlsf_mapping = {
+\ "next"  : "<down>",
+\ "prev"  : "<up>",
+\ "open"  : "<cr>",
+\ "tab"   : "",
+\ "tabb"  : "",
+\ "openb" : "<c-o>",
+\ "split" : ""
+\ }
+
+
+
+" FZF
+" ------------------------------------------------------------------------------
+vnoremap <c-f>      :<c-u>execute 'FindFilesHere ' . <sid>get_visual_selection()<cr>
+nnoremap <c-f>      :echoerr 'too slow!'<cr>
+nnoremap <c-f><c-f> :FindFilesIn<cr>
+nnoremap <c-f>!     :FindFilesIn!<cr>
+nnoremap <c-f>f     :execute 'FindFilesHere ' . expand('<cword>')<cr>
+nnoremap <c-f>/     :FindFilesHere /<cr>
+nnoremap <c-f>j     :FindFilesIn ~/Dropbox/Notes<cr>
+nnoremap <c-f>r     :MRU<cr>
+nnoremap <c-f><c-r> :MRU<cr>
+nnoremap <c-b>      :AllBuffers<cr>
+
+function! s:getStockAgArgs(bang)
+  if a:bang == 0
+    return ' --depth "-1" --ignore ".git" --hidden --nocolor '
+  else
+    return ' --depth "-1" --ignore ".git" --hidden --nocolor --skip-vcs-ignores --path-to-agignore "~/.empty-agignore" '
+  endif
+endfunction
+
+let s:ctrlF = '--bind ctrl-f:ignore --expect=ctrl-f'
+
+command! -complete=file -nargs=1 Locate call fzf#run({'source': 'locate <q-args>', 'sink': 'e', 'options': ''})
+
+command! -bang -complete=file -nargs=* FindFilesHere call <sid>FindFilesHere(<bang>0, <q-args>)
+function! s:FindFilesHere(bang, args)
+  call fzf#run({
+\   'source'  : printf('ag'.<sid>getStockAgArgs(a:bang).'-g "" %s', '.'),
+\   'sink*'   : function('<SID>FindFilesHandler'),
+\   'options' : s:ctrlF . escape(empty(a:args) ? '' : ' --query="'.a:args.'"', '\')
+\ })
+endfunction
+
+command! -bang -complete=file -nargs=? FindFilesIn call <sid>FindFilesIn(<bang>0, <q-args>)
+function! s:FindFilesIn(bang, args)
+  call fzf#run({
+\   'source'  : printf('ag'.<sid>getStockAgArgs(a:bang).'-g "" %s',
+\               escape(empty(a:args) ? '.' : a:args, '"\')),
+\   'sink*'   : function('<SID>FindFilesHandler'),
+\   'options' : s:ctrlF . escape(empty(a:args) ? '' : ' --prompt="'.a:args.'> "', '\')
+\ })
+endfunction
+
+function! s:FindFilesHandler(files)
+  if len(a:files) < 2
+    return
+  endif
+  let action = a:files[0]
+  if action == 'ctrl-f'
+    let cmd = 'Reveal'
+  else
+    let cmd = 'e'
+  endif
+  for file in a:files[1:]
+    execute cmd s:escape(file)
+  endfor
+endfunction
+
+function! s:all_files()
+  return extend(
+\ filter(reverse(copy(v:oldfiles)),
+\        "v:val !~ 'fugitive:\\|__CtrlSF__$\\|__CtrlSFPreview__$\\|^/tmp/\\|.git/'"),
+\ filter(map(s:buflisted(), 'bufname(v:val)'), '!empty(v:val)'))
+endfunction
+
+command! MRU call fzf#run({
+\ 'source': 'sed "1d" $HOME/.cache/neomru/file',
+\ 'sink*':   function('<sid>FindFilesHandler'),
+\ 'options': '--bind ctrl-f:ignore --expect=ctrl-f --prompt "MRU> "'
+\})
+
+function! s:buflisted()
+  return filter(range(1, bufnr('$')), 'buflisted(v:val)')
+endfunction
+
+function! s:escape(path)
+  return escape(a:path, ' %#''"\')
+endfunction
+
+for [s:c, s:a] in items({'red': 31, 'green': 32, 'yellow': 33, 'blue': 34, 'magenta': 35})
+  execute "function! s:".s:c."(str, ...)\n"
+        \ "  return s:ansi(a:str, ".s:a.", get(a:, 1, 0))\n"
+        \ "endfunction"
+endfor
+
+function! s:strip(str)
+  return substitute(a:str, '^\s*\|\s*$', '', 'g')
+endfunction
+
+function! s:escape(path)
+  return escape(a:path, ' %#''"\')
+endfunction
+
+function! s:ansi(str, col, bold)
+  return printf("\x1b[%s%sm%s\x1b[m", a:col, a:bold ? ';1' : '', a:str)
+endfunction
+
+" Buffers
+function! s:format_buffer(b)
+  let name = bufname(a:b)
+  let name = empty(name) ? '[No Name]' : name
+  let flag = a:b == bufnr('')  ? '%' :
+        \ (a:b == bufnr('#') ? '#' : ' ')
+  let modified = getbufvar(a:b, '&modified') ? s:red(' [+]') : ''
+  let readonly = getbufvar(a:b, '&modifiable') ? '' : s:green(' [RO]')
+  let extra = join(filter([modified, readonly], '!empty(v:val)'), '')
+  return s:strip(printf("[%s] %s\t%s\t%s", s:blue(a:b, 1), flag, name, extra))
+endfunction
+
+function! s:bufselect(bang)
+  let bufs = map(s:buflisted(), 's:format_buffer(v:val)')
+
+  call fzf#run({
+  \ 'source':  reverse(bufs),
+  \ 'sink*':   function('<SID>FindFilesHandler'),
+  \ 'options': '+m --ansi -e -d "\t" -n 2,1..2 --prompt="Buffers> "'
+  \})
+endfunction
+
+command! -bang AllBuffers call s:bufselect(<bang>0)
+
 
 " Multiple Cursors
-nnoremap <silent> <C-c> :call multiple_cursors#quit()<CR>
+nnoremap <silent> <c-c> :call multiple_cursors#quit()<cr>
 
 " Called once right before you start selecting multiple cursors
 function! Multiple_cursors_before()
@@ -437,86 +607,82 @@ function! Multiple_cursors_after()
   exe 'NeoCompleteUnlock'
 endfunction
 
-" indexed search
-let g:indexed_search_colors=0
-let g:indexed_search_shortmess=1
-let g:indexed_search_dont_move=1
 
 " Unite
-nnoremap <space>f          :Unite               -start-insert file_rec/async:!<cr>
-nnoremap <space>F          :UniteWithCurrentDir -start-insert file_rec/async:!<cr>
-nnoremap <space>r          :Unite               -start-insert file_mru<cr>
-nnoremap <space>b          :Unite               -start-insert -auto-resize buffer<cr>
-nnoremap <space>h          :Unite               -start-insert -no-split file file/new<cr>
+" nnoremap <space>f          :Unite               -start-insert file_rec/async:!<cr>
+" nnoremap <space>F          :UniteWithCurrentDir -start-insert file_rec/async:!<cr>
+" nnoremap <space>r          :Unite               -start-insert file_mru<cr>
+" nnoremap <space>b          :Unite               -start-insert -auto-resize buffer<cr>
+" nnoremap <space>h          :Unite               -start-insert -no-split file file/new<cr>
 " Notes
-nnoremap <space>j          :Unite               -start-insert -path=/Users/supercrabtree/Dropbox/Notes file file/new<cr>
+" nnoremap <space>j          :Unite               -start-insert -path=/Users/supercrabtree/Dropbox/Notes file file/new<cr>
 
 " Grep
-nnoremap <space>g          :Unite               -auto-preview -no-split -smartcase -no-empty grep:.<cr>
-nnoremap <space>G          :Unite               -auto-preview -no-split -smartcase -no-empty grep:$buffers<cr>
-nnoremap <space>k :execute 'Unite grep:.::' . expand("<cword>") . ' -auto-preview -no-split -smartcase -no-empty'<cr>
-nnoremap <space>K :execute 'Unite grep:$buffers::' . expand("<cword>") . ' -auto-preview -no-split -smartcase -no-empty'<cr>
+" nnoremap <space>g          :Unite               -auto-preview -no-split -smartcase -no-empty grep:.<cr>
+" nnoremap <space>G          :Unite               -auto-preview -no-split -smartcase -no-empty grep:$buffers<cr>
+" nnoremap <space>k :execute 'Unite grep:.::' . expand("<cword>") . ' -auto-preview -no-split -smartcase -no-empty'<cr>
+" nnoremap <space>K :execute 'Unite grep:$buffers::' . expand("<cword>") . ' -auto-preview -no-split -smartcase -no-empty'<cr>
 
 " Custom mappings for the unite buffer
-function! s:unite_settings()
-  nmap <buffer> <tab> <nop>
-  imap <buffer> <tab> <nop>
-  nmap <buffer> <esc> <nop>
-  imap <buffer> <F19> <nop>
-  nmap <buffer> q <nop>
+" function! s:unite_settings()
+"   nmap <buffer> <tab> <nop>
+"   imap <buffer> <tab> <nop>
+"   nmap <buffer> <esc> <nop>
+"   imap <buffer> <F19> <nop>
+"   nmap <buffer> q <nop>
 
-  imap <buffer> <BS> <BS>
+"   imap <buffer> <BS> <BS>
 
-  nmap <buffer> <down>  <Plug>(unite_select_next_line)
-  imap <buffer> <down>  <Plug>(unite_select_next_line)
-  nmap <buffer> <up>    <Plug>(unite_select_previous_line)
-  imap <buffer> <up>    <Plug>(unite_select_previous_line)
-  imap <buffer> <c-n>   <Plug>(unite_toggle_mark_current_candidate)
-  nmap <buffer> <c-n>   <Plug>(unite_toggle_mark_current_candidate)
-  imap <buffer> <right> <Plug>(unite_redraw)
-  nmap <buffer> <right> <Plug>(unite_redraw)
-  nmap <buffer> <C-c>   <Plug>(unite_exit)
-  imap <buffer> <C-c>   <Plug>(unite_exit)
-  imap <silent><buffer><expr> <c-r> unite#do_action('rename')
-endfunction
+"   nmap <buffer> <down>  <Plug>(unite_select_next_line)
+"   imap <buffer> <down>  <Plug>(unite_select_next_line)
+"   nmap <buffer> <up>    <Plug>(unite_select_previous_line)
+"   imap <buffer> <up>    <Plug>(unite_select_previous_line)
+"   imap <buffer> <c-n>   <Plug>(unite_toggle_mark_current_candidate)
+"   nmap <buffer> <c-n>   <Plug>(unite_toggle_mark_current_candidate)
+"   imap <buffer> <right> <Plug>(unite_redraw)
+"   nmap <buffer> <right> <Plug>(unite_redraw)
+"   nmap <buffer> <c-c>   <Plug>(unite_exit)
+"   imap <buffer> <c-c>   <Plug>(unite_exit)
+"   imap <silent><buffer><expr> <c-r> unite#do_action('rename')
+" endfunction
 
-let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules" --ignore "fonts" --hidden -g ""'
-let g:unite_source_grep_command = 'ag'
-let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden --ignore ".git" --ignore "lib" --ignore ".tmp" --ignore "node_modules" --ignore "fonts"'
-let g:unite_source_grep_recursive_opt = ''
-call unite#filters#matcher_default#use(['matcher_fuzzy', 'converter_relative_word'])
-call unite#filters#sorter_default#use(['sorter_rank'])
+" let g:unite_source_rec_async_command = 'ag --nocolor --nogroup --hidden -g ""'
+" let g:unite_source_grep_command = 'ag'
+" let g:unite_source_grep_default_opts = '-i --line-numbers --nocolor --nogroup --hidden'
+" let g:unite_source_grep_recursive_opt = ''
+" call unite#filters#matcher_default#use(['matcher_fuzzy', 'converter_relative_word'])
+" call unite#filters#sorter_default#use(['sorter_rank'])
 
-let s:filters = {
-\   "name" : "my_converter",
-\}
+" let s:filters = {
+" \   "name" : "my_converter",
+" \}
 
-function! s:filters.filter(candidates, context)
-  for candidate in a:candidates
-    let bufname = bufname(candidate.action__buffer_nr)
-    let filename = fnamemodify(bufname, ':p:t')
-    let path = fnamemodify(bufname, ':p:h')
+" function! s:filters.filter(candidates, context)
+"   for candidate in a:candidates
+"     let bufname = bufname(candidate.action__buffer_nr)
+"     let filename = fnamemodify(bufname, ':p:t')
+"     let path = fnamemodify(bufname, ':p:h')
 
-    " Customize output format.
-    let candidate.abbr = printf("%s", filename)
-  endfor
-  return a:candidates
-endfunction
+"     " Customize output format.
+"     let candidate.abbr = printf("%s", filename)
+"   endfor
+"   return a:candidates
+" endfunction
 
-call unite#define_filter(s:filters)
-unlet s:filters
+" call unite#define_filter(s:filters)
+" unlet s:filters
 
-call unite#custom#source('buffer', 'converters', 'my_converter')
+" call unite#custom#source('buffer', 'converters', 'my_converter')
 
-let g:unite_source_file_rec_max_cache_files = 0
-call unite#custom#source('file_mru,file_rec,file_rec/async,grep', 'max_candidates', 0)
+" let g:unite_source_file_rec_max_cache_files = 0
+" call unite#custom#source('file_mru,file_rec,file_rec/async,grep', 'max_candidates', 0)
 
 " Functions
 " ------------------------------------------------------------------------------
 function! s:JSONPrettyify()
   execute "%!python -m json.tool"
 endfunction
-command! JSONPretty call <SID>JSONPrettyify()
+command! JSONPretty call <sid>JSONPrettyify()
 
 function! s:ToggleDebuggerStatement()
   let current_line = getline('.')
@@ -529,7 +695,7 @@ function! s:ToggleDebuggerStatement()
     normal odebugger;
   endif
 endfunction
-command! ToggleDebugger call <SID>ToggleDebuggerStatement()
+command! ToggleDebugger call <sid>ToggleDebuggerStatement()
 
 function! s:MkNonExDir(file, buf)
   if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
@@ -544,18 +710,26 @@ function! AdjustWindowHeight(minheight, maxheight)
   exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 
-function! s:RevealInFinder()
-  if filereadable(expand("%"))
-    let l:command = "open -R %"
-  elseif getftype(expand("%:p:h")) == "dir"
-    let l:command = "open %:p:h"
+function! s:RevealInFinder(file)
+
+  if a:file != ''
+    let l:file = a:file
+  else
+    let l:file = '%'
+  endif
+
+  if filereadable(expand(l:file))
+    let l:command = "open -R " . l:file
+  elseif getftype(expand(l:file . ":p:h")) == "dir"
+    let l:command = "open ".l:file.":p:h"
   else
     let l:command = "open ."
   endif
   execute ":silent! !" . l:command
   redraw!
 endfunction
-command! Reveal call <SID>RevealInFinder()
+
+command! -complete=file -nargs=? Reveal call <sid>RevealInFinder(<q-args>)
 
 function! g:CopyTheText()
   let old_z = @z
@@ -591,13 +765,25 @@ function! ShowCount()
     endtry
 endfunction
 
+function! s:get_visual_selection()
+  let [lnum1, col1] = getpos("'<")[1:2]
+  let [lnum2, col2] = getpos("'>")[1:2]
+  let lines = getline(lnum1, lnum2)
+  let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][col1 - 1:]
+  return join(lines, "\n")
+endfunction
 
 
 " Auto Commands
 " ------------------------------------------------------------------------------
 augroup georges_autocommands
   autocmd!
-  autocmd FileType unite call s:unite_settings()
+  " autocmd FileType unite call s:unite_settings()
+
+  autocmd FileType ctrlsf map <buffer> o <c-o><c-f>o
+  autocmd FileType ctrlsf map <buffer> K <up>pzz
+  autocmd FileType ctrlsf map <buffer> J <down>pzz
 
   " return to the last edited position when opening a file
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -605,10 +791,20 @@ augroup georges_autocommands
   " highlight colums in git commit messages
   autocmd filetype gitcommit set colorcolumn=51,73
   autocmd filetype gitcommit setlocal spell
+  autocmd filetype gitcommit setlocal scrolloff=1000
   autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+  autocmd FileType gitcommit map <buffer> <down> 10j
+  autocmd FileType gitcommit map <buffer> <up> 10k
 
   " when opening a new line in a comment, don't continue the comment, empty line please
   autocmd FileType * set formatoptions-=r formatoptions-=o
+
+  " Markdown
+  au BufNewFile,BufRead *.markdown,*.mdown,*.mkd,*.mkdn,*.md setfiletype markdown
+  au filetype markdown setlocal spell
+  au filetype markdown setlocal textwidth=79
+  au filetype markdown setlocal formatoptions+=t
+  au filetype markdown setlocal wrap linebreak nolist
 
   " auto create global marks when leaving
   autocmd BufLeave,BufWritePost $MYVIMRC normal! mV
@@ -676,6 +872,7 @@ augroup END
 " 4  = blue
 " 6  = purple
 
+" lighty used 8, 14, 7, 15
 
 hi clear
 syntax reset
@@ -691,25 +888,33 @@ hi CursorLineNr                   ctermfg=none
 hi Search            ctermbg=3    ctermfg=232
 hi IncSearch         ctermbg=2    ctermfg=232  cterm=none
 hi SpellBad          ctermbg=none ctermfg=1    cterm=none
-hi ExtraWhitespce    ctermbg=1    ctermfg=1
+hi ExtraWhitespace   ctermbg=1    ctermfg=1
 hi PMenu             ctermbg=11   ctermfg=5
 hi PMenuSel          ctermbg=10   ctermfg=14
 
-hi uniteMarkedLine                ctermfg=2
+" hi uniteMarkedLine                ctermfg=2
 hi DiffChange        ctermbg=none
 hi StatusLine        ctermbg=9    ctermfg=13   cterm=none
-hi StatusLineNC      ctermbg=none ctermfg=5    cterm=none
+hi StatusLineNC      ctermbg=12   ctermfg=5    cterm=none
 hi VertSplit         ctermbg=9    ctermfg=9
 hi WildMenu          ctermbg=9    ctermfg=2
 hi Visual            ctermbg=10   ctermfg=7    cterm=none
 
+hi Title             ctermbg=none ctermfg=none cterm=reverse
+
+set t_ZH=[3m
+set t_ZR=[23m
+
+" Markdown
+hi link markdownHeadingDelimiter Title
+hi htmlItalic        ctermbg=none ctermfg=none cterm=italic
 
 " Buftabline
-hi BufTabLineActive  ctermbg=12 ctermfg=1 cterm=none
-hi BufTabLineCurrent ctermbg=12 ctermfg=2    cterm=none
-hi BufTabLineHidden  ctermbg=12 ctermfg=11   cterm=none
-hi BufTabLineArglist ctermbg=12 ctermfg=5    cterm=none
-hi BufTabLineFill    ctermbg=12              cterm=none
+hi BufTabLineActive  ctermbg=12   ctermfg=5    cterm=italic
+hi BufTabLineCurrent ctermbg=12   ctermfg=2    cterm=none
+hi BufTabLineHidden  ctermbg=12   ctermfg=11   cterm=none
+hi BufTabLineArglist ctermbg=12   ctermfg=5    cterm=none
+hi BufTabLineFill    ctermbg=12                cterm=none
 
 
 " git
@@ -736,7 +941,6 @@ hi Preproc    ctermfg=5
 hi Number     ctermfg=4
 hi Identifier ctermfg=13
 hi Statement  ctermfg=5
-hi Title      ctermfg=255
 hi Todo       ctermfg=7   ctermbg=13
 hi WarningMsg ctermfg=1
 hi GoodMsg    ctermfg=2
@@ -754,10 +958,11 @@ hi DiffText   ctermfg=8   ctermbg=7
 " Language Specific
 hi jsBooleanFalse ctermfg=1
 hi jsBooleanTrue ctermfg=2
-hi jsGlobalObjects ctermfg=13 " Math, Date, Number, console etc
-hi jsStorageClass ctermfg=13 " var
-hi jsFunction ctermfg=13 " function
-hi jsFuncName ctermfg=5 " function name
+hi jsGlobalObjects ctermfg=10 " Math, Date, Number, console etc
+hi jsStorageClass ctermfg=10 " var
+hi jsFunction ctermfg=10 " function
+" hi jsFuncName ctermfg=8 " function name
+
 hi javascriptAngularMethods ctermfg=13
 hi jsFutureKeys ctermfg=1
 

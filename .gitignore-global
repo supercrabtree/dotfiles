@@ -1,0 +1,6 @@
+Session.vim
+npm-debug.log
+.agignore
+build.sh
+run.sh
+deploy.sh

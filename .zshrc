@@ -1,6 +1,5 @@
 source ~/dev/antigen/antigen.zsh
 
-antigen use oh-my-zsh
 antigen bundle rupa/z
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle mollifier/cd-gitroot
@@ -13,6 +12,13 @@ source ~/dev/k/k.sh
 zmodload zsh/mathfunc
 autoload zmv
 
+# Changing/making/removing directory
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushdminus
+
+setopt auto_cd
+
 export SHELL=/bin/zsh
 export GOPATH=$HOME/dev/go
 
@@ -23,8 +29,8 @@ export PATH=$PATH:/usr/bin
 export PATH=$PATH:/bin
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/sbin
+export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$HOME/.random/bin
 
 export GIT_MERGE_AUTOEDIT=no
 export GIT_EDITOR=vim
@@ -35,6 +41,15 @@ export MYZSHRC=~/.zshrc
 export MYVIMRC=~/.vimrc
 export SSHIDENT=pix
 export PROTOTYPE_FOLDER=~/dev/yeah
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias ....="cd ../../../.."
+alias .....="cd ../../../../.."
+alias ......="cd ../../../../../.."
+alias .......="cd ../../../../../../.."
+alias ........="cd ../../../../../../.."
 
 alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
 alias zshrc="vim ~/.zshrc"
@@ -53,11 +68,39 @@ alias gaa='git add -A'
 alias nw='/Applications/node-webkit.app/Contents/MacOS/node-webkit .'
 alias k="k -a"
 alias l="k -a --no-vcs"
-alias t="(tmux has &>/dev/null) && tmux attach -t scratch || tmux new -s scratch"
 alias st="ssh-toggle"
 
 bindkey -r '\C-s'
 stty -ixon
+
+
+
+## Command history configuration - robbed from oh-my-zsh
+if [ -z "$HISTFILE" ]; then
+    HISTFILE=$HOME/.zsh_history
+fi
+
+HISTSIZE=20000
+SAVEHIST=20000
+
+# Show history
+case $HIST_STAMPS in
+  "mm/dd/yyyy") alias history='fc -fl 1' ;;
+  "dd.mm.yyyy") alias history='fc -El 1' ;;
+  "yyyy-mm-dd") alias history='fc -il 1' ;;
+  *) alias history='fc -l 1' ;;
+esac
+
+setopt append_history
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups # ignore duplication command history list
+setopt hist_ignore_space
+setopt hist_verify
+setopt inc_append_history
+setopt share_history # share command history data
+
+
 
 FLIP_FLOP=0
 s () {

@@ -1,9 +1,6 @@
 source ~/dev/antigen/antigen.zsh
 
 antigen bundle rupa/z
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle mollifier/cd-gitroot
-antigen bundle tarruda/zsh-autosuggestions
 antigen theme /Users/supercrabtree/dev/pure pure
 antigen apply
 
@@ -25,6 +22,7 @@ export GOPATH=$HOME/dev/go
 export PATH=$PATH:$HOME/.rvm/bin
 export PATH=$PATH:$HOME/.npm/bin
 export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/bin
 export PATH=$PATH:/bin
 export PATH=$PATH:/usr/sbin
@@ -41,6 +39,8 @@ export MYZSHRC=~/.zshrc
 export MYVIMRC=~/.vimrc
 export SSHIDENT=pix
 export PROTOTYPE_FOLDER=~/dev/yeah
+
+zstyle ':completion:*:*:*:*:*' menu select
 
 alias ..="cd .."
 alias ...="cd ../.."
@@ -60,6 +60,11 @@ alias o="open ."
 alias deploy="./deploy.sh"
 alias clearvim='rm -rf ~/.vim/tmp/*'
 
+alias run='./run'
+alias build='./build'
+alias deploy='./deploy'
+alias setup='./setup'
+
 alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
 alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
 alias grc='git add -A && git rebase --continue'
@@ -70,9 +75,14 @@ alias k="k -a"
 alias l="k -a --no-vcs"
 alias st="ssh-toggle"
 
+
 bindkey -r '\C-s'
 stty -ixon
 
+# zle-line-init() {
+#   zle autosuggest-start
+# }
+# zle -N zle-line-init
 
 
 ## Command history configuration - robbed from oh-my-zsh
@@ -155,23 +165,16 @@ killport() {
 }
 
 pr() {
-  if [ $1 ]; then
-    MESSAGE=$1
-  else
-    MESSAGE=$(git rev-parse --abbrev-ref HEAD)
+  echo
+  echo "Are you sure? Have you tested in Chrome, IE9-11, Safari and Firefox?"
+  echo
+
+  read "REPLY?Press [y] to continue "
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    hub pull-request -m $CURRENT_BRANCH -b "dev" -h $CURRENT_BRANCH | pbcopy
   fi
-  echo $MESSAGE
-  if [ $2 ]; then
-    TO_BRANCH=$2
-  else
-    TO_BRANCH=dev;
-  fi
-  if [ $3 ]; then
-    FROM_BRANCH=$3;
-  else
-    FROM_BRANCH=$(git rev-parse --abbrev-ref HEAD);
-  fi
-  hub pull-request -m $MESSAGE -b $TO_BRANCH -h $FROM_BRANCH | pbcopy
 }
 
 mygit() {
@@ -370,18 +373,12 @@ else
 fi
 }
 
-## fzf stuff
+
+
+## fzf stuff -------------------------------------------------------------------
 export FZF_DEFAULT_OPTS="--extended --multi --reverse --cycle\
   --bind=ctrl-n:toggle-down\
   --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:4,hl+:2,prompt:2,marker:2,pointer:2,info:5"
-
-
-fbr() {
-  local branches branch
-  branches=$(git branch) &&
-  branch=$(echo "$branches" | fzf +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //")
-}
 
 # fshow - git commit browser
 fshow() {
@@ -404,6 +401,7 @@ fshow() {
     fi
   done
 }
+
 # git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" | xargs printf 'yoyoyoyoyoyo\n%s' 
 # --header-file="/Users/supercrabtree/.fstashheader"\
 fstash() {
@@ -452,7 +450,7 @@ c() {
   fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
 }
 
-fco() {
+fancy-branch() {
   local tags localbranches remotebranches target
   tags=$(
     git tag | awk '{print "\x1b[33;1mtag\x1b[m\t" $1}') || return
@@ -467,7 +465,14 @@ fco() {
   target=$(
     (echo "$localbranches"; echo "$remotebranches"; echo "$tags";) |
     fzf --no-hscroll --ansi +m -d "\t" -n 2) || return
-  git checkout $(echo "$target" | awk '{print $2}')
+  if [[ -z "$BUFFER" ]]; then
+    git checkout $(echo "$target" | awk '{print $2}')
+    zle accept-line
+  else
+    res=$(echo "$target" | awk '{print $2}')
+    LBUFFER="$(echo "$LBUFFER" | xargs) ${res}"
+    zle redisplay
+  fi
 }
 
 fkill() {
@@ -500,8 +505,6 @@ z() {
   fi
 }
 
-eval "$(gulp --completion=zsh)"
-
 # New Keyboard Shortcuts
 # ------------------------------------------------------------------------------
 zle -N fancy-ctrl-z
@@ -510,6 +513,8 @@ bindkey '^Z' fancy-ctrl-z
 zle -N fancy-ctrl-q
 bindkey '^Q' fancy-ctrl-q
 
+zle -N fancy-branch
+bindkey '^b' fancy-branch
 
 # Pixformance stuff
 # ------------------------------------------------------------------------------
@@ -521,4 +526,17 @@ export PIX_WIKI="$PIX_ROOT/api.services.wiki"
 export PIX_SUB="$PIX_ROOT/platform.PIXSUB/"
 export RUBY_SERVER_SCRIPT_COMMAND="bundle exec rails server"
 eval "$($PIX_SUB/bin/pix init -)"
+
+
+# FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export  FZF_COMPLETION_TRIGGER=''
+bindkey '^F' fzf-file-widget
+zle      -N  fzf-file-widget
+bindkey '^I' $fzf_default_completion
+
+# must be after zle
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/zsh-history-substring-search/zsh-history-substring-search.zsh
+

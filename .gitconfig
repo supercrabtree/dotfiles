@@ -10,8 +10,11 @@
   smudge = git hawser smudge %f
   required = true
 [alias]
+  peek = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)'
   trash = !git stash && git stash drop
   br = ! git for-each-ref --sort=committerdate refs/heads/ --format=' %(color:8)%(committerdate:relative)%(color:reset)|%(color:blue)%(HEAD)%(color:reset) %(refname:short)' | column -ts'|'
+	lcrev = log --reverse --no-merges --stat @{1}..
+	undo-commit = reset --soft HEAD^
 [web]
   browser = google-chrome
 [filter "lfs"]

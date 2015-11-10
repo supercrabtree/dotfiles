@@ -19,6 +19,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 
 " June Gunn
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
@@ -35,7 +36,7 @@ Plug 'ap/vim-buftabline'
 Plug 'mbbill/undotree'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'chrisbra/Recover.vim'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'dyng/ctrlsf.vim'
 Plug 'wellle/targets.vim'
 
@@ -43,6 +44,7 @@ Plug 'wellle/targets.vim'
 Plug 'digitaltoad/vim-jade'
 Plug 'Raimondi/delimitMate'
 Plug 'pangloss/vim-javascript'
+" Plug 'isRuslan/vim-es6'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'groenewege/vim-less'
 Plug 'fatih/vim-go'
@@ -56,6 +58,14 @@ call plug#end()
 filetype plugin indent on
 
 runtime macros/matchit.vim
+
+
+" :profile start profile.log
+" :profile func *
+" :profile file *
+" " At this point do slow actions
+" :profile pause
+" :noautocmd qall!
 
 
 " Vim Settings
@@ -107,6 +117,7 @@ set wildmenu
 " set wildignore=*/.git/**/*
 " set wildignore+=**/node_modules/**/*
 " set wildignore+=**/bower_components/**/*
+set ttyfast
 
 " different cursor shapes for insert mode
 if &term == 'xterm-256color' || &term == 'screen-256color'
@@ -142,9 +153,30 @@ nnoremap g+ mzj0d^i<bs> <esc>`z
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk
 
 " rapid buffer nav
-nnoremap <silent> <down> :bprevious<cr>
-nnoremap <silent> <up> :bnext<cr>
+nnoremap <silent> <down> :PreviousBuffer<cr>
+nnoremap <silent> <up> :NextBuffer<cr>
 nnoremap <silent> <left> <c-^>
+
+command! NextBuffer :call <sid>NextBuffer()
+function! <sid>NextBuffer()
+  let argListLength = len(argv())
+  if argListLength == 0
+    bnext
+  else
+    call <sid>ArgNext()
+  endif
+
+endfunction
+
+command! PreviousBuffer :call <sid>PreviousBuffer()
+function! <sid>PreviousBuffer()
+  let argListLength = len(argv())
+  if argListLength == 0
+    bprevious
+  else
+    call <sid>ArgPrevious()
+  endif
+endfunction
 
 nnoremap <F17> <c-w>W
 nnoremap <F18> <c-w>w
@@ -192,7 +224,8 @@ vnoremap - :<c-u>call g:CopyTheText()<cr>
 nnoremap - :r !pbpaste<cr>
 
 " ctrl-a copies register to system clipboard
-nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>:echo 'Copied:' @"<cr>
+nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
+vnoremap <c-a> y:<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
 
 " " ctrl-s to substitute
 " nnoremap <c-s> :<c-u>%smagic/
@@ -248,8 +281,8 @@ nnoremap <space>ar :ArgsReorderByBufNum<cr>
 nnoremap <space>ac :ArgsCleanDuplicates<cr>
 nnoremap <F19> :ArgToggle<cr>
 nnoremap M :ArgToggle<cr>
-nnoremap J :ArgPrevious<cr>
-nnoremap K :ArgNext<cr>
+nnoremap J :bprevious<cr>
+nnoremap K :bnext<cr>
 nnoremap L :ArgDelete<cr>
 
 command! ArgsDelete :call <sid>ArgsDelete()
@@ -406,7 +439,7 @@ omap s <Plug>Sneak_s
 omap S <Plug>Sneak_S
 
 " let g:sneak#textobject_z = 0
-let g:sneak#s_next = 1
+let g:sneak#s_next = 0
 let g:sneak#use_ic_scs = 1
 
 " Undotree
@@ -462,6 +495,7 @@ inoremap <c-s>t      <Esc>:CtrlSFToggle<cr>
 let g:ctrlsf_mapping = {
 \ "next"  : "<down>",
 \ "prev"  : "<up>",
+\ "popen" : ["p", "<c-p>"],
 \ "open"  : "<cr>",
 \ "tab"   : "",
 \ "tabb"  : "",
@@ -480,6 +514,7 @@ nnoremap <c-f>!     :FindFilesIn!<cr>
 nnoremap <c-f>f     :execute 'FindFilesHere ' . expand('<cword>')<cr>
 nnoremap <c-f>/     :FindFilesHere /<cr>
 nnoremap <c-f>j     :FindFilesIn ~/Dropbox/Notes<cr>
+nnoremap <c-f>h     :FindFilesIn ~/<cr>
 nnoremap <c-f>r     :MRU<cr>
 nnoremap <c-f><c-r> :MRU<cr>
 nnoremap <c-b>      :AllBuffers<cr>
@@ -581,12 +616,16 @@ function! s:format_buffer(b)
   return s:strip(printf("[%s] %s\t%s\t%s", s:blue(a:b, 1), flag, name, extra))
 endfunction
 
+function! s:bufopen(lines)
+  execute 'buffer' matchstr(a:lines[0], '\[\zs[0-9]*\ze\]')
+endfunction
+
 function! s:bufselect(bang)
   let bufs = map(s:buflisted(), 's:format_buffer(v:val)')
 
   call fzf#run({
-  \ 'source':  reverse(bufs),
-  \ 'sink*':   function('<SID>FindFilesHandler'),
+  \ 'source':  bufs,
+  \ 'sink*':   function('<SID>bufopen'),
   \ 'options': '+m --ansi -e -d "\t" -n 2,1..2 --prompt="Buffers> "'
   \})
 endfunction
@@ -709,6 +748,27 @@ endfunction
 function! AdjustWindowHeight(minheight, maxheight)
   exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
+
+function! s:Open(file)
+
+  if a:file != ''
+    let l:file = a:file
+  else
+    let l:file = '%'
+  endif
+
+  if filereadable(expand(l:file))
+    let l:command = "open " . l:file
+  elseif getftype(expand(l:file . ":p:h")) == "dir"
+    let l:command = "open ".l:file.":p:h"
+  else
+    let l:command = "open ."
+  endif
+  execute ":silent! !" . l:command
+  redraw!
+endfunction
+
+command! -complete=file -nargs=? Open call <sid>Open(<q-args>)
 
 function! s:RevealInFinder(file)
 
@@ -888,12 +948,12 @@ hi CursorLineNr                   ctermfg=none
 hi Search            ctermbg=3    ctermfg=232
 hi IncSearch         ctermbg=2    ctermfg=232  cterm=none
 hi SpellBad          ctermbg=none ctermfg=1    cterm=none
+hi SpellCap          ctermbg=none ctermfg=none    cterm=none
 hi ExtraWhitespace   ctermbg=1    ctermfg=1
 hi PMenu             ctermbg=11   ctermfg=5
 hi PMenuSel          ctermbg=10   ctermfg=14
 
 " hi uniteMarkedLine                ctermfg=2
-hi DiffChange        ctermbg=none
 hi StatusLine        ctermbg=9    ctermfg=13   cterm=none
 hi StatusLineNC      ctermbg=12   ctermfg=5    cterm=none
 hi VertSplit         ctermbg=9    ctermfg=9
@@ -950,9 +1010,9 @@ hi Question   ctermfg=2
 hi Folded     ctermfg=12   ctermbg=5
 hi FoldColumn ctermfg=12   ctermbg=5
 hi DiffAdd    ctermfg=2    ctermbg=none
-hi DiffChange ctermfg=3   ctermbg=none
-hi DiffDelete ctermfg=1   ctermbg=none
-hi DiffText   ctermfg=8   ctermbg=7
+hi DiffChange ctermbg=9
+hi DiffDelete ctermfg=1   ctermbg=1
+hi DiffText   ctermfg=3   ctermbg=10
 
 
 " Language Specific

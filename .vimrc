@@ -270,8 +270,10 @@ nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .
 
 vnoremap * y/<c-r>"<cr>N
 
-
-
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
 
 " Arglist stuff
 " ------------------------------------------------------------------------------
@@ -517,7 +519,7 @@ nnoremap <c-f>j     :FindFilesIn ~/Dropbox/Notes<cr>
 nnoremap <c-f>h     :FindFilesIn ~/<cr>
 nnoremap <c-f>r     :MRU<cr>
 nnoremap <c-f><c-r> :MRU<cr>
-nnoremap <c-b>      :AllBuffers<cr>
+nnoremap <c-b>      :Lines<cr>
 
 function! s:getStockAgArgs(bang)
   if a:bang == 0

@@ -14,10 +14,14 @@
   trash = !git stash && git stash drop
   br = ! git for-each-ref --sort=committerdate refs/heads/ --format=' %(color:8)%(committerdate:relative)%(color:reset)|%(color:blue)%(HEAD)%(color:reset) %(refname:short)' | column -ts'|'
 	lcrev = log --reverse --no-merges --stat @{1}..
-	undo-commit = reset --soft HEAD^
+	copy = !git log -1 --pretty=%B | pbcopy
 [web]
   browser = google-chrome
 [filter "lfs"]
   clean = git lfs clean %f
   smudge = git lfs smudge %f
   required = true
+[advice]
+	statusHints = false
+[diff]
+	mnemonicprefix = true

@@ -1,6 +1,7 @@
 source ~/dev/antigen/antigen.zsh
 
 antigen bundle rupa/z
+antigen bundle djui/alias-tips
 antigen theme /Users/supercrabtree/dev/pure pure
 antigen apply
 
@@ -39,6 +40,7 @@ export MYZSHRC=~/.zshrc
 export MYVIMRC=~/.vimrc
 export SSHIDENT=pix
 export PROTOTYPE_FOLDER=~/dev/yeah
+export ZSH_PLUGINS_ALIAS_TIPS_TEXT="(╯°□°）╯︵ ┻━┻ "
 
 zstyle ':completion:*:*:*:*:*' menu select
 
@@ -110,7 +112,18 @@ setopt hist_verify
 setopt inc_append_history
 setopt share_history # share command history data
 
+# partial searching
+autoload -U up-line-or-beginning-search
+zle -N up-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
 
+autoload -U down-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+
+# use the homebrew version of zsh's help
+autoload run-help
+HELPDIR=/usr/local/share/zsh/help
 
 FLIP_FLOP=0
 s () {
@@ -239,9 +252,9 @@ cdwhich() {
 
 play() {
   if [ $1 ]
-    then
+  then
     if [ $2 ]
-      then
+    then
       NAME=$1-$2
     else
       NAME=$1-$[($RANDOM % 13843) + 1]
@@ -373,7 +386,60 @@ else
 fi
 }
 
+# colored man pages
+man() {
+  env \
+    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+    LESS_TERMCAP_md=$(printf "\e[1;32m") \
+    LESS_TERMCAP_me=$(printf "\e[0m") \
+    LESS_TERMCAP_se=$(printf "\e[0m") \
+    LESS_TERMCAP_so=$(printf "\e[38;05;00;48;05;03m") \
+    LESS_TERMCAP_ue=$(printf "\e[0m") \
+    LESS_TERMCAP_us=$(printf "\e[1;34m") \
+    PAGER="${commands[less]:-$PAGER}" \
+    _NROFF_U=1 \
+    PATH="$HOME/bin:$PATH" \
+    man "$@"
+}
 
+sudo-command-line() {
+    [[ -z $BUFFER ]] && zle up-history
+    if [[ $BUFFER == sudo\ * ]]; then
+        LBUFFER="${LBUFFER#sudo }"
+    else
+        LBUFFER="sudo $LBUFFER"
+    fi
+}
+zle -N sudo-command-line
+# Defined shortcut keys: [Esc] [Esc]
+bindkey "\e\e" sudo-command-line
+
+if brew command command-not-found-init > /dev/null; then eval "$(brew command-not-found-init)"; fi
+
+function pfd() {
+  osascript 2>/dev/null <<EOF
+    tell application "Finder"
+      return POSIX path of (target of window 1 as alias)
+    end tell
+EOF
+}
+
+function cdf() {
+  cd "$(pfd)"
+}
+
+function pfs() {
+  osascript 2>/dev/null <<EOF
+    set output to ""
+    tell application "Finder" to set the_selection to selection
+    set item_count to count the_selection
+    repeat with item_index from 1 to count the_selection
+      if item_index is less than item_count then set the_delimiter to "\n"
+      if item_index is item_count then set the_delimiter to ""
+      set output to output & ((item item_index of the_selection as alias)'s POSIX path) & the_delimiter
+    end repeat
+EOF
+}
 
 ## fzf stuff -------------------------------------------------------------------
 export FZF_DEFAULT_OPTS="--extended --multi --reverse --cycle\
@@ -505,6 +571,16 @@ z() {
   fi
 }
 
+d() {
+  if test "$#" = 0; then
+    (
+      git diff --color
+      git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i"; done
+    ) | less -R
+  else
+      git diff "$@"
+  fi
+}
 # New Keyboard Shortcuts
 # ------------------------------------------------------------------------------
 zle -N fancy-ctrl-z
@@ -538,5 +614,3 @@ bindkey '^I' $fzf_default_completion
 
 # must be after zle
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/zsh-history-substring-search/zsh-history-substring-search.zsh
-

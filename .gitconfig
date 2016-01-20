@@ -2,7 +2,7 @@
   default = current
 [user]
   name = George
-  email = gcrabtree@pixformance.com
+  email = supercrabtree@googlemail.com
 [core]
   excludesfile = ~/.gitignore
 [filter "hawser"]

@@ -1,24 +1,64 @@
-source ~/dev/antigen/antigen.zsh
+# [ -f ~/.zshrc-pre ] && source ~/.zshrc-pre
 
-antigen bundle rupa/z
-antigen bundle djui/alias-tips
-antigen theme /Users/supercrabtree/dev/pure pure
-antigen apply
+# Plugins
+# ------------------------------------------------------------------------------
+source ~/.zplug/zplug
 
-source ~/dev/k/k.sh
+zplug "rupa/z", of:z.sh
+zplug "djui/alias-tips"
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "knu/zsh-manydots-magic", of:manydots-magic, nice:10
+zplug "k4rthik/git-cal", as:command
+zplug "robbyrussell/oh-my-zsh", of:lib/history.zsh
+zplug "robbyrussell/oh-my-zsh", of:plugins/sudo/sudo.plugin.zsh
 
-zmodload zsh/mathfunc
-autoload zmv
+zplug "~/dev/pure", from:local
+zplug "~/dev/k", from:local, of:k.sh
 
-# Changing/making/removing directory
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  else
+    echo
+  fi
+fi
+
+zplug load
+
+
+# Autoload
+# ------------------------------------------------------------------------------
+autoload -U run-help
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+
+
+# Zsh options
+# ------------------------------------------------------------------------------
+setopt auto_cd
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushdminus
+setopt dotglob
 
-setopt auto_cd
 
+# Exports
+# ------------------------------------------------------------------------------
 export SHELL=/bin/zsh
 export GOPATH=$HOME/dev/go
+export GIT_MERGE_AUTOEDIT=no
+export GIT_EDITOR=vim
+export VISUAL=vim
+export EDITOR=vim
+export MYZSHRC=~/.zshrc
+export MYVIMRC=~/.vimrc
+export PROTOTYPE_FOLDER=~/dev/yeah
+export ZSH_PLUGINS_ALIAS_TIPS_TEXT="(╯°□°）╯︵ ┻━┻ "
+export LSCOLORS=exfxcxdxbxegedabagacad
+export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
+export BACKGROUND=dark
 
 export PATH=$PATH:$HOME/.rvm/bin
 export PATH=$PATH:$HOME/.npm/bin
@@ -31,108 +71,155 @@ export PATH=$PATH:/sbin
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$GOPATH/bin
 
-export GIT_MERGE_AUTOEDIT=no
-export GIT_EDITOR=vim
-export VISUAL=vim
-export EDITOR=vim
-export BACKGROUND=dark
-export MYZSHRC=~/.zshrc
-export MYVIMRC=~/.vimrc
-export SSHIDENT=pix
-export PROTOTYPE_FOLDER=~/dev/yeah
-export ZSH_PLUGINS_ALIAS_TIPS_TEXT="(╯°□°）╯︵ ┻━┻ "
 
+# Misc
+# ------------------------------------------------------------------------------
+# stop control flow, gimme ctrl-s back
+bindkey -r '\C-s'
+stty -ixon
+setopt noflowcontrol
+
+# 10 times the history size
+HISTSIZE=100000
+SAVEHIST=100000
+
+# using the homebrew version of zsh, so point at their docs
+HELPDIR=/usr/local/share/zsh/help
+
+source <(npm completion)
+
+
+# Z Style
+# ------------------------------------------------------------------------------
+zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:*:*:*' menu select
 
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias ....="cd ../../../.."
-alias .....="cd ../../../../.."
-alias ......="cd ../../../../../.."
-alias .......="cd ../../../../../../.."
-alias ........="cd ../../../../../../.."
 
-alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
-alias zshrc="vim ~/.zshrc"
-alias vimrc='vim ~/.vimrc'
+
+# New Keyboard Shortcuts
+# ------------------------------------------------------------------------------
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
+zle -N fancy-ctrl-q
+bindkey '^Q' fancy-ctrl-q
+
+zle -N fancy-branch
+bindkey '^b' fancy-branch
+
+zle -N up-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+
+zle -N down-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+
+zle -N first-tab
+bindkey '^I' first-tab
+
+zle -N switch-background
+bindkey -r '^_'
+bindkey '^_' switch-background
+
+zle -N globalaliasexpander
+bindkey " " globalaliasexpander
+bindkey "^ " magic-space           # control-space to bypass completion
+bindkey -M isearch " " magic-space # normal space during searches
+
+
+# Aliases
+# ------------------------------------------------------------------------------
+alias k="k -a"
+alias l="k -a --no-vcs"
+alias mkcd="_(){ mkdir -pv $1 && cd $1; }; _"
 alias dev="cd ~/dev"
-alias reload='source ~/.zshrc'
 alias o="open ."
-alias deploy="./deploy.sh"
-alias clearvim='rm -rf ~/.vim/tmp/*'
+alias reload="exec zsh"
+alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit ."
 
-alias run='./run'
-alias build='./build'
-alias deploy='./deploy'
-alias setup='./setup'
+alias zshrc="vim ~/.zshrc"
+alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
+alias vimrc="vim ~/.vimrc"
+alias clearvim="rm -rf ~/.vim/tmp/*"
+
+alias run="./run"
+alias build="./build"
+alias deploy="./deploy"
+alias setup="./setup"
 
 alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
 alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
 alias grc='git add -A && git rebase --continue'
 alias gc='git commit'
 alias gaa='git add -A'
-alias nw='/Applications/node-webkit.app/Contents/MacOS/node-webkit .'
-alias k="k -a"
-alias l="k -a --no-vcs"
-alias st="ssh-toggle"
+
+# suffix
+alias -s git='git clone'
+
+# global
+alias -g G='| grep -i '
+alias -g F='| fzf --ansi'
 
 
-bindkey -r '\C-s'
-stty -ixon
+# Custom Functions
+# ------------------------------------------------------------------------------
+cdwhich() {
+  cd "$(dirname $(which $1))"
+}
 
-# zle-line-init() {
-#   zle autosuggest-start
-# }
-# zle -N zle-line-init
-
-
-## Command history configuration - robbed from oh-my-zsh
-if [ -z "$HISTFILE" ]; then
-    HISTFILE=$HOME/.zsh_history
-fi
-
-HISTSIZE=20000
-SAVEHIST=20000
-
-# Show history
-case $HIST_STAMPS in
-  "mm/dd/yyyy") alias history='fc -fl 1' ;;
-  "dd.mm.yyyy") alias history='fc -El 1' ;;
-  "yyyy-mm-dd") alias history='fc -il 1' ;;
-  *) alias history='fc -l 1' ;;
-esac
-
-setopt append_history
-setopt extended_history
-setopt hist_expire_dups_first
-setopt hist_ignore_dups # ignore duplication command history list
-setopt hist_ignore_space
-setopt hist_verify
-setopt inc_append_history
-setopt share_history # share command history data
-
-# partial searching
-autoload -U up-line-or-beginning-search
-zle -N up-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search
-
-autoload -U down-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[B" down-line-or-beginning-search
-
-# use the homebrew version of zsh's help
-autoload run-help
-HELPDIR=/usr/local/share/zsh/help
-
-FLIP_FLOP=0
-s () {
-  if [ $FLIP_FLOP -eq 0 ]; then
-    FLIP_FLOP=1
-    echo -e "\033]50;SetProfile=supercrabtree-light\a"
+# No arguments: `git status -s`
+# With arguments: acts like `git`
+compdef g=git
+g() {
+  if [[ $# > 0 ]]; then
+    git $@
   else
-    FLIP_FLOP=0
-    echo -e "\033]50;SetProfile=supercrabtree-dark\a"
+    git status -s
+  fi
+}
+
+# colored man pages
+man() {
+  env \
+    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+    LESS_TERMCAP_md=$(printf "\e[1;32m") \
+    LESS_TERMCAP_me=$(printf "\e[0m") \
+    LESS_TERMCAP_se=$(printf "\e[0m") \
+    LESS_TERMCAP_so=$(printf "\e[38;05;00;48;05;03m") \
+    LESS_TERMCAP_ue=$(printf "\e[0m") \
+    LESS_TERMCAP_us=$(printf "\e[1;34m") \
+    PAGER="${commands[less]:-$PAGER}" \
+    _NROFF_U=1 \
+    PATH="$HOME/bin:$PATH" \
+    man "$@"
+}
+
+switch-background () {
+  if [[ $BACKGROUND == "dark" ]]; then
+    BACKGROUND=light
+    echo -e "\033]50;SetProfile=supercrabtree-light\a             ┬─┬ ︵ ノ(°_° ノ)"
+    zle reset-prompt
+  else
+    BACKGROUND=dark
+    echo -e "\033]50;SetProfile=supercrabtree-dark\a(╯°□°)╯︵ ┻━┻"
+    zle reset-prompt
+  fi
+}
+
+globalaliasexpander() {
+  if [[ $LBUFFER =~ " [A-Z0-9]+$" ]]; then
+    zle _expand_alias
+    zle expand-word
+  fi
+  zle self-insert
+}
+
+first-tab() {
+  if [[ $#BUFFER == 0 ]]; then
+    BUFFER="cd "
+    CURSOR=3
+    zle list-choices
+  else
+    zle expand-or-complete
   fi
 }
 
@@ -197,73 +284,8 @@ mygit() {
     git config user.email supercrabtree@googlemail.com || { return 1; }
     echo "\nSetting local Git Config\nUsername: \033[0;34mGeorge Crabtree\033[0m\nEmail: \033[0;34msupercrabtree@googlemail.com\033[0m\n"
   else
-     echo "\n\033[0;31mNo git repository found in this directory.\033[0m\n"
-     return 1;
-  fi
-}
-
-# No arguments: `git status`
-# With arguments: acts like `git`
-g() {
-  if [[ $# > 0 ]]; then
-    git $@
-  else
-    git status -s
-  fi
-}
-# Complete g like git
-compdef g=git
-
-gs() {
-  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD);
-
-  if [ $1 ]; then
-    echo "\n\033[0;34mgit add -A\033[0m"
-    git add -A || { return 1; }
-
-    echo "\n\033[0;34mgit commit -m \033[0m\033[0;33m$1\033[0m"
-    git commit -m $1 || { return 1; }
-  fi
-
-  echo "\n\033[0;34mgit pull --rebase origin $CURRENT_BRANCH\033[0m"
-  git pull --rebase origin $CURRENT_BRANCH || { return 1; }
-
-  echo "\n\033[0;34mgit push origin $CURRENT_BRANCH\033[0m"
-  git push origin $CURRENT_BRANCH || { return 1; }
-}
-
-# Serve some static stuff from CWD fast
-serve() {
-  PORT=8001
-  if [ "$1" != "" ]; then
-    PORT=$1
-  fi
-  python -m SimpleHTTPServer $PORT
-  open "http://localhost:$PORT"
-}
-
-mkcd () {
-  mkdir -p -v $1 && cd $1
-}
-
-cdwhich() {
-  cd "$(dirname $(which $1))"
-}
-
-play() {
-  if [ $1 ]
-  then
-    if [ $2 ]
-    then
-      NAME=$1-$2
-    else
-      NAME=$1-$[($RANDOM % 13843) + 1]
-    fi
-    cd ~/dev/yeah && mkdir $NAME && cd $_
-    yo $1
-    vim
-  else
-    cd ~/dev/yeah && mkdir yeah-$[($RANDOM % 13843) + 1] && cd $_
+    echo "\n\033[0;31mNo git repository found in this directory.\033[0m\n"
+    return 1;
   fi
 }
 
@@ -293,128 +315,52 @@ colortest() {
   fi
 }
 
-de() {
-  searchFor=""
-  sayIt='false'
-  for i in $@; do
-    if [ $i = "-s" ]; then
-      sayIt='true'
-    else
-      searchFor+="$i "
-    fi
-  done
-  __CF_USER_TEXT_ENCODING=0x1F5:0x8000100:0x8000100
-  res=`curl -s -i --user-agent "" -d "sl=en" -d "tl=de" --data-urlencode "text=$searchFor" https://translate.google.com | ack '(?:<span id=result_box[^>]*>[^>]*>)(.*?)(?:</span>)' --output '$1' | iconv -f LATIN1 -t UTF8`
-  echo $res | tr -d  '\n' | pbcopy
-  echo "\n  \033[0;33m$res\033[0m"
-  if [ $sayIt = 'true' ]; then
-    `say -v Anna $res -r 220`
+# Serve some static stuff from CWD fast
+serve() {
+  PORT=8001
+  if [ "$1" != "" ]; then
+    PORT=$1
   fi
+  python -m SimpleHTTPServer $PORT
+  open "http://localhost:$PORT"
 }
 
-en() {
-  searchFor=""
-  sayIt='false'
-  for i in $@; do
-    if [ $i = "-s" ]; then
-      sayIt='true'
+play() {
+  if [ $1 ]
+  then
+    if [ $2 ]
+    then
+      NAME=$1-$2
     else
-      searchFor+="$i "
+      NAME=$1-$[($RANDOM % 13843) + 1]
     fi
-  done
-  __CF_USER_TEXT_ENCODING=0x1F5:0x8000100:0x8000100
-  res=`curl -s -i --user-agent "" -d "sl=de" -d "tl=en" --data-urlencode "text=$searchFor" https://translate.google.com | ack '(?:<span id=result_box[^>]*>[^>]*>)(.*?)(?:</span>)' --output '$1' | iconv -f LATIN1 -t UTF8`
-  echo $res | tr -d  '\n' | pbcopy
-  echo "\n  \033[0;33m$res\033[0m"
-  if [ $sayIt = 'true' ]; then
-    `say $res -r 220`
-  fi
-}
-
-p () {
-  if [ -z "$PROTOTYPE_FOLDER" ]; then
-    echo '\n\033[0;32mYou must set environment varible for where your prototypes will go, put \033[0mexport PROTOTYPE_FOLDER=~/path/where/i/want/prototypes\033[0;32m in your .zshrc. Make sure the folder exists!\033[0m'
+    cd ~/dev/yeah && mkdir $NAME && cd $_
+    yo $1
+    vim
   else
-    if [ $1 ]; then
-      NAME=$1
-    else
-      NAME=proto-$[($RANDOM % 13843) + 1]
-    fi
-    cd $PROTOTYPE_FOLDER
-    mkdir $NAME
-    git clone git@github.com:supercrabtree/prototype $NAME
-    cd $NAME
-    npm install && bower install && echo '\n  \033[0;32mPrototype ready!\n\n  run using\033[0m npm start\n  \033[0;32mchange the remote using \033[0mgit remote set-url origin git@github.com:user/other-repo.git'
+    cd ~/dev/yeah && mkdir yeah-$[($RANDOM % 13843) + 1] && cd $_
   fi
 }
 
-ssh-pix () {
-  echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_pix_rsa\n' > ~/.ssh/config
-}
-ssh-me () {
-  echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n' > ~/.ssh/config
-}
-
-ssh-toggle() {
-if [ $SSHIDENT = "pix" ]
-then
-  export SSHIDENT=me
-  echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n' > ~/.ssh/config
-  echo "\n\033[38;5;242;mUsing ssh key\033[0m ~/.ssh/id_rsa"
-else
-  export SSHIDENT=pix
-  echo 'Host github.com\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_pix_rsa\n' > ~/.ssh/config
-  echo "\n\033[38;5;242;mUsing ssh key\033[0m ~/.ssh/id_pix_rsa"
-fi
-}
 fancy-ctrl-z () {
-if [[ $#BUFFER -eq 0 ]]; then
-  BUFFER="fg"
-  zle accept-line
-else
-  zle push-input
-  zle clear-screen
-fi
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line
+  else
+    zle push-input
+    zle clear-screen
+  fi
 }
+
 fancy-ctrl-q () {
-if [[ $#BUFFER -eq 0 ]]; then
-  BUFFER="vim -S"
-  zle accept-line
-else
-  zle push-input
-  zle clear-screen
-fi
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="vim -S"
+    zle accept-line
+  else
+    zle push-input
+    zle clear-screen
+  fi
 }
-
-# colored man pages
-man() {
-  env \
-    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-    LESS_TERMCAP_md=$(printf "\e[1;32m") \
-    LESS_TERMCAP_me=$(printf "\e[0m") \
-    LESS_TERMCAP_se=$(printf "\e[0m") \
-    LESS_TERMCAP_so=$(printf "\e[38;05;00;48;05;03m") \
-    LESS_TERMCAP_ue=$(printf "\e[0m") \
-    LESS_TERMCAP_us=$(printf "\e[1;34m") \
-    PAGER="${commands[less]:-$PAGER}" \
-    _NROFF_U=1 \
-    PATH="$HOME/bin:$PATH" \
-    man "$@"
-}
-
-sudo-command-line() {
-    [[ -z $BUFFER ]] && zle up-history
-    if [[ $BUFFER == sudo\ * ]]; then
-        LBUFFER="${LBUFFER#sudo }"
-    else
-        LBUFFER="sudo $LBUFFER"
-    fi
-}
-zle -N sudo-command-line
-# Defined shortcut keys: [Esc] [Esc]
-bindkey "\e\e" sudo-command-line
-
-if brew command command-not-found-init > /dev/null; then eval "$(brew command-not-found-init)"; fi
 
 function pfd() {
   osascript 2>/dev/null <<EOF
@@ -428,7 +374,7 @@ function cdf() {
   cd "$(pfd)"
 }
 
-function pfs() {
+function cpf() {
   osascript 2>/dev/null <<EOF
     set output to ""
     tell application "Finder" to set the_selection to selection
@@ -441,7 +387,20 @@ function pfs() {
 EOF
 }
 
-## fzf stuff -------------------------------------------------------------------
+d() {
+  if test "$#" = 0; then
+    (
+    git diff --color
+    git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i"; done
+    ) | less -R
+  else
+    git diff "$@"
+  fi
+}
+
+
+# FZF functions
+# ------------------------------------------------------------------------------
 export FZF_DEFAULT_OPTS="--extended --multi --reverse --cycle\
   --bind=ctrl-n:toggle-down\
   --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:4,hl+:2,prompt:2,marker:2,pointer:2,info:5"
@@ -450,10 +409,10 @@ export FZF_DEFAULT_OPTS="--extended --multi --reverse --cycle\
 fshow() {
   local out shas sha q k
   while out=$(
-      git log --graph --color=always \
-          --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-      fzf --ansi --multi --no-sort --query="$q" --tiebreak=index \
-          --print-query --expect=ctrl-d --toggle-sort=\`); do
+    git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+    fzf --ansi --multi --no-sort --query="$q" --tiebreak=index \
+      --print-query --expect=ctrl-d --toggle-sort=\`); do
     q=$(head -1 <<< "$out")
     k=$(head -2 <<< "$out" | tail -1)
     shas=$(sed '1,2d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
@@ -468,36 +427,36 @@ fshow() {
   done
 }
 
-# git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" | xargs printf 'yoyoyoyoyoyo\n%s' 
+# git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" | xargs printf 'yoyoyoyoyoyo\n%s'
 # --header-file="/Users/supercrabtree/.fstashheader"\
 fstash() {
   local out q k sha
-    while out=$(
-      echo "enter: show stash contents | ctrl-d: diff stash against HEAD | ctrl-a: apply stash | ctrl-b: checkout new branch containing stash\n\
-$(git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs")" |
-      fzf --ansi --no-sort --query="$q" --print-query \
-          --header-lines=1\
-          --expect=ctrl-d,ctrl-b,ctrl-p,ctrl-a);
-    do
-      q=$(head -1 <<< "$out")
-      k=$(head -2 <<< "$out" | tail -1)
-      sha=$(tail -1 <<< "$out" | cut -d' ' -f1)
-      [ -z "$sha" ] && continue
-      if [ "$k" = 'ctrl-d' ]; then
-        git diff $sha
-      elif [ "$k" = 'ctrl-b' ]; then
-        git stash branch "stash-$sha" $sha
-        break;
-      elif [ "$k" = 'ctrl-p' ]; then
-        git stash pop $sha
-        break;
-      elif [ "$k" = 'ctrl-a' ]; then
-        git stash apply $sha
-        break;
-      else
-        git stash show -p $sha
-      fi
-    done
+  while out=$(
+    echo "enter: show stash contents | ctrl-d: diff stash against HEAD | ctrl-a: apply stash | ctrl-b: checkout new branch containing stash\n\
+      $(git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs")" |
+    fzf --ansi --no-sort --query="$q" --print-query \
+      --header-lines=1\
+      --expect=ctrl-d,ctrl-b,ctrl-p,ctrl-a);
+  do
+    q=$(head -1 <<< "$out")
+    k=$(head -2 <<< "$out" | tail -1)
+    sha=$(tail -1 <<< "$out" | cut -d' ' -f1)
+    [ -z "$sha" ] && continue
+    if [ "$k" = 'ctrl-d' ]; then
+      git diff $sha
+    elif [ "$k" = 'ctrl-b' ]; then
+      git stash branch "stash-$sha" $sha
+      break;
+    elif [ "$k" = 'ctrl-p' ]; then
+      git stash pop $sha
+      break;
+    elif [ "$k" = 'ctrl-a' ]; then
+      git stash apply $sha
+      break;
+    else
+      git stash show -p $sha
+    fi
+  done
 }
 
 c() {
@@ -511,7 +470,7 @@ c() {
 
   sqlite3 -separator $sep /tmp/h \
     "select substr(title, 1, $cols), url
-     from urls order by last_visit_time desc" |
+  from urls order by last_visit_time desc" |
   awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\n", $1, $2}' |
   fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
 }
@@ -519,18 +478,18 @@ c() {
 fancy-branch() {
   local tags localbranches remotebranches target
   tags=$(
-    git tag | awk '{print "\x1b[33;1mtag\x1b[m\t" $1}') || return
+  git tag | awk '{print "\x1b[33;1mtag\x1b[m\t" $1}') || return
   localbranches=$(
-    git branch       | grep -v HEAD             |
-    sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
-    sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+  git branch       | grep -v HEAD             |
+  sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
+  sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
   remotebranches=$(
-    git branch --remote | grep -v HEAD             |
-    sed "s/.* //"       | sed "s#remotes/[^/]*/##" |
-    sort -u             | awk '{print "\x1b[31;1mbranch\x1b[m\t" $1}') || return
+  git branch --remote | grep -v HEAD             |
+  sed "s/.* //"       | sed "s#remotes/[^/]*/##" |
+  sort -u             | awk '{print "\x1b[31;1mbranch\x1b[m\t" $1}') || return
   target=$(
-    (echo "$localbranches"; echo "$remotebranches"; echo "$tags";) |
-    fzf --no-hscroll --ansi +m -d "\t" -n 2) || return
+  (echo "$localbranches"; echo "$remotebranches"; echo "$tags";) |
+  fzf --no-hscroll --ansi +m -d "\t" -n 2) || return
   if [[ -z "$BUFFER" ]]; then
     git checkout $(echo "$target" | awk '{print $2}')
     zle accept-line
@@ -571,46 +530,36 @@ z() {
   fi
 }
 
-d() {
-  if test "$#" = 0; then
-    (
-      git diff --color
-      git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i"; done
-    ) | less -R
-  else
-      git diff "$@"
-  fi
-}
-# New Keyboard Shortcuts
-# ------------------------------------------------------------------------------
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
-
-zle -N fancy-ctrl-q
-bindkey '^Q' fancy-ctrl-q
-
-zle -N fancy-branch
-bindkey '^b' fancy-branch
-
-# Pixformance stuff
-# ------------------------------------------------------------------------------
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
-export PIX_ROOT="$HOME/dev/pix"
-export PIX_FRONTEND="$PIX_ROOT/web.platform"
-export PIX_BACKEND="$PIX_ROOT/api.services"
-export PIX_WIKI="$PIX_ROOT/api.services.wiki"
-export PIX_SUB="$PIX_ROOT/platform.PIXSUB/"
-export RUBY_SERVER_SCRIPT_COMMAND="bundle exec rails server"
-eval "$($PIX_SUB/bin/pix init -)"
 
 
 # FZF
+# ------------------------------------------------------------------------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 export  FZF_COMPLETION_TRIGGER=''
 bindkey '^F' fzf-file-widget
 zle      -N  fzf-file-widget
 bindkey '^I' $fzf_default_completion
 
-# must be after zle
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[ -f ~/.zshrc-post ] && source ~/.zshrc-post
+
+
+: <<'COMMENTS'
+p () {
+  if [ -z "$PROTOTYPE_FOLDER" ]; then
+    echo '\n\033[0;32mYou must set environment varible for where your prototypes will go, put \033[0mexport PROTOTYPE_FOLDER=~/path/where/i/want/prototypes\033[0;32m in your .zshrc. Make sure the folder exists!\033[0m'
+  else
+    if [ $1 ]; then
+      NAME=$1
+    else
+      NAME=proto-$[($RANDOM % 13843) + 1]
+    fi
+    cd $PROTOTYPE_FOLDER
+    mkdir $NAME
+    git clone git@github.com:supercrabtree/prototype $NAME
+    cd $NAME
+    npm install && bower install && echo '\n  \033[0;32mPrototype ready!\n\n  run using\033[0m npm start\n  \033[0;32mchange the remote using \033[0mgit remote set-url origin git@github.com:user/other-repo.git'
+  fi
+}
+
+COMMENTS

@@ -1132,6 +1132,13 @@
 	<real>10</real>
 	<key>GlobalKeyMap</key>
 	<dict>
+		<key>0x2f-0x40000</key>
+		<dict>
+			<key>Action</key>
+			<integer>25</integer>
+			<key>Text</key>
+			<string>Clear Buffer</string>
+		</dict>
 		<key>0x3b-0x100000</key>
 		<dict>
 			<key>Action</key>
@@ -1145,13 +1152,6 @@
 			<integer>0</integer>
 			<key>Text</key>
 			<string></string>
-		</dict>
-		<key>0x69-0x140000</key>
-		<dict>
-			<key>Action</key>
-			<integer>25</integer>
-			<key>Text</key>
-			<string>Broadcast Input to All Panes in All Tabs</string>
 		</dict>
 		<key>0x6a-0x100000</key>
 		<dict>
@@ -2936,7 +2936,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-01-17T22:00:38Z</date>
+	<date>2016-01-20T00:42:04Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -2965,6 +2965,8 @@
 	<array>
 		<string>Profiles</string>
 	</array>
+	<key>Use background pattern indicator</key>
+	<false/>
 	<key>UseBorder</key>
 	<false/>
 	<key>UseLionStyleFullscreen</key>

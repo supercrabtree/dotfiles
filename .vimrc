@@ -146,6 +146,9 @@ vnoremap Y y`]
 nnoremap + mzj0d^i<bs><esc>`z
 nnoremap g+ mzj0d^i<bs> <esc>`z
 
+" auto insertions
+inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
+
 " clear search highlights and refresh screen
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk
 

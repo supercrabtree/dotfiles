@@ -132,7 +132,7 @@ alias k="k -a"
 alias l="k -a --no-vcs"
 alias mkcd="_(){ mkdir -pv $1 && cd $1; }; _"
 alias dev="cd ~/dev"
-alias o="open ."
+alias f="open ."
 alias reload="exec zsh"
 alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit ."
 
@@ -370,11 +370,11 @@ function pfd() {
 EOF
 }
 
-function cdf() {
+function fp() {
   cd "$(pfd)"
 }
 
-function cpf() {
+function fpf() {
   osascript 2>/dev/null <<EOF
     set output to ""
     tell application "Finder" to set the_selection to selection

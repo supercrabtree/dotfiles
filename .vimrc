@@ -260,6 +260,8 @@ nnoremap <space>O O<esc>
 " debugger toggle
 nnoremap <silent> <space>d :ToggleDebugger<cr>
 
+nnoremap <silent> <space>f :Finder<cr>
+
 " make use strict javascript
 nnoremap <space>us mzggO'use strict';<cr><esc>`z
 
@@ -791,7 +793,7 @@ function! s:RevealInFinder(file)
   redraw!
 endfunction
 
-command! -complete=file -nargs=? Reveal call <sid>RevealInFinder(<q-args>)
+command! -complete=file -nargs=? Finder call <sid>RevealInFinder(<q-args>)
 
 function! g:CopyTheText()
   let old_z = @z

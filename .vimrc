@@ -6,8 +6,7 @@ call plug#begin('~/.vim/plugged')
 " Plugins
 " ------------------------------------------------------------------------------
 
-" Unite
-" Plug 'Shougo/unite.vim'
+" Shougo
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neocomplete.vim'
@@ -36,13 +35,11 @@ Plug 'ap/vim-buftabline'
 Plug 'mbbill/undotree'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'chrisbra/Recover.vim'
-" Plug 'airblade/vim-gitgutter'
 Plug 'dyng/ctrlsf.vim'
 Plug 'wellle/targets.vim'
 
 " Language Specific
 Plug 'digitaltoad/vim-jade'
-Plug 'Raimondi/delimitMate'
 Plug 'pangloss/vim-javascript'
 " Plug 'isRuslan/vim-es6'
 Plug 'hail2u/vim-css3-syntax'

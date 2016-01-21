@@ -480,7 +480,7 @@ let g:neocomplete#same_filetypes = {}
 let g:neocomplete#same_filetypes._ = '_'
 
 " Ctrlsf
-let g:ctrlsf_regex_pattern = 1
+let g:ctrlsf_regex_pattern = 0
 let g:ctrlsf_confirm_save = 0
 let g:ctrlsf_indent = 2
 
@@ -492,9 +492,8 @@ nnoremap <c-s>       :echoerr 'too slow!'<cr>
 nnoremap <c-s><c-s>  :CtrlSF 
 nnoremap <c-s><up>   :CtrlSF <up>
 nnoremap <c-s><down> :CtrlSF <down>
-nnoremap <c-s>o      :CtrlSFOpen<cr>
-nnoremap <c-s>t      :CtrlSFToggle<cr>
-inoremap <c-s>t      <Esc>:CtrlSFToggle<cr>
+nnoremap <c-s><c-t>  :CtrlSFToggle<cr>
+inoremap <c-s><c-t>  <Esc>:CtrlSFToggle<cr>
 
 let g:ctrlsf_mapping = {
 \ "next"  : "<down>",
@@ -503,7 +502,7 @@ let g:ctrlsf_mapping = {
 \ "open"  : "<cr>",
 \ "tab"   : "",
 \ "tabb"  : "",
-\ "openb" : "<c-o>",
+\ "openb" : "O",
 \ "split" : ""
 \ }
 
@@ -845,9 +844,10 @@ augroup georges_autocommands
   autocmd!
   " autocmd FileType unite call s:unite_settings()
 
-  autocmd FileType ctrlsf map <buffer> o <c-o><c-f>o
-  autocmd FileType ctrlsf map <buffer> K <up>pzz
-  autocmd FileType ctrlsf map <buffer> J <down>pzz
+  autocmd FileType ctrlsf map <buffer> <c-o> Ozt<c-w><c-w>
+  autocmd FileType ctrlsf map <buffer> o     Ozt
+  autocmd FileType ctrlsf map <buffer> K     <up>pzz
+  autocmd FileType ctrlsf map <buffer> J     <down>pzz
 
   " return to the last edited position when opening a file
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif

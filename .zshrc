@@ -6,8 +6,8 @@ source ~/.zplug/zplug
 
 zplug "rupa/z", of:z.sh
 zplug "djui/alias-tips"
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "knu/zsh-manydots-magic", of:manydots-magic, nice:10
+zplug "zsh-users/zsh-syntax-highlighting", nice:10
+zplug "knu/zsh-manydots-magic", of:manydots-magic, nice:11
 zplug "k4rthik/git-cal", as:command
 zplug "robbyrussell/oh-my-zsh", of:lib/history.zsh
 zplug "robbyrussell/oh-my-zsh", of:plugins/sudo/sudo.plugin.zsh
@@ -109,10 +109,12 @@ zle -N fancy-branch
 bindkey '^b' fancy-branch
 
 zle -N up-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search
+zle -N searchup
+bindkey "^[[A" searchup
 
 zle -N down-line-or-beginning-search
-bindkey "^[[B" down-line-or-beginning-search
+zle -N searchdown
+bindkey "^[[B" searchdown
 
 zle -N first-tab
 bindkey '^I' first-tab
@@ -163,6 +165,15 @@ alias -g F='| fzf --ansi'
 
 # Custom Functions
 # ------------------------------------------------------------------------------
+searchup() {
+  zle up-line-or-beginning-search
+  _zsh_highlight
+}
+searchdown() {
+  zle down-line-or-beginning-search
+  _zsh_highlight
+}
+
 cdwhich() {
   cd "$(dirname $(which $1))"
 }

@@ -403,6 +403,7 @@ d() {
   if test "$#" = 0; then
     (
     git diff --color
+    echo
     git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i"; done
     ) | less -R
   else

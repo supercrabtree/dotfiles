@@ -88,6 +88,7 @@ HELPDIR=/usr/local/share/zsh/help
 
 source <(npm completion)
 
+_Z_DATA=$HOME/.z.data/.z
 
 # Z Style
 # ------------------------------------------------------------------------------

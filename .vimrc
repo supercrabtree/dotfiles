@@ -130,9 +130,11 @@ endif
 
 " Change keycodes
 " ------------------------------------------------------------------------------
-" in karabiner ctrl-m is remapped to <F19> so i can use it indepent of return
-set <F17>=[15;2~
+" in iterm command-up and command-down are remapped to send these sequences
+" currently needed for karabiner
+" set <F17>=[15;2~
 set <F18>=[17;2~
+" in karabiner ctrl-m is remapped to <F19> so i can use it indepent of return
 set <F19>=[18;2~
 
 
@@ -159,36 +161,49 @@ nnoremap <silent> <left> <c-^>
 
 command! NextBuffer :call <sid>NextBuffer()
 function! <sid>NextBuffer()
-  let argListLength = len(argv())
-  if argListLength == 0
+  if g:inArgsMode == 0
     bnext
   else
-    call <sid>ArgNext()
+    let argListLength = len(argv())
+    if argListLength == 0
+      let g:inArgsMode = 0
+      hi BufTabLineCurrent ctermbg=12 ctermfg=4 cterm=none
+      bnext
+    else
+      call <sid>ArgNext()
+    endif
   endif
-
 endfunction
 
 command! PreviousBuffer :call <sid>PreviousBuffer()
 function! <sid>PreviousBuffer()
-  let argListLength = len(argv())
-  if argListLength == 0
+  if g:inArgsMode == 0
     bprevious
   else
-    call <sid>ArgPrevious()
+    let argListLength = len(argv())
+    if argListLength == 0
+      let g:inArgsMode = 0
+      hi BufTabLineCurrent ctermbg=12 ctermfg=4 cterm=none
+      bprevious
+    else
+      call <sid>ArgPrevious()
+    endif
   endif
 endfunction
 
-nnoremap <F17> <c-w>W
-nnoremap <F18> <c-w>w
+nnoremap <F18> :echo 'asdf'<cr>
 
-inoremap <F17> <esc><c-w>W
-inoremap <F18> <esc><c-w>w
+" nnoremap <F17> <c-w>W
+" nnoremap <F18> <c-w>w
 
-vnoremap <F17> <esc><c-w>W
-vnoremap <F18> <esc><c-w>w
+" inoremap <F17> <esc><c-w>W
+" inoremap <F18> <esc><c-w>w
 
-cnoremap <F17> <c-u><esc><c-w>W
-cnoremap <F18> <c-u><esc><c-w>w
+" vnoremap <F17> <esc><c-w>W
+" vnoremap <F18> <esc><c-w>w
+
+" cnoremap <F17> <c-u><esc><c-w>W
+" cnoremap <F18> <c-u><esc><c-w>w
 
 " ctrl-loose
 nnoremap <silent> <right> :bdelete<cr>
@@ -284,10 +299,31 @@ nnoremap <space>as :ArgsShow<cr>
 nnoremap <space>ar :ArgsReorderByBufNum<cr>
 nnoremap <space>ac :ArgsCleanDuplicates<cr>
 nnoremap <F19> :ArgToggle<cr>
+nnoremap <F18> :ArgsModeToggle<cr>
 nnoremap M :ArgToggle<cr>
-nnoremap J :bprevious<cr>
-nnoremap K :bnext<cr>
 nnoremap L :ArgDelete<cr>
+
+function! <sid>ArgsModeToggle()
+  if g:inArgsMode == 0
+    let g:inArgsMode = 1
+    hi BufTabLineCurrent ctermbg=12   ctermfg=2    cterm=none
+  else
+    let g:inArgsMode = 0
+    hi BufTabLineCurrent ctermbg=12   ctermfg=4    cterm=none
+  endif
+endfunction
+command! ArgsModeToggle :call <sid>ArgsModeToggle()
+
+function! <sid>SetupArgsMode()
+  let g:inArgsMode = len(argv())
+  if g:inArgsMode == 0
+    hi BufTabLineCurrent ctermbg=12   ctermfg=4    cterm=none
+  else
+    hi BufTabLineCurrent ctermbg=12   ctermfg=2    cterm=none
+  endif
+endfunction
+
+
 
 command! ArgsDelete :call <sid>ArgsDelete()
 function! <sid>ArgsDelete()
@@ -890,7 +926,7 @@ augroup georges_autocommands
 
   " save session by default when saving
   autocmd VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
-
+  autocmd VimEnter * call <sid>SetupArgsMode()
 augroup END
 
 
@@ -974,8 +1010,9 @@ hi link markdownHeadingDelimiter Title
 hi htmlItalic        ctermbg=none ctermfg=none cterm=italic
 
 " Buftabline
-hi BufTabLineActive  ctermbg=12   ctermfg=5    cterm=italic
+" set again in <sid>SetupArgsMode
 hi BufTabLineCurrent ctermbg=12   ctermfg=2    cterm=none
+hi BufTabLineActive  ctermbg=12   ctermfg=5    cterm=italic
 hi BufTabLineHidden  ctermbg=12   ctermfg=11   cterm=none
 hi BufTabLineArglist ctermbg=12   ctermfg=5    cterm=none
 hi BufTabLineFill    ctermbg=12                cterm=none

@@ -88,11 +88,17 @@
 
     </item>
 
-
-
-
-
-
+    <item>
+      <name>Capslock to F18 and Control</name>
+      <appendix>Tap Capslock for F18, Hold for Control</appendix>
+      <identifier>space_cadet.capslock_control_F18</identifier>
+      <autogen>
+        __KeyOverlaidModifier__
+        KeyCode::CONTROL_L,
+        KeyCode::CONTROL_L,
+        KeyCode::F18
+      </autogen>
+    </item>
 
 
 

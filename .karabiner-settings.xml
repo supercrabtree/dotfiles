@@ -45,6 +45,20 @@
 
     </item>
     <item>
+      <name>Left Ctrl and Quote to Doublequote</name>
+      <appendix>Stops typos in Vim when Shift and Quote were supposed to have been pressed</appendix>
+
+      <identifier>space_cadet.left_control_and_quote_to_double_quote</identifier>
+
+      <autogen>
+        --KeyToKey--
+        KeyCode::QUOTE, ModifierFlag::CONTROL_L,
+
+        KeyCode::QUOTE, ModifierFlag::SHIFT_L
+      </autogen>
+
+    </item>
+    <item>
       <name>Left Ctrl and Backspace to Del</name>
       <appendix>Unused and so now a bit easier to type</appendix>
 

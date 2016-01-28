@@ -5,15 +5,16 @@
 source ~/.zplug/zplug
 
 zplug "rupa/z", of:z.sh
-zplug "djui/alias-tips"
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
 zplug "knu/zsh-manydots-magic", of:manydots-magic, nice:11
 zplug "k4rthik/git-cal", as:command
-zplug "robbyrussell/oh-my-zsh", of:lib/history.zsh
 zplug "robbyrussell/oh-my-zsh", of:plugins/sudo/sudo.plugin.zsh
+zplug "djui/alias-tips"
+zplug "zsh-users/zsh-completions"
+zplug "mafredri/zsh-async"
+zplug "supercrabtree/pure"
 
-zplug "~/dev/pure", from:local
-zplug "~/dev/k", from:local, of:k.sh
+# zplug "pixelb/scripts", of:scripts/l
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -27,12 +28,17 @@ fi
 
 zplug load
 
+# easier to work on / see pr's
+source ~/dev/k/k.sh
+# source ~/dev/pure/pure.zsh
 
-# Autoload
+
+# Load
 # ------------------------------------------------------------------------------
 autoload -U run-help
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
+zmodload -i zsh/parameter
 
 
 # Zsh options
@@ -43,33 +49,52 @@ setopt pushd_ignore_dups
 setopt pushdminus
 setopt dotglob
 
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt share_history
+setopt ignoreeof
+setopt correct
+setopt correctall
+# setopt xtrace
+
 
 # Exports
 # ------------------------------------------------------------------------------
-export SHELL=/bin/zsh
-export GOPATH=$HOME/dev/go
-export GIT_MERGE_AUTOEDIT=no
-export GIT_EDITOR=vim
 export VISUAL=vim
 export EDITOR=vim
+export BACKGROUND=dark
+export LSCOLORS=exfxcxdxbxegedabagacad
+# export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
+
 export MYZSHRC=~/.zshrc
 export MYVIMRC=~/.vimrc
-export PROTOTYPE_FOLDER=~/dev/yeah
 export ZSH_PLUGINS_ALIAS_TIPS_TEXT="(╯°□°）╯︵ ┻━┻ "
-export LSCOLORS=exfxcxdxbxegedabagacad
-export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
-export BACKGROUND=dark
+export PROTOTYPE_FOLDER=~/dev/yeah
 
-export PATH=$PATH:$HOME/.rvm/bin
-export PATH=$PATH:$HOME/.npm/bin
+export LESS="-RFX"
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='0;33'
+
+export LESS_TERMCAP_mb=$'\E[1;31m'
+export LESS_TERMCAP_md=$'\E[1;32m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[38;05;00;48;05;03m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[1;34m'
+
+export PATH=$PATH:~/.rvm/bin
+export PATH=$PATH:~/.npm/bin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/bin
 export PATH=$PATH:/bin
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/sbin
-export PATH=$PATH:$HOME/bin
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:~/bin
+export PATH=$PATH:~/git-functions
 
 
 # Misc
@@ -79,8 +104,9 @@ bindkey -r '\C-s'
 stty -ixon
 setopt noflowcontrol
 
-# 10 times the history size
-HISTSIZE=100000
+# history settings
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=200000
 SAVEHIST=100000
 
 # using the homebrew version of zsh, so point at their docs
@@ -88,13 +114,12 @@ HELPDIR=/usr/local/share/zsh/help
 
 source <(npm completion)
 
-_Z_DATA=$HOME/.z.data/.z
+_Z_DATA=~/.z.data/.z
 
 # Z Style
 # ------------------------------------------------------------------------------
 zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:*:*:*' menu select
-
 
 
 # New Keyboard Shortcuts
@@ -116,6 +141,9 @@ zle -N down-line-or-beginning-search
 zle -N searchdown
 bindkey "^[[B" searchdown
 
+zle -N insert-last-command-output
+bindkey "^d" insert-last-command-output
+
 zle -N first-tab
 bindkey '^I' first-tab
 
@@ -129,20 +157,31 @@ bindkey "^ " magic-space           # control-space to bypass completion
 bindkey -M isearch " " magic-space # normal space during searches
 
 
+# stop my single tap caps-lock from echoing 7;2~
+bindkey -s "^[[17;2~" ""
+
+
 # Aliases
 # ------------------------------------------------------------------------------
+unalias run-help
+alias man="run-help"
 alias k="k -a"
 alias l="k -a --no-vcs"
+alias l="ls -laG"
+alias e="exa --level=2 -T -la"
+
 alias mkcd="_(){ mkdir -pv $1 && cd $1; }; _"
 alias dev="cd ~/dev"
 alias f="open ."
 alias reload="exec zsh"
 alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit ."
+alias download-video="youtube-dl -o -x \"~/dl/%(title)s.%(ext)s\""
+alias download="youtube-dl -o \"~/dl/%(title)s.%(ext)s\""
 
-alias zshrc="vim ~/.zshrc"
 alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
 alias vimrc="vim ~/.vimrc"
 alias clearvim="rm -rf ~/.vim/tmp/*"
+alias zshrc="vim ~/.zshrc"
 
 alias run="./run"
 alias build="./build"
@@ -152,18 +191,18 @@ alias setup="./setup"
 alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
 alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
 alias grc='git add -A && git rebase --continue'
-alias gc='git commit'
 alias gaa='git add -A'
 
 # suffix
 alias -s git='git clone'
 
 # global
+alias -g C='| pbcopy'
 alias -g G='| grep -i '
 alias -g F='| fzf --ansi'
 
 
-# Custom Functions
+# ZLE Functions
 # ------------------------------------------------------------------------------
 searchup() {
   zle up-line-or-beginning-search
@@ -189,29 +228,25 @@ g() {
   fi
 }
 
-# colored man pages
-man() {
-  env \
-    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-    LESS_TERMCAP_md=$(printf "\e[1;32m") \
-    LESS_TERMCAP_me=$(printf "\e[0m") \
-    LESS_TERMCAP_se=$(printf "\e[0m") \
-    LESS_TERMCAP_so=$(printf "\e[38;05;00;48;05;03m") \
-    LESS_TERMCAP_ue=$(printf "\e[0m") \
-    LESS_TERMCAP_us=$(printf "\e[1;34m") \
-    PAGER="${commands[less]:-$PAGER}" \
-    _NROFF_U=1 \
-    PATH="$HOME/bin:$PATH" \
-    man "$@"
+git-mini-log() {
+  git log --pretty=format:"%C(3)%h%C(5) %<(8,trunc)%an %C(10)%ad %Creset%<(50,trunc)%s" --date=format:%d/%m/%y "$@"
+}
+
+gc() {
+  if [[ $@ == "-vp" ]]; then
+    clear && git commit -vp
+  else
+    git commit "$@"
+  fi
 }
 
 switch-background () {
   if [[ $BACKGROUND == "dark" ]]; then
-    BACKGROUND=light
+    BACKGROUND="light"
     echo -e "\033]50;SetProfile=supercrabtree-light\a             ┬─┬ ︵ ノ(°_° ノ)"
     zle reset-prompt
   else
-    BACKGROUND=dark
+    BACKGROUND="dark"
     echo -e "\033]50;SetProfile=supercrabtree-dark\a(╯°□°)╯︵ ┻━┻"
     zle reset-prompt
   fi
@@ -235,12 +270,22 @@ first-tab() {
   fi
 }
 
+
+# git vim smart open the files I need
 gvim() {
-  vim `git ls-files -m`
+  local files=$(git ls-files -m)
+  if [[ $files != "" ]]; then
+    vim $(git ls-files -m)
+  else
+    echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)' && echo '\nFiles' && git --no-pager diff --stat @{1}..
+    echo '\nPress any key open these files'; read -k1 -s
+    vim $(git --no-pager diff --name-only @{1}..)
+  fi
 }
 
+# conflict vim
 cvim() {
-  vim `git diff --name-only --diff-filter=u`
+  vim $(git diff --name-only --diff-filter=u)
 }
 
 ff() {
@@ -411,12 +456,49 @@ d() {
   fi
 }
 
+# Use Ctrl-x,Ctrl-l to get the output of the last command
+insert-last-command-output() {
+  LBUFFER+="$(eval $history[$((HISTCMD-1))])"
+  _zsh_highlight
+}
 
 # FZF functions
 # ------------------------------------------------------------------------------
-export FZF_DEFAULT_OPTS="--extended --multi --reverse --cycle\
+export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\
   --bind=ctrl-n:toggle-down\
-  --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:4,hl+:2,prompt:2,marker:2,pointer:2,info:5"
+  --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:4,hl+:2,prompt:2,marker:2,pointer:2,info:9"
+
+# CTRL-T - Paste the selected file path(s) into the command line
+__fsel() {
+  local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype 'proc' \\) -prune \
+    -o -type f -print \
+    -o -type d -print \
+    -o -type l -print 2> /dev/null | sed 1d | cut -b3-"}"
+  eval "$cmd" | fzf -m | while read item; do
+  printf '%q ' "$item"
+done
+echo
+}
+
+fzf-file-widget() {
+  LBUFFER="${LBUFFER}$(__fsel)"
+  zle redisplay
+}
+
+fzf-history-widget() {
+  local selected num fade
+  if [[ $BACKGROUND == "dark" ]]; then fade=0 fi
+  if [[ $BACKGROUND == "light" ]]; then fade=15 fi
+  # --color=spinner:"$fade",info:"$fade"
+  selected=( $(fc -l 1 | tail -r | awk '!seen[$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20]++' | fzf +s +m -n2..,.. --no-reverse --tiebreak=index --toggle-sort=ctrl-r -q "${LBUFFER//$/\\$}") )
+  if [ -n "$selected" ]; then
+    num=$selected[1]
+    if [ -n "$num" ]; then
+      zle vi-fetch-history -n $num
+    fi
+  fi
+  zle redisplay
+}
 
 # fshow - git commit browser
 fshow() {
@@ -544,19 +626,20 @@ z() {
 }
 
 
-
 # FZF
 # ------------------------------------------------------------------------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export  FZF_COMPLETION_TRIGGER=''
-bindkey '^F' fzf-file-widget
+zle      -N  fzf-history-widget
 zle      -N  fzf-file-widget
+bindkey '^R' fzf-history-widget
+bindkey '^F' fzf-file-widget
 bindkey '^I' $fzf_default_completion
 
 
 [ -f ~/.zshrc-post ] && source ~/.zshrc-post
 
-
+compinit
 : <<'COMMENTS'
 p () {
   if [ -z "$PROTOTYPE_FOLDER" ]; then

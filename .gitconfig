@@ -20,8 +20,8 @@
   smudge = git hawser smudge %f
   required = true
 [alias]
-  contributors-markdown = !git config --get remote.origin.url | sed \"s/\\(^git@github\\.com\\:\\)/https:\\/\\/api.github.com\\/repos\\//\"| sed 's/\\.git$/\\/contributors/' | xargs curl -s | jsawk -a 'return this.join(\"\")' 'return \"[\" + this.login +\"](\" + this.html_url + \") \" + this.contributions + \" \\n\"'
-  peek                  = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)'
-  trash                 = !git stash && git stash drop
-  br                    = !git for-each-ref --sort=committerdate refs/heads/ --format=' %(color:8)%(committerdate:relative)%(color:reset)|%(color:blue)%(HEAD)%(color:reset) %(refname:short)' | column -ts'|'
-  copy                  = !git log -1 --pretty=%B | pbcopy
+  last-commit-subject      = !git log -1 --pretty=%B
+  contributors-markdown    = !git config --get remote.origin.url | sed \"s/\\(^git@github\\.com\\:\\)/https:\\/\\/api.github.com\\/repos\\//\"| sed 's/\\.git$/\\/contributors/' | xargs curl -s | jsawk -a 'return this.join(\"\")' 'return \"[\" + this.login +\"](\" + this.html_url + \") \" + this.contributions + \" \\n\"'
+  peek                     = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)'
+  trash                    = !git stash && git stash drop
+  br                       = !git for-each-ref --sort=committerdate refs/heads/ --format=' %(color:8)%(committerdate:relative)%(color:reset)|%(color:blue)%(HEAD)%(color:reset) %(refname:short)' | column -ts'|'

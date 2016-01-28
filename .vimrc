@@ -34,7 +34,6 @@ Plug 'AndrewRadev/linediff.vim'
 Plug 'ap/vim-buftabline'
 Plug 'mbbill/undotree'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'chrisbra/Recover.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'wellle/targets.vim'
 
@@ -162,13 +161,13 @@ nnoremap <silent> <left> <c-^>
 command! NextBuffer :call <sid>NextBuffer()
 function! <sid>NextBuffer()
   if g:inArgsMode == 0
-    bnext
+    silent bnext
   else
     let argListLength = len(argv())
-    if argListLength == 0
+    if argListLength <= 1
       let g:inArgsMode = 0
       hi BufTabLineCurrent ctermbg=12 ctermfg=4 cterm=none
-      bnext
+      silent bnext
     else
       call <sid>ArgNext()
     endif
@@ -178,20 +177,18 @@ endfunction
 command! PreviousBuffer :call <sid>PreviousBuffer()
 function! <sid>PreviousBuffer()
   if g:inArgsMode == 0
-    bprevious
+    silent bprevious
   else
     let argListLength = len(argv())
-    if argListLength == 0
+    if argListLength <= 1
       let g:inArgsMode = 0
       hi BufTabLineCurrent ctermbg=12 ctermfg=4 cterm=none
-      bprevious
+      silent bprevious
     else
       call <sid>ArgPrevious()
     endif
   endif
 endfunction
-
-nnoremap <F18> :echo 'asdf'<cr>
 
 " nnoremap <F17> <c-w>W
 " nnoremap <F18> <c-w>w
@@ -219,7 +216,7 @@ nnoremap # #N
 nmap Q @q
 
 " map ctrl q to quit
-noremap <c-q> <esc>:<c-u>q<cr>
+noremap <c-q> <esc>:<c-u>qa<cr>
 
 " map ctrl space to save
 nnoremap <NUL> <esc>:<c-u>w<cr>
@@ -236,7 +233,8 @@ nnoremap !! :<Up><cr>
 
 " use - to interact with the system keyboard
 vnoremap - :<c-u>call g:CopyTheText()<cr>
-nnoremap - :r !pbpaste<cr>
+vnoremap + xk:<c-u>r !pbpaste<cr>
+nnoremap - :<c-u>r !pbpaste<cr>
 
 " ctrl-a copies register to system clipboard
 nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
@@ -250,6 +248,8 @@ nnoremap gV `[V`]
 nnoremap gu u*<c-r>n
 
 nnoremap g0 ^
+
+vnoremap gp pgvy
 
 " neocomplete close pum
 inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : "\<esc>"
@@ -300,8 +300,11 @@ nnoremap <space>ar :ArgsReorderByBufNum<cr>
 nnoremap <space>ac :ArgsCleanDuplicates<cr>
 nnoremap <F19> :ArgToggle<cr>
 nnoremap <F18> :ArgsModeToggle<cr>
+inoremap <F18> <c-o>:ArgsModeToggle<cr>
 nnoremap M :ArgToggle<cr>
 nnoremap L :ArgDelete<cr>
+
+let g:inArgsMode = len(argv())
 
 function! <sid>ArgsModeToggle()
   if g:inArgsMode == 0
@@ -351,7 +354,6 @@ function! <sid>ArgsCleanDuplicates()
   for arg in uniq(args)
     execute 'arga ' . arg
   endfor
-  call <sid>ArgsShow()
 endfunction
 
 command! ArgsReorderByBufNum :call <sid>ArgsReorderByBufNum()
@@ -365,7 +367,6 @@ function! <sid>ArgsReorderByBufNum()
   for arg in reorderedArgs
     execute 'arga ' . arg
   endfor
-  call <sid>ArgsShow()
 endfunction
 
 command! ArgNext :call <sid>ArgNext()
@@ -385,7 +386,6 @@ function! <sid>ArgNext()
   catch /E165/
     silent first
   endtry
-  call <sid>ArgsShow()
 endfunction
 
 command! ArgPrevious :call <sid>ArgPrevious()
@@ -405,7 +405,6 @@ function! <sid>ArgPrevious()
   catch /E164/
     silent last
   endtry
-  call <sid>ArgsShow()
 endfunction
 
 command! ArgToggle :call <sid>ArgToggle()
@@ -447,15 +446,20 @@ function! <sid>ArgsShow()
   endfor
 endfunction
 
+command! PutLastCommit :call <sid>PutLastCommit()
+function! <sid>PutLastCommit()
+  :read !git log -1 --pretty=%b<cr>
+endfunction
+
 " Status Line
 " ------------------------------------------------------------------------------
 set statusline=
-set statusline+=%*[%n%H%M%R%W]%*\         " flags and buf no
-set statusline+=%c\|%L\|%p%%                " percentage through file
-set statusline+=%{ShowCount()}\         " show last search count
-set statusline+=%<                        " when the window is too narrow, cut it here
-set statusline+=%f                        " path & filename
-" set statusline+=%=                        " align from here on to the right
+set statusline+=%L\ \|\ %c\ \|\ %p%%\  " percentage through file
+set statusline+=%{ShowCount()}\ \          " show last search count
+set statusline+=%<                     " when the window is too narrow, cut it here
+set statusline+=%f                     " path & filename
+set statusline+=%=                     " align from here on to the right
+set statusline+=%{IsModified()}        " flags and buf no
 
 
 " Plugin Settings
@@ -566,7 +570,7 @@ function! s:getStockAgArgs(bang)
   endif
 endfunction
 
-let s:ctrlF = '--bind ctrl-f:ignore --expect=ctrl-f'
+let s:ctrlF = '--bind ctrl-g:ignore --expect=ctrl-g'
 
 command! -complete=file -nargs=1 Locate call fzf#run({'source': 'locate <q-args>', 'sink': 'e', 'options': ''})
 
@@ -594,8 +598,8 @@ function! s:FindFilesHandler(files)
     return
   endif
   let action = a:files[0]
-  if action == 'ctrl-f'
-    let cmd = 'Reveal'
+  if action == 'ctrl-g'
+    let cmd = 'Finder'
   else
     let cmd = 'e'
   endif
@@ -614,7 +618,7 @@ endfunction
 command! MRU call fzf#run({
 \ 'source': 'sed "1d" $HOME/.cache/neomru/file',
 \ 'sink*':   function('<sid>FindFilesHandler'),
-\ 'options': '--bind ctrl-f:ignore --expect=ctrl-f --prompt "MRU> "'
+\ 'options': '--bind ctrl-g:ignore --reverse --expect=ctrl-g --prompt "MRU> "'
 \})
 
 function! s:buflisted()
@@ -673,7 +677,8 @@ command! -bang AllBuffers call s:bufselect(<bang>0)
 
 
 " Multiple Cursors
-nnoremap <silent> <c-c> :call multiple_cursors#quit()<cr>
+" nnoremap <silent> <c-c> :call multiple_cursors#quit()<cr>
+let g:multi_cursor_exit_from_insert_mode=0
 
 " Called once right before you start selecting multiple cursors
 function! Multiple_cursors_before()
@@ -757,6 +762,15 @@ endfunction
 
 " Functions
 " ------------------------------------------------------------------------------
+function! s:Tailf()
+  e
+  redraw
+
+  sleep 1
+  call <sid>Tailf()
+endfunction
+command! Tailf call <sid>Tailf()
+
 function! s:JSONPrettyify()
   execute "%!python -m json.tool"
 endfunction
@@ -837,6 +851,21 @@ function! g:CopyTheText()
   let @z = old_z
 endfunction
 
+function! IsModified()
+  if getbufvar(winbufnr(0), '&mod')
+    return '+ '
+  endif
+  return ''
+endfunction
+
+" function! GitDiffName()
+"   let l:diffcontent = system("git diff --stat client/app-run.js | head -1")
+"   if len(l:diffcontent)
+"     return l:diffcontent
+"   endif
+"   return 'client/app-run.js'
+" endfunction
+
 " " show search count in status line
 let s:prevcountcache=[[], 0]
 function! ShowCount()
@@ -855,7 +884,7 @@ function! ShowCount()
         let result=''
         let s:prevcountcache[1]=result
         if match_number > 0
-          let result='|x'.match_number
+          let result='| x'.match_number
           let s:prevcountcache[1]=result
         endif
         return result
@@ -873,6 +902,7 @@ function! s:get_visual_selection()
   return join(lines, "\n")
 endfunction
 
+command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 
 " Auto Commands
 " ------------------------------------------------------------------------------
@@ -1023,6 +1053,9 @@ hi diffAdded ctermfg=2
 hi diffRemoved ctermfg=1
 hi gitcommitBranch ctermfg=4
 
+" multiple cursors
+hi multiple_cursors_cursor ctermfg=0 ctermbg=15
+hi multiple_cursors_visual ctermfg=0 ctermbg=6
 
 " Text
 hi Normal     ctermfg=none

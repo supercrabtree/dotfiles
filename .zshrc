@@ -68,8 +68,6 @@ export BACKGROUND=dark
 export LSCOLORS=exfxcxdxbxegedabagacad
 # export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
 
-export MYZSHRC=~/.zshrc
-export MYVIMRC=~/.vimrc
 export ZSH_PLUGINS_ALIAS_TIPS_TEXT="(╯°□°）╯︵ ┻━┻ "
 export PROTOTYPE_FOLDER=~/dev/yeah
 

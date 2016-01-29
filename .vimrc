@@ -937,8 +937,8 @@ augroup georges_autocommands
   au filetype markdown setlocal wrap linebreak nolist
 
   " auto create global marks when leaving
-  autocmd BufLeave,BufWritePost $MYVIMRC normal! mV
-  autocmd BufLeave,BufWritePost $MYZSHRC normal! mZ
+  autocmd BufLeave,BufWritePost ~/.zshrc normal! mV
+  autocmd BufLeave,BufWritePost ~/.vimrc normal! mZ
 
   " css completion
   autocmd FileType * set iskeyword+=-

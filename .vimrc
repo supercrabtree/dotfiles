@@ -37,6 +37,12 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
 Plug 'wellle/targets.vim'
 
+" Text Objects
+Plug 'kana/vim-textobj-user'
+Plug 'Julian/vim-textobj-brace'
+Plug 'Julian/vim-textobj-variable-segment'
+Plug 'poetic/vim-textobj-javascript'
+
 " Language Specific
 Plug 'digitaltoad/vim-jade'
 Plug 'pangloss/vim-javascript'

@@ -1321,7 +1321,7 @@
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>1307 1180 400 129 0 0 3008 1669 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>652 606 620 392 0 0 1920 1200 </string>
+	<string>652 588 620 392 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>0 0 1920 1200 0 0 1920 1177 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
@@ -2952,7 +2952,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-01-27T23:26:42Z</date>
+	<date>2016-01-28T23:26:42Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -3826,11 +3826,12 @@
 											<string>/Users/supercrabtree/dl</string>
 											<string>/Users/supercrabtree/dl</string>
 											<string>/Users/supercrabtree/dl</string>
+											<string>/Users/supercrabtree/dl</string>
 										</array>
 										<key>Environment</key>
 										<dict>
 											<key>PWD</key>
-											<string>/Users/supercrabtree/dev</string>
+											<string>/Users/supercrabtree/dl</string>
 										</dict>
 										<key>Hosts</key>
 										<array/>
@@ -3842,7 +3843,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-dark</string>
 										<key>Session GUID</key>
@@ -3863,7 +3864,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>959</real>
 										<key>x</key>
@@ -4662,6 +4663,7 @@
 										<key>Directories</key>
 										<array>
 											<string>/Users/supercrabtree/dl</string>
+											<string>/Users/supercrabtree/dl</string>
 										</array>
 										<key>Environment</key>
 										<dict>
@@ -4678,7 +4680,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-dark</string>
 										<key>Session GUID</key>
@@ -4699,7 +4701,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>960</real>
 										<key>x</key>
@@ -4714,7 +4716,7 @@
 							<key>frame</key>
 							<dict>
 								<key>height</key>
-								<real>1178</real>
+								<real>1200</real>
 								<key>width</key>
 								<real>1920</real>
 								<key>x</key>
@@ -5385,7 +5387,7 @@
 											<key>Mouse Reporting</key>
 											<true/>
 											<key>Name</key>
-											<string>supercrabtree-light</string>
+											<string>supercrabtree-dark</string>
 											<key>Non Ascii Font</key>
 											<string>Menlo-Regular 12</string>
 											<key>Non-ASCII Anti Aliased</key>
@@ -5525,6 +5527,7 @@
 											<string>/Users/supercrabtree/dev/pix/platform.WEB</string>
 											<string>/Users/supercrabtree/dev/pix/platform.WEB</string>
 											<string>/Users/supercrabtree/dev/pix/platform.WEB</string>
+											<string>/Users/supercrabtree/dev/pix/platform.WEB</string>
 										</array>
 										<key>Environment</key>
 										<dict>
@@ -5541,7 +5544,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-dark</string>
 										<key>Session GUID</key>
@@ -5562,7 +5565,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>1159</real>
 										<key>x</key>
@@ -6228,7 +6231,7 @@
 													<key>Mouse Reporting</key>
 													<true/>
 													<key>Name</key>
-													<string>supercrabtree-light</string>
+													<string>supercrabtree-dark</string>
 													<key>Non Ascii Font</key>
 													<string>Menlo-Regular 12</string>
 													<key>Non-ASCII Anti Aliased</key>
@@ -6430,6 +6433,7 @@
 													<string>/Users/supercrabtree/dev/pix/platform.WEB</string>
 													<string>/Users/supercrabtree/dev/pix/platform.WEB</string>
 													<string>/Users/supercrabtree/dev/pix/platform.WEB</string>
+													<string>/Users/supercrabtree/dev/pix/platform.WEB</string>
 												</array>
 												<key>Environment</key>
 												<dict>
@@ -6446,7 +6450,7 @@
 													<string>Shell Launcher</string>
 												</dict>
 												<key>Rows</key>
-												<integer>34</integer>
+												<integer>35</integer>
 												<key>Session Default Name</key>
 												<string>supercrabtree-no-tmux</string>
 												<key>Session GUID</key>
@@ -6467,7 +6471,7 @@
 											<key>frame</key>
 											<dict>
 												<key>height</key>
-												<real>588</real>
+												<real>599</real>
 												<key>width</key>
 												<real>760</real>
 												<key>x</key>
@@ -7130,7 +7134,7 @@
 													<key>Mouse Reporting</key>
 													<true/>
 													<key>Name</key>
-													<string>supercrabtree-light</string>
+													<string>supercrabtree-dark</string>
 													<key>Non Ascii Font</key>
 													<string>Menlo-Regular 12</string>
 													<key>Non-ASCII Anti Aliased</key>
@@ -7272,6 +7276,7 @@
 													<string>/Users/supercrabtree/dev/pix/platform.SERVICES</string>
 													<string>/Users/supercrabtree/dev/pix/platform.SERVICES</string>
 													<string>/Users/supercrabtree/dev/pix/platform.SERVICES</string>
+													<string>/Users/supercrabtree/dev/pix/platform.SERVICES</string>
 												</array>
 												<key>Environment</key>
 												<dict>
@@ -7288,7 +7293,7 @@
 													<string>Shell Launcher</string>
 												</dict>
 												<key>Rows</key>
-												<integer>34</integer>
+												<integer>35</integer>
 												<key>Session Default Name</key>
 												<string>supercrabtree-dark</string>
 												<key>Session GUID</key>
@@ -7309,13 +7314,13 @@
 											<key>frame</key>
 											<dict>
 												<key>height</key>
-												<real>589</real>
+												<real>600</real>
 												<key>width</key>
 												<real>760</real>
 												<key>x</key>
 												<real>0.0</real>
 												<key>y</key>
-												<real>589</real>
+												<real>600</real>
 											</dict>
 										</dict>
 									</array>
@@ -7324,7 +7329,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>760</real>
 										<key>x</key>
@@ -7341,7 +7346,7 @@
 							<key>frame</key>
 							<dict>
 								<key>height</key>
-								<real>1178</real>
+								<real>1200</real>
 								<key>width</key>
 								<real>1920</real>
 								<key>x</key>
@@ -8012,7 +8017,7 @@
 											<key>Mouse Reporting</key>
 											<true/>
 											<key>Name</key>
-											<string>supercrabtree-light</string>
+											<string>supercrabtree-dark</string>
 											<key>Non Ascii Font</key>
 											<string>Menlo-Regular 12</string>
 											<key>Non-ASCII Anti Aliased</key>
@@ -8224,6 +8229,7 @@
 											<string>/Users/supercrabtree/dev/pix/web.core</string>
 											<string>/Users/supercrabtree/dev/pix/web.core</string>
 											<string>/Users/supercrabtree/dev/pix/web.core</string>
+											<string>/Users/supercrabtree/dev/pix/web.core</string>
 										</array>
 										<key>Environment</key>
 										<dict>
@@ -8240,7 +8246,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-no-tmux</string>
 										<key>Session GUID</key>
@@ -8261,7 +8267,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>1293</real>
 										<key>x</key>
@@ -8924,7 +8930,7 @@
 											<key>Mouse Reporting</key>
 											<true/>
 											<key>Name</key>
-											<string>supercrabtree-light</string>
+											<string>supercrabtree-dark</string>
 											<key>Non Ascii Font</key>
 											<string>Menlo-Regular 12</string>
 											<key>Non-ASCII Anti Aliased</key>
@@ -9070,6 +9076,7 @@
 											<string>/Users/supercrabtree/dev/pix/web.core</string>
 											<string>/Users/supercrabtree/dev/pix/web.core</string>
 											<string>/Users/supercrabtree/dev/pix/web.core</string>
+											<string>/Users/supercrabtree/dev/pix/web.core</string>
 										</array>
 										<key>Environment</key>
 										<dict>
@@ -9086,7 +9093,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-light</string>
 										<key>Session GUID</key>
@@ -9107,7 +9114,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>626</real>
 										<key>x</key>
@@ -9122,7 +9129,7 @@
 							<key>frame</key>
 							<dict>
 								<key>height</key>
-								<real>1178</real>
+								<real>1200</real>
 								<key>width</key>
 								<real>1920</real>
 								<key>x</key>
@@ -9793,7 +9800,7 @@
 											<key>Mouse Reporting</key>
 											<true/>
 											<key>Name</key>
-											<string>supercrabtree-light</string>
+											<string>supercrabtree-dark</string>
 											<key>Non Ascii Font</key>
 											<string>Menlo-Regular 12</string>
 											<key>Non-ASCII Anti Aliased</key>
@@ -9981,6 +9988,7 @@
 											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
 											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
 											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
+											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
 										</array>
 										<key>Environment</key>
 										<dict>
@@ -9997,7 +10005,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-no-tmux</string>
 										<key>Session GUID</key>
@@ -10018,7 +10026,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>970</real>
 										<key>x</key>
@@ -10681,7 +10689,7 @@
 											<key>Mouse Reporting</key>
 											<true/>
 											<key>Name</key>
-											<string>supercrabtree-light</string>
+											<string>supercrabtree-dark</string>
 											<key>Non Ascii Font</key>
 											<string>Menlo-Regular 12</string>
 											<key>Non-ASCII Anti Aliased</key>
@@ -10825,6 +10833,7 @@
 											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
 											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
 											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
+											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
 										</array>
 										<key>Environment</key>
 										<dict>
@@ -10841,7 +10850,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-light</string>
 										<key>Session GUID</key>
@@ -10862,7 +10871,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>474</real>
 										<key>x</key>
@@ -11525,7 +11534,7 @@
 											<key>Mouse Reporting</key>
 											<true/>
 											<key>Name</key>
-											<string>supercrabtree-light</string>
+											<string>supercrabtree-dark</string>
 											<key>Non Ascii Font</key>
 											<string>Menlo-Regular 12</string>
 											<key>Non-ASCII Anti Aliased</key>
@@ -11668,6 +11677,7 @@
 											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
 											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
 											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
+											<string>/Users/supercrabtree/dev/pix/web.tanita</string>
 										</array>
 										<key>Environment</key>
 										<dict>
@@ -11684,7 +11694,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-dark</string>
 										<key>Session GUID</key>
@@ -11705,7 +11715,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>474</real>
 										<key>x</key>
@@ -11720,7 +11730,7 @@
 							<key>frame</key>
 							<dict>
 								<key>height</key>
-								<real>1178</real>
+								<real>1200</real>
 								<key>width</key>
 								<real>1920</real>
 								<key>x</key>
@@ -12391,7 +12401,7 @@
 											<key>Mouse Reporting</key>
 											<true/>
 											<key>Name</key>
-											<string>supercrabtree-light</string>
+											<string>supercrabtree-dark</string>
 											<key>Non Ascii Font</key>
 											<string>Menlo-Regular 12</string>
 											<key>Non-ASCII Anti Aliased</key>
@@ -12534,6 +12544,7 @@
 											<string>/Users/supercrabtree/dev/pix/web.corporate-site</string>
 											<string>/Users/supercrabtree/dev/pix/web.corporate-site</string>
 											<string>/Users/supercrabtree/dev/pix/web.corporate-site</string>
+											<string>/Users/supercrabtree/dev/pix/web.corporate-site</string>
 										</array>
 										<key>Environment</key>
 										<dict>
@@ -12550,7 +12561,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-dark</string>
 										<key>Session GUID</key>
@@ -12571,7 +12582,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>957</real>
 										<key>x</key>
@@ -13234,7 +13245,7 @@
 											<key>Mouse Reporting</key>
 											<true/>
 											<key>Name</key>
-											<string>supercrabtree-light</string>
+											<string>supercrabtree-dark</string>
 											<key>Non Ascii Font</key>
 											<string>Menlo-Regular 12</string>
 											<key>Non-ASCII Anti Aliased</key>
@@ -13377,6 +13388,7 @@
 											<string>/Users/supercrabtree/dev/pix/web.corporate-site</string>
 											<string>/Users/supercrabtree/dev/pix/web.corporate-site</string>
 											<string>/Users/supercrabtree/dev/pix/web.corporate-site</string>
+											<string>/Users/supercrabtree/dev/pix/web.corporate-site</string>
 										</array>
 										<key>Environment</key>
 										<dict>
@@ -13393,7 +13405,7 @@
 											<string>Shell Launcher</string>
 										</dict>
 										<key>Rows</key>
-										<integer>69</integer>
+										<integer>70</integer>
 										<key>Session Default Name</key>
 										<string>supercrabtree-dark</string>
 										<key>Session GUID</key>
@@ -13414,7 +13426,7 @@
 									<key>frame</key>
 									<dict>
 										<key>height</key>
-										<real>1178</real>
+										<real>1200</real>
 										<key>width</key>
 										<real>962</real>
 										<key>x</key>
@@ -13429,7 +13441,7 @@
 							<key>frame</key>
 							<dict>
 								<key>height</key>
-								<real>1178</real>
+								<real>1200</real>
 								<key>width</key>
 								<real>1920</real>
 								<key>x</key>
@@ -13439,872 +13451,6 @@
 							</dict>
 							<key>isVertical</key>
 							<true/>
-						</dict>
-					</dict>
-					<dict>
-						<key>Root</key>
-						<dict>
-							<key>Subviews</key>
-							<array>
-								<dict>
-									<key>Is Active</key>
-									<integer>1</integer>
-									<key>Session</key>
-									<dict>
-										<key>Bookmark</key>
-										<dict>
-											<key>ASCII Anti Aliased</key>
-											<true/>
-											<key>AWDS Pane Directory</key>
-											<string></string>
-											<key>AWDS Pane Option</key>
-											<string>Recycle</string>
-											<key>AWDS Tab Directory</key>
-											<string>/Users/supercrabtree/dev</string>
-											<key>AWDS Tab Option</key>
-											<string>Yes</string>
-											<key>AWDS Window Directory</key>
-											<string></string>
-											<key>AWDS Window Option</key>
-											<string>Recycle</string>
-											<key>Allow Title Reporting</key>
-											<true/>
-											<key>Ambiguous Double Width</key>
-											<false/>
-											<key>Ansi 0 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.070000000298023224</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.070000000298023224</real>
-												<key>Red Component</key>
-												<real>0.070000000298023224</real>
-											</dict>
-											<key>Ansi 1 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.14117647707462311</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.14509804546833038</real>
-												<key>Red Component</key>
-												<real>0.75294119119644165</real>
-											</dict>
-											<key>Ansi 10 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.25</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.25</real>
-												<key>Red Component</key>
-												<real>0.25</real>
-											</dict>
-											<key>Ansi 11 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.40000000596046448</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.40000000596046448</real>
-												<key>Red Component</key>
-												<real>0.40000000596046448</real>
-											</dict>
-											<key>Ansi 12 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.10000000149011612</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.10000000149011612</real>
-												<key>Red Component</key>
-												<real>0.10000000149011612</real>
-											</dict>
-											<key>Ansi 13 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.69999998807907104</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.69999998807907104</real>
-												<key>Red Component</key>
-												<real>0.69999998807907104</real>
-											</dict>
-											<key>Ansi 14 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.80000001192092896</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.80000001192092896</real>
-												<key>Red Component</key>
-												<real>0.80000001192092896</real>
-											</dict>
-											<key>Ansi 15 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>1</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>1</real>
-												<key>Red Component</key>
-												<real>1</real>
-											</dict>
-											<key>Ansi 2 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.3761812150478363</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.66649883985519409</real>
-												<key>Red Component</key>
-												<real>0.49319246411323547</real>
-											</dict>
-											<key>Ansi 3 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.11578483879566193</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.59911149740219116</real>
-												<key>Red Component</key>
-												<real>0.86306220293045044</real>
-											</dict>
-											<key>Ansi 4 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.62908142805099487</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.42989426851272583</real>
-												<key>Red Component</key>
-												<real>0.26465123891830444</real>
-											</dict>
-											<key>Ansi 5 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.56053215265274048</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.56052279472351074</real>
-												<key>Red Component</key>
-												<real>0.5605396032333374</real>
-											</dict>
-											<key>Ansi 6 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.81568628549575806</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.52941179275512695</real>
-												<key>Red Component</key>
-												<real>0.54509806632995605</real>
-											</dict>
-											<key>Ansi 7 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.89999997615814209</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.89999997615814209</real>
-												<key>Red Component</key>
-												<real>0.89999997615814209</real>
-											</dict>
-											<key>Ansi 8 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.5</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.5</real>
-												<key>Red Component</key>
-												<real>0.5</real>
-											</dict>
-											<key>Ansi 9 Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.14971731603145599</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.14971731603145599</real>
-												<key>Red Component</key>
-												<real>0.14971731603145599</real>
-											</dict>
-											<key>Application Keypad Allowed</key>
-											<false/>
-											<key>BM Growl</key>
-											<false/>
-											<key>Background Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.070000000298023224</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.070000000298023224</real>
-												<key>Red Component</key>
-												<real>0.070000000298023224</real>
-											</dict>
-											<key>Background Image Location</key>
-											<string></string>
-											<key>Badge Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>0.5</real>
-												<key>Blue Component</key>
-												<real>0.0</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.0</real>
-												<key>Red Component</key>
-												<real>1</real>
-											</dict>
-											<key>Badge Text</key>
-											<string></string>
-											<key>Blink Allowed</key>
-											<true/>
-											<key>Blinking Cursor</key>
-											<true/>
-											<key>Blur</key>
-											<false/>
-											<key>Blur Radius</key>
-											<real>15</real>
-											<key>Bold Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>1</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>1</real>
-												<key>Red Component</key>
-												<real>1</real>
-											</dict>
-											<key>Bound Hosts</key>
-											<array/>
-											<key>Character Encoding</key>
-											<integer>4</integer>
-											<key>Close Sessions On End</key>
-											<false/>
-											<key>Columns</key>
-											<integer>120</integer>
-											<key>Command</key>
-											<string>/Users/supercrabtree/.launch/launch.sh</string>
-											<key>Cursor Boost</key>
-											<real>0.0</real>
-											<key>Cursor Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>1</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>1</real>
-												<key>Red Component</key>
-												<real>1</real>
-											</dict>
-											<key>Cursor Guide Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>0.0</real>
-												<key>Blue Component</key>
-												<real>1</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.9100000262260437</real>
-												<key>Red Component</key>
-												<real>0.64999997615814209</real>
-											</dict>
-											<key>Cursor Text Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.0</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.0</real>
-												<key>Red Component</key>
-												<real>0.0</real>
-											</dict>
-											<key>Cursor Type</key>
-											<integer>2</integer>
-											<key>Custom Command</key>
-											<string>No</string>
-											<key>Custom Directory</key>
-											<string>Advanced</string>
-											<key>Default Bookmark</key>
-											<string>No</string>
-											<key>Description</key>
-											<string>Default</string>
-											<key>Disable Window Resizing</key>
-											<true/>
-											<key>Flashing Bell</key>
-											<false/>
-											<key>Foreground Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.85242080688476562</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.85242080688476562</real>
-												<key>Red Component</key>
-												<real>0.85242080688476562</real>
-											</dict>
-											<key>Guid</key>
-											<string>9CA9D8D3-4F50-4757-99BD-90BC35A44272</string>
-											<key>Horizontal Spacing</key>
-											<real>0.99402296686746983</real>
-											<key>Idle Code</key>
-											<integer>0</integer>
-											<key>Initial Text</key>
-											<string></string>
-											<key>Jobs to Ignore</key>
-											<array>
-												<string>rlogin</string>
-												<string>ssh</string>
-												<string>slogin</string>
-												<string>telnet</string>
-											</array>
-											<key>Keyboard Map</key>
-											<dict>
-												<key>0x2d-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>11</integer>
-													<key>Text</key>
-													<string>0x1f</string>
-												</dict>
-												<key>0x32-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>11</integer>
-													<key>Text</key>
-													<string>0x00</string>
-												</dict>
-												<key>0x33-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>11</integer>
-													<key>Text</key>
-													<string>0x1b</string>
-												</dict>
-												<key>0x34-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>11</integer>
-													<key>Text</key>
-													<string>0x1c</string>
-												</dict>
-												<key>0x35-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>11</integer>
-													<key>Text</key>
-													<string>0x1d</string>
-												</dict>
-												<key>0x36-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>11</integer>
-													<key>Text</key>
-													<string>0x1e</string>
-												</dict>
-												<key>0x37-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>11</integer>
-													<key>Text</key>
-													<string>0x1f</string>
-												</dict>
-												<key>0x38-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>11</integer>
-													<key>Text</key>
-													<string>0x7f</string>
-												</dict>
-												<key>0xf700-0x220000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2A</string>
-												</dict>
-												<key>0xf700-0x240000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;5A</string>
-												</dict>
-												<key>0xf700-0x260000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;6A</string>
-												</dict>
-												<key>0xf701-0x220000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2B</string>
-												</dict>
-												<key>0xf701-0x240000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;5B</string>
-												</dict>
-												<key>0xf701-0x260000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;6B</string>
-												</dict>
-												<key>0xf702-0x220000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2D</string>
-												</dict>
-												<key>0xf702-0x240000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;5D</string>
-												</dict>
-												<key>0xf702-0x260000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;6D</string>
-												</dict>
-												<key>0xf703-0x220000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2C</string>
-												</dict>
-												<key>0xf703-0x240000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;5C</string>
-												</dict>
-												<key>0xf703-0x260000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;6C</string>
-												</dict>
-												<key>0xf704-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2P</string>
-												</dict>
-												<key>0xf705-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2Q</string>
-												</dict>
-												<key>0xf706-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2R</string>
-												</dict>
-												<key>0xf707-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2S</string>
-												</dict>
-												<key>0xf708-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[15;2~</string>
-												</dict>
-												<key>0xf709-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[17;2~</string>
-												</dict>
-												<key>0xf70a-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[18;2~</string>
-												</dict>
-												<key>0xf70b-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[19;2~</string>
-												</dict>
-												<key>0xf70c-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[20;2~</string>
-												</dict>
-												<key>0xf70d-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[21;2~</string>
-												</dict>
-												<key>0xf70e-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[23;2~</string>
-												</dict>
-												<key>0xf70f-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[24;2~</string>
-												</dict>
-												<key>0xf729-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2H</string>
-												</dict>
-												<key>0xf729-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;5H</string>
-												</dict>
-												<key>0xf72b-0x20000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;2F</string>
-												</dict>
-												<key>0xf72b-0x40000</key>
-												<dict>
-													<key>Action</key>
-													<integer>10</integer>
-													<key>Text</key>
-													<string>[1;5F</string>
-												</dict>
-											</dict>
-											<key>Link Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.993904709815979</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.70813727378845215</real>
-												<key>Red Component</key>
-												<real>0.41434469819068909</real>
-											</dict>
-											<key>Minimum Contrast</key>
-											<real>0.0</real>
-											<key>Mouse Reporting</key>
-											<true/>
-											<key>Name</key>
-											<string>supercrabtree-light</string>
-											<key>Non Ascii Font</key>
-											<string>Menlo-Regular 12</string>
-											<key>Non-ASCII Anti Aliased</key>
-											<true/>
-											<key>Normal Font</key>
-											<string>Menlo-Regular 14</string>
-											<key>Option Key Sends</key>
-											<integer>2</integer>
-											<key>Prompt Before Closing 2</key>
-											<false/>
-											<key>Right Option Key Sends</key>
-											<integer>2</integer>
-											<key>Rows</key>
-											<integer>50</integer>
-											<key>Screen</key>
-											<integer>-2</integer>
-											<key>Scrollback Lines</key>
-											<integer>1000</integer>
-											<key>Scrollback With Status Bar</key>
-											<false/>
-											<key>Selected Text Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.95345985889434814</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.95345985889434814</real>
-												<key>Red Component</key>
-												<real>0.95345985889434814</real>
-											</dict>
-											<key>Selection Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.41456803679466248</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.41456103324890137</real>
-												<key>Red Component</key>
-												<real>0.41457340121269226</real>
-											</dict>
-											<key>Semantic History</key>
-											<dict>
-												<key>action</key>
-												<string>best editor</string>
-												<key>editor</key>
-												<string>com.sublimetext.3</string>
-												<key>text</key>
-												<string></string>
-											</dict>
-											<key>Send Code When Idle</key>
-											<false/>
-											<key>Shortcut</key>
-											<string></string>
-											<key>Silence Bell</key>
-											<true/>
-											<key>Smart Cursor Color</key>
-											<false/>
-											<key>Space</key>
-											<integer>0</integer>
-											<key>Sync Title</key>
-											<false/>
-											<key>Tab Color</key>
-											<dict>
-												<key>Alpha Component</key>
-												<real>1</real>
-												<key>Blue Component</key>
-												<real>0.0</real>
-												<key>Color Space</key>
-												<string>Calibrated</string>
-												<key>Green Component</key>
-												<real>0.0</real>
-												<key>Red Component</key>
-												<real>0.0</real>
-											</dict>
-											<key>Tags</key>
-											<array/>
-											<key>Terminal Type</key>
-											<string>xterm-256color</string>
-											<key>Thin Strokes</key>
-											<integer>1</integer>
-											<key>Transparency</key>
-											<real>0.0</real>
-											<key>Triggers</key>
-											<array>
-												<dict>
-													<key>action</key>
-													<string>HighlightTrigger</string>
-													<key>parameter</key>
-													<integer>1005</integer>
-													<key>partial</key>
-													<true/>
-													<key>regex</key>
-													<string>^CONFLICT</string>
-												</dict>
-											</array>
-											<key>Unlimited Scrollback</key>
-											<true/>
-											<key>Use Bold Font</key>
-											<false/>
-											<key>Use Bright Bold</key>
-											<false/>
-											<key>Use Cursor Guide</key>
-											<false/>
-											<key>Use HFS Plus Mapping</key>
-											<false/>
-											<key>Use Italic Font</key>
-											<true/>
-											<key>Use Non-ASCII Font</key>
-											<true/>
-											<key>Use Tab Color</key>
-											<false/>
-											<key>Vertical Spacing</key>
-											<real>0.99834690323795172</real>
-											<key>Visual Bell</key>
-											<false/>
-											<key>Window Type</key>
-											<integer>0</integer>
-											<key>Working Directory</key>
-											<string>/Users/supercrabtree</string>
-										</dict>
-										<key>Bookmark Name</key>
-										<string>supercrabtree-dark</string>
-										<key>Columns</key>
-										<integer>238</integer>
-										<key>Commands</key>
-										<array/>
-										<key>Directories</key>
-										<array>
-											<string>/Users/supercrabtree/dev/min.js</string>
-											<string>/Users/supercrabtree/dev/min.js</string>
-											<string>/Users/supercrabtree/dev/min.js</string>
-											<string>/Users/supercrabtree/dev/min.js</string>
-											<string>/Users/supercrabtree/dev/min.js</string>
-											<string>/Users/supercrabtree/dev/min.js</string>
-											<string>/Users/supercrabtree/dev/min.js</string>
-											<string>/Users/supercrabtree/dev/min.js</string>
-										</array>
-										<key>Environment</key>
-										<dict>
-											<key>PWD</key>
-											<string>/Users/supercrabtree/dev/min.js</string>
-										</dict>
-										<key>Hosts</key>
-										<array/>
-										<key>Is UTF-8</key>
-										<true/>
-										<key>Program</key>
-										<dict>
-											<key>Type</key>
-											<string>Shell Launcher</string>
-										</dict>
-										<key>Rows</key>
-										<integer>69</integer>
-										<key>Session Default Name</key>
-										<string>supercrabtree-dark</string>
-										<key>Session GUID</key>
-										<string>2D4F14AA-5854-4F73-89D2-C3D3BD6A353B</string>
-										<key>Session Name</key>
-										<string>min.js</string>
-										<key>Session Window Title</key>
-										<string>min.js</string>
-										<key>Shell Integration Ever Used</key>
-										<false/>
-										<key>Substitutions</key>
-										<dict/>
-										<key>Working Directory</key>
-										<string>/Users/supercrabtree/dev/min.js</string>
-									</dict>
-									<key>View Type</key>
-									<string>SessionView</string>
-									<key>frame</key>
-									<dict>
-										<key>height</key>
-										<real>1178</real>
-										<key>width</key>
-										<real>1920</real>
-										<key>x</key>
-										<real>0.0</real>
-										<key>y</key>
-										<real>0.0</real>
-									</dict>
-								</dict>
-							</array>
-							<key>View Type</key>
-							<string>Splitter</string>
-							<key>frame</key>
-							<dict>
-								<key>height</key>
-								<real>1178</real>
-								<key>width</key>
-								<real>1920</real>
-								<key>x</key>
-								<real>0.0</real>
-								<key>y</key>
-								<real>0.0</real>
-							</dict>
-							<key>isVertical</key>
-							<false/>
 						</dict>
 					</dict>
 				</array>

@@ -25,3 +25,8 @@
   peek                     = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)'
   trash                    = !git stash && git stash drop
   br                       = !git for-each-ref --sort=committerdate refs/heads/ --format=' %(color:8)%(committerdate:relative)%(color:reset)|%(color:blue)%(HEAD)%(color:reset) %(refname:short)' | column -ts'|'
+[pager]
+	diff = diff-so-fancy | less --tabs=1,5 -RFX
+	show = diff-so-fancy | less --tabs=1,5 -RFX
+[help]
+	autocorrect = 0

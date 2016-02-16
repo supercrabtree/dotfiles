@@ -12,6 +12,8 @@ zplug "robbyrussell/oh-my-zsh", of:plugins/sudo/sudo.plugin.zsh
 zplug "djui/alias-tips"
 zplug "zsh-users/zsh-completions"
 zplug "mafredri/zsh-async"
+zplug "so-fancy/diff-so-fancy", as:command
+zplug "so-fancy/diff-so-fancy", from:gist
 zplug "supercrabtree/pure"
 
 # zplug "pixelb/scripts", of:scripts/l
@@ -445,9 +447,9 @@ EOF
 d() {
   if test "$#" = 0; then
     (
-    git diff --color
-    echo
-    git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i"; done
+      git diff --color | diff-so-fancy
+      echo
+      git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i" | diff-so-fancy; done
     ) | less -R
   else
     git diff "$@"

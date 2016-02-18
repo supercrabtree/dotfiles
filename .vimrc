@@ -462,11 +462,11 @@ endfunction
 " ------------------------------------------------------------------------------
 set statusline=
 set statusline+=%L\ \|\ %c\ \|\ %p%%\  " percentage through file
-set statusline+=%{ShowCount()}\ \          " show last search count
+set statusline+=%{ShowCount()}\ \      " show last search count
 set statusline+=%<                     " when the window is too narrow, cut it here
-set statusline+=%f                     " path & filename
-set statusline+=%=                     " align from here on to the right
+set statusline+=%f\                    " path & filename
 set statusline+=%{IsModified()}        " flags and buf no
+" set statusline+=%=                   " align from here on to the right
 
 
 " Plugin Settings

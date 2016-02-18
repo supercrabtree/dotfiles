@@ -210,7 +210,7 @@ endfunction
 " cnoremap <F18> <c-u><esc><c-w>w
 
 " ctrl-loose
-nnoremap <silent> <right> :bdelete<cr>
+nnoremap <silent> <right> :ArgDelete<cr>
 
 " allow suspension in insert mode
 inoremap <c-z> <esc><c-z>

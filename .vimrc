@@ -120,6 +120,7 @@ set wildmenu
 " set wildignore+=**/node_modules/**/*
 " set wildignore+=**/bower_components/**/*
 set ttyfast
+set shell=zsh\ -l
 
 " different cursor shapes for insert mode
 if &term == 'xterm-256color' || &term == 'screen-256color'

@@ -57,9 +57,6 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt share_history
 setopt ignoreeof
-setopt correct
-setopt correctall
-# setopt xtrace
 
 
 # Exports

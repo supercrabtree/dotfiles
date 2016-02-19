@@ -116,6 +116,9 @@ source <(npm completion)
 
 _Z_DATA=~/.z.data/.z
 
+git_log_defaults="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%<(70,trunc)%s %Creset%<(15,trunc)%cn%C(auto)%d"
+
+
 # Z Style
 # ------------------------------------------------------------------------------
 zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
@@ -188,8 +191,7 @@ alias build="./build"
 alias deploy="./deploy"
 alias setup="./setup"
 
-alias glg='git log --graph --decorate --all --pretty="%C(yellow)%h%C(auto)%d %C(blue)%s %Cgreen%cr %Creset%cn"'
-alias glv='git log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr%C(auto)%d %C(blue)%s %Creset%cn"'
+alias glg="git log --graph --decorate --all --pretty='$git_log_defaults'"
 alias grc='git add -A && git rebase --continue'
 alias gaa='git add -A'
 
@@ -277,7 +279,7 @@ gvim() {
   if [[ $files != "" ]]; then
     vim $(git ls-files -m)
   else
-    echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)' && echo '\nFiles' && git --no-pager diff --stat @{1}..
+    echo '\nCommits' && git log @{1}.. --decorate --pretty="$git_log_defaults" && echo '\nFiles' && git diff --stat @{1}..
     echo '\nPress any key open these files'; read -k1 -s
     vim $(git --no-pager diff --name-only @{1}..)
   fi
@@ -305,7 +307,7 @@ gl() {
   if [ $1 ]; then
     LINES=$1
   fi
-  git --no-pager log --decorate --all --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)%d" "-$LINES"
+  git log --decorate --all --pretty="$git_log_defaults" "-$LINES"
 }
 
 glb() {
@@ -313,7 +315,7 @@ glb() {
   if [ $1 ]; then
     LINES=$1
   fi
-  git --no-pager log --decorate --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)%d" "-$LINES"
+  git log --decorate --pretty="$git_log_defaults" "-$LINES"
 }
 
 killport() {
@@ -528,7 +530,7 @@ fstash() {
   local out q k sha
   while out=$(
     echo "enter: show stash contents | ctrl-d: diff stash against HEAD | ctrl-a: apply stash | ctrl-b: checkout new branch containing stash\n\
-      $(git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs")" |
+      $(git stash list --pretty="$git_log_defaults")" |
     fzf --ansi --no-sort --query="$q" --print-query \
       --header-lines=1\
       --expect=ctrl-d,ctrl-b,ctrl-p,ctrl-a);

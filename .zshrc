@@ -381,23 +381,6 @@ serve() {
   open "http://localhost:$PORT"
 }
 
-play() {
-  if [ $1 ]
-  then
-    if [ $2 ]
-    then
-      NAME=$1-$2
-    else
-      NAME=$1-$[($RANDOM % 13843) + 1]
-    fi
-    cd ~/dev/yeah && mkdir $NAME && cd $_
-    yo $1
-    vim
-  else
-    cd ~/dev/yeah && mkdir yeah-$[($RANDOM % 13843) + 1] && cd $_
-  fi
-}
-
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
     BUFFER="fg"

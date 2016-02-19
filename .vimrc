@@ -86,7 +86,6 @@ set nowrap                     " no line wrap
 set textwidth=0                " settings to stop automatic line wrapping when typing
 set wrapmargin=0               " hate text wrap
 set mouse=a                    " gimme mouse
-set splitbelow                 " new split panes always on the bottom
 set splitright                 " new split panes always on the right
 set scrolloff=3                " always keep some context when moving about
 set hidden                     " allow buffers to be hidden

@@ -660,4 +660,44 @@ p () {
   fi
 }
 
+
+git() {
+  if [[ $# == 0 ]]; then
+    command git
+    return $?
+  fi
+
+  __beginswith() { case $2 in "$1"*) true;; *) false;; esac; }
+
+  __used_git_command=""
+  for arg in "$@"; do
+    if ! __beginswith "--" $arg; then
+      __used_git_command=$arg
+      break
+    fi
+  done
+
+  __all_git_commands=$(command git help -a | grep "^  [a-z]" | tr ' ' '\n' | grep -v "^$")
+  while read i; do
+    if [ "$__used_git_command" = "$i" ]; then
+      command git "$@"
+      return $?
+    fi
+  done < <(printf '%s' "$__all_git_commands")
+
+  __res=$(command git "$@" 2>&1)
+  __intented=$(printf '%s' "$__res" | xargs | sed -n 's/git: .* is not a git command\. See git --help\. Did you mean this\? \(.*\)/\1/p')
+  if [ -n "$__intented" ]; then
+    shift
+    set -- "$__intented" "$@"
+    printf '%s\n\n' "$__res"
+    printf 'git '
+    printf '%s ' "$@"
+    read -k1 -s
+    printf '\n\n'
+    set -x
+    command git "$@"
+  fi
+}
+
 COMMENTS

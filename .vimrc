@@ -266,6 +266,8 @@ vmap <Enter> <Plug>(EasyAlign)
 " delete content, like dd but make it so you can jam it in another line somewhere
 nnoremap dc ^v$hd"_dd
 
+inoremap <c-s> <esc>[sa<c-x>s
+
 " Space Leaders
 " ------------------------------------------------------------------------------
 " append function parameter
@@ -539,7 +541,6 @@ nnoremap <c-s><c-s>  :CtrlSF
 nnoremap <c-s><up>   :CtrlSF <up>
 nnoremap <c-s><down> :CtrlSF <down>
 nnoremap <c-s><c-t>  :CtrlSFToggle<cr>
-inoremap <c-s><c-t>  <Esc>:CtrlSFToggle<cr>
 
 let g:ctrlsf_mapping = {
 \ "next"  : "<down>",
@@ -777,6 +778,17 @@ function! s:Tailf()
 endfunction
 command! Tailf call <sid>Tailf()
 
+function! s:SpellMode()
+  if &spell=='nospell'
+    set spell
+    set nocursorline
+  else
+    set nospell
+    set cursorline
+  endif
+endfunction
+command! SpellMode call <sid>SpellMode()
+
 function! s:JSONPrettyify()
   execute "%!python -m json.tool"
 endfunction
@@ -925,8 +937,9 @@ augroup georges_autocommands
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
   " highlight colums in git commit messages
-  autocmd filetype gitcommit set colorcolumn=51,73
+  autocmd filetype gitcommit setlocal colorcolumn=51,73
   autocmd filetype gitcommit setlocal spell
+  autocmd FileType gitcommit setlocal nocursorline
   autocmd filetype gitcommit setlocal scrolloff=1000
   autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
   autocmd FileType gitcommit map <buffer> <down> 10j

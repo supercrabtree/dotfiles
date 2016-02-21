@@ -199,6 +199,7 @@ alias -s git='git clone'
 alias -g C='| pbcopy'
 alias -g G='| grep -i '
 alias -g F='| fzf --ansi'
+alias -g L='| less'
 
 
 # ZLE Functions

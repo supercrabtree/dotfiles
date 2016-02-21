@@ -54,6 +54,7 @@ Plug 'wavded/vim-stylus'
 
 " Trialing/tmp
 Plug 'takac/vim-hardtime'
+Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
@@ -300,6 +301,8 @@ function! s:my_cr_function()
   return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
 
+nnoremap J :GitGutterNextHunk<cr>
+nnoremap K :GitGutterPrevHunk<cr>
 " Arglist stuff
 " ------------------------------------------------------------------------------
 nnoremap <space>ad :ArgsDelete<cr>

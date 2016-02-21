@@ -510,7 +510,6 @@ omap T <Plug>Sneak_T
 omap s <Plug>Sneak_s
 omap S <Plug>Sneak_S
 
-" let g:sneak#textobject_z = 0
 let g:sneak#s_next = 0
 let g:sneak#use_ic_scs = 1
 
@@ -1051,7 +1050,7 @@ syntax reset
 hi ColorColumn       ctermbg=9
 hi CursorLine        ctermbg=9                 cterm=none
 hi MatchParen        ctermbg=none ctermfg=1
-hi SneakPluginTarget ctermbg=2    ctermfg=232
+hi SneakPluginTarget ctermbg=none ctermfg=232  cterm=underline
 hi LineNr                         ctermfg=10
 hi CursorLineNr                   ctermfg=none
 hi Search            ctermbg=3    ctermfg=232

@@ -301,6 +301,12 @@ function! s:my_cr_function()
   return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
 
+nnoremap <space>ga :Git add -p<cr>
+nnoremap <space>gc :Gcommit -v<cr>
+nnoremap <space>gs :Gstatus<cr>
+nnoremap <space>gd :Gdiff<cr>
+
+
 nnoremap J :GitGutterNextHunk<cr>
 nnoremap K :GitGutterPrevHunk<cr>
 " Arglist stuff

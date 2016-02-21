@@ -121,6 +121,8 @@ set wildmenu
 " set wildignore+=**/bower_components/**/*
 set ttyfast
 set shell=zsh\ -l
+" stop folds in diffs
+set diffopt+=context:99999
 
 " different cursor shapes for insert mode
 if &term == 'xterm-256color' || &term == 'screen-256color'
@@ -161,12 +163,16 @@ inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk
 
 " rapid buffer nav
-nnoremap <silent> <down> :PreviousBuffer<cr>
-nnoremap <silent> <up> :NextBuffer<cr>
+nnoremap <silent> <down> :PressDown<cr>
+nnoremap <silent> <up> :PressUp<cr>
 nnoremap <silent> <left> <c-^>
 
-command! NextBuffer :call <sid>NextBuffer()
-function! <sid>NextBuffer()
+command! PressUp :call <sid>PressUp()
+function! <sid>PressUp()
+  if &diff
+    normal [c
+    return
+  endif
   if g:inArgsMode == 0
     silent bnext
   else
@@ -181,8 +187,12 @@ function! <sid>NextBuffer()
   endif
 endfunction
 
-command! PreviousBuffer :call <sid>PreviousBuffer()
-function! <sid>PreviousBuffer()
+command! PressDown :call <sid>PressDown()
+function! <sid>PressDown()
+  if &diff
+    normal ]c
+    return
+  endif
   if g:inArgsMode == 0
     silent bprevious
   else
@@ -476,7 +486,8 @@ set statusline+=%{ShowCount()}\ \      " show last search count
 set statusline+=%<                     " when the window is too narrow, cut it here
 set statusline+=%f\                    " path & filename
 set statusline+=%{IsModified()}        " flags and buf no
-" set statusline+=%=                   " align from here on to the right
+set statusline+=%=                     " align from here on to the right
+set statusline+=%{fugitive#statusline()}
 
 
 " Plugin Settings
@@ -1113,7 +1124,7 @@ hi Folded     ctermfg=12   ctermbg=5
 hi FoldColumn ctermfg=12   ctermbg=5
 hi DiffAdd    ctermfg=2    ctermbg=none
 hi DiffChange ctermbg=9
-hi DiffDelete ctermfg=1   ctermbg=1
+hi DiffDelete ctermfg=88   ctermbg=52
 hi DiffText   ctermfg=3   ctermbg=10
 
 

@@ -326,6 +326,7 @@ nnoremap <space>as :ArgsShow<cr>
 nnoremap <space>ar :ArgsReorderByBufNum<cr>
 nnoremap <space>ac :ArgsCleanDuplicates<cr>
 nnoremap <F19> :ArgToggle<cr>
+cnoremap <F18> <nop>
 nnoremap <F18> :ArgsModeToggle<cr>
 inoremap <F18> <c-o>:ArgsModeToggle<cr>
 nnoremap M :ArgToggle<cr>
@@ -370,6 +371,7 @@ function! <sid>ArgDelete()
   try
     argd %
   catch /E480/
+  catch /E499/
   endtry
   bdelete
 endfunction
@@ -482,7 +484,7 @@ endfunction
 " ------------------------------------------------------------------------------
 set statusline=
 set statusline+=%L\ \|\ %c\ \|\ %p%%\  " percentage through file
-set statusline+=%{ShowCount()}\ \      " show last search count
+set statusline+=%{ShowCount()}\        " show last search count
 set statusline+=%<                     " when the window is too narrow, cut it here
 set statusline+=%f\                    " path & filename
 set statusline+=%{IsModified()}        " flags and buf no
@@ -1056,7 +1058,7 @@ hi CursorLineNr                   ctermfg=none
 hi Search            ctermbg=3    ctermfg=232
 hi IncSearch         ctermbg=2    ctermfg=232  cterm=none
 hi SpellBad          ctermbg=none ctermfg=1    cterm=none
-hi SpellCap          ctermbg=none ctermfg=none    cterm=none
+hi SpellCap          ctermbg=none ctermfg=none cterm=none
 hi ExtraWhitespace   ctermbg=1    ctermfg=1
 hi PMenu             ctermbg=11   ctermfg=5
 hi PMenuSel          ctermbg=10   ctermfg=14

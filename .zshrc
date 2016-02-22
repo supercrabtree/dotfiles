@@ -170,7 +170,6 @@ alias l="k -a --no-vcs"
 alias l="ls -laG"
 alias e="exa --level=2 -T -la"
 
-alias mkcd="_(){ mkdir -pv $1 && cd $1; }; _"
 alias dev="cd ~/dev"
 alias f="open ."
 alias reload="exec zsh"
@@ -215,6 +214,10 @@ searchdown() {
 
 cdwhich() {
   cd "$(dirname $(which $1))"
+}
+
+mkcd() {
+  mkdir -p $1 && cd $1
 }
 
 # No arguments: `git status -s`

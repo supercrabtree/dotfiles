@@ -179,9 +179,9 @@ alias download-video="youtube-dl -o -x \"~/dl/%(title)s.%(ext)s\""
 alias download="youtube-dl -o \"~/dl/%(title)s.%(ext)s\""
 
 alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
-alias vimrc="vim ~/.vimrc"
 alias clearvim="rm -rf ~/.vim/tmp/*"
-alias zshrc="vim ~/.zshrc"
+alias vimrc="vim ~/dev/dotfiles/.vimrc"
+alias zshrc="vim ~/dev/dotfiles/.zshrc"
 
 alias run="./run"
 alias build="./build"

@@ -435,7 +435,6 @@ d() {
   if test "$#" = 0; then
     (
       git diff --color | diff-so-fancy
-      echo
       git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i" | diff-so-fancy; done
     ) | less -R
   else

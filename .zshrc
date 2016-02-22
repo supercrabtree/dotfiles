@@ -274,15 +274,16 @@ first-tab() {
 }
 
 
-# git vim smart open the files I need
+# open any files that have been edited, or are new and untracked.t 
+# if working directory is clean, open files edited in last commit.
 gvim() {
-  local files=$(git ls-files -m)
+  local files=$(git ls-files -m && git ls-files -o --exclude-standard)
   if [[ $files != "" ]]; then
-    vim $(git ls-files -m)
+    vim $(git ls-files -m && git ls-files -o --exclude-standard)
   else
     echo '\nCommits' && git log @{1}.. --decorate --pretty="$git_log_defaults" && echo '\nFiles' && git diff --stat @{1}..
     echo '\nPress any key open these files'; read -k1 -s
-    vim $(git --no-pager diff --name-only @{1}..)
+    vim $(git diff --name-only @{1}..)
   fi
 }
 

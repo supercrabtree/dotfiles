@@ -548,19 +548,25 @@ fancy-branch() {
   tags=$(
   git tag | awk '{print "\x1b[33;1mtag\x1b[m\t" $1}') || return
   localbranches=$(
-  git branch       | grep -v HEAD             |
-  sed "s/.* //"    | sed "s#remotes/[^/]*/##" |
-  sort -u          | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+  git for-each-ref --sort=-committerdate refs/heads/ |
+  sed 's|.*refs/heads/||' |
+  awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
   remotebranches=$(
   git branch --remote | grep -v HEAD             |
   sed "s/.* //"       | sed "s#remotes/[^/]*/##" |
-  sort -u             | awk '{print "\x1b[31;1mbranch\x1b[m\t" $1}') || return
+  sort -u             | awk '{print "\x1b[31;1mremote\x1b[m\t" $1}') || return
   target=$(
-  (echo "$localbranches"; echo "$remotebranches"; echo "$tags";) |
+  (echo "$localbranches"; echo "$tags"; echo "$remotebranches";) |
   fzf --no-hscroll --ansi +m -d "\t" -n 2) || return
   if [[ -z "$BUFFER" ]]; then
-    git checkout $(echo "$target" | awk '{print $2}')
-    zle accept-line
+    if [[ $(echo "$target" | awk '{print $1}') == 'remote' ]]; then
+      target=$(echo "$target" | awk '{print $2}' | sed 's|.*/||')
+      git checkout "$target"
+      zle accept-line
+    else
+      git checkout $(echo "$target" | awk '{print $2}')
+      zle accept-line
+    fi
   else
     res=$(echo "$target" | awk '{print $2}')
     LBUFFER="$(echo "$LBUFFER" | xargs) ${res}"

@@ -509,9 +509,11 @@ xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
 omap T <Plug>Sneak_T
 
-omap s <Plug>Sneak_s
-omap S <Plug>Sneak_S
+nmap <expr> s sneak#is_sneaking() ? ':call sneak#cancel()<cr><c-o><Plug>(SneakStreak)<cr>' : '<Plug>Sneak_s'
+nmap <expr> S sneak#is_sneaking() ? ':call sneak#cancel()<cr><c-o><Plug>(SneakStreakBackward)<cr>' : '<Plug>Sneak_S'
+nmap S <Plug>Sneak_S
 
+" let g:sneak#streak = 1
 let g:sneak#s_next = 0
 let g:sneak#use_ic_scs = 1
 
@@ -1052,7 +1054,6 @@ syntax reset
 hi ColorColumn       ctermbg=9
 hi CursorLine        ctermbg=9                 cterm=none
 hi MatchParen        ctermbg=none ctermfg=1
-hi SneakPluginTarget ctermbg=none ctermfg=232  cterm=underline
 hi LineNr                         ctermfg=10
 hi CursorLineNr                   ctermfg=none
 hi Search            ctermbg=3    ctermfg=232
@@ -1087,6 +1088,11 @@ hi BufTabLineHidden  ctermbg=12   ctermfg=11   cterm=none
 hi BufTabLineArglist ctermbg=12   ctermfg=5    cterm=none
 hi BufTabLineFill    ctermbg=12                cterm=none
 
+" Sneak
+hi SneakPluginTarget     ctermbg=none ctermfg=1  cterm=underline
+hi SneakStreakTarget     ctermbg=1 ctermfg=15  cterm=none
+hi SneakStreakMask       ctermbg=1 ctermfg=1  cterm=none
+hi SneakStreakStatusLine ctermbg=9 ctermfg=13 cterm=none
 
 " git
 hi diffAdded ctermfg=2

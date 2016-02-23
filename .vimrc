@@ -258,6 +258,8 @@ nnoremap - :<c-u>r !pbpaste<cr>
 nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
 vnoremap <c-a> y:<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
 
+nnoremap / mS/
+
 " " ctrl-s to substitute
 " nnoremap <c-s> :<c-u>%smagic/
 

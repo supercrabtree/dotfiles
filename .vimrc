@@ -486,12 +486,13 @@ endfunction
 " Status Line
 " ------------------------------------------------------------------------------
 set statusline=
-set statusline+=%L\ \|\ %c\ \|\ %p%%\  " percentage through file
-set statusline+=%{ShowCount()}\        " show last search count
-set statusline+=%<                     " when the window is too narrow, cut it here
-set statusline+=%f\                    " path & filename
-set statusline+=%{IsModified()}        " flags and buf no
-set statusline+=%=                     " align from here on to the right
+set statusline+=%L\ \|\ %p%%\    " current line number / percentage
+set statusline+=%{ShowCount()}\  " show last search count
+set statusline+=%<               " when the window is too narrow, cut it here
+set statusline+=%f\              " path & filename
+set statusline+=%{IsReadOnly()}
+set statusline+=%{IsModified()}
+set statusline+=%=               " align from here on to the right
 set statusline+=%{fugitive#statusline()}
 
 
@@ -898,6 +899,13 @@ endfunction
 function! IsModified()
   if getbufvar(winbufnr(0), '&mod')
     return '+ '
+  endif
+  return ''
+endfunction
+
+function! IsReadOnly()
+  if &ro
+    return '[readonly] '
   endif
   return ''
 endfunction

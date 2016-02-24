@@ -161,7 +161,7 @@ nnoremap g+ mzj0d^i<bs> <esc>`z
 inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
 
 " clear search highlights and refresh screen
-nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk
+nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk:diffupdate<cr>
 
 " rapid buffer nav
 nnoremap <silent> <down> :PressDown<cr>

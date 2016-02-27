@@ -155,6 +155,8 @@ bindkey " " globalaliasexpander
 bindkey "^ " magic-space           # control-space to bypass completion
 bindkey -M isearch " " magic-space # normal space during searches
 
+zle -N vim-pop
+bindkey "^V" vim-pop
 
 # stop my single tap caps-lock from echoing 7;2~
 bindkey -s "^[[17;2~" ""
@@ -371,6 +373,15 @@ serve() {
   fi
   python -m SimpleHTTPServer $PORT
   open "http://localhost:$PORT"
+}
+
+vim-pop() {
+  [[ -z $BUFFER ]] && zle up-history
+  if [[ $BUFFER == vim\ * ]]; then
+    LBUFFER="${LBUFFER#sudo }"
+  else
+    LBUFFER="vim $LBUFFER"
+  fi
 }
 
 fancy-ctrl-z () {

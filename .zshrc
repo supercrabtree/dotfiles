@@ -440,6 +440,10 @@ d() {
   fi
 }
 
+D() {
+  git diff --staged --color | diff-so-fancy | less -R
+}
+
 # Use Ctrl-x,Ctrl-l to get the output of the last command
 insert-last-command-output() {
   LBUFFER+="$(eval $history[$((HISTCMD-1))])"

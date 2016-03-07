@@ -282,6 +282,11 @@ nnoremap dc ^v$hd"_dd
 
 inoremap <c-s> <esc>[sa<c-x>s
 
+nnoremap J :GitGutterNextHunk<cr>
+nnoremap K :GitGutterPrevHunk<cr>
+nnoremap H :GitGutterStageHunk<cr>
+nnoremap U mh:GitGutterRevertHunk<cr>'h
+
 " Space Leaders
 " ------------------------------------------------------------------------------
 " append function parameter
@@ -320,8 +325,6 @@ nnoremap <space>gs :Gstatus<cr>
 nnoremap <space>gd :Gdiff<cr>
 
 
-nnoremap J :GitGutterNextHunk<cr>
-nnoremap K :GitGutterPrevHunk<cr>
 " Arglist stuff
 " ------------------------------------------------------------------------------
 nnoremap <space>ad :ArgsDelete<cr>

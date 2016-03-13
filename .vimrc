@@ -22,7 +22,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-dispatch'
 
 " June Gunn
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf'
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-xmark', { 'do': 'make' }
 Plug 'junegunn/vim-easy-align'
@@ -587,6 +587,7 @@ let g:ctrlsf_mapping = {
 
 " FZF
 " ------------------------------------------------------------------------------
+set rtp+=~/.fzf
 vnoremap <c-f>      :<c-u>execute 'FindFilesHere ' . <sid>get_visual_selection()<cr>
 nnoremap <c-f>      :echoerr 'too slow!'<cr>
 nnoremap <c-f><c-f> :FindFilesIn<cr>

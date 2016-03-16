@@ -52,6 +52,7 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'groenewege/vim-less'
 Plug 'fatih/vim-go'
 Plug 'wavded/vim-stylus'
+Plug 'mxw/vim-jsx'
 
 " Trialing/tmp
 Plug 'takac/vim-hardtime'

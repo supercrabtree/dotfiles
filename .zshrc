@@ -13,10 +13,7 @@ zplug "djui/alias-tips"
 zplug "zsh-users/zsh-completions"
 zplug "mafredri/zsh-async"
 zplug "so-fancy/diff-so-fancy", as:command
-zplug "so-fancy/diff-so-fancy", from:gist
-zplug "supercrabtree/pure"
 
-# zplug "pixelb/scripts", of:scripts/l
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -32,7 +29,8 @@ zplug load
 
 # easier to work on / see pr's
 source ~/dev/k/k.sh
-# source ~/dev/pure/pure.zsh
+source ~/dev/pure/pure.zsh
+source ~/dev/scratch/scratch
 
 
 # Load

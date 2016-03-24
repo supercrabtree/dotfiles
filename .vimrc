@@ -321,9 +321,15 @@ function! s:my_cr_function()
 endfunction
 
 nnoremap <space>ga :Git add -p<cr>
-nnoremap <space>gc :Gcommit -v<cr>
+nnoremap <space>gA :Git add %<cr><cr>:GitGutter<cr>
+nnoremap <space>gc :Gcommit -v -q<cr>
 nnoremap <space>gs :Gstatus<cr>
+nnoremap <space>gr :Git reset -q %<cr><cr>:GitGutter<cr>
 nnoremap <space>gd :Gdiff<cr>
+nnoremap <space>gt :Git! diff --staged<cr>
+nnoremap <space>gp :Gpush<cr>
+nnoremap <space>gl :Glog<cr><cr><cr>
+nnoremap <space>gq :copen 20<cr>f<space>lzs
 
 
 " Arglist stuff

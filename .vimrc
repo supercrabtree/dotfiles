@@ -345,6 +345,10 @@ inoremap <F18> <c-o>:ArgsModeToggle<cr>
 nnoremap M :ArgToggle<cr>
 nnoremap L :ArgDelete<cr>
 
+" XML editing
+" ------------------------------------------------------------------------------
+inoremap <lt>/ </<C-X><C-O><space><C-O>==<bs>
+
 let g:inArgsMode = len(argv())
 
 function! <sid>ArgsModeToggle()

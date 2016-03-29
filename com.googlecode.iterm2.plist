@@ -20,6 +20,8 @@
 	<integer>0</integer>
 	<key>AppleSmoothFixedFontsSizeThreshold</key>
 	<integer>1</integer>
+	<key>AutoCommandHistory</key>
+	<false/>
 	<key>AutoHideTmuxClientSession</key>
 	<false/>
 	<key>ClosingTmuxTabKillsTmuxWindows</key>
@@ -1106,7 +1108,7 @@
 	<key>Default Arrangement Name</key>
 	<string>g</string>
 	<key>Default Bookmark Guid</key>
-	<string>9CA9D8D3-4F50-4757-99BD-90BC35A44272</string>
+	<string>C50541A1-2F6F-46C5-AEC6-AE1895CA829A</string>
 	<key>DeleteProfile_SilenceUntil</key>
 	<real>451484397.68878901</real>
 	<key>DeleteProfile_selection</key>
@@ -1210,20 +1212,6 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
-		<key>0x77-0x100000</key>
-		<dict>
-			<key>Action</key>
-			<integer>13</integer>
-			<key>Text</key>
-			<string></string>
-		</dict>
-		<key>0x77-0x140000</key>
-		<dict>
-			<key>Action</key>
-			<integer>25</integer>
-			<key>Text</key>
-			<string>Close</string>
-		</dict>
 		<key>0xf700-0x300000</key>
 		<dict>
 			<key>Action</key>
@@ -1254,7 +1242,7 @@
 	<key>HotKeyTogglesWindow</key>
 	<true/>
 	<key>Hotkey</key>
-	<true/>
+	<false/>
 	<key>HotkeyChar</key>
 	<integer>32</integer>
 	<key>HotkeyCode</key>
@@ -1316,15 +1304,15 @@
 	<key>NSWindow Frame NSColorPanel</key>
 	<string>718 380 231 329 0 0 1920 1177 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>762 168 857 371 0 0 1920 1177 </string>
+	<string>762 168 857 237 0 0 1920 1200 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>982 742 606 456 0 0 1920 1200 </string>
+	<string>982 719 606 456 0 0 1920 1177 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>1307 1180 400 129 0 0 3008 1669 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>1156 802 700 622 0 0 3008 1692 </string>
+	<string>612 416 700 622 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1920 1200 0 0 1920 1177 </string>
+	<string>960 0 960 1177 0 0 1920 1177 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4_selection</key>
@@ -1524,13 +1512,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.89999997615814209</real>
+				<real>0.90211784839630127</real>
 				<key>Color Space</key>
 				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.89999997615814209</real>
+				<real>0.90210258960723877</real>
 				<key>Red Component</key>
-				<real>0.89999997615814209</real>
+				<real>0.90212953090667725</real>
 			</dict>
 			<key>Ansi 8 Color</key>
 			<dict>
@@ -1683,13 +1671,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.20000000298023224</real>
+				<real>0.0</real>
 				<key>Color Space</key>
 				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.20000000298023224</real>
+				<real>0.0</real>
 				<key>Red Component</key>
-				<real>0.20000000298023224</real>
+				<real>0.0</real>
 			</dict>
 			<key>Guid</key>
 			<string>C50541A1-2F6F-46C5-AEC6-AE1895CA829A</string>
@@ -2467,7 +2455,7 @@
 			<key>Guid</key>
 			<string>9CA9D8D3-4F50-4757-99BD-90BC35A44272</string>
 			<key>Horizontal Spacing</key>
-			<real>0.99402296686746983</real>
+			<real>1</real>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Initial Text</key>
@@ -2871,7 +2859,7 @@
 			<key>Use Tab Color</key>
 			<false/>
 			<key>Vertical Spacing</key>
-			<real>0.99834690323795172</real>
+			<real>1.0325795368975903</real>
 			<key>Visual Bell</key>
 			<false/>
 			<key>Window Type</key>
@@ -2953,13 +2941,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-02-25T23:21:55Z</date>
+	<date>2016-03-29T13:08:16Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>ShowPaneTitles</key>
 	<false/>
 	<key>SmartPlacement</key>
@@ -2973,7 +2961,7 @@
 	<key>SwitchWindowModifier</key>
 	<integer>9</integer>
 	<key>TabStyle</key>
-	<integer>1</integer>
+	<integer>0</integer>
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>TmuxDashboardLimit</key>
@@ -3001,7 +2989,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>2.9.20160224-nightly</string>
+	<string>2.9.20160322-nightly</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>6</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

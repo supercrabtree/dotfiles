@@ -56,8 +56,6 @@ Plug 'wavded/vim-stylus'
 Plug 'mxw/vim-jsx'
 
 " Trialing/tmp
-Plug 'takac/vim-hardtime'
-Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 

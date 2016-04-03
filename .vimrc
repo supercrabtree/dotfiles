@@ -37,6 +37,7 @@ Plug 'mbbill/undotree'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
 Plug 'wellle/targets.vim'
+Plug 'airblade/vim-gitgutter'
 
 " Text Objects
 Plug 'kana/vim-textobj-user'

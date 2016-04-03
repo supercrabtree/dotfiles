@@ -155,6 +155,9 @@ inoremap jj <esc>
 noremap <c-c> <Esc>
 vnoremap Y y`]
 
+nnoremap j gj
+nnoremap k gk
+
 " now give join back
 nnoremap + mzj0d^i<bs><esc>`z
 nnoremap g+ mzj0d^i<bs> <esc>`z

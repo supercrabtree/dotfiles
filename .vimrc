@@ -499,6 +499,18 @@ function! <sid>PutLastCommit()
   :read !git log -1 --pretty=%b<cr>
 endfunction
 
+let g:are_comments_invisible=0
+command! Ghost :call <sid>Ghost()
+function! <sid>Ghost()
+  if g:are_comments_invisible
+    hi! link Comment Comment
+    let g:are_comments_invisible=0
+  else
+    hi! link Comment Ignore
+    let g:are_comments_invisible=1
+  endif
+endfunction
+
 " Status Line
 " ------------------------------------------------------------------------------
 set statusline=

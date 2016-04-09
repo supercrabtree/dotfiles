@@ -38,6 +38,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
 Plug 'wellle/targets.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'svermeulen/vim-easyclip'
 
 " Text Objects
 Plug 'kana/vim-textobj-user'
@@ -56,6 +57,7 @@ Plug 'wavded/vim-stylus'
 Plug 'mxw/vim-jsx'
 
 " Trialing/tmp
+Plug 'davidosomething/EasyClipRing.vim'
 
 call plug#end()
 
@@ -155,6 +157,13 @@ vnoremap Y y`]
 
 nnoremap j gj
 nnoremap k gk
+
+imap <C-p> <Plug>(EasyClipRing)
+let g:EasyClipShareYanks=1
+nnoremap M YD
+nnoremap <space>yf  :call EasyClip#Yank(expand('%:t'))<cr>:echo 'Yanked '.expand('%:t')<cr>
+nnoremap <space>yrp :call EasyClip#Yank(fnamemodify(expand("%"), ":~:."))<cr>:echo 'Yanked '.fnamemodify(expand("%"), ":~:.")<cr>
+nnoremap <space>yp  :call EasyClip#Yank(expand('%:p'))<cr>:echo 'Yanked '.expand('%:p')<cr>
 
 " now give join back
 nnoremap + mzj0d^i<bs><esc>`z

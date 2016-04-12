@@ -334,7 +334,7 @@ pr() {
   if [[ $REPLY =~ ^[Yy]$ ]]
   then
     CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    hub pull-request -m $CURRENT_BRANCH -b "dev" -h $CURRENT_BRANCH | pbcopy
+    hub pull-request -m $CURRENT_BRANCH -b "dev" -h $CURRENT_BRANCH
   fi
 }
 

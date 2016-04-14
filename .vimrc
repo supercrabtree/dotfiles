@@ -294,6 +294,8 @@ nnoremap dc ^v$hd"_dd
 
 inoremap <c-s> <esc>[sa<c-x>s
 
+nnoremap gK K
+
 nnoremap J :GitGutterNextHunk<cr>
 nnoremap K :GitGutterPrevHunk<cr>
 nnoremap H :GitGutterStageHunk<cr>

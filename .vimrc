@@ -55,6 +55,7 @@ Plug 'groenewege/vim-less'
 Plug 'fatih/vim-go'
 Plug 'wavded/vim-stylus'
 Plug 'mxw/vim-jsx'
+Plug 'heavenshell/vim-jsdoc'
 
 " Trialing/tmp
 Plug 'davidosomething/EasyClipRing.vim'
@@ -1127,6 +1128,9 @@ hi jsFunction ctermfg=10 " function
 
 hi javascriptAngularMethods ctermfg=13
 hi jsFutureKeys ctermfg=1
+hi link jsDocParam Comment
+hi link jsDocType Comment
+hi link jsDocTags Comment
 
 
 " custom sytax varibles

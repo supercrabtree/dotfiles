@@ -182,6 +182,8 @@ alias clearvim="rm -rf ~/.vim/tmp/*"
 alias vimrc="vim ~/dev/dotfiles/.vimrc"
 alias zshrc="vim ~/dev/dotfiles/.zshrc"
 
+alias jsonp='pbpaste | joli -o inspect'
+
 alias run="./run"
 alias build="./build"
 alias deploy="./deploy"

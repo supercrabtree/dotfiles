@@ -233,6 +233,11 @@ g() {
   fi
 }
 
+md(){
+  pandoc -s -f markdown -t man "$*" | groff -T utf8 -man | less
+}
+
+
 git-mini-log() {
   git log --pretty=format:"%C(3)%h%C(5) %<(8,trunc)%an %C(10)%ad %Creset%<(50,trunc)%s" --date=format:%d/%m/%y "$@"
 }

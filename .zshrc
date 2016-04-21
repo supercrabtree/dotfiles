@@ -195,6 +195,14 @@ alias gaa='git add -A'
 
 # suffix
 alias -s git='git clone'
+alias -s md='md'
+alias -s markdown='md'
+alias -s mdown='md'
+alias -s mkdn='md'
+alias -s mkd='md'
+alias -s mdwn='md'
+alias -s mdtxt='md'
+alias -s mdtext='md'
 
 # global
 alias -g C='| pbcopy'

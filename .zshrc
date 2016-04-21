@@ -234,7 +234,13 @@ g() {
 }
 
 md(){
-  pandoc -s -f markdown -t man "$*" | groff -T utf8 -man | less
+  local stdin;
+  read -t 0 stdin;
+  if [[ $stdin != '' ]]; then
+    pandoc -s -f markdown -t man "$stdin" | groff -T utf8 -man | less
+  else
+    pandoc -s -f markdown -t man "$*" | groff -T utf8 -man | less
+  fi
 }
 
 

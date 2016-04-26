@@ -183,6 +183,7 @@ alias vimrc="vim ~/dev/dotfiles/.vimrc"
 alias zshrc="vim ~/dev/dotfiles/.zshrc"
 
 alias jsonp='pbpaste | joli -o inspect'
+alias json='joli -o inspect'
 
 alias run="./run"
 alias build="./build"

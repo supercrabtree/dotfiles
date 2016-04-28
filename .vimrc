@@ -1037,6 +1037,7 @@ syntax reset
 hi ColorColumn       ctermbg=9
 hi CursorLine        ctermbg=9                 cterm=none
 hi MatchParen        ctermbg=none ctermfg=1
+hi MatchParen        ctermbg=none ctermfg=1 cterm=reverse
 hi LineNr                         ctermfg=10
 hi CursorLineNr                   ctermfg=none
 hi Search            ctermbg=3    ctermfg=232

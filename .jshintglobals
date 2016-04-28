@@ -1,8 +1,0 @@
-// global I commonly use, here because json doesn't allow comments
-
-"globals": {
-  "_": false,
-  "angular": false,
-  "Modernizr": false,
-  "TweenMax": false
-}

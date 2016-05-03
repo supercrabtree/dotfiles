@@ -242,6 +242,9 @@ g() {
   fi
 }
 
+alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
+
 md(){
   if [ $# -ge 1 -a -f "$1" ]; then
     pandoc -s -f markdown_github -t man "$*" | groff -T utf8 -man | less

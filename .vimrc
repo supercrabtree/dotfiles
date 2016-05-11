@@ -59,6 +59,7 @@ Plug 'heavenshell/vim-jsdoc'
 
 " Trialing/tmp
 Plug 'davidosomething/EasyClipRing.vim'
+Plug 'Valloric/MatchTagAlways'
 
 call plug#end()
 
@@ -561,6 +562,10 @@ nmap S <Plug>Sneak_S
 let g:sneak#s_next = 0
 let g:sneak#use_ic_scs = 1
 
+" Match targets
+let g:mta_set_default_matchtag_color=0
+let g:mta_use_matchparen_group=0
+
 " Undotree
 nnoremap <space>ut :UndotreeToggle<cr>
 let g:undotree_SplitWidth = 40
@@ -1060,9 +1065,30 @@ hi Title             ctermbg=none ctermfg=none cterm=reverse
 set t_ZH=[3m
 set t_ZR=[23m
 
-" Markdown
-hi link markdownHeadingDelimiter Title
+"html
 hi htmlItalic        ctermbg=none ctermfg=none cterm=italic
+hi link htmlH1 Normal
+hi link htmlH2 Normal
+hi link htmlH3 Normal
+hi link htmlH4 Normal
+hi link htmlH5 Normal
+hi link htmlH6 Normal
+hi link htmlTag Keyword
+hi link htmlTagName Keyword
+hi link htmlSpecialTagName Keyword
+hi link htmlArg Keyword
+hi link htmlTagN htmlTagName
+hi link htmlEndTag htmlTag
+hi MatchTag ctermfg=black ctermbg=9
+
+" Markdown
+hi link markdownHeadingDelimiter markdownH1
+hi markdownH1 ctermbg=none ctermfg=none cterm=reverse
+hi markdownH2 ctermbg=none ctermfg=none cterm=reverse
+hi markdownH3 ctermbg=none ctermfg=none cterm=reverse
+hi markdownH4 ctermbg=none ctermfg=none cterm=reverse
+hi markdownH5 ctermbg=none ctermfg=none cterm=reverse
+hi markdownH6 ctermbg=none ctermfg=none cterm=reverse
 
 " Buftabline
 " set again in <sid>SetupArgsMode

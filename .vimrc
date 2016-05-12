@@ -1090,6 +1090,16 @@ hi markdownH4 ctermbg=none ctermfg=none cterm=reverse
 hi markdownH5 ctermbg=none ctermfg=none cterm=reverse
 hi markdownH6 ctermbg=none ctermfg=none cterm=reverse
 
+" emmet
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+let g:user_emmet_settings = {
+\   'html': {
+\       'default_attributes': {
+\           'svg': [{'width': '500'}, {'height': '400'}, {'viewBox': '0 0 500 400'}, {'xmlns': 'http://www.w3.org/2000/svg'}, {'xmlns:xlink': 'http://www.w3.org/1999/xlink'}],
+\       },
+\   },
+\ }
+
 " Buftabline
 " set again in <sid>SetupArgsMode
 hi BufTabLineCurrent ctermbg=12   ctermfg=2    cterm=none

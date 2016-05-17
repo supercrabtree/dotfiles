@@ -49,16 +49,17 @@ Plug 'poetic/vim-textobj-javascript'
 " Language Specific
 Plug 'digitaltoad/vim-jade'
 Plug 'pangloss/vim-javascript'
-" Plug 'isRuslan/vim-es6'
+Plug 'mxw/vim-jsx'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'groenewege/vim-less'
 Plug 'fatih/vim-go'
 Plug 'wavded/vim-stylus'
-Plug 'mxw/vim-jsx'
+Plug 'mattn/emmet-vim'
 Plug 'heavenshell/vim-jsdoc'
 
 " Trialing/tmp
 Plug 'davidosomething/EasyClipRing.vim'
+Plug 'nicklasos/vim-jsx-riot'
 Plug 'Valloric/MatchTagAlways'
 
 call plug#end()

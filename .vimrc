@@ -336,14 +336,17 @@ function! s:my_cr_function()
   return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
 
-nnoremap <space>ga :Git add -p<cr>
-nnoremap <space>gA :Git add %<cr><cr>:GitGutter<cr>
+nnoremap <space>ga :Git add %<cr><cr>:GitGutter<cr>
+nnoremap <space>gA :Git add -A . <cr><cr>:GitGutter<cr>
 nnoremap <space>gc :Gcommit -v -q<cr>
+nnoremap <space>gC :Gcommit --amend -v -q<cr>
 nnoremap <space>gs :Gstatus<cr>
 nnoremap <space>gr :Git reset -q %<cr><cr>:GitGutter<cr>
+nnoremap <space>gR :Git reset -q<cr><cr>:GitGutter<cr>
 nnoremap <space>gd :Gdiff<cr>
 nnoremap <space>gt :Git! diff --staged<cr>
 nnoremap <space>gp :Gpush<cr>
+nnoremap <space>gP :Git push --force<cr>
 nnoremap <space>gl :Glog<cr><cr><cr>
 nnoremap <space>gq :copen 20<cr>f<space>lzs
 

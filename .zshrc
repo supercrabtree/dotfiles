@@ -2,15 +2,18 @@
 
 # Plugins
 # ------------------------------------------------------------------------------
-zplug "rupa/z", of:z.sh
+source ~/.zplug/zplug
+
+zplug "rupa/z", use:z.sh
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
-zplug "knu/zsh-manydots-magic", of:manydots-magic, nice:11
+zplug "knu/zsh-manydots-magic", use:manydots-magic, nice:11
 zplug "k4rthik/git-cal", as:command
-zplug "robbyrussell/oh-my-zsh", of:plugins/sudo/sudo.plugin.zsh
+zplug "robbyrussell/oh-my-zsh", use:plugins/sudo/sudo.plugin.zsh
 zplug "djui/alias-tips"
 zplug "zsh-users/zsh-completions"
 zplug "mafredri/zsh-async"
 zplug "so-fancy/diff-so-fancy", as:command
+zplug "supercrabtree/bam-pow", as:command, use:"bam.sh"
 
 
 # Install plugins if there are plugins that have not been installed

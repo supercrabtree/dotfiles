@@ -71,6 +71,8 @@ export ZSH_PLUGINS_ALIAS_TIPS_TEXT="(╯°□°）╯︵ ┻━┻ "
 export LESS="-RFX"
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='0;33'
+export BAM_DIR="$HOME/dev/scratches"
+export POW_DIR="$HOME/dev"
 
 export LESS_TERMCAP_mb=$'\E[1;31m'
 export LESS_TERMCAP_md=$'\E[1;32m'

@@ -13,7 +13,7 @@ zplug "djui/alias-tips"
 zplug "zsh-users/zsh-completions"
 zplug "mafredri/zsh-async"
 zplug "so-fancy/diff-so-fancy", as:command
-zplug "supercrabtree/bam-pow", as:command, use:"bam.sh"
+zplug "supercrabtree/bam-pow", use:bam.sh
 
 
 # Install plugins if there are plugins that have not been installed

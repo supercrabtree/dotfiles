@@ -2,8 +2,6 @@
 
 # Plugins
 # ------------------------------------------------------------------------------
-source ~/.zplug/zplug
-
 zplug "rupa/z", of:z.sh
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
 zplug "knu/zsh-manydots-magic", of:manydots-magic, nice:11

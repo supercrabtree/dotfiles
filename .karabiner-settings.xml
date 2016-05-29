@@ -103,6 +103,21 @@
     </item>
 
     <item>
+      <name>CTRL-ENTER to F18</name>
+      <appendix>To stop ctrl-enter and enter from being the same key</appendix>
+
+      <identifier>space_cadet.ctrl_m_to_F18</identifier>
+
+      <autogen>
+        --KeyToKey--
+        KeyCode::RETURN, ModifierFlag::CONTROL_L,
+
+        KeyCode::F18
+      </autogen>
+
+    </item>
+
+    <item>
       <name>Capslock to F18 and Control</name>
       <appendix>Tap Capslock for F18, Hold for Control</appendix>
       <identifier>space_cadet.capslock_control_F18</identifier>
@@ -114,47 +129,4 @@
       </autogen>
     </item>
 
-
-
-    <item>
-      <name>Remap Left Control to Hyper</name>
-      <appendix>OS X doesn't have a Hyper. This maps Left Control to Control + Shift + Option + Command.</appendix>
-
-      <identifier>space_cadet.left_control_to_hyper</identifier>
-
-      <autogen>
-        --KeyToKey--
-        KeyCode::CONTROL_L,
-
-        KeyCode::COMMAND_L,
-        ModifierFlag::OPTION_L | ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L
-      </autogen>
-
-    </item>
-    <item>
-      <name>Hyper Return</name>
-      <identifier>private.hyper_return</identifier>
-      <appendix>Allow Return in Hypermode</appendix>
-      <autogen>
-        --KeyToKey--
-        KeyCode::RETURN,
-
-        ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
-        ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
-        KeyCode::RETURN
-      </autogen>
-    </item>
-    <item>
-      <name>Hyper Backspace</name>
-      <identifier>private.hyper_backspace</identifier>
-      <appendix>Allow Backspace in Hypermode</appendix>
-      <autogen>
-        --KeyToKey--
-        KeyCode::DELETE,
-
-        ModifierFlag::COMMAND_L | ModifierFlag::OPTION_L |
-        ModifierFlag::SHIFT_L   | ModifierFlag::CONTROL_L,
-        KeyCode::DELETE
-      </autogen>
-    </item>
   </root>

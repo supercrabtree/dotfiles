@@ -124,7 +124,6 @@ set history=1000
 set wildmenu
 " set wildignore=*/.git/**/*
 " set wildignore+=**/node_modules/**/*
-" set wildignore+=**/bower_components/**/*
 set ttyfast
 set shell=zsh\ -l
 " stop folds in diffs

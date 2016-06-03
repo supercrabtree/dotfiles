@@ -573,11 +573,11 @@ function! GzippedFileSize()
   endif
 endfunction
 
-function! ShowGzippedFileSize()
-  echo call GzippedFileSize()
+function! ShowFileSize()
+  echo 'filesize: ' . FileSize() . '| gzipped: ' . GzippedFileSize()
 endfunction
 
-command! GzippedFileSize call GzippedFileSize()
+command! ShowFileSize call ShowFileSize()
 
 " Status Line
 " ------------------------------------------------------------------------------

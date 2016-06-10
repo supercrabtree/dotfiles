@@ -294,7 +294,14 @@ vmap <Enter> <Plug>(EasyAlign)
 " delete content, like dd but make it so you can jam it in another line somewhere
 nnoremap dc ^v$hd"_dd
 
-inoremap <c-s> <esc>[sa<c-x>s
+function! DoThatSpellingYo()
+  if &spell=='nospell'
+    set spell
+    set nocursorline
+  endif
+  normal! as
+endfunction
+inoremap <c-s> <esc>:call DoThatSpellingYo()<CR>
 
 nnoremap gK K
 

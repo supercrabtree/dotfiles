@@ -245,6 +245,23 @@ g() {
   fi
 }
 
+what-did-i-do-last-week() {
+  for dir in ~/dev/pixformance/*/
+  do
+    cd $dir
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+
+      log=$(git log --pretty=format:"%s" --reverse --branches --since=1.week.ago --author=George)
+
+      if [ -n "$log" ]; then
+        echo "$dir"
+        echo "$log"
+        echo
+      fi
+    fi
+  done
+}
+
 alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 

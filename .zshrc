@@ -244,6 +244,12 @@ create255() {
   echo $res
 }
 
+echogrey() {
+  s="$(create255 $1)"
+  printf "\x1b[38;2;$s;$s;$s""m$1\x1b[0m\n"
+}
+
+
 cdwhich() {
   cd "$(dirname $(which $1))"
 }

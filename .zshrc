@@ -173,6 +173,7 @@ alias k="k -a"
 alias l="k -a --no-vcs"
 alias l="ls -laG"
 alias e="exa --level=2 -T -la"
+alias vi="env vim"
 
 alias dev="cd ~/dev"
 alias f="open ."
@@ -271,6 +272,16 @@ md(){
     pandoc -s -f markdown_github -t man "$*" | groff -T utf8 -man | less
   else
     pandoc -s -f markdown_github -t man | groff -T utf8 -man | less
+  fi
+}
+
+vim() {
+  if test $# -gt 0; then
+    env vim "$@"
+  elif test -f Session.vim; then
+    env vim -S
+  else
+    env vim -c Obsession
   fi
 }
 
@@ -439,7 +450,7 @@ fancy-ctrl-z () {
 
 fancy-ctrl-q () {
   if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="vim -S"
+    BUFFER="vim"
     zle accept-line
   else
     zle push-input

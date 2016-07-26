@@ -230,6 +230,20 @@ searchdown() {
   _zsh_highlight
 }
 
+# standard Functions
+# ------------------------------------------------------------------------------
+create255() {
+  hash=""
+  total=0
+  echo "$1" | fold -w1 | while read i; do
+    char_code=$(LC_CTYPE=C printf '%d ' "'$i")
+    ((total=total+$char_code))
+  done
+  ((res=total*total*total))
+  ((res=res%255))
+  echo $res
+}
+
 cdwhich() {
   cd "$(dirname $(which $1))"
 }

@@ -180,7 +180,6 @@ alias vi="env vim"
 alias dev="cd ~/dev"
 alias f="open ."
 alias reload="exec zsh"
-alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit ."
 alias download-video="youtube-dl -o -x \"~/dl/%(title)s.%(ext)s\""
 alias download="youtube-dl -o \"~/dl/%(title)s.%(ext)s\""
 

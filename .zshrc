@@ -117,7 +117,7 @@ source <(npm completion)
 
 _Z_DATA=~/.z.data/.z
 
-git_log_defaults="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%<(70,trunc)%s %Creset%<(15,trunc)%cn%C(auto)%d"
+git_log_defaults="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%cn%C(auto)%d"
 
 
 # Z Style

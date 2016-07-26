@@ -216,6 +216,7 @@ alias -g C='| pbcopy'
 alias -g G='| grep -i '
 alias -g F='| fzf --ansi'
 alias -g L='| less'
+alias -g J='| json'
 
 
 # ZLE Functions

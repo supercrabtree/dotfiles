@@ -14,6 +14,7 @@ zplug "zsh-users/zsh-completions"
 zplug "mafredri/zsh-async"
 zplug "so-fancy/diff-so-fancy", as:command
 zplug "supercrabtree/bam-pow", use:bam.sh
+zplug "paulirish/git-open", as:command
 
 
 # Install plugins if there are plugins that have not been installed

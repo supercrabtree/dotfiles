@@ -298,12 +298,17 @@ md(){
 }
 
 vim() {
+  local currentPath="$(pwd)"
+  currentPath=${currentPath#?}
+  currentPath=${currentPath//\//-}
+
   if test $# -gt 0; then
     env vim "$@"
-  elif test -f Session.vim; then
-    env vim -S
+  elif test -f "$HOME/.vim/session/$currentPath/Session.vim"; then
+    env vim -S "$HOME/.vim/session/$currentPath/Session.vim"
   else
-    env vim -c Obsession
+    mkdir -p "$HOME/.vim/session/$currentPath"
+    env vim -c "Obsession ~/.vim/session/$currentPath/Session.vim"
   fi
 }
 

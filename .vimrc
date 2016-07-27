@@ -1046,9 +1046,6 @@ augroup georges_autocommands
 
   autocmd FileType qf call AdjustWindowHeight(3, 35)
 
-  " save session by default when saving
-  autocmd VimEnter * if !exists('g:this_obsession') && expand('%:p') !~# '\.git[\/].*MSG$' | silent Obsession | endif
-  autocmd VimEnter * call <sid>SetupArgsMode()
 augroup END
 
 

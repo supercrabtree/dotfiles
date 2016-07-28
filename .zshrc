@@ -199,6 +199,7 @@ alias setup="./setup"
 alias glg="git log --graph --decorate --all --pretty='$git_log_defaults'"
 alias grc='git add -A && git rebase --continue'
 alias gaa='git add -A'
+alias fk='fuck'
 
 # suffix
 alias -s git='git clone'
@@ -704,6 +705,8 @@ z() {
     _z "$@"
   fi
 }
+
+eval "$(thefuck --alias)"
 
 
 # FZF

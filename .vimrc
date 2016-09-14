@@ -29,7 +29,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 
 " Usability
-Plug 'ntpeters/vim-better-whitespace'
+Plug 'bronson/vim-trailing-whitespace'
 Plug 'justinmk/vim-sneak'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'ap/vim-buftabline'

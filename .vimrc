@@ -154,6 +154,7 @@ set <F19>=[18;2~
 
 " Keyboard Shortcuts
 " ------------------------------------------------------------------------------
+cmap w!! w !sudo tee > /dev/null %
 inoremap jj <esc>
 noremap <c-c> <Esc>
 vnoremap Y y`]

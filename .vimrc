@@ -310,6 +310,8 @@ function! DoThatSpellingYo()
 endfunction
 inoremap <c-s> <esc>:call DoThatSpellingYo()<CR>
 
+nnoremap <silent> f<cr> :Finder<cr>
+
 nnoremap gK K
 
 nnoremap J :GitGutterNextHunk<cr>
@@ -331,8 +333,6 @@ nnoremap <space>O O<esc>
 
 " debugger toggle
 nnoremap <silent> <space>d :ToggleDebugger<cr>
-
-nnoremap <silent> <space>f :Finder<cr>
 
 " make use strict javascript
 nnoremap <space>us mzggO'use strict';<cr><esc>`z

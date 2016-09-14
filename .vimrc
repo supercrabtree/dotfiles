@@ -62,6 +62,7 @@ Plug 'heavenshell/vim-jsdoc'
 Plug 'davidosomething/EasyClipRing.vim'
 Plug 'nicklasos/vim-jsx-riot'
 Plug 'Valloric/MatchTagAlways'
+Plug 'Quramy/vim-js-pretty-template'
 
 call plug#end()
 

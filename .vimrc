@@ -39,6 +39,7 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'wellle/targets.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'svermeulen/vim-easyclip'
+Plug 'nathanaelkane/vim-indent-guides'
 
 " Text Objects
 Plug 'kana/vim-textobj-user'

@@ -126,6 +126,7 @@ set wildmenu
 " set wildignore+=**/node_modules/**/*
 set ttyfast
 set shell=zsh\ -l
+
 " stop folds in diffs
 set diffopt+=context:99999
 

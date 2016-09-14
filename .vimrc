@@ -173,6 +173,9 @@ nnoremap <space>yp  :call EasyClip#Yank(expand('%:p'))<cr>:echo 'Yanked '.expand
 nnoremap + mzj0d^i<bs><esc>`z
 nnoremap g+ mzj0d^i<bs> <esc>`z
 
+" Capital L end of line but not end of line char
+vnoremap L $h
+
 " auto insertions
 inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
 

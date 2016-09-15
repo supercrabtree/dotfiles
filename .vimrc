@@ -886,6 +886,8 @@ augroup georges_autocommands
   " Removes red highlight around subshell commands in shell files
   autocmd FileType sh hi Error ctermbg=10 ctermfg=15
 
+  au BufNewFile,BufRead *.tag setlocal ft=javascript
+
 augroup END
 
 

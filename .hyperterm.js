@@ -8,7 +8,7 @@ module.exports = {
     fontFamily: 'Menlo, monospace',
 
     // terminal cursor background color (hex)
-    cursorColor: 'black',
+    cursorColor: 'rgba(0,0,0,0.4)',
 
     // color of the text
     foregroundColor: 'black',
@@ -32,26 +32,28 @@ module.exports = {
     // custom padding (css format, i.e.: `top right bottom left`)
     padding: '12px 14px',
 
+    windowSize: [800, 800],
+
     // some color overrides. see http://bit.ly/29k1iU2 for
     // the full list
-    colors: [
-      '#171717',
-      '#ce3a2f',
-      '#56bd22',
-      '#ffaf00',
-      '#5c95da',
-      '#80807f',
-      '#8780c5',
-      '#ebebeb',
-      '#929292',
-      '#d6d6d6',
-      '#c0c0c0',
-      '#e0e0e0',
-      '#ebebeb',
-      '#515151',
-      '#333333',
-      '#ffffff'
-    ]
+    colors: {
+      black:        '#171717',
+      red:          '#ce3a2f',
+      green:        '#56bd22',
+      yellow:       '#ffaf00',
+      blue:         '#5c95da',
+      magenta:      '#80807f',
+      cyan:         '#8780c5',
+      white:        '#ebebeb',
+      lightBlack:   '#929292',
+      lightRed:     '#d6d6d6',
+      lightGreen:   '#c0c0c0',
+      lightYellow:  '#e0e0e0',
+      lightBlue:    '#ebebeb',
+      lightMagenta: '#515151',
+      lightCyan:    '#333333',
+      lightWhite:   '#ffffff'
+    }
   },
 
   // a list of plugins to fetch and install from npm

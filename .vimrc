@@ -219,7 +219,7 @@ nnoremap <silent> <right> :bdelete<cr>
 " allow suspension in insert mode
 inoremap <c-z> <esc><c-z>
 
-" don't jumo to the next word, thats really annoying
+" don't jump to the next word, thats really annoying
 nnoremap * *N
 nnoremap # #N
 

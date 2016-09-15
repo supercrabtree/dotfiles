@@ -315,11 +315,6 @@ vim() {
   fi
 }
 
-
-git-mini-log() {
-  git log --pretty=format:"%C(3)%h%C(5) %<(8,trunc)%an %C(10)%ad %Creset%<(50,trunc)%s" --date=format:%d/%m/%y "$@"
-}
-
 gc() {
   if [[ $@ == "-vp" ]]; then
     clear && git commit -vp

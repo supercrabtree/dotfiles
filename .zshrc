@@ -171,8 +171,6 @@ bindkey -s "^[[17;2~" ""
 # ------------------------------------------------------------------------------
 unalias run-help
 alias man="run-help"
-alias k="k -a"
-alias l="k -a --no-vcs"
 alias l="ls -laG"
 alias e="exa --level=2 -T -la"
 alias vi="env vim"

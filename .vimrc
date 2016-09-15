@@ -250,9 +250,6 @@ vnoremap <c-a> y:<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<c
 " create 'search' mark before each search
 nnoremap / ms/
 
-" " ctrl-s to substitute
-" nnoremap <c-s> :<c-u>%smagic/
-
 nnoremap gV `[V`]
 
 nnoremap gu u*<c-r>n

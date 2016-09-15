@@ -581,6 +581,7 @@ fstash() {
   done
 }
 
+# chrome history to fzf
 c() {
   local cols sep
   export cols=$(( COLUMNS / 3 ))

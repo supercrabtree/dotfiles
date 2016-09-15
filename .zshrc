@@ -14,6 +14,7 @@ zplug "zsh-users/zsh-completions"
 zplug "mafredri/zsh-async"
 zplug "so-fancy/diff-so-fancy", as:command
 zplug "supercrabtree/bam-pow", use:bam.sh
+zplug "supercrabtree/k"
 zplug "paulirish/git-open", as:command
 
 
@@ -30,9 +31,10 @@ fi
 zplug load
 
 # easier to work on / see pr's
-source ~/dev/k/k.sh
+# source ~/dev/k/k.sh
 source ~/dev/pure/pure.zsh
 source ~/dev/scratch/scratch
+# alias k="~/dev/knode/index.js"
 
 
 # Load

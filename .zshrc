@@ -354,7 +354,7 @@ first-tab() {
 }
 
 
-# open any files that have been edited, or are new and untracked.t 
+# open any files that have been edited, or are new and untracked.
 # if working directory is clean, open files edited in last commit.
 gvim() {
   local files=$(git ls-files -m && git ls-files -o --exclude-standard)

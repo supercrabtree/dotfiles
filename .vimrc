@@ -836,7 +836,6 @@ command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | di
 " ------------------------------------------------------------------------------
 augroup georges_autocommands
   autocmd!
-  " autocmd FileType unite call s:unite_settings()
 
   autocmd FileType ctrlsf map <buffer> <c-o> Ozt<c-w><c-w>
   autocmd FileType ctrlsf map <buffer> o     Ozt
@@ -850,10 +849,9 @@ augroup georges_autocommands
   autocmd filetype gitcommit setlocal colorcolumn=51,73
   autocmd filetype gitcommit setlocal spell
   autocmd FileType gitcommit setlocal nocursorline
-  autocmd filetype gitcommit setlocal scrolloff=1000
   autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-  autocmd FileType gitcommit map <buffer> <down> 10j
-  autocmd FileType gitcommit map <buffer> <up> 10k
+  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <down> :<C-U>execute <SNR>28_StageNext(v:count1)<CR>| else | map <buffer> <down> 10j| endif
+  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <up> :<C-U>execute <SNR>28_StagePrevious(v:count1)<CR>| else | map <buffer> <up> 10k| endif
 
   " when opening a new line in a comment, don't continue the comment, empty line please
   autocmd FileType * set formatoptions-=r formatoptions-=o

@@ -468,9 +468,6 @@ let g:peekaboo_window = 'vertical botright 80new'
 let g:buftabline_indicators=1
 let g:buftabline_show=1
 
-" Whitespace
-let g:better_whitespace_filetypes_blacklist=['unite', 'gitcommit', 'help', 'ctrlsf']
-
 " Neocomplete
 let g:neocomplete#enable_at_startup=1
 let g:neocomplete#enable_auto_select=1

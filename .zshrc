@@ -170,9 +170,6 @@ bindkey -M isearch " " magic-space # normal space during searches
 zle -N vim-pop
 bindkey "^V" vim-pop
 
-# stop my single tap caps-lock from echoing 7;2~
-bindkey -s "^[[17;2~" ""
-
 
 # Aliases
 # ------------------------------------------------------------------------------

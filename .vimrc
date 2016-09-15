@@ -256,7 +256,8 @@ nnoremap gu u*<c-r>n
 
 nnoremap g0 ^
 
-vnoremap gp pgvy
+" grab paste
+vnoremap gp `[v`]
 
 " neocomplete close pum
 inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : "\<esc>"

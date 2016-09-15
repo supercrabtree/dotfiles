@@ -404,13 +404,15 @@ command! ShowFileSize call ShowFileSize()
 " Status Line
 " ------------------------------------------------------------------------------
 set statusline=
-set statusline+=%L\ \|\ %p%%\    " current line number / percentage
-set statusline+=%{ShowCount()}\  " show last search count
-set statusline+=%<               " when the window is too narrow, cut it here
-set statusline+=%f\              " path & filename
+set statusline+=%L\:%c\ \|\ %p%%\ " current line number / percentage
+set statusline+=%{ShowCount()}\   " show last search count
+set statusline+=%<                " when the window is too narrow, cut it here
+set statusline+=%f\               " path & filename
 set statusline+=%{IsReadOnly()}
 set statusline+=%{IsModified()}
-set statusline+=%=               " align from here on to the right
+" set statusline+=%{FileSize()}
+" set statusline+=\ [%{GzippedFileSize()}]
+set statusline+=%=                " align from here on to the right
 set statusline+=%{fugitive#statusline()}
 
 

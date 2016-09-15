@@ -42,7 +42,7 @@ source ~/dev/scratch/scratch
 autoload -U run-help
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
-zmodload -i zsh/parameter
+# zmodload -i zsh/parameter
 
 
 # Zsh options

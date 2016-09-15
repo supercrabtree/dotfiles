@@ -285,6 +285,9 @@ nnoremap K :GitGutterPrevHunk<cr>
 nnoremap H :GitGutterStageHunk<cr>
 nnoremap U mh:GitGutterRevertHunk<cr>'h
 
+" Ctrl-Enter is enter without leaving current place
+inoremap <F18> <esc>lmzi<cr><esc>`za
+
 " Space Leaders
 " ------------------------------------------------------------------------------
 " append function parameter

@@ -213,18 +213,6 @@ function! <sid>PressDown()
   silent bprevious
 endfunction
 
-" nnoremap <F17> <c-w>W
-" nnoremap <F18> <c-w>w
-
-" inoremap <F17> <esc><c-w>W
-" inoremap <F18> <esc><c-w>w
-
-" vnoremap <F17> <esc><c-w>W
-" vnoremap <F18> <esc><c-w>w
-
-" cnoremap <F17> <c-u><esc><c-w>W
-" cnoremap <F18> <c-u><esc><c-w>w
-
 " ctrl-loose
 nnoremap <silent> <right> :bdelete<cr>
 

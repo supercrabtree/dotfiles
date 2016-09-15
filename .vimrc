@@ -763,6 +763,21 @@ function! IsReadOnly()
   return ''
 endfunction
 
+" emmet
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+let g:user_emmet_settings = {
+\   'html': {
+\       'snippets': {
+\           'html': "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title></title>\n  <meta name=viewport content=\"width=device-width,initial-scale=1\">\n</head>\n<body>\n${cursor}\n</body>\n</html>",
+\           'defer': "<script defer src=\"${cursor}\"></script>",
+\           'async': "<script async src=\"${cursor}\"></script>"
+\       },
+\       'default_attributes': {
+\           'svg': [{'width': '500'}, {'height': '400'}, {'viewBox': '0 0 500 400'}, {'xmlns': 'http://www.w3.org/2000/svg'}, {'xmlns:xlink': 'http://www.w3.org/1999/xlink'}],
+\       },
+\   },
+\ }
+
 " function! GitDiffName()
 "   let l:diffcontent = system("git diff --stat client/app-run.js | head -1")
 "   if len(l:diffcontent)
@@ -963,20 +978,6 @@ hi markdownH4 ctermbg=none ctermfg=none cterm=reverse
 hi markdownH5 ctermbg=none ctermfg=none cterm=reverse
 hi markdownH6 ctermbg=none ctermfg=none cterm=reverse
 
-" emmet
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-let g:user_emmet_settings = {
-\   'html': {
-\       'snippets': {
-\           'html': "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title></title>\n  <meta name=viewport content=\"width=device-width,initial-scale=1\">\n</head>\n<body>\n${cursor}\n</body>\n</html>",
-\           'defer': "<script defer src=\"${cursor}\"></script>",
-\           'async': "<script async src=\"${cursor}\"></script>"
-\       },
-\       'default_attributes': {
-\           'svg': [{'width': '500'}, {'height': '400'}, {'viewBox': '0 0 500 400'}, {'xmlns': 'http://www.w3.org/2000/svg'}, {'xmlns:xlink': 'http://www.w3.org/1999/xlink'}],
-\       },
-\   },
-\ }
 
 " Buftabline
 " set again in <sid>SetupArgsMode

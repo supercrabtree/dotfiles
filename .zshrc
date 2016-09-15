@@ -709,8 +709,6 @@ z() {
   fi
 }
 
-eval "$(thefuck --alias)"
-
 
 # FZF
 # ------------------------------------------------------------------------------
@@ -722,6 +720,7 @@ bindkey '^R' fzf-history-widget
 bindkey '^F' fzf-file-widget
 bindkey '^I' $fzf_default_completion
 
+eval "$(thefuck --alias)"
 
 [ -f ~/.zshrc-post ] && source ~/.zshrc-post
 

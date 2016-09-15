@@ -876,6 +876,8 @@ augroup georges_autocommands
   autocmd filetype go setlocal listchars=tab:\ \ ,nbsp:§
 
   autocmd BufLeave * if !&diff | let b:winview = winsaveview() | endif
+
+  autocmd BufEnter * if &diff | nmap dy <c-w><c-w>yy<c-w><c-w>Vp | endif
   autocmd BufEnter * if exists('b:winview') && !&diff | call winrestview(b:winview) | endif
 
   autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))

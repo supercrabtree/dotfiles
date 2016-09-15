@@ -201,18 +201,7 @@ function! <sid>PressUp()
     normal [c
     return
   endif
-  if g:inArgsMode == 0
-    silent bnext
-  else
-    let argListLength = len(argv())
-    if argListLength <= 1
-      let g:inArgsMode = 0
-      hi BufTabLineCurrent ctermbg=12 ctermfg=4 cterm=none
-      silent bnext
-    else
-      call <sid>ArgNext()
-    endif
-  endif
+  silent bnext
 endfunction
 
 command! PressDown :call <sid>PressDown()
@@ -221,18 +210,7 @@ function! <sid>PressDown()
     normal ]c
     return
   endif
-  if g:inArgsMode == 0
-    silent bprevious
-  else
-    let argListLength = len(argv())
-    if argListLength <= 1
-      let g:inArgsMode = 0
-      hi BufTabLineCurrent ctermbg=12 ctermfg=4 cterm=none
-      silent bprevious
-    else
-      call <sid>ArgPrevious()
-    endif
-  endif
+  silent bprevious
 endfunction
 
 " nnoremap <F17> <c-w>W
@@ -248,7 +226,7 @@ endfunction
 " cnoremap <F18> <c-u><esc><c-w>w
 
 " ctrl-loose
-nnoremap <silent> <right> :ArgDelete<cr>
+nnoremap <silent> <right> :bdelete<cr>
 
 " allow suspension in insert mode
 inoremap <c-z> <esc><c-z>
@@ -364,167 +342,6 @@ nnoremap <space>gp :Gpush<cr>
 nnoremap <space>gP :Git push --force<cr>
 nnoremap <space>gl :Glog<cr><cr><cr>
 nnoremap <space>gq :copen 20<cr>f<space>lzs
-
-
-" Arglist stuff
-" ------------------------------------------------------------------------------
-nnoremap <space>ad :ArgsDelete<cr>
-nnoremap <space>as :ArgsShow<cr>
-nnoremap <space>ar :ArgsReorderByBufNum<cr>
-nnoremap <space>ac :ArgsCleanDuplicates<cr>
-nnoremap <F19> :ArgToggle<cr>
-cnoremap <F18> <nop>
-nnoremap <F18> :ArgsModeToggle<cr>
-inoremap <F18> <c-o>:ArgsModeToggle<cr>
-nnoremap M :ArgToggle<cr>
-nnoremap L :ArgDelete<cr>
-
-" XML editing
-" ------------------------------------------------------------------------------
-inoremap <lt>/ </<C-X><C-O><space><C-O>==<bs>
-
-let g:inArgsMode = len(argv())
-
-function! <sid>ArgsModeToggle()
-  if g:inArgsMode == 0
-    let g:inArgsMode = 1
-    hi BufTabLineCurrent ctermbg=12   ctermfg=2    cterm=none
-  else
-    let g:inArgsMode = 0
-    hi BufTabLineCurrent ctermbg=12   ctermfg=4    cterm=none
-  endif
-endfunction
-command! ArgsModeToggle :call <sid>ArgsModeToggle()
-
-function! <sid>SetupArgsMode()
-  let g:inArgsMode = len(argv())
-  if g:inArgsMode == 0
-    hi BufTabLineCurrent ctermbg=12   ctermfg=4    cterm=none
-  else
-    hi BufTabLineCurrent ctermbg=12   ctermfg=2    cterm=none
-  endif
-endfunction
-
-
-
-command! ArgsDelete :call <sid>ArgsDelete()
-function! <sid>ArgsDelete()
-  try
-    %argd
-  catch /E474/
-  endtry
-  set tabline=%!buftabline#render()
-  echo 'Arg list emptied'
-endfunction
-
-command! ArgDelete :call <sid>ArgDelete()
-function! <sid>ArgDelete()
-  try
-    argd %
-  catch /E480/
-  catch /E499/
-  endtry
-  bdelete
-endfunction
-
-command! ArgsCleanDuplicates :call <sid>ArgsCleanDuplicates()
-function! <sid>ArgsCleanDuplicates()
-  let args = argv()
-  %argd
-  for arg in uniq(args)
-    execute 'arga ' . arg
-  endfor
-endfunction
-
-command! ArgsReorderByBufNum :call <sid>ArgsReorderByBufNum()
-function! <sid>ArgsReorderByBufNum()
-  let args = argv()
-  function! SortByBufferNumber(arg1, arg2)
-    return bufnr(a:arg1) > bufnr(a:arg2) ? 1 : -1
-  endfunction
-  %argd
-  let reorderedArgs = sort(args, "SortByBufferNumber")
-  for arg in reorderedArgs
-    execute 'arga ' . arg
-  endfor
-endfunction
-
-command! ArgNext :call <sid>ArgNext()
-function! <sid>ArgNext()
-  let argListLength = len(argv())
-  if argListLength == 0
-    echo 'Arg list empty'
-    return
-  endif
-  if argListLength == 1
-    echo 'Only item in arg list'
-    silent first
-    return
-  endif
-  try
-    silent next
-  catch /E165/
-    silent first
-  endtry
-endfunction
-
-command! ArgPrevious :call <sid>ArgPrevious()
-function! <sid>ArgPrevious()
-  let argListLength = len(argv())
-  if argListLength == 0
-    echo 'Arg list empty'
-    return
-  endif
-  if argListLength == 1
-    echo 'Only item in arg list'
-    silent first
-    return
-  endif
-  try
-    silent previous
-  catch /E164/
-    silent last
-  endtry
-endfunction
-
-command! ArgToggle :call <sid>ArgToggle()
-function! <sid>ArgToggle()
-  let hasToggled = 0
-  for arg in argv()
-    if arg == @%
-      echohl WarningMsg
-      echo 'Deleted ' . arg
-      echohl Normal
-      argd %
-      let hasToggled = 1
-      break
-    endif
-  endfor
-  if hasToggled == 0
-    echohl GoodMsg
-    echo 'Added ' . @%
-    echohl Normal
-    arga %
-  endif
-endfunction
-
-command! ArgsShow :call <sid>ArgsShow()
-function! <sid>ArgsShow()
-  let argv = argv()
-  if argv == []
-    echo 'Arg list empty'
-    return
-  endif
-  for arg in argv
-    if arg == @%
-      echohl GoodMsg
-    endif
-    echon fnamemodify(arg, ':t') . '  '
-    if arg == @%
-      echohl Normal
-    endif
-  endfor
-endfunction
 
 command! PutLastCommit :call <sid>PutLastCommit()
 function! <sid>PutLastCommit()

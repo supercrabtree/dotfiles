@@ -480,9 +480,9 @@ let g:ctrlsf_regex_pattern = 0
 let g:ctrlsf_confirm_save = 0
 let g:ctrlsf_indent = 2
 
-vmap <c-s>  <Plug>CtrlSFVwordPath<bs><cr>
-nmap <c-s>s <Plug>CtrlSFCwordPath<bs><cr>
-nmap <c-s>/ <Plug>CtrlSFPwordPath<bs><cr>
+vmap <c-s>  <Plug>CtrlSFVwordPath
+nmap <c-s>s <Plug>CtrlSFCwordPath
+nmap <c-s>/ <Plug>CtrlSFPwordPath
 
 nnoremap <c-s>       :echoerr 'too slow!'<cr>
 nnoremap <c-s><c-s>  :CtrlSF 

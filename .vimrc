@@ -447,8 +447,8 @@ let g:mta_use_matchparen_group=0
 
 " Undotree
 nnoremap <space>ut :UndotreeToggle<cr>
-let g:undotree_SplitWidth = 40
-let g:undotree_DiffpanelHeight = 18
+let g:undotree_SplitWidth = 33
+let g:undotree_DiffAutoOpen = 0
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
 

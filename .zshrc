@@ -679,7 +679,7 @@ fancy-branch() {
   fi
 }
 
-fkill() {
+killprocess() {
   pid=$(ps -ef | sed 1d | fzf -m -e | awk '{print $2}')
 
   if [ "x$pid" != "x" ]
@@ -688,7 +688,7 @@ fkill() {
   fi
 }
 
-fport() {
+killport() {
   pid=$(lsof -P | fzf -e | awk '{print $2}')
   if [ "x$pid" != "x" ]
   then

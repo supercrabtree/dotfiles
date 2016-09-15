@@ -882,6 +882,8 @@ augroup georges_autocommands
   autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 
   autocmd FileType qf call AdjustWindowHeight(3, 35)
+  " Removes red highlight around subshell commands in shell files
+  autocmd FileType sh hi Error ctermbg=10 ctermfg=15
 
 augroup END
 

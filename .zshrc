@@ -473,14 +473,14 @@ d() {
     (
       git diff --color | diff-so-fancy
       git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i" | diff-so-fancy; done
-    ) | less -R
+    ) | less
   else
     git diff "$@"
   fi
 }
 
 D() {
-  git diff --staged --color | diff-so-fancy | less -R
+  git diff --staged --color | diff-so-fancy | less
 }
 
 # Use Ctrl-x,Ctrl-l to get the output of the last command

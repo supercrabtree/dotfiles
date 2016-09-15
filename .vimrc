@@ -156,7 +156,13 @@ set <F19>=[18;2~
 
 " Keyboard Shortcuts
 " ------------------------------------------------------------------------------
-cmap w!! w !sudo tee > /dev/null %
+" Allow file writing when no permissions
+cnoremap w!! w !sudo tee > /dev/null %
+
+" Ctrl space writes file
+nnoremap <NUL> <esc>:<c-u>w<cr>
+inoremap <NUL> <esc>:<c-u>w<cr>a
+
 inoremap jj <esc>
 noremap <c-c> <Esc>
 vnoremap Y y`]
@@ -256,10 +262,6 @@ nmap Q @q
 
 " map ctrl q to quit
 noremap <c-q> <esc>:<c-u>qa<cr>
-
-" map ctrl space to save
-nnoremap <NUL> <esc>:<c-u>w<cr>
-inoremap <NUL> <esc>:<c-u>w<cr>a
 
 " Make Y act like the other capitals
 nnoremap Y y$

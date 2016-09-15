@@ -885,7 +885,7 @@ augroup END
 " dark
 " 0  = 7%
 " 12 = 10%
-" 9  = 15%
+" 11  = 15%
 " 10 = 25%
 " 11 = 30%
 " 8  = 50%
@@ -911,26 +911,12 @@ augroup END
 " 5  = 30%
 " 13 = 25%
 " 14 = 15%
-" 7  = 10%
-" 15 = 100%
-
-" 1  = red
-" 2  = green
-" 3  = yellow
-" 4  = blue
-" 6  = purple
-
-" lighty used 8, 14, 7, 15
-
-hi clear
-syntax reset
 
 
 " ui
-hi ColorColumn       ctermbg=9
-hi CursorLine        ctermbg=9                 cterm=none
+hi ColorColumn       ctermbg=11
+hi CursorLine        ctermbg=11                 cterm=none
 hi MatchParen        ctermbg=none ctermfg=1
-hi MatchParen        ctermbg=none ctermfg=1 cterm=reverse
 hi LineNr                         ctermfg=10
 hi CursorLineNr                   ctermfg=none
 hi Search            ctermbg=3    ctermfg=232
@@ -942,13 +928,11 @@ hi PMenu             ctermbg=11   ctermfg=5
 hi PMenuSel          ctermbg=10   ctermfg=14
 
 " hi uniteMarkedLine                ctermfg=2
-hi StatusLine        ctermbg=9    ctermfg=13   cterm=none
+hi StatusLine        ctermbg=11    ctermfg=13   cterm=none
 hi StatusLineNC      ctermbg=12   ctermfg=5    cterm=none
-hi VertSplit         ctermbg=9    ctermfg=9
-hi WildMenu          ctermbg=9    ctermfg=2
+hi VertSplit         ctermbg=11    ctermfg=11
+hi WildMenu          ctermbg=11    ctermfg=2
 hi Visual            ctermbg=10   ctermfg=7    cterm=none
-
-hi Title             ctermbg=none ctermfg=none cterm=reverse
 
 set t_ZH=[3m
 set t_ZR=[23m
@@ -967,7 +951,7 @@ hi link htmlSpecialTagName Keyword
 hi link htmlArg Keyword
 hi link htmlTagN htmlTagName
 hi link htmlEndTag htmlTag
-hi MatchTag ctermfg=black ctermbg=9
+hi MatchTag ctermfg=black ctermbg=11
 
 " Markdown
 hi link markdownHeadingDelimiter markdownH1
@@ -981,9 +965,9 @@ hi markdownH6 ctermbg=none ctermfg=none cterm=reverse
 
 " Buftabline
 " set again in <sid>SetupArgsMode
-hi BufTabLineCurrent ctermbg=12   ctermfg=2    cterm=none
+hi BufTabLineCurrent ctermbg=12   ctermfg=4    cterm=none
 hi BufTabLineActive  ctermbg=12   ctermfg=5    cterm=italic
-hi BufTabLineHidden  ctermbg=12   ctermfg=11   cterm=none
+hi BufTabLineHidden  ctermbg=12   ctermfg=10   cterm=none
 hi BufTabLineArglist ctermbg=12   ctermfg=5    cterm=none
 hi BufTabLineFill    ctermbg=12                cterm=none
 
@@ -991,7 +975,7 @@ hi BufTabLineFill    ctermbg=12                cterm=none
 hi SneakPluginTarget     ctermbg=none ctermfg=1  cterm=underline
 hi SneakStreakTarget     ctermbg=1 ctermfg=15  cterm=none
 hi SneakStreakMask       ctermbg=1 ctermfg=1  cterm=none
-hi SneakStreakStatusLine ctermbg=9 ctermfg=13 cterm=none
+hi SneakStreakStatusLine ctermbg=11 ctermfg=13 cterm=none
 
 " git
 hi diffAdded ctermfg=2
@@ -999,7 +983,7 @@ hi diffRemoved ctermfg=1
 hi gitcommitBranch ctermfg=4
 
 " multiple cursors
-hi multiple_cursors_cursor ctermfg=0 ctermbg=15
+hi multiple_cursors_cursor ctermfg=15 ctermbg=0
 hi multiple_cursors_visual ctermfg=0 ctermbg=6
 
 " Text
@@ -1007,10 +991,10 @@ hi Normal     ctermfg=none
 hi ErrorMsg   ctermbg=1   ctermfg=255
 hi Error      ctermbg=1   ctermfg=255
 hi NonText    ctermfg=5
-hi Comment    ctermfg=11
-hi Function   ctermfg=11
-hi Special    ctermfg=11
-hi SpecialKey ctermfg=4
+hi Comment    ctermfg=8
+hi Function   ctermfg=8
+hi Special    ctermfg=8
+hi SpecialKey ctermfg=10
 hi Keyword    ctermfg=13
 hi Type       ctermfg=5
 hi Constant   ctermfg=5
@@ -1029,17 +1013,18 @@ hi Question   ctermfg=2
 hi Folded     ctermfg=12   ctermbg=5
 hi FoldColumn ctermfg=12   ctermbg=5
 hi DiffAdd    ctermfg=2    ctermbg=none
-hi DiffChange ctermbg=9
+hi DiffChange ctermbg=11
 hi DiffDelete ctermfg=88   ctermbg=52
-hi DiffText   ctermfg=3   ctermbg=10
+hi DiffText   ctermfg=1   ctermbg=10
+
 
 
 " Language Specific
 hi jsBooleanFalse ctermfg=1
 hi jsBooleanTrue ctermfg=2
-hi jsGlobalObjects ctermfg=10 " Math, Date, Number, console etc
-hi jsStorageClass ctermfg=10 " var
-hi jsFunction ctermfg=10 " function
+hi jsGlobalObjects ctermfg=8 " Math, Date, Number, console etc
+hi jsStorageClass ctermfg=8 " var
+hi jsFunction ctermfg=8 " function
 " hi jsFuncName ctermfg=8 " function name
 
 hi javascriptAngularMethods ctermfg=13
@@ -1048,9 +1033,14 @@ hi link jsDocParam Comment
 hi link jsDocType Comment
 hi link jsDocTags Comment
 
+" css
+hi link cssClassName normal
+
 
 " custom sytax varibles
 syn match jadeNbsp "nbsp"
 hi jadeNbsp ctermfg=2
 
 syntax enable
+
+autocmd! FileType javascript JsPreTmpl html

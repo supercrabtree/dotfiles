@@ -439,16 +439,6 @@ colortest() {
   fi
 }
 
-# Serve some static stuff from CWD fast
-serve() {
-  PORT=8001
-  if [ "$1" != "" ]; then
-    PORT=$1
-  fi
-  python -m SimpleHTTPServer $PORT
-  open "http://localhost:$PORT"
-}
-
 vim-pop() {
   [[ -z $BUFFER ]] && zle up-history
   if [[ $BUFFER == vim\ * ]]; then

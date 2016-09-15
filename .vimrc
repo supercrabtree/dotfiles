@@ -240,7 +240,7 @@ nnoremap !! :<Up><cr>
 
 " use - to interact with the system keyboard
 vnoremap - :<c-u>call g:CopyTheText()<cr>
-vnoremap + xk:<c-u>r !pbpaste<cr>
+vnoremap g- xk:<c-u>r !pbpaste<cr>
 nnoremap - :<c-u>r !pbpaste<cr>
 
 " ctrl-a copies register to system clipboard

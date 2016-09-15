@@ -329,7 +329,7 @@ nnoremap <space>gd :Gdiff<cr>
 nnoremap <space>gt :Git! diff --staged<cr>
 nnoremap <space>gp :Gpush<cr>
 nnoremap <space>gP :Git push --force<cr>
-nnoremap <space>gl :Glog<cr><cr><cr>
+nnoremap <space>gl :silent Glog<cr>:copen 20<cr>f<space>lzs
 nnoremap <space>gq :copen 20<cr>f<space>lzs
 
 command! PutLastCommit :call <sid>PutLastCommit()

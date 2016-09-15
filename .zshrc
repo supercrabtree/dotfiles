@@ -101,7 +101,9 @@ export PATH=$PATH:/sbin
 export PATH=$PATH:~/bin
 export PATH=$PATH:~/git-functions
 
+export PATH=$PATH:~/dev/git-more
 export PATH=$PATH:~/dev/ubik-cli
+
 
 # Misc
 # ------------------------------------------------------------------------------

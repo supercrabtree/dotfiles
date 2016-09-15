@@ -400,11 +400,6 @@ glb() {
   git log --decorate --pretty="$git_log_defaults" "-$LINES"
 }
 
-killport() {
-  PORT=$1
-  lsof -P | grep ':$PORT' | awk '{print $2}' | xargs kill -9
-}
-
 pr() {
   echo
   echo "Are you sure? Have you tested in Chrome, IE9-11, Safari and Firefox?"

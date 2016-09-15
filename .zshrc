@@ -483,7 +483,7 @@ D() {
   git diff --staged --color | diff-so-fancy | less
 }
 
-# Use Ctrl-x,Ctrl-l to get the output of the last command
+# use with ctrl-d as a zle binding above
 insert-last-command-output() {
   LBUFFER+="$(eval $history[$((HISTCMD-1))])"
   _zsh_highlight

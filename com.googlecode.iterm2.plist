@@ -32,6 +32,8 @@
 	<integer>1</integer>
 	<key>Coprocess MRU</key>
 	<array>
+		<string>q &lt;ctrl-c&gt; echo vim /Users/supercrabtree/dev/pixformance/web.platform/client/pages/body-measurements/body-measurements.jade</string>
+		<string>echo vim /Users/supercrabtree/dev/pixformance/web.platform/client/pages/body-measurements/body-measurements.jade</string>
 		<string> </string>
 		<string>~/.vim/plugged/vim-iterm2-navigator/switch.py j</string>
 		<string>~/.vim/plugged/vim-iterm2-navigator/switch.py k</string>
@@ -1317,11 +1319,11 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>216 268 694 589 0 0 1920 1177 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>2055 1201 606 456 0 0 3008 1669 </string>
+	<string>2055 1211 606 456 0 0 3008 1669 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
-	<string>1307 1180 400 129 0 0 3008 1669 </string>
+	<string>1520 4 400 129 0 0 1920 1177 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>612 416 700 622 0 0 1920 1177 </string>
+	<string>610 417 700 622 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>1504 0 1504 1669 0 0 3008 1669 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
@@ -2077,7 +2079,13 @@
 					<key>partial</key>
 					<true/>
 					<key>regex</key>
-					<string>^CONFLICT</string>
+					<string></string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>SendTextTrigger</string>
+					<key>regex</key>
+					<string></string>
 				</dict>
 			</array>
 			<key>Unlimited Scrollback</key>
@@ -2089,7 +2097,7 @@
 			<key>Use Cursor Guide</key>
 			<false/>
 			<key>Use HFS Plus Mapping</key>
-			<false/>
+			<true/>
 			<key>Use Italic Font</key>
 			<true/>
 			<key>Use Non-ASCII Font</key>
@@ -2101,7 +2109,7 @@
 			<key>Visual Bell</key>
 			<false/>
 			<key>Window Type</key>
-			<integer>0</integer>
+			<integer>12</integer>
 			<key>Working Directory</key>
 			<string>/Users/supercrabtree</string>
 		</dict>
@@ -2879,10 +2887,16 @@
 			<string>/Users/supercrabtree</string>
 		</dict>
 	</array>
+	<key>NoSyncConfirmBeta</key>
+	<true/>
 	<key>NoSyncDoNotWarnBeforeMultilinePaste</key>
 	<true/>
 	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
 	<integer>0</integer>
+	<key>NoSyncHaveWarnedAboutIncompatibleSoftware</key>
+	<true/>
+	<key>NoSyncInstallationId</key>
+	<string>4531C598-B2DB-4C54-8481-3EFF664C7952</string>
 	<key>NoSyncLastTipTime</key>
 	<real>457974007.23161799</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
@@ -2895,6 +2909,8 @@
 	<true/>
 	<key>NoSyncSuppressBroadcastInputWarning_selection</key>
 	<integer>0</integer>
+	<key>NoSyncTimeOfFirstLaunchForIncompatibilityWarnings</key>
+	<real>485090996.11331898</real>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
 	<real>465202152.69120502</real>
 	<key>NoSyncTipsDisabled</key>
@@ -2948,17 +2964,19 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/nightly.xml</string>
+	<string>https://iterm2.com/appcasts/final.xml?shard=28</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-04-27T15:59:04Z</date>
+	<date>2016-09-05T08:31:03Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
+	<key>ShowNewOutputIndicator</key>
+	<false/>
 	<key>ShowPaneTitles</key>
 	<false/>
 	<key>SmartPlacement</key>
@@ -3000,7 +3018,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>2.9.20160421-nightly</string>
+	<string>3.0.20160702-nightly</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>2</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

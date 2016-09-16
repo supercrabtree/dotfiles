@@ -124,8 +124,6 @@ set softtabstop=2
 set colorcolumn=81
 set history=1000
 set wildmenu
-" set wildignore=*/.git/**/*
-" set wildignore+=**/node_modules/**/*
 set ttyfast
 set shell=zsh\ -l
 

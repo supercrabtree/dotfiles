@@ -84,6 +84,7 @@ runtime macros/matchit.vim
 set t_Co=256
 set encoding=utf-8
 set term=xterm-256color
+set termguicolors
 set laststatus=2               " always show status bar
 set number                     " show the current line number
 set cursorline                 " highlight current cursor line
@@ -127,8 +128,9 @@ set wildmenu
 set ttyfast
 set shell=zsh\ -l
 
-" stop folds in diffs
-set diffopt+=context:99999
+" allow italics
+set t_ZH=[3m
+set t_ZR=[23m
 
 " different cursor shapes for insert mode
 if &term == 'xterm-256color' || &term == 'screen-256color'
@@ -417,6 +419,9 @@ set statusline+=%{fugitive#statusline()}
 
 " Plugin Settings
 " ------------------------------------------------------------------------------
+" Extra whitespace
+let g:extra_whitespace_ignored_filetypes = ['gitcommit']
+
 " Sneak
 nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
@@ -893,63 +898,81 @@ augroup END
 
 " Colors
 " ------------------------------------------------------------------------------
-" dark
-" 0  = 7%
-" 12 = 10%
-" 11  = 15%
-" 10 = 25%
-" 11 = 30%
-" 8  = 50%
-" 5  = 60%
-" 13 = 70%
-" 14 = 80%
-" 7  = 90%
-" 15 = 100%
+" white = #ffffff => 100%
+" grey1 = #ebebe6 => 91% and slightly yellow (to stop looking blue)
+" grey1 = #dbdbdb => 86%
+" grey2 = #b3b3b3 => 70%
+" grey3 = #808080 => 50%
+" black = #000000 => 100%
 
-" 1  = red
-" 2  = green
-" 3  = yellow
-" 4  = blue
-" 6  = purple
+" red      = #ce3a2f
+" green    = #56bd22
+" yellow   = #ffaf00
+" blue     = #5c95da
+" purple   = #8780c5
 
-" light
-" 0  = 7%
-" 12 = 90%
-" 9  = 80%
-" 10 = 70%
-" 11 = 60%
-" 8  = 50%
-" 5  = 30%
-" 13 = 25%
-" 14 = 15%
-
+" Highlight          Background     Foreground     Style (cterm)
+" -----------------------------------------------------------
+" Text
+hi Normal            guifg=NONE
+hi ErrorMsg          guibg=#ce3a2f  guifg=#ffffff
+hi Error             guibg=#ce3a2f  guifg=#ffffff
+hi NonText           guifg=NONE
+hi Comment           guifg=#808080
+hi Title             guifg=NONE
+hi Function          guifg=NONE
+hi Special           guifg=NONE
+hi SpecialKey        guifg=NONE
+hi Keyword           guifg=NONE
+hi Type              guifg=NONE
+hi Constant          guifg=NONE
+hi String            guifg=NONE
+hi Boolean           guifg=NONE
+hi Preproc           guifg=NONE
+hi Number            guifg=NONE
+hi Identifier        guifg=NONE
+hi Statement         guifg=NONE
+hi Todo              guifg=NONE
+hi WarningMsg        guifg=#ce3a2f
+hi GoodMsg           guifg=#56bd22
+hi Directory         guifg=NONE
+hi MoreMsg           guifg=NONE
+hi Question          guifg=NONE
+hi Folded            guifg=NONE
+hi FoldColumn        guifg=NONE
+hi DiffAdd           guibg=NONE     guifg=#56bd22
+hi DiffChange        guibg=NONE
+hi DiffDelete        guibg=#ce3a2f  guifg=#ce3a2f
+hi DiffText          guibg=#ebebe6  guifg=#ce3a2f
 
 " ui
-hi ColorColumn       ctermbg=11
-hi CursorLine        ctermbg=11                 cterm=none
-hi MatchParen        ctermbg=none ctermfg=1
-hi LineNr                         ctermfg=10
-hi CursorLineNr                   ctermfg=none
-hi Search            ctermbg=3    ctermfg=232
-hi IncSearch         ctermbg=2    ctermfg=232  cterm=none
-hi SpellBad          ctermbg=none ctermfg=1    cterm=none
-hi SpellCap          ctermbg=none ctermfg=none cterm=none
-hi ExtraWhitespace   ctermbg=1    ctermfg=1
-hi PMenu             ctermbg=11   ctermfg=5
-hi PMenuSel          ctermbg=10   ctermfg=14
+hi ColorColumn       guibg=#ebebe6
+hi CursorLine        guibg=#ebebe6                 cterm=NONE
+hi PMenu             guibg=#ebebe6  guifg=#808080
+hi LineNr            guifg=#b3b3b3
+hi CursorLineNr      guifg=NONE
+hi MatchParen        guibg=NONE     guifg=#ce3a2f
+hi Search            guibg=#ffaf00  guifg=#000000
+hi IncSearch         guibg=#56bd22  guifg=#000000  cterm=NONE
+hi SpellBad          guibg=NONE     guifg=#ce3a2f  cterm=NONE
+hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
+hi ExtraWhitespace   guibg=#ce3a2f  guifg=#ce3a2f
 
-" hi uniteMarkedLine                ctermfg=2
-hi StatusLine        ctermbg=11    ctermfg=13   cterm=none
-hi StatusLineNC      ctermbg=12   ctermfg=5    cterm=none
-hi VertSplit         ctermbg=11    ctermfg=11
-hi WildMenu          ctermbg=11    ctermfg=2
-hi Visual            ctermbg=10   ctermfg=7    cterm=none
+hi StatusLine        guibg=#ebebe6  guifg=#000000  cterm=NONE
+hi StatusLineNC      guibg=#ebebe6  guifg=#b3b3b3  cterm=NONE
+hi VertSplit         guibg=#ebebe6  guifg=#ebebe6
+hi WildMenu          guibg=#000000  guifg=#ffffff
 
-set t_ZH=[3m
-set t_ZR=[23m
+
+" Buftabline
+hi BufTabLineActive                                cterm=italic
+hi BufTabLineHidden  guibg=#ebebe6  guifg=#808080  cterm=NONE
+hi BufTabLineFill    guibg=#ebebe6                 cterm=NONE
+
 
 "html
-hi htmlItalic        ctermbg=none ctermfg=none cterm=italic
+hi htmlItalic                                      cterm=italic
+hi MatchTag          guibg=#dbdbdb  guifg=#000000
 hi link htmlH1 Normal
 hi link htmlH2 Normal
 hi link htmlH3 Normal
@@ -962,95 +985,57 @@ hi link htmlSpecialTagName Keyword
 hi link htmlArg Keyword
 hi link htmlTagN htmlTagName
 hi link htmlEndTag htmlTag
-hi MatchTag ctermfg=black ctermbg=11
+
 
 " Markdown
+hi markdownH1        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH2        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH3        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH4        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH5        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH6        guibg=NONE     guifg=NONE     cterm=reverse
 hi link markdownHeadingDelimiter markdownH1
-hi markdownH1 ctermbg=none ctermfg=none cterm=reverse
-hi markdownH2 ctermbg=none ctermfg=none cterm=reverse
-hi markdownH3 ctermbg=none ctermfg=none cterm=reverse
-hi markdownH4 ctermbg=none ctermfg=none cterm=reverse
-hi markdownH5 ctermbg=none ctermfg=none cterm=reverse
-hi markdownH6 ctermbg=none ctermfg=none cterm=reverse
 
-
-" Buftabline
-" set again in <sid>SetupArgsMode
-hi BufTabLineCurrent ctermbg=12   ctermfg=4    cterm=none
-hi BufTabLineActive  ctermbg=12   ctermfg=5    cterm=italic
-hi BufTabLineHidden  ctermbg=12   ctermfg=10   cterm=none
-hi BufTabLineArglist ctermbg=12   ctermfg=5    cterm=none
-hi BufTabLineFill    ctermbg=12                cterm=none
 
 " Sneak
-hi SneakPluginTarget     ctermbg=none ctermfg=1  cterm=underline
-hi SneakStreakTarget     ctermbg=1 ctermfg=15  cterm=none
-hi SneakStreakMask       ctermbg=1 ctermfg=1  cterm=none
-hi SneakStreakStatusLine ctermbg=11 ctermfg=13 cterm=none
+hi SneakPluginTarget guibg=#ebebe6     guifg=#ce3a2f  cterm=underline
 
 " git
-hi diffAdded ctermfg=2
-hi diffRemoved ctermfg=1
-hi gitcommitBranch ctermfg=4
+hi diffAdded guifg=#56bd22
+hi diffRemoved guifg=#ce3a2f
+
+" git gutter
+hi GitGutterAdd          guifg=#56bd22
+hi GitGutterChange       guifg=#b3b3b3
+hi GitGutterDelete       guifg=#ce3a2f
+hi GitGutterChangeDelete guifg=#b3b3b3
+
 
 " multiple cursors
-hi multiple_cursors_cursor ctermfg=15 ctermbg=0
-hi multiple_cursors_visual ctermfg=0 ctermbg=6
-
-" Text
-hi Normal     ctermfg=none
-hi ErrorMsg   ctermbg=1   ctermfg=255
-hi Error      ctermbg=1   ctermfg=255
-hi NonText    ctermfg=5
-hi Comment    ctermfg=8
-hi Function   ctermfg=8
-hi Special    ctermfg=8
-hi SpecialKey ctermfg=10
-hi Keyword    ctermfg=13
-hi Type       ctermfg=5
-hi Constant   ctermfg=5
-hi String     ctermfg=4
-hi Boolean    ctermfg=4
-hi Preproc    ctermfg=5
-hi Number     ctermfg=4
-hi Identifier ctermfg=13
-hi Statement  ctermfg=5
-hi Todo       ctermfg=7   ctermbg=13
-hi WarningMsg ctermfg=1
-hi GoodMsg    ctermfg=2
-hi Directory  ctermfg=4
-hi MoreMsg    ctermfg=2
-hi Question   ctermfg=2
-hi Folded     ctermfg=12   ctermbg=5
-hi FoldColumn ctermfg=12   ctermbg=5
-hi DiffAdd    ctermfg=2    ctermbg=none
-hi DiffChange ctermbg=11
-hi DiffDelete ctermfg=88   ctermbg=52
-hi DiffText   ctermfg=1   ctermbg=10
-
+hi multiple_cursors_cursor guibg=#000000 guifg=#ffffff
+hi multiple_cursors_visual guibg=#666666 guifg=#ffffff
 
 
 " Language Specific
-hi jsBooleanFalse ctermfg=1
-hi jsBooleanTrue ctermfg=2
-hi jsGlobalObjects ctermfg=8 " Math, Date, Number, console etc
-hi jsStorageClass ctermfg=8 " var
-hi jsFunction ctermfg=8 " function
-" hi jsFuncName ctermfg=8 " function name
+" hi jsBooleanFalse guifg=#ce3a2f
+" hi jsBooleanTrue guifg=#56bd22
+" hi jsGlobalObjects ctermfg=8
+" hi jsStorageClass ctermfg=8
+" hi jsFunction ctermfg=8
+" hi jsFuncName ctermfg=8
 
-hi javascriptAngularMethods ctermfg=13
-hi jsFutureKeys ctermfg=1
-hi link jsDocParam Comment
-hi link jsDocType Comment
-hi link jsDocTags Comment
+" hi javascriptAngularMethods ctermfg=13
+" hi jsFutureKeys ctermfg=1
+" hi link jsDocParam Comment
+" hi link jsDocType Comment
+" hi link jsDocTags Comment
 
 " css
 hi link cssClassName normal
 
-
 " custom sytax varibles
 syn match jadeNbsp "nbsp"
-hi jadeNbsp ctermfg=2
+hi jadeNbsp guifg=#ce3a2f
 
 syntax enable
 

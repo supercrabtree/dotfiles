@@ -127,21 +127,19 @@ set history=1000
 set wildmenu
 set ttyfast
 set shell=zsh\ -l
+set diffopt+=context:99999     " stop folds in diffs
 
 " allow italics
 set t_ZH=[3m
 set t_ZR=[23m
 
 " different cursor shapes for insert mode
-if &term == 'xterm-256color' || &term == 'screen-256color'
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-if exists('$TMUX')
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-endif
+" Disable newtr
+let loaded_netrwPlugin = 1
+
 
 
 " Change keycodes

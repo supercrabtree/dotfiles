@@ -437,11 +437,9 @@ xmap T <Plug>Sneak_T
 omap t <Plug>Sneak_t
 omap T <Plug>Sneak_T
 
-nmap <expr> s sneak#is_sneaking() ? ':call sneak#cancel()<cr><c-o><Plug>(SneakStreak)<cr>' : '<Plug>Sneak_s'
-nmap <expr> S sneak#is_sneaking() ? ':call sneak#cancel()<cr><c-o><Plug>(SneakStreakBackward)<cr>' : '<Plug>Sneak_S'
 nmap S <Plug>Sneak_S
 
-" let g:sneak#streak = 1
+let g:sneak#streak = 0
 let g:sneak#s_next = 0
 let g:sneak#use_ic_scs = 1
 

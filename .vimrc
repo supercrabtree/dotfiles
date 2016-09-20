@@ -231,9 +231,6 @@ vnoremap <Enter> <Plug>(EasyAlign)
 " delete content, like dd but make it so you can jam it in another line somewhere
 nnoremap dc ^v$hd"_dd
 
-" ctrl-s for helping with spelling
-inoremap <c-s> <esc>:call DoThatSpellingYo()<cr>
-
 " f-enter opens current file in finder
 nnoremap <silent> f<cr> :Finder<cr>
 
@@ -653,14 +650,6 @@ function! <sid>PressK()
     return
   endif
   execute 'GitGutterPrevHunk'
-endfunction
-
-function! DoThatSpellingYo()
-  if &spell=='nospell'
-    set spell
-    set nocursorline
-  endif
-  normal! as
 endfunction
 
 function! s:HyperEnter()

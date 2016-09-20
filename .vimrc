@@ -73,9 +73,7 @@ runtime macros/matchit.vim
 
 " Vim Settings
 " ------------------------------------------------------------------------------
-set t_Co=256
 set encoding=utf-8
-set term=xterm-256color
 set termguicolors
 set laststatus=2               " always show status bar
 set number                     " show the current line number

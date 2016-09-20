@@ -118,6 +118,7 @@ set wildmenu
 set ttyfast
 set shell=zsh\ -l
 set diffopt+=context:99999     " stop folds in diffs
+set diffopt+=vertical          " always vertical diffs
 
 " allow italics
 set t_ZH=[3m
@@ -168,34 +169,67 @@ vnoremap L $h
 " auto insertions
 inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
 
-" clear search highlights and refresh screen
+" clear search highlights and refresh screen and diff update
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk:diffupdate<cr>
 
 " rapid buffer nav
+nnoremap <silent> <down> :call <sid>PressDown()<cr>
+nnoremap <silent> <up> :call <sid>PressUp()<cr>
+nnoremap <silent> <left> :call <sid>PressLeft()<cr>
+nnoremap <silent> <right> :bdelete<cr>
+
+function! <sid>PressLeft()
+  if &diff
+    normal do
+    return
 nnoremap <silent> <down> :PressDown<cr>
 nnoremap <silent> <up> :PressUp<cr>
 nnoremap <silent> <left> <c-^>
 
-command! PressUp :call <sid>PressUp()
 function! <sid>PressUp()
   if &diff
-    normal [c
+    normal [czz
     return
   endif
   silent bnext
 endfunction
 
-command! PressDown :call <sid>PressDown()
 function! <sid>PressDown()
   if &diff
-    normal ]c
+    normal ]czz
     return
   endif
   silent bprevious
 endfunction
 
-" ctrl-loose
-nnoremap <silent> <right> :bdelete<cr>
+" rapid buffer nav
+nnoremap <silent> H :call <sid>PressH()<cr>
+nnoremap <silent> J :call <sid>PressJ()<cr>
+nnoremap <silent> K :call <sid>PressK()<cr>
+
+function! <sid>PressH()
+  if &diff
+    normal do
+    return
+  endif
+  execute 'GitGutterStageHunk'
+endfunction
+
+function! <sid>PressJ()
+  if &diff
+    normal ]c
+    return
+  endif
+  execute 'GitGutterNextHunk'
+endfunction
+
+function! <sid>PressK()
+  if &diff
+    normal [c
+    return
+  endif
+  execute 'GitGutterPrevHunk'
+endfunction
 
 " allow suspension in insert mode
 inoremap <c-z> <esc><c-z>
@@ -262,9 +296,6 @@ nnoremap <silent> f<cr> :Finder<cr>
 
 nnoremap gK K
 
-nnoremap J :GitGutterNextHunk<cr>
-nnoremap K :GitGutterPrevHunk<cr>
-nnoremap H :GitGutterStageHunk<cr>
 nnoremap U mh:GitGutterRevertHunk<cr>'h
 
 " Ctrl-Enter is enter without leaving current place
@@ -381,7 +412,31 @@ function! ShowFileSize()
   echo 'filesize: ' . FileSize() . '| gzipped: ' . GzippedFileSize()
 endfunction
 
-command! ShowFileSize call ShowFileSize()
+command! ShowFileSize call <sid>ShowFileSize()
+
+
+function! <sid>ToggleWindowLayout()
+  let curwin= winnr()
+  if curwin == 1
+    " try to go down one window
+    wincmd j
+    let isvert= winnr() != curwin
+    wincmd k
+  else
+    " try to go up one window
+    wincmd k
+    let isvert= winnr() != curwin
+    wincmd j
+  endif
+  if isvert
+    windo wincmd H
+    windo wincmd H
+  else
+    windo wincmd K
+    windo wincmd K
+  endif
+endfun
+command! ToggleWindowLayout call <sid>ToggleWindowLayout()
 
 " Status Line
 " ------------------------------------------------------------------------------
@@ -831,8 +886,8 @@ augroup georges_autocommands
   autocmd filetype gitcommit setlocal spell
   autocmd FileType gitcommit setlocal nocursorline
   autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <down> :<C-U>execute <SNR>28_StageNext(v:count1)<CR>| else | map <buffer> <down> 10j| endif
-  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <up> :<C-U>execute <SNR>28_StagePrevious(v:count1)<CR>| else | map <buffer> <up> 10k| endif
+  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <down> :<C-U>execute <SNR>26_StageNext(v:count1)<cr>| else | map <buffer> <down> 10j| endif
+  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <up> :<C-U>execute <SNR>26_StagePrevious(v:count1)<cr>| else | map <buffer> <up> 10k| endif
 
   " when opening a new line in a comment, don't continue the comment, empty line please
   autocmd FileType * set formatoptions-=r formatoptions-=o
@@ -945,7 +1000,7 @@ hi ExtraWhitespace   guibg=#ce3a2f  guifg=#ce3a2f
 
 
 " Buftabline
-hi BufTabLineActive                                cterm=italic
+hi BufTabLineActive                 guifg=#808080
 hi BufTabLineHidden  guibg=#e8e8e8  guifg=#808080  cterm=NONE
 hi BufTabLineFill    guibg=#e8e8e8                 cterm=NONE
 

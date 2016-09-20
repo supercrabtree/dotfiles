@@ -182,9 +182,9 @@ function! <sid>PressLeft()
   if &diff
     normal do
     return
-nnoremap <silent> <down> :PressDown<cr>
-nnoremap <silent> <up> :PressUp<cr>
-nnoremap <silent> <left> <c-^>
+  endif
+  exec "normal \<C-^>"
+endfunction
 
 function! <sid>PressUp()
   if &diff
@@ -284,7 +284,7 @@ function! DoThatSpellingYo()
   endif
   normal! as
 endfunction
-inoremap <c-s> <esc>:call DoThatSpellingYo()<CR>
+inoremap <c-s> <esc>:call DoThatSpellingYo()<cr>
 
 nnoremap <silent> f<cr> :Finder<cr>
 
@@ -308,7 +308,7 @@ nnoremap <space>o o<esc>
 nnoremap <space>O O<esc>
 
 " debugger toggle
-nnoremap <silent> <space>d :ToggleDebugger<cr>
+nnoremap <silent> <space>d :call <sid>ToggleDebugger()<cr>
 
 " make use strict javascript
 nnoremap <space>us mzggO'use strict';<cr><esc>`z
@@ -320,9 +320,9 @@ nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .
 
 vnoremap * y/<c-r>"<cr>N
 
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+inoremap <silent> <cr> <C-r>=<SID>my_cr_function()<cr>
 function! s:my_cr_function()
-  return pumvisible() ? "\<C-y>" : "\<CR>"
+  return pumvisible() ? "\<C-y>" : "\<cr>"
 endfunction
 
 nnoremap <space>ga :Git add %<cr><cr>:GitGutter<cr>
@@ -358,7 +358,7 @@ endfunction
 
 
 " Find out current buffer's size and output it.
-function! FileSize()
+function! <sid>FileSize()
   let bytes = getfsize(expand('%:p'))
   if (bytes >= 1024)
     let kbytes = bytes / 1024
@@ -380,7 +380,7 @@ function! FileSize()
   endif
 endfunction
 
-function! GzippedFileSize()
+function! <sid>GzippedFileSize()
   let bytes = system("gzip -9 -c " . expand('%:p') . "| wc -c | xargs")
   if (bytes >= 1024)
     let kbytes = bytes / 1024
@@ -402,8 +402,8 @@ function! GzippedFileSize()
   endif
 endfunction
 
-function! ShowFileSize()
-  echo 'filesize: ' . FileSize() . '| gzipped: ' . GzippedFileSize()
+function! <sid>ShowFileSize()
+  echo 'filesize: ' . <sid>FileSize() . '| gzipped: ' . <sid>GzippedFileSize()
 endfunction
 
 command! ShowFileSize call <sid>ShowFileSize()
@@ -441,8 +441,8 @@ set statusline+=%<                " when the window is too narrow, cut it here
 set statusline+=%f\               " path & filename
 set statusline+=%{IsReadOnly()}
 set statusline+=%{IsModified()}
-" set statusline+=%{FileSize()}
-" set statusline+=\ [%{GzippedFileSize()}]
+" set statusline+=%{<sid>FileSize()}
+" set statusline+=\ [%{<sid>GzippedFileSize()}]
 set statusline+=%=                " align from here on to the right
 set statusline+=%{fugitive#statusline()}
 
@@ -712,7 +712,7 @@ function! s:JSONPrettyify()
 endfunction
 command! JSONPretty call <sid>JSONPrettyify()
 
-function! s:ToggleDebuggerStatement()
+function! <sid>ToggleDebugger()
   let current_line = getline('.')
   let found =  matchstr(current_line, '\s*\S*')
   if empty(found)
@@ -723,7 +723,6 @@ function! s:ToggleDebuggerStatement()
     normal odebugger;
   endif
 endfunction
-command! ToggleDebugger call <sid>ToggleDebuggerStatement()
 
 function! s:MkNonExDir(file, buf)
   if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'

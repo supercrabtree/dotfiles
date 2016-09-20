@@ -154,8 +154,8 @@ inoremap <NUL> <esc>:<c-u>w<cr>a
 
 inoremap jj <esc>
 noremap <c-c> <Esc>
-vnoremap Y y`]
 
+" move through line wraps with ease
 nnoremap j gj
 nnoremap k gk
 
@@ -166,7 +166,7 @@ nnoremap g+ mzj0d^i<bs> <esc>`z
 " Capital L end of line but not end of line char
 vnoremap L $h
 
-" auto insertions
+" Insert } after an {
 inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
 
 " clear search highlights and refresh screen and diff update
@@ -265,20 +265,14 @@ vnoremap <c-a> y:<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<c
 " create 'search' mark before each search
 nnoremap / ms/
 
-nnoremap gV `[V`]
-
-nnoremap gu u*<c-r>n
-
+" shift 6 is hard to push...
 nnoremap g0 ^
-
-" grab paste
-vnoremap gp `[v`]
 
 " neocomplete close pum
 inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : "\<esc>"
 inoremap <silent> <C-y> :NeoCompleteDisable<cr><c-y>:NeoCompleteEnable<cr>
 
-vmap <Enter> <Plug>(EasyAlign)
+vnoremap <Enter> <Plug>(EasyAlign)
 
 " delete content, like dd but make it so you can jam it in another line somewhere
 nnoremap dc ^v$hd"_dd

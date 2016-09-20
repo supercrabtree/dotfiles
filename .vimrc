@@ -60,7 +60,11 @@ call plug#end()
 
 filetype plugin indent on
 
+" Add (builtin) matchit plugin
 runtime macros/matchit.vim
+
+" Disable (builtin) newtr
+let loaded_netrwPlugin = 1
 
 
 " :profile start profile.log
@@ -127,10 +131,6 @@ set t_ZR=[23m
 " different cursor shapes for insert mode
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-
-" Disable newtr
-let loaded_netrwPlugin = 1
-
 
 
 " Change keycodes

@@ -183,10 +183,10 @@ inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk:diffupdate<cr>
 
 " home row keys for rapid buffer nav
-nnoremap <silent> <down>  :call <sid>PressDown()<cr>
-nnoremap <silent> <up>    :call <sid>PressUp()<cr>
-nnoremap <silent> <left>  :call <sid>PressLeft()<cr>
-nnoremap <silent> <right> :bdelete<cr>
+nnoremap <silent> <down>  :call <sid>PressCtrlJ()<cr>
+nnoremap <silent> <up>    :call <sid>PressCtrlK()<cr>
+nnoremap <silent> <left>  :call <sid>PressCtrlH()<cr>
+nnoremap <silent> <right> :call <sid>PressCtrlL()<cr>
 nnoremap <silent> H       :call <sid>PressH()<cr>
 nnoremap <silent> J       :call <sid>PressJ()<cr>
 nnoremap <silent> K       :call <sid>PressK()<cr>
@@ -606,7 +606,7 @@ endfunction
 
 " Custom Functions
 " ------------------------------------------------------------------------------
-function! <sid>PressLeft()
+function! <sid>PressCtrlH()
   if &diff
     normal do
     return
@@ -614,7 +614,7 @@ function! <sid>PressLeft()
   exec "normal \<C-^>"
 endfunction
 
-function! <sid>PressUp()
+function! <sid>PressCtrlK()
   if &diff
     normal [czz
   elseif &filetype == 'gita-blame-navi'
@@ -626,7 +626,7 @@ function! <sid>PressUp()
   endif
 endfunction
 
-function! <sid>PressDown()
+function! <sid>PressCtrlJ()
   if &diff
     normal ]czz
   elseif &filetype == 'gita-blame-navi'

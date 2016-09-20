@@ -473,9 +473,11 @@ let g:sneak#streak = 0
 let g:sneak#s_next = 0
 let g:sneak#use_ic_scs = 1
 
+
 " Match targets
 let g:mta_set_default_matchtag_color=0
 let g:mta_use_matchparen_group=0
+
 
 " Undotree
 nnoremap <space>ut :UndotreeToggle<cr>
@@ -493,12 +495,15 @@ function! g:Undotree_CustomMap()
   noremap <buffer> gg ggjj
 endfunction
 
+
 " Peekaboo
 let g:peekaboo_window = 'vertical botright 80new'
+
 
 " Bufline
 let g:buftabline_indicators=1
 let g:buftabline_show=1
+
 
 " Neocomplete
 let g:neocomplete#enable_at_startup=1
@@ -506,6 +511,7 @@ let g:neocomplete#enable_auto_select=1
 
 let g:neocomplete#same_filetypes = {}
 let g:neocomplete#same_filetypes._ = '_'
+
 
 " Ctrlsf
 let g:ctrlsf_regex_pattern = 0
@@ -532,7 +538,6 @@ let g:ctrlsf_mapping = {
 \ "openb" : "O",
 \ "split" : ""
 \ }
-
 
 
 " FZF

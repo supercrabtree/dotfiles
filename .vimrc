@@ -936,18 +936,18 @@ augroup END
 " grey6 = #808080 => 50%
 " black = #000000 => 100%
 
-" red      = #ce3a2f
+" red      = #bf2222
 " green    = #56bd22
 " yellow   = #ffaf00
-" blue     = #5c95da
+" blue     = #2275bf
 " purple   = #8780c5
 
 
 " Highlight          Background     Foreground     Style (cterm)
 " ------------------------------------------------------------------------------
 hi Normal            guifg=NONE
-hi ErrorMsg          guibg=#ce3a2f  guifg=#ffffff
-hi Error             guibg=#ce3a2f  guifg=#ffffff
+hi ErrorMsg          guibg=#bf2222  guifg=#ffffff
+hi Error             guibg=#bf2222  guifg=#ffffff
 hi NonText                          guifg=NONE
 hi Comment           guifg=#999999
 hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
@@ -958,14 +958,14 @@ hi SpecialKey                       guifg=NONE
 hi Keyword                          guifg=NONE
 hi Type                             guifg=NONE
 hi Constant                         guifg=NONE
-hi String                           guifg=NONE
-hi Boolean                          guifg=NONE
+hi String                           guifg=#2275bf
+hi Boolean                          guifg=#2275bf
 hi Preproc                          guifg=NONE
-hi Number                           guifg=NONE
+hi Number                           guifg=#2275bf
 hi Identifier                       guifg=NONE
 hi Statement                        guifg=NONE
 hi Todo                             guifg=NONE
-hi WarningMsg                       guifg=#ce3a2f
+hi WarningMsg                       guifg=#bf2222
 hi GoodMsg                          guifg=#56bd22
 hi Directory                        guifg=NONE
 hi MoreMsg                          guifg=NONE
@@ -974,18 +974,18 @@ hi Folded                           guifg=NONE
 hi FoldColumn                       guifg=NONE
 hi DiffAdd           guibg=NONE     guifg=#56bd22
 hi DiffChange        guibg=NONE
-hi DiffDelete        guibg=#ce3a2f  guifg=#ce3a2f
-hi DiffText          guibg=#e8e8e8  guifg=#ce3a2f
-hi SpellBad          guibg=NONE     guifg=#ce3a2f  cterm=NONE
+hi DiffDelete        guibg=#bf2222  guifg=#bf2222
+hi DiffText          guibg=#e8e8e8  guifg=#bf2222
+hi SpellBad          guibg=NONE     guifg=#bf2222  cterm=NONE
 hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
 
 " UI elements
-hi ColorColumn       guibg=#e8e8e8
+hi ColorColumn       guibg=#f3f3f3
 hi CursorLine        guibg=#e8e8e8                 cterm=NONE
 hi PMenu             guibg=#e8e8e8  guifg=#808080
 hi LineNr            guifg=#b3b3b3
 hi CursorLineNr      guifg=NONE
-hi MatchParen        guibg=NONE     guifg=#ce3a2f
+hi MatchParen        guibg=NONE     guifg=#bf2222
 hi Search            guibg=#ffaf00  guifg=#000000
 hi IncSearch         guibg=#56bd22  guifg=#000000  cterm=NONE
 
@@ -994,7 +994,7 @@ hi StatusLineNC      guibg=#e8e8e8  guifg=#b3b3b3  cterm=NONE
 hi VertSplit         guibg=#e8e8e8  guifg=#e8e8e8
 hi WildMenu          guibg=#000000  guifg=#ffffff
 
-hi ExtraWhitespace   guibg=#ce3a2f  guifg=#ce3a2f
+hi ExtraWhitespace   guibg=#bf2222  guifg=#bf2222
 
 
 " Buftabline
@@ -1006,16 +1006,16 @@ hi BufTabLineFill    guibg=#e8e8e8                 cterm=NONE
 
 
 " Sneak
-hi SneakPluginTarget guibg=#e8e8e8  guifg=#ce3a2f  cterm=underline
+hi SneakPluginTarget guibg=#e8e8e8  guifg=#bf2222  cterm=underline
 
 " Fugative
 hi diffAdded guifg=#56bd22
-hi diffRemoved guifg=#ce3a2f
+hi diffRemoved guifg=#bf2222
 
 " Git Gutter
 hi GitGutterAdd          guifg=#56bd22
 hi GitGutterChange       guifg=#b3b3b3
-hi GitGutterDelete       guifg=#ce3a2f
+hi GitGutterDelete       guifg=#bf2222
 hi GitGutterChangeDelete guifg=#b3b3b3
 
 
@@ -1059,8 +1059,8 @@ hi link markdownHeadingDelimiter markdownH1
 
 
 " JavaScript
-" hi jsBooleanFalse guifg=#ce3a2f
-" hi jsBooleanTrue guifg=#56bd22
+hi jsBooleanFalse guifg=#bf2222
+hi jsBooleanTrue guifg=#56bd22
 " hi jsGlobalObjects ctermfg=8
 " hi jsStorageClass ctermfg=8
 " hi jsFunction ctermfg=8
@@ -1079,7 +1079,7 @@ hi link markdownHeadingDelimiter markdownH1
 
 " Jade
 syn match jadeNbsp "nbsp"
-hi jadeNbsp guifg=#ce3a2f
+hi jadeNbsp guifg=#bf2222
 
 syntax enable
 

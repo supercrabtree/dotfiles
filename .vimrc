@@ -1,7 +1,8 @@
 set nocompatible
 filetype off
-
 call plug#begin('~/.vim/plugged')
+
+
 
 " Plugins
 " ------------------------------------------------------------------------------
@@ -75,6 +76,8 @@ let loaded_netrwPlugin = 1
 " :noautocmd qall!
 
 
+
+
 " Vim Settings
 " ------------------------------------------------------------------------------
 set encoding=utf-8
@@ -133,12 +136,16 @@ let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 
+
+
 " Change keycodes
 " ------------------------------------------------------------------------------
 " in karabiner ctrl-enter is remapped to <F18>
 set <F18>=[17;2~
 " in karabiner ctrl-m is remapped to <F19> so i can use it indepent of return
 set <F19>=[18;2~
+
+
 
 
 " Keyboard Shortcuts
@@ -170,64 +177,14 @@ inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
 " clear search highlights and refresh screen and diff update
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk:diffupdate<cr>
 
-" rapid buffer nav
-nnoremap <silent> <down> :call <sid>PressDown()<cr>
-nnoremap <silent> <up> :call <sid>PressUp()<cr>
-nnoremap <silent> <left> :call <sid>PressLeft()<cr>
+" home row keys for rapid buffer nav
+nnoremap <silent> <down>  :call <sid>PressDown()<cr>
+nnoremap <silent> <up>    :call <sid>PressUp()<cr>
+nnoremap <silent> <left>  :call <sid>PressLeft()<cr>
 nnoremap <silent> <right> :bdelete<cr>
-
-function! <sid>PressLeft()
-  if &diff
-    normal do
-    return
-  endif
-  exec "normal \<C-^>"
-endfunction
-
-function! <sid>PressUp()
-  if &diff
-    normal [czz
-    return
-  endif
-  silent bnext
-endfunction
-
-function! <sid>PressDown()
-  if &diff
-    normal ]czz
-    return
-  endif
-  silent bprevious
-endfunction
-
-" rapid buffer nav
-nnoremap <silent> H :call <sid>PressH()<cr>
-nnoremap <silent> J :call <sid>PressJ()<cr>
-nnoremap <silent> K :call <sid>PressK()<cr>
-
-function! <sid>PressH()
-  if &diff
-    normal do
-    return
-  endif
-  execute 'GitGutterStageHunk'
-endfunction
-
-function! <sid>PressJ()
-  if &diff
-    normal ]c
-    return
-  endif
-  execute 'GitGutterNextHunk'
-endfunction
-
-function! <sid>PressK()
-  if &diff
-    normal [c
-    return
-  endif
-  execute 'GitGutterPrevHunk'
-endfunction
+nnoremap <silent> H       :call <sid>PressH()<cr>
+nnoremap <silent> J       :call <sid>PressJ()<cr>
+nnoremap <silent> K       :call <sid>PressK()<cr>
 
 " allow suspension in insert mode
 inoremap <c-z> <esc><c-z>
@@ -275,23 +232,20 @@ vnoremap <Enter> <Plug>(EasyAlign)
 " delete content, like dd but make it so you can jam it in another line somewhere
 nnoremap dc ^v$hd"_dd
 
-function! DoThatSpellingYo()
-  if &spell=='nospell'
-    set spell
-    set nocursorline
-  endif
-  normal! as
-endfunction
+" ctrl-s for helping with spelling
 inoremap <c-s> <esc>:call DoThatSpellingYo()<cr>
 
+" f-enter opens current file in finder
 nnoremap <silent> f<cr> :Finder<cr>
 
-nnoremap gK K
-
+" big U undo hunk :)
 nnoremap U mh:GitGutterRevertHunk<cr>'h
 
 " Ctrl-Enter is enter without leaving current place
 inoremap <F18> <esc>lmzi<cr><esc>`za
+
+
+
 
 " Space Leaders
 " ------------------------------------------------------------------------------
@@ -318,10 +272,7 @@ nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .
 
 vnoremap * y/<c-r>"<cr>N
 
-inoremap <silent> <cr> <C-r>=<SID>my_cr_function()<cr>
-function! s:my_cr_function()
-  return pumvisible() ? "\<C-y>" : "\<cr>"
-endfunction
+inoremap <silent> <cr> <C-r>=<SID>HyperEnter()<cr>
 
 nnoremap <space>ga :Git add %<cr><cr>:GitGutter<cr>
 nnoremap <space>gA :Git add -A . <cr><cr>:GitGutter<cr>
@@ -337,98 +288,23 @@ nnoremap <space>gP :Git push --force<cr>
 nnoremap <space>gl :silent Glog<cr>:copen 20<cr>f<space>lzs
 nnoremap <space>gq :copen 20<cr>f<space>lzs
 
-command! PutLastCommit :call <sid>PutLastCommit()
-function! <sid>PutLastCommit()
-  :read !git log -1 --pretty=%b<cr>
-endfunction
-
-let s:are_comments_invisible=0
-command! Ghost :call <sid>Ghost()
-function! <sid>Ghost()
-  if s:are_comments_invisible
-    hi! link Comment Comment
-    let s:are_comments_invisible=0
-  else
-    hi! link Comment Ignore
-    let s:are_comments_invisible=1
-  endif
-endfunction
 
 
-" Find out current buffer's size and output it.
-function! <sid>FileSize()
-  let bytes = getfsize(expand('%:p'))
-  if (bytes >= 1024)
-    let kbytes = bytes / 1024
-  endif
-  if (exists('kbytes') && kbytes >= 1000)
-    let mbytes = kbytes / 1000
-  endif
 
-  if bytes <= 0
-    return '0'
-  endif
-
-  if (exists('mbytes'))
-    return mbytes . 'MB '
-  elseif (exists('kbytes'))
-    return kbytes . 'KB '
-  else
-    return bytes . 'B '
-  endif
-endfunction
-
-function! <sid>GzippedFileSize()
-  let bytes = system("gzip -9 -c " . expand('%:p') . "| wc -c | xargs")
-  if (bytes >= 1024)
-    let kbytes = bytes / 1024
-  endif
-  if (exists('kbytes') && kbytes >= 1000)
-    let mbytes = kbytes / 1000
-  endif
-
-  if bytes <= 0
-    return '0'
-  endif
-
-  if (exists('mbytes'))
-    return mbytes . 'MB'
-  elseif (exists('kbytes'))
-    return kbytes . 'KB'
-  else
-    return bytes . 'B'
-  endif
-endfunction
-
-function! <sid>ShowFileSize()
-  echo 'filesize: ' . <sid>FileSize() . '| gzipped: ' . <sid>GzippedFileSize()
-endfunction
-
+" Commands
+" ------------------------------------------------------------------------------
+command! PutLastCommit call <sid>PutLastCommit()
+command! Ghost call <sid>Ghost()
+command! Tailf call <sid>Tailf()
+command! SpellMode call <sid>SpellMode()
+command! JSONPretty call <sid>JSONPrettyify()
+command! -complete=file -nargs=? Open call <sid>Open(<q-args>)
+command! -complete=file -nargs=? Finder call <sid>RevealInFinder(<q-args>)
 command! ShowFileSize call <sid>ShowFileSize()
-
-
-function! <sid>ToggleWindowLayout()
-  let curwin= winnr()
-  if curwin == 1
-    " try to go down one window
-    wincmd j
-    let isvert= winnr() != curwin
-    wincmd k
-  else
-    " try to go up one window
-    wincmd k
-    let isvert= winnr() != curwin
-    wincmd j
-  endif
-  if isvert
-    windo wincmd H
-    windo wincmd H
-  else
-    windo wincmd K
-    windo wincmd K
-  endif
-endfun
 command! ToggleWindowLayout call <sid>ToggleWindowLayout()
+command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+
+
 
 " Status Line
 " ------------------------------------------------------------------------------
@@ -443,6 +319,7 @@ set statusline+=%{IsModified()}
 " set statusline+=\ [%{<sid>GzippedFileSize()}]
 set statusline+=%=                " align from here on to the right
 set statusline+=%{fugitive#statusline()}
+
 
 
 " Plugin Settings
@@ -537,9 +414,44 @@ let g:ctrlsf_mapping = {
 \ "split" : ""
 \ }
 
+" Emmet
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+let g:user_emmet_settings = {
+\   'html': {
+\     'snippets': {
+\       'html': "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title></title>\n  <meta name=viewport content=\"width=device-width,initial-scale=1\">\n</head>\n<body>\n${cursor}\n</body>\n</html>",
+\       'defer': "<script defer src=\"${cursor}\"></script>",
+\       'async': "<script async src=\"${cursor}\"></script>"
+\     },
+\     'default_attributes': {
+\       'svg': [{'width': '500'}, {'height': '400'}, {'viewBox': '0 0 500 400'}, {'xmlns': 'http://www.w3.org/2000/svg'}, {'xmlns:xlink': 'http://www.w3.org/1999/xlink'}],
+\     },
+\   },
+\ }
+
+
+" Multiple Cursors
+let g:multi_cursor_exit_from_insert_mode=0
+
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  exe 'NeoCompleteLock'
+endfunction
+
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+  exe 'NeoCompleteUnlock'
+endfunction
+
+
+" vim-indent-guides
+let g:indent_guides_guide_size=2
+let g:indent_guides_auto_colors=0
+let g:indent_guides_default_mapping=0
+nmap <silent> <space>i <Plug>IndentGuidesToggle
+
 
 " FZF
-" ------------------------------------------------------------------------------
 set rtp+=~/.fzf
 vnoremap <c-f>      :<c-u>execute 'FindFilesHere ' . <sid>get_visual_selection()<cr>
 nnoremap <c-f>      :echoerr 'too slow!'<cr>
@@ -547,11 +459,20 @@ nnoremap <c-f><c-f> :FindFilesIn<cr>
 nnoremap <c-f>!     :FindFilesIn!<cr>
 nnoremap <c-f>f     :execute 'FindFilesHere ' . expand('<cword>')<cr>
 nnoremap <c-f>/     :FindFilesHere /<cr>
-nnoremap <c-f>j     :FindFilesIn ~/Dropbox/Notes<cr>
 nnoremap <c-f>h     :FindFilesIn ~/<cr>
 nnoremap <c-f>r     :MRU<cr>
 nnoremap <c-f><c-r> :MRU<cr>
 nnoremap <c-b>      :Lines<cr>
+
+command! -complete=file -nargs=1 Locate call fzf#run({'source': 'locate <q-args>', 'sink': 'e', 'options': ''})
+command! -bang -complete=file -nargs=* FindFilesHere call <sid>FindFilesHere(<bang>0, <q-args>)
+command! -bang -complete=file -nargs=? FindFilesIn call <sid>FindFilesIn(<bang>0, <q-args>)
+command! -bang AllBuffers call s:bufselect(<bang>0)
+command! MRU call fzf#run({
+\ 'source': 'sed "1d" $HOME/.cache/neomru/file',
+\ 'sink*':   function('<sid>FindFilesHandler'),
+\ 'options': '--bind ctrl-g:ignore --reverse --expect=ctrl-g --prompt "MRU> "'
+\})
 
 function! s:getStockAgArgs(bang)
   if a:bang == 0
@@ -563,9 +484,6 @@ endfunction
 
 let s:ctrlF = '--bind ctrl-g:ignore --expect=ctrl-g'
 
-command! -complete=file -nargs=1 Locate call fzf#run({'source': 'locate <q-args>', 'sink': 'e', 'options': ''})
-
-command! -bang -complete=file -nargs=* FindFilesHere call <sid>FindFilesHere(<bang>0, <q-args>)
 function! s:FindFilesHere(bang, args)
   call fzf#run({
 \   'source'  : printf('ag'.<sid>getStockAgArgs(a:bang).'-g "" %s', '.'),
@@ -574,7 +492,6 @@ function! s:FindFilesHere(bang, args)
 \ })
 endfunction
 
-command! -bang -complete=file -nargs=? FindFilesIn call <sid>FindFilesIn(<bang>0, <q-args>)
 function! s:FindFilesIn(bang, args)
   call fzf#run({
 \   'source'  : printf('ag'.<sid>getStockAgArgs(a:bang).'-g "" %s',
@@ -606,12 +523,6 @@ function! s:all_files()
 \ filter(map(s:buflisted(), 'bufname(v:val)'), '!empty(v:val)'))
 endfunction
 
-command! MRU call fzf#run({
-\ 'source': 'sed "1d" $HOME/.cache/neomru/file',
-\ 'sink*':   function('<sid>FindFilesHandler'),
-\ 'options': '--bind ctrl-g:ignore --reverse --expect=ctrl-g --prompt "MRU> "'
-\})
-
 function! s:buflisted()
   return filter(range(1, bufnr('$')), 'buflisted(v:val)')
 endfunction
@@ -638,7 +549,6 @@ function! s:ansi(str, col, bold)
   return printf("\x1b[%s%sm%s\x1b[m", a:col, a:bold ? ';1' : '', a:str)
 endfunction
 
-" Buffers
 function! s:format_buffer(b)
   let name = bufname(a:b)
   let name = empty(name) ? '[No Name]' : name
@@ -664,40 +574,98 @@ function! s:bufselect(bang)
   \})
 endfunction
 
-command! -bang AllBuffers call s:bufselect(<bang>0)
-
-
-" Multiple Cursors
-" nnoremap <silent> <c-c> :call multiple_cursors#quit()<cr>
-let g:multi_cursor_exit_from_insert_mode=0
-
-" Called once right before you start selecting multiple cursors
-function! Multiple_cursors_before()
-  exe 'NeoCompleteLock'
+function! s:get_visual_selection()
+  let [lnum1, col1] = getpos("'<")[1:2]
+  let [lnum2, col2] = getpos("'>")[1:2]
+  let lines = getline(lnum1, lnum2)
+  let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][col1 - 1:]
+  return join(lines, "\n")
 endfunction
 
-" Called once only when the multiple selection is canceled (default <Esc>)
-function! Multiple_cursors_after()
-  exe 'NeoCompleteUnlock'
-endfunction
-
-" vim-indent-guides
-let g:indent_guides_guide_size=2
-let g:indent_guides_auto_colors=0
-let g:indent_guides_default_mapping=0
-nmap <silent> <space>i <Plug>IndentGuidesToggle
 
 
-" Functions
+
+
+" Custom Functions
 " ------------------------------------------------------------------------------
+function! <sid>PressLeft()
+  if &diff
+    normal do
+    return
+  endif
+  exec "normal \<C-^>"
+endfunction
+
+function! <sid>PressUp()
+  if &diff
+    normal [czz
+    return
+  endif
+  silent bnext
+endfunction
+
+function! <sid>PressDown()
+  if &diff
+    normal ]czz
+    return
+  endif
+  silent bprevious
+endfunction
+
+function! <sid>PressH()
+  if &diff
+    normal do
+    return
+  endif
+  execute 'GitGutterStageHunk'
+endfunction
+
+function! <sid>PressJ()
+  if &diff
+    normal ]c
+    return
+  endif
+  execute 'GitGutterNextHunk'
+endfunction
+
+function! <sid>PressK()
+  if &diff
+    normal [c
+    return
+  endif
+  execute 'GitGutterPrevHunk'
+endfunction
+
+function! DoThatSpellingYo()
+  if &spell=='nospell'
+    set spell
+    set nocursorline
+  endif
+  normal! as
+endfunction
+
+function! s:HyperEnter()
+  return pumvisible() ? "\<C-y>" : "\<cr>"
+endfunction
+
+let s:are_comments_invisible=0
+function! <sid>Ghost()
+  if s:are_comments_invisible
+    hi! link Comment Comment
+    let s:are_comments_invisible=0
+  else
+    hi! link Comment Ignore
+    let s:are_comments_invisible=1
+  endif
+endfunction
+
 function! s:Tailf()
   e
   redraw
-
   sleep 1
   call <sid>Tailf()
 endfunction
-command! Tailf call <sid>Tailf()
 
 function! s:SpellMode()
   if &spell=='nospell'
@@ -708,12 +676,14 @@ function! s:SpellMode()
     set cursorline
   endif
 endfunction
-command! SpellMode call <sid>SpellMode()
+
+function! <sid>PutLastCommit()
+  :read !git log -1 --pretty=%b<cr>
+endfunction
 
 function! s:JSONPrettyify()
   execute "%!python -m json.tool"
 endfunction
-command! JSONPretty call <sid>JSONPrettyify()
 
 function! <sid>ToggleDebugger()
   let current_line = getline('.')
@@ -759,8 +729,6 @@ function! s:Open(file)
   redraw!
 endfunction
 
-command! -complete=file -nargs=? Open call <sid>Open(<q-args>)
-
 function! s:RevealInFinder(file)
 
   if a:file != ''
@@ -780,7 +748,6 @@ function! s:RevealInFinder(file)
   redraw!
 endfunction
 
-command! -complete=file -nargs=? Finder call <sid>RevealInFinder(<q-args>)
 
 function! g:CopyTheText()
   let old_z = @z
@@ -803,20 +770,78 @@ function! IsReadOnly()
   return ''
 endfunction
 
-" emmet
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-let g:user_emmet_settings = {
-\   'html': {
-\       'snippets': {
-\           'html': "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <title></title>\n  <meta name=viewport content=\"width=device-width,initial-scale=1\">\n</head>\n<body>\n${cursor}\n</body>\n</html>",
-\           'defer': "<script defer src=\"${cursor}\"></script>",
-\           'async': "<script async src=\"${cursor}\"></script>"
-\       },
-\       'default_attributes': {
-\           'svg': [{'width': '500'}, {'height': '400'}, {'viewBox': '0 0 500 400'}, {'xmlns': 'http://www.w3.org/2000/svg'}, {'xmlns:xlink': 'http://www.w3.org/1999/xlink'}],
-\       },
-\   },
-\ }
+" Find out current buffer's size and output it.
+function! <sid>FileSize()
+  let bytes = getfsize(expand('%:p'))
+  if (bytes >= 1024)
+    let kbytes = bytes / 1024
+  endif
+  if (exists('kbytes') && kbytes >= 1000)
+    let mbytes = kbytes / 1000
+  endif
+
+  if bytes <= 0
+    return '0'
+  endif
+
+  if (exists('mbytes'))
+    return mbytes . 'MB '
+  elseif (exists('kbytes'))
+    return kbytes . 'KB '
+  else
+    return bytes . 'B '
+  endif
+endfunction
+
+function! <sid>GzippedFileSize()
+  let bytes = system("gzip -9 -c " . expand('%:p') . "| wc -c | xargs")
+  if (bytes >= 1024)
+    let kbytes = bytes / 1024
+  endif
+  if (exists('kbytes') && kbytes >= 1000)
+    let mbytes = kbytes / 1000
+  endif
+
+  if bytes <= 0
+    return '0'
+  endif
+
+  if (exists('mbytes'))
+    return mbytes . 'MB'
+  elseif (exists('kbytes'))
+    return kbytes . 'KB'
+  else
+    return bytes . 'B'
+  endif
+endfunction
+
+function! <sid>ShowFileSize()
+  echo 'filesize: ' . <sid>FileSize() . '| gzipped: ' . <sid>GzippedFileSize()
+endfunction
+
+
+function! <sid>ToggleWindowLayout()
+  let curwin= winnr()
+  if curwin == 1
+    " try to go down one window
+    wincmd j
+    let isvert= winnr() != curwin
+    wincmd k
+  else
+    " try to go up one window
+    wincmd k
+    let isvert= winnr() != curwin
+    wincmd j
+  endif
+  if isvert
+    windo wincmd H
+    windo wincmd H
+  else
+    windo wincmd K
+    windo wincmd K
+  endif
+endfun
+
 
 " function! GitDiffName()
 "   let l:diffcontent = system("git diff --stat client/app-run.js | head -1")
@@ -853,16 +878,9 @@ function! ShowCount()
     endtry
 endfunction
 
-function! s:get_visual_selection()
-  let [lnum1, col1] = getpos("'<")[1:2]
-  let [lnum2, col2] = getpos("'>")[1:2]
-  let lines = getline(lnum1, lnum2)
-  let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
-  let lines[0] = lines[0][col1 - 1:]
-  return join(lines, "\n")
-endfunction
 
-command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+
+
 
 " Auto Commands
 " ------------------------------------------------------------------------------

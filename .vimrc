@@ -664,9 +664,11 @@ let s:are_comments_invisible=0
 function! <sid>Ghost()
   if s:are_comments_invisible
     hi! link Comment Comment
+    hi! link Todo Todo
     let s:are_comments_invisible=0
   else
     hi! link Comment Ignore
+    hi! link Todo Ignore
     let s:are_comments_invisible=1
   endif
 endfunction
@@ -930,7 +932,8 @@ augroup END
 " grey2 = #e8e8e8 => 91%
 " grey3 = #dbdbdb => 86%
 " grey4 = #b3b3b3 => 70%
-" grey5 = #808080 => 50%
+" grey5 = #999999 => 60%
+" grey6 = #808080 => 50%
 " black = #000000 => 100%
 
 " red      = #ce3a2f
@@ -946,7 +949,7 @@ hi Normal            guifg=NONE
 hi ErrorMsg          guibg=#ce3a2f  guifg=#ffffff
 hi Error             guibg=#ce3a2f  guifg=#ffffff
 hi NonText                          guifg=NONE
-hi Comment           guifg=#808080
+hi Comment           guifg=#999999
 hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
 hi Title                            guifg=NONE
 hi Function                         guifg=NONE

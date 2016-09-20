@@ -56,6 +56,9 @@ Plug 'heavenshell/vim-jsdoc'
 Plug 'Valloric/MatchTagAlways'
 
 " Trialing/tmp
+Plug 'haya14busa/incsearch.vim'
+Plug 'osyo-manga/vim-anzu'
+Plug 'haya14busa/incsearch-fuzzy.vim'
 
 call plug#end()
 
@@ -188,10 +191,6 @@ nnoremap <silent> K       :call <sid>PressK()<cr>
 " allow suspension in insert mode
 inoremap <c-z> <esc><c-z>
 
-" don't jump to the next word, thats really annoying
-nnoremap * *N
-nnoremap # #N
-
 " get rid of Ex mode, and play the last recorded q register instead
 nmap Q @q
 
@@ -215,9 +214,6 @@ nnoremap - :<c-u>r !pbpaste<cr>
 " ctrl-a copies register to system clipboard
 nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
 vnoremap <c-a> y:<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
-
-" create 'search' mark before each search
-nnoremap / ms/
 
 " shift 6 is hard to push...
 nnoremap g0 ^
@@ -314,7 +310,6 @@ command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | d
 " ------------------------------------------------------------------------------
 set statusline=
 set statusline+=%L\:%c\ \|\ %p%%\ " current line number / percentage
-set statusline+=%{ShowCount()}\   " show last search count
 set statusline+=%<                " when the window is too narrow, cut it here
 set statusline+=%f\               " path & filename
 set statusline+=%{IsReadOnly()}
@@ -328,6 +323,16 @@ set statusline+=%{fugitive#statusline()}
 
 " Plugin Settings
 " ------------------------------------------------------------------------------
+" incsearch + anzu
+nmap / ms<Plug>(incsearch-stay)
+vmap / <Plug>(incsearch-stay)
+nmap ? ms<Plug>(incsearch-fuzzy-stay)
+vmap ? <Plug>(incsearch-fuzzy-stay)
+map n <Plug>(anzu-n-with-echo)
+map N <Plug>(anzu-N-with-echo)
+map * *N
+
+
 " Extra whitespace
 let g:extra_whitespace_ignored_filetypes = ['gitcommit', 'vim-plug']
 
@@ -855,35 +860,6 @@ endfun
 "   return 'client/app-run.js'
 " endfunction
 
-" " show search count in status line
-let s:prevcountcache=[[], 0]
-function! ShowCount()
-    let key=[@/, b:changedtick]
-    if s:prevcountcache[0]==#key
-        return s:prevcountcache[1]
-    endif
-    let s:prevcountcache[0]=key
-    let s:prevcountcache[1]=0
-    let pos=getpos('.')
-    try
-        redir => subscount
-        silent %s///gne
-        redir END
-        let match_number = matchstr(subscount, '\d\+')
-        let result=''
-        let s:prevcountcache[1]=result
-        if match_number > 0
-          let result='| x'.match_number
-          let s:prevcountcache[1]=result
-        endif
-        return result
-    finally
-        call setpos('.', pos)
-    endtry
-endfunction
-
-
-
 
 
 " Auto Commands
@@ -1101,3 +1077,4 @@ syn match jadeNbsp "nbsp"
 hi jadeNbsp guifg=#ce3a2f
 
 syntax enable
+

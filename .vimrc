@@ -148,17 +148,16 @@ set <F19>=[18;2~
 
 
 
-" Keyboard Shortcuts
+" Mappings
 " ------------------------------------------------------------------------------
-" Allow file writing when no permissions
-cnoremap w!! w !sudo tee > /dev/null %
 
 " Ctrl space writes file
 nnoremap <NUL> <esc>:<c-u>w<cr>
 inoremap <NUL> <esc>:<c-u>w<cr>a
 
+" esc shortcuts
 inoremap jj <esc>
-noremap <c-c> <Esc>
+noremap <c-c> <esc>
 
 " move through line wraps with ease
 nnoremap j gj
@@ -225,8 +224,11 @@ nnoremap g0 ^
 
 " neocomplete close pum
 inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : "\<esc>"
+
+" Fix <c-y> to work with NeoComplete
 inoremap <silent> <C-y> :NeoCompleteDisable<cr><c-y>:NeoCompleteEnable<cr>
 
+" enter in visual mode for aliging
 vnoremap <Enter> <Plug>(EasyAlign)
 
 " delete content, like dd but make it so you can jam it in another line somewhere
@@ -244,6 +246,8 @@ nnoremap U mh:GitGutterRevertHunk<cr>'h
 " Ctrl-Enter is enter without leaving current place
 inoremap <F18> <esc>lmzi<cr><esc>`za
 
+" Allow file writing when no permissions
+cnoremap w!! w !sudo tee > /dev/null %
 
 
 
@@ -899,9 +903,8 @@ augroup georges_autocommands
   autocmd filetype gitcommit setlocal colorcolumn=51,73
   autocmd filetype gitcommit setlocal spell
   autocmd FileType gitcommit setlocal nocursorline
-  autocmd FileType gitcommit autocmd! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
-  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <down> :<C-U>execute <SNR>26_StageNext(v:count1)<cr>| else | map <buffer> <down> 10j| endif
-  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <up> :<C-U>execute <SNR>26_StagePrevious(v:count1)<cr>| else | map <buffer> <up> 10k| endif
+  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <down> :<C-U>execute <SNR>26_StageNext(v:count1)<cr>     | else | map <buffer> <down> 10j | endif
+  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <up>   :<C-U>execute <SNR>26_StagePrevious(v:count1)<cr> | else | map <buffer> <up> 10k | endif
 
   " when opening a new line in a comment, don't continue the comment, empty line please
   autocmd FileType * set formatoptions-=r formatoptions-=o

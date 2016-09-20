@@ -243,7 +243,11 @@ inoremap <F18> <esc>lmzi<cr><esc>`za
 " Allow file writing when no permissions
 cnoremap w!! w !sudo tee > /dev/null %
 
+" Remove pointless map for goto line mark
+nnoremap ' `
 
+" Now use backtick for blackhole register
+nnoremap ` "_
 
 " Space Leaders
 " ------------------------------------------------------------------------------

@@ -18,13 +18,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-dispatch'
 
 " June Gunn
 Plug 'junegunn/fzf'
 Plug 'junegunn/vim-peekaboo'
-Plug 'junegunn/vim-xmark', { 'do': 'make' }
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
 
@@ -38,7 +35,6 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
 Plug 'wellle/targets.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'svermeulen/vim-easyclip'
 Plug 'nathanaelkane/vim-indent-guides'
 
 " Text Objects
@@ -53,16 +49,12 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'groenewege/vim-less'
-Plug 'fatih/vim-go'
 Plug 'wavded/vim-stylus'
 Plug 'mattn/emmet-vim'
 Plug 'heavenshell/vim-jsdoc'
+Plug 'Valloric/MatchTagAlways'
 
 " Trialing/tmp
-Plug 'davidosomething/EasyClipRing.vim'
-Plug 'nicklasos/vim-jsx-riot'
-Plug 'Valloric/MatchTagAlways'
-Plug 'Quramy/vim-js-pretty-template'
 
 call plug#end()
 
@@ -167,13 +159,6 @@ vnoremap Y y`]
 
 nnoremap j gj
 nnoremap k gk
-
-imap <C-p> <Plug>(EasyClipRing)
-let g:EasyClipShareYanks=1
-nnoremap M YD
-nnoremap <space>yf  :call EasyClip#Yank(expand('%:t'))<cr>:echo 'Yanked '.expand('%:t')<cr>
-nnoremap <space>yrp :call EasyClip#Yank(fnamemodify(expand("%"), ":~:."))<cr>:echo 'Yanked '.fnamemodify(expand("%"), ":~:.")<cr>
-nnoremap <space>yp  :call EasyClip#Yank(expand('%:p'))<cr>:echo 'Yanked '.expand('%:p')<cr>
 
 " now give join back
 nnoremap + mzj0d^i<bs><esc>`z
@@ -1046,5 +1031,3 @@ syn match jadeNbsp "nbsp"
 hi jadeNbsp guifg=#ce3a2f
 
 syntax enable
-
-autocmd! FileType javascript JsPreTmpl html

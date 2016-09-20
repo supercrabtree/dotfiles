@@ -135,9 +135,7 @@ let loaded_netrwPlugin = 1
 
 " Change keycodes
 " ------------------------------------------------------------------------------
-" in iterm command-up and command-down are remapped to send these sequences
-" currently needed for karabiner
-" set <F17>=[15;2~
+" in karabiner ctrl-enter is remapped to <F18>
 set <F18>=[17;2~
 " in karabiner ctrl-m is remapped to <F19> so i can use it indepent of return
 set <F19>=[18;2~

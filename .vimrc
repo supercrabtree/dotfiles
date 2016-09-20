@@ -327,13 +327,12 @@ set statusline+=%{fugitive#statusline()}
 " Plugin Settings
 " ------------------------------------------------------------------------------
 " incsearch + anzu
-nmap / ms<Plug>(incsearch-stay)
-vmap / <Plug>(incsearch-stay)
-nmap ? ms<Plug>(incsearch-fuzzy-stay)
-vmap ? <Plug>(incsearch-fuzzy-stay)
-map n <Plug>(anzu-n-with-echo)
-map N <Plug>(anzu-N-with-echo)
-map * *N
+nmap / ms<Plug>(incsearch-forward)
+vmap / <Plug>(incsearch-forward)
+nmap ? ms<Plug>(incsearch-fuzzy-/)
+nmap n <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
+nmap * *N
 
 
 " Extra whitespace

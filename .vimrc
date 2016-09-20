@@ -25,6 +25,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/gv.vim'
 
 " Usability
 Plug 'bronson/vim-trailing-whitespace'
@@ -618,6 +619,8 @@ function! <sid>PressUp()
     normal [czz
   elseif &filetype == 'gita-blame-navi'
     normal [c
+  elseif &filetype == 'GV'
+    normal [[o
   else
     silent bnext
   endif
@@ -628,6 +631,8 @@ function! <sid>PressDown()
     normal ]czz
   elseif &filetype == 'gita-blame-navi'
     normal ]c
+  elseif &filetype == 'GV'
+    normal ]]o
   else
     silent bprevious
   endif

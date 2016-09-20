@@ -130,6 +130,7 @@ set ttyfast
 set shell=zsh\ -l
 set diffopt+=context:99999     " stop folds in diffs
 set diffopt+=vertical          " always vertical diffs
+set nofoldenable               " disable folding
 
 " allow italics
 set t_ZH=[3m
@@ -339,7 +340,8 @@ map * *N
 let g:extra_whitespace_ignored_filetypes = [
   \'gitcommit',
   \'vim-plug',
-  \'gita-blame-navi'
+  \'gita-blame-navi',
+  \'GV.vim'
 \]
 
 " Sneak

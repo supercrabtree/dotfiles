@@ -418,7 +418,7 @@ set statusline+=%{fugitive#statusline()}
 " Plugin Settings
 " ------------------------------------------------------------------------------
 " Extra whitespace
-let g:extra_whitespace_ignored_filetypes = ['gitcommit']
+let g:extra_whitespace_ignored_filetypes = ['gitcommit', 'vim-plug']
 
 " Sneak
 nmap f <Plug>Sneak_f

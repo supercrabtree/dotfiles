@@ -59,6 +59,7 @@ Plug 'Valloric/MatchTagAlways'
 Plug 'haya14busa/incsearch.vim'
 Plug 'osyo-manga/vim-anzu'
 Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'lambdalisue/vim-gita'
 
 call plug#end()
 
@@ -334,7 +335,11 @@ map * *N
 
 
 " Extra whitespace
-let g:extra_whitespace_ignored_filetypes = ['gitcommit', 'vim-plug']
+let g:extra_whitespace_ignored_filetypes = [
+  \'gitcommit',
+  \'vim-plug',
+  \'gita-blame-navi'
+\]
 
 " Sneak
 nmap f <Plug>Sneak_f
@@ -609,17 +614,21 @@ endfunction
 function! <sid>PressUp()
   if &diff
     normal [czz
-    return
+  elseif &filetype == 'gita-blame-navi'
+    normal [c
+  else
+    silent bnext
   endif
-  silent bnext
 endfunction
 
 function! <sid>PressDown()
   if &diff
     normal ]czz
-    return
+  elseif &filetype == 'gita-blame-navi'
+    normal ]c
+  else
+    silent bprevious
   endif
-  silent bprevious
 endfunction
 
 function! <sid>PressH()

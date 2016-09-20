@@ -650,8 +650,6 @@ endfunction
 let g:indent_guides_guide_size=2
 let g:indent_guides_auto_colors=0
 let g:indent_guides_default_mapping=0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=255
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
 nmap <silent> <space>i <Plug>IndentGuidesToggle
 
 
@@ -895,10 +893,11 @@ augroup END
 " Colors
 " ------------------------------------------------------------------------------
 " white = #ffffff => 100%
-" grey1 = #ebebe6 => 91% and slightly yellow (to stop looking blue)
-" grey1 = #dbdbdb => 86%
-" grey2 = #b3b3b3 => 70%
-" grey3 = #808080 => 50%
+" grey1 = #f3f3f3 => 97%
+" grey2 = #e8e8e8 => 91%
+" grey3 = #dbdbdb => 86%
+" grey4 = #b3b3b3 => 70%
+" grey5 = #808080 => 50%
 " black = #000000 => 100%
 
 " red      = #ce3a2f
@@ -907,66 +906,96 @@ augroup END
 " blue     = #5c95da
 " purple   = #8780c5
 
+
 " Highlight          Background     Foreground     Style (cterm)
-" -----------------------------------------------------------
-" Text
+" ------------------------------------------------------------------------------
 hi Normal            guifg=NONE
 hi ErrorMsg          guibg=#ce3a2f  guifg=#ffffff
 hi Error             guibg=#ce3a2f  guifg=#ffffff
-hi NonText           guifg=NONE
+hi NonText                          guifg=NONE
 hi Comment           guifg=#808080
-hi Title             guifg=NONE
-hi Function          guifg=NONE
-hi Special           guifg=NONE
-hi SpecialKey        guifg=NONE
-hi Keyword           guifg=NONE
-hi Type              guifg=NONE
-hi Constant          guifg=NONE
-hi String            guifg=NONE
-hi Boolean           guifg=NONE
-hi Preproc           guifg=NONE
-hi Number            guifg=NONE
-hi Identifier        guifg=NONE
-hi Statement         guifg=NONE
-hi Todo              guifg=NONE
-hi WarningMsg        guifg=#ce3a2f
-hi GoodMsg           guifg=#56bd22
-hi Directory         guifg=NONE
-hi MoreMsg           guifg=NONE
-hi Question          guifg=NONE
-hi Folded            guifg=NONE
-hi FoldColumn        guifg=NONE
+hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
+hi Title                            guifg=NONE
+hi Function                         guifg=NONE
+hi Special                          guifg=NONE
+hi SpecialKey                       guifg=NONE
+hi Keyword                          guifg=NONE
+hi Type                             guifg=NONE
+hi Constant                         guifg=NONE
+hi String                           guifg=NONE
+hi Boolean                          guifg=NONE
+hi Preproc                          guifg=NONE
+hi Number                           guifg=NONE
+hi Identifier                       guifg=NONE
+hi Statement                        guifg=NONE
+hi Todo                             guifg=NONE
+hi WarningMsg                       guifg=#ce3a2f
+hi GoodMsg                          guifg=#56bd22
+hi Directory                        guifg=NONE
+hi MoreMsg                          guifg=NONE
+hi Question                         guifg=NONE
+hi Folded                           guifg=NONE
+hi FoldColumn                       guifg=NONE
 hi DiffAdd           guibg=NONE     guifg=#56bd22
 hi DiffChange        guibg=NONE
 hi DiffDelete        guibg=#ce3a2f  guifg=#ce3a2f
-hi DiffText          guibg=#ebebe6  guifg=#ce3a2f
+hi DiffText          guibg=#e8e8e8  guifg=#ce3a2f
+hi SpellBad          guibg=NONE     guifg=#ce3a2f  cterm=NONE
+hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
 
-" ui
-hi ColorColumn       guibg=#ebebe6
-hi CursorLine        guibg=#ebebe6                 cterm=NONE
-hi PMenu             guibg=#ebebe6  guifg=#808080
+" UI elements
+hi ColorColumn       guibg=#e8e8e8
+hi CursorLine        guibg=#e8e8e8                 cterm=NONE
+hi PMenu             guibg=#e8e8e8  guifg=#808080
 hi LineNr            guifg=#b3b3b3
 hi CursorLineNr      guifg=NONE
 hi MatchParen        guibg=NONE     guifg=#ce3a2f
 hi Search            guibg=#ffaf00  guifg=#000000
 hi IncSearch         guibg=#56bd22  guifg=#000000  cterm=NONE
-hi SpellBad          guibg=NONE     guifg=#ce3a2f  cterm=NONE
-hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
-hi ExtraWhitespace   guibg=#ce3a2f  guifg=#ce3a2f
 
-hi StatusLine        guibg=#ebebe6  guifg=#000000  cterm=NONE
-hi StatusLineNC      guibg=#ebebe6  guifg=#b3b3b3  cterm=NONE
-hi VertSplit         guibg=#ebebe6  guifg=#ebebe6
+hi StatusLine        guibg=#e8e8e8  guifg=#000000  cterm=NONE
+hi StatusLineNC      guibg=#e8e8e8  guifg=#b3b3b3  cterm=NONE
+hi VertSplit         guibg=#e8e8e8  guifg=#e8e8e8
 hi WildMenu          guibg=#000000  guifg=#ffffff
+
+hi ExtraWhitespace   guibg=#ce3a2f  guifg=#ce3a2f
 
 
 " Buftabline
 hi BufTabLineActive                                cterm=italic
-hi BufTabLineHidden  guibg=#ebebe6  guifg=#808080  cterm=NONE
-hi BufTabLineFill    guibg=#ebebe6                 cterm=NONE
+hi BufTabLineHidden  guibg=#e8e8e8  guifg=#808080  cterm=NONE
+hi BufTabLineFill    guibg=#e8e8e8                 cterm=NONE
 
 
-"html
+
+
+" Sneak
+hi SneakPluginTarget guibg=#e8e8e8  guifg=#ce3a2f  cterm=underline
+
+" Fugative
+hi diffAdded guifg=#56bd22
+hi diffRemoved guifg=#ce3a2f
+
+" Git Gutter
+hi GitGutterAdd          guifg=#56bd22
+hi GitGutterChange       guifg=#b3b3b3
+hi GitGutterDelete       guifg=#ce3a2f
+hi GitGutterChangeDelete guifg=#b3b3b3
+
+
+" Multiple Cursors
+hi multiple_cursors_cursor guibg=#000000 guifg=#ffffff
+hi multiple_cursors_visual guibg=#666666 guifg=#ffffff
+
+" Indent Guides
+hi IndentGuidesOdd  guibg=#e8e8e8
+hi IndentGuidesEven guibg=#f3f3f3
+
+
+" Language Specific
+" -----------------
+
+" HTML
 hi htmlItalic                                      cterm=italic
 hi MatchTag          guibg=#dbdbdb  guifg=#000000
 hi link htmlH1 Normal
@@ -993,26 +1022,7 @@ hi markdownH6        guibg=NONE     guifg=NONE     cterm=reverse
 hi link markdownHeadingDelimiter markdownH1
 
 
-" Sneak
-hi SneakPluginTarget guibg=#ebebe6     guifg=#ce3a2f  cterm=underline
-
-" git
-hi diffAdded guifg=#56bd22
-hi diffRemoved guifg=#ce3a2f
-
-" git gutter
-hi GitGutterAdd          guifg=#56bd22
-hi GitGutterChange       guifg=#b3b3b3
-hi GitGutterDelete       guifg=#ce3a2f
-hi GitGutterChangeDelete guifg=#b3b3b3
-
-
-" multiple cursors
-hi multiple_cursors_cursor guibg=#000000 guifg=#ffffff
-hi multiple_cursors_visual guibg=#666666 guifg=#ffffff
-
-
-" Language Specific
+" JavaScript
 " hi jsBooleanFalse guifg=#ce3a2f
 " hi jsBooleanTrue guifg=#56bd22
 " hi jsGlobalObjects ctermfg=8
@@ -1026,10 +1036,12 @@ hi multiple_cursors_visual guibg=#666666 guifg=#ffffff
 " hi link jsDocType Comment
 " hi link jsDocTags Comment
 
-" css
-hi link cssClassName normal
 
-" custom sytax varibles
+" CSS
+" hi link cssClassName normal
+
+
+" Jade
 syn match jadeNbsp "nbsp"
 hi jadeNbsp guifg=#ce3a2f
 

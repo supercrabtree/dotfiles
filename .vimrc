@@ -349,8 +349,8 @@ set statusline+=%{IsModified()}
 " set statusline+=%{<sid>FileSize()}
 " set statusline+=\ [%{<sid>GzippedFileSize()}]
 set statusline+=%=                " align from here on to the right
-set statusline+=%{fugitive#statusline()}
-
+" set statusline+=%{getcwd()}\ \|\ 
+let &statusline = &statusline . "%{gita#statusline#format('%ln/%lb')}"
 
 
 " Plugin Settings

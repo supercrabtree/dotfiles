@@ -358,11 +358,12 @@ let &statusline = &statusline . "%{gita#statusline#format('%ln/%lb')}"
 " Plugin Settings
 " ------------------------------------------------------------------------------
 " Extra whitespace
-let g:extra_whitespace_ignored_filetypes = [
-  \'gitcommit',
-  \'vim-plug',
-  \'gita-blame-navi',
-  \'GV.vim'
+let g:better_whitespace_filetypes_blacklist = [
+  \ 'gitcommit',
+  \ 'vim-plug',
+  \ 'gita-blame-navi',
+  \ 'help',
+  \ 'GV'
 \]
 
 " Sneak

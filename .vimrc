@@ -917,23 +917,21 @@ endfun
 augroup georges_autocommands
   autocmd!
 
-  autocmd FileType ctrlsf map <buffer> <c-o> Ozt<c-w><c-w>
-  autocmd FileType ctrlsf map <buffer> o     Ozt
-  autocmd FileType ctrlsf map <buffer> K     <up>pzz
-  autocmd FileType ctrlsf map <buffer> J     <down>pzz
+  au FileType ctrlsf map <buffer> <c-o> Ozt<c-w><c-w>
+  au FileType ctrlsf map <buffer> o     Ozt
+  au FileType ctrlsf map <buffer> K     <up>pzz
+  au FileType ctrlsf map <buffer> J     <down>pzz
 
   " return to the last edited position when opening a file
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
   " highlight colums in git commit messages
-  autocmd filetype gitcommit setlocal colorcolumn=51,73
-  autocmd filetype gitcommit setlocal spell
-  autocmd FileType gitcommit setlocal nocursorline
-  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <down> :<C-U>execute <SNR>26_StageNext(v:count1)<cr>     | else | map <buffer> <down> 10j | endif
-  autocmd FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <up>   :<C-U>execute <SNR>26_StagePrevious(v:count1)<cr> | else | map <buffer> <up> 10k | endif
-
-  " when opening a new line in a comment, don't continue the comment, empty line please
-  autocmd FileType * set formatoptions-=r formatoptions-=o
+  au filetype gitcommit setlocal colorcolumn=51,73
+  au filetype gitcommit setlocal spell
+  au FileType gitcommit setlocal nocursorline
+  au FileType gitcommit setlocal listchars+=tab:\ \ 
+  au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <down> :<C-U>execute <SNR>26_StageNext(v:count1)<cr>     | else | map <buffer> <down> 10j | endif
+  au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <up>   :<C-U>execute <SNR>26_StagePrevious(v:count1)<cr> | else | map <buffer> <up> 10k | endif
 
   " Markdown
   au BufNewFile,BufRead *.markdown,*.mdown,*.mkd,*.mkdn,*.md setfiletype markdown
@@ -943,26 +941,24 @@ augroup georges_autocommands
   au filetype markdown setlocal wrap linebreak nolist
 
   " auto create global marks when leaving
-  autocmd BufLeave,BufWritePost /Users/supercrabtree/dev/dotfiles/.zshrc normal! mZ
-  autocmd BufLeave,BufWritePost /Users/supercrabtree/dev/dotfiles/.vimrc normal! mV
+  au BufLeave,BufWritePost /Users/supercrabtree/dev/dotfiles/.zshrc normal! mZ
+  au BufLeave,BufWritePost /Users/supercrabtree/dev/dotfiles/.vimrc normal! mV
 
-  " css completion
-  autocmd FileType * set iskeyword+=-
+  au BufNewFile,BufRead *.less set ft=less.css
 
-  autocmd BufNewFile,BufRead *.less set ft=less.css
+  au filetype go setlocal listchars+=tab:\ \ 
 
-  autocmd filetype go setlocal listchars=tab:\ \ ,nbsp:§
+  au BufEnter * if &diff | nmap dy <c-w><c-w>yy<c-w><c-w>Vp | endif
 
-  autocmd BufEnter * if &diff | nmap dy <c-w><c-w>yy<c-w><c-w>Vp | endif
+  au BufEnter * if exists('b:winview') && !&diff | call winrestview(b:winview) | endif
 
-  autocmd BufEnter * if exists('b:winview') && !&diff | call winrestview(b:winview) | endif
+  au BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 
-  autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+  au FileType qf :nmap <up> k<cr>:copen 20<cr>f<space>lzs
+  au FileType qf :nmap <down> j<cr>:copen 20<cr>f<space>lzs
 
-  autocmd FileType qf :nmap <up> k<cr>:copen 20<cr>f<space>lzs
-  autocmd FileType qf :nmap <down> j<cr>:copen 20<cr>f<space>lzs
   " Removes red highlight around subshell commands in shell files
-  autocmd FileType sh hi Error ctermbg=10 ctermfg=15
+  au FileType sh hi Error ctermbg=10 ctermfg=15
 
   au BufNewFile,BufRead *.tag setlocal ft=javascript
 

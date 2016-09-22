@@ -175,6 +175,7 @@ nnoremap k gk
 " now give join back
 nnoremap g+ mzj0d^i<bs><esc>`z
 nnoremap + mzj0d^i<bs> <esc>`z
+xnoremap + :join<cr>
 
 " Capital L end of line but not end of line char
 vnoremap L $h

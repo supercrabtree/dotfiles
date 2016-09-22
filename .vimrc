@@ -6,7 +6,6 @@ call plug#begin('~/.vim/plugged')
 
 " Plugins
 " ------------------------------------------------------------------------------
-
 " Shougo
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/neomru.vim'
@@ -19,33 +18,34 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-eunuch'
 
 " June Gunn
 Plug 'junegunn/fzf'
 Plug 'junegunn/vim-peekaboo'
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/gv.vim'
+Plug 'junegunn/gv.vim', {'on': 'GV'}
 
-" Usability
-Plug 'bronson/vim-trailing-whitespace'
+" UX
 Plug 'justinmk/vim-sneak'
+Plug 'justinmk/vim-dirvish'
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'ap/vim-buftabline'
-Plug 'mbbill/undotree'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
-Plug 'wellle/targets.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'osyo-manga/vim-anzu'
 
 " Text Objects
-Plug 'kana/vim-textobj-user'
-Plug 'Julian/vim-textobj-brace'
-Plug 'Julian/vim-textobj-variable-segment'
-Plug 'poetic/vim-textobj-javascript'
+" Plug 'kana/vim-textobj-user'
+Plug 'wellle/targets.vim'
 
-" Language Specific
+" Language
 Plug 'digitaltoad/vim-jade'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -56,18 +56,13 @@ Plug 'mattn/emmet-vim'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'Valloric/MatchTagAlways'
 
-" Trialing/tmp
-Plug 'haya14busa/incsearch.vim'
-Plug 'osyo-manga/vim-anzu'
-Plug 'haya14busa/incsearch-fuzzy.vim'
+" Trialing / tmp
 Plug 'lambdalisue/vim-gita'
+Plug 'sickill/vim-pasta'
 
 call plug#end()
 
 filetype plugin indent on
-
-" Add (builtin) matchit plugin
-runtime macros/matchit.vim
 
 " Disable (builtin) newtr
 let loaded_netrwPlugin = 1

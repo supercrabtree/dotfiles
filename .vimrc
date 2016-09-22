@@ -207,9 +207,6 @@ noremap <c-q> <esc>:<c-u>qa<cr>
 " Make Y act like the other capitals
 nnoremap Y y$
 
-" redindent pasting
-nnoremap p p=`]
-
 " replay last command
 nnoremap !! :<Up><cr>
 

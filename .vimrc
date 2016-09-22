@@ -149,7 +149,9 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " Change keycodes
 " ------------------------------------------------------------------------------
-" in karabiner ctrl-enter is remapped to <F18>
+" in karabiner ctrl-enter is remapped to <F17>
+set <F17>=[15;2~
+" in karabiner shift-enter is remapped to <F18>
 set <F18>=[17;2~
 " in karabiner ctrl-m is remapped to <F19> so i can use it indepent of return
 set <F19>=[18;2~
@@ -182,6 +184,9 @@ vnoremap L $h
 
 " Insert } after an {
 inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
+
+" Ctrl<enter>{ inserts a });
+inoremap {<F18> {});<C-G>U<Left><Left><Left><cr><cr><c-g>U<Up><tab>
 
 " clear search highlights and refresh screen and diff update
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk:diffupdate<cr>
@@ -241,7 +246,7 @@ nnoremap <silent> f<cr> :Finder<cr>
 nnoremap U mh:GitGutterRevertHunk<cr>'h
 
 " Ctrl-Enter is enter without leaving current place
-inoremap <F18> <esc>lmzi<cr><esc>`za
+inoremap <F17> <esc>lmzi<cr><esc>`za
 
 " Allow file writing when no permissions
 cnoremap w!! w !sudo tee > /dev/null %

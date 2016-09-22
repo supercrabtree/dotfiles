@@ -103,14 +103,29 @@
     </item>
 
     <item>
-      <name>CTRL-ENTER to F18</name>
+      <name>CTRL-ENTER to F17</name>
       <appendix>To stop ctrl-enter and enter from being the same key</appendix>
 
-      <identifier>space_cadet.ctrl_m_to_F18</identifier>
+      <identifier>space_cadet.ctrl_enter_to_F17</identifier>
 
       <autogen>
         --KeyToKey--
         KeyCode::RETURN, ModifierFlag::CONTROL_L,
+
+        KeyCode::F17
+      </autogen>
+
+    </item>
+
+    <item>
+      <name>SHIFT-ENTER to F18</name>
+      <appendix>To stop shift-enter and enter from being the same key</appendix>
+
+      <identifier>space_cadet.shift_enter_to_F18</identifier>
+
+      <autogen>
+        --KeyToKey--
+        KeyCode::RETURN, ModifierFlag::SHIFT_L,
 
         KeyCode::F18
       </autogen>

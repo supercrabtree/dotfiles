@@ -249,8 +249,23 @@ cnoremap w!! w !sudo tee > /dev/null %
 " Remove pointless map for goto line mark
 nnoremap ' `
 
-" Now use backtick for blackhole register
-nnoremap ` "_
+" shortcut blackhole register
+nnoremap _ "_
+
+" use d for delete (really delete)
+nnoremap d "_d
+xnoremap d "_d
+nnoremap D "_D
+
+" use m for 'move' (cut)
+nnoremap m d
+nnoremap mm dd
+nnoremap M D
+xnoremap m d
+
+" use gm to do marks
+nnoremap gm m
+
 
 " Space Leaders
 " ------------------------------------------------------------------------------

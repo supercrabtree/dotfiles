@@ -1027,9 +1027,6 @@ hi BufTabLineActive                 guifg=#808080
 hi BufTabLineHidden  guibg=#e8e8e8  guifg=#808080  cterm=NONE
 hi BufTabLineFill    guibg=#e8e8e8                 cterm=NONE
 
-
-
-
 " Sneak
 hi SneakPluginTarget guibg=#e8e8e8  guifg=#bf2222  cterm=underline
 
@@ -1043,7 +1040,6 @@ hi GitGutterChange       guifg=#b3b3b3
 hi GitGutterDelete       guifg=#bf2222
 hi GitGutterChangeDelete guifg=#b3b3b3
 
-
 " Multiple Cursors
 hi multiple_cursors_cursor guibg=#000000 guifg=#ffffff
 hi multiple_cursors_visual guibg=#666666 guifg=#ffffff
@@ -1055,7 +1051,6 @@ hi IndentGuidesEven guibg=#f3f3f3
 
 " Language Specific
 " -----------------
-
 " HTML
 hi htmlItalic                                      cterm=italic
 hi MatchTag          guibg=#dbdbdb  guifg=#000000

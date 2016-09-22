@@ -88,53 +88,53 @@ let g:loaded_zipPlugin = 1
 
 " Vim Settings
 " ------------------------------------------------------------------------------
-set encoding=utf-8
-set termguicolors
-set laststatus=2               " always show status bar
-set number                     " show the current line number
-set cursorline                 " highlight current cursor line
-set hlsearch                   " highlight search results
-set incsearch                  " incremental search
-set timeoutlen=1000            " set no timeout when swapping modes
-set ttimeoutlen=0
-set nowrap                     " no line wrap
-set textwidth=0                " settings to stop automatic line wrapping when typing
-set wrapmargin=0               " hate text wrap
-set mouse=a                    " gimme mouse
-set splitright                 " new split panes always on the right
-set scrolloff=3                " always keep some context when moving about
-set hidden                     " allow buffers to be hidden
-set showcmd                    " for easierness show the command in the bottom right
-set autoindent                 " smarter? indenting
-set nowritebackup              " off for some reason, can't remember why...
+set autoindent
+set backspace=indent,eol,start " let the backspace work normally
 set backupdir=~/.vim/tmp       " don't dirty up my repos
-set directory=~/.vim/tmp
-set undodir=~/.vim/undo        " holy sheeet persistant undo
-set undofile
-set undolevels=1000            " howmany undos per file
-set undoreload=10000
-set nostartofline              " dont move the cursor to the start of a line when switching buffers
+set colorcolumn=81             " highlight column 81
+set completeopt-=preview       " dont show annoying preview window
+set cursorline                 " highlight current cursor line
+set diffopt+=context:99999     " stop folds in diffs
+set diffopt+=vertical          " always vertical diffs
+set directory=~/.vim/tmp       " swap file dir
+set encoding=utf-8
+set expandtab                  " tab becomes <space><space>
+set hidden                     " allow buffers to be hidden
+set history=10000
+set hlsearch                   " highlight search results
+set ignorecase                 " case insensitive search
+set incsearch                  " incremental search
+set laststatus=2               " always show status bar
 set lazyredraw                 " dont redraw when executing macros
 set list                       " show me those ugly chars so i can kill them
 set listchars=tab:❯—,nbsp:§
-set synmaxcol=800              " Don't try to highlight lines longer than 800 characters.
-set ignorecase                 " case insensitive search
-set smartcase                  " pig == PIG, Pig == Pig, but Pig != pig
-set expandtab                  " white space
-set completeopt-=preview       " dont show annoying preview window
-set backspace=indent,eol,start " let the backspace work normally
-set fillchars=vert:\|
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set colorcolumn=81
-set history=1000
-set wildmenu
-set ttyfast
-set shell=zsh\ -l
-set diffopt+=context:99999     " stop folds in diffs
-set diffopt+=vertical          " always vertical diffs
+set mouse=a                    " gimme mouse
 set nofoldenable               " disable folding
+set nostartofline              " dont move the cursor to the start of a line when switching buffers
+set nowrap                     " no line wrap
+set nowritebackup              " off for some reason, can't remember why...
+set number                     " show the current line number
+set scrolloff=3                " always keep some context when moving about
+set shell=zsh\ -l              " use my login shell
+set shiftwidth=2
+set shortmess=fimTF
+set showcmd                    " for easierness show the command in the bottom right
+set smartcase                  " pig == PIG, Pig == Pig, but Pig != pig
+set softtabstop=2
+set splitright                 " new split panes always on the right
+set synmaxcol=800              " Don't try to highlight lines longer than 800 characters.
+set tabstop=2
+set termguicolors              " allow hex values for colors
+set textwidth=0                " settings to stop automatic line wrapping when typing
+set timeoutlen=1000
+set ttimeoutlen=0
+set ttyfast
+set undodir=~/.vim/undo
+set undofile
+set undolevels=1000            " how many undos per file
+set virtualedit=block
+set wildmenu
+set wrapmargin=0               " hate text wrap
 
 " allow italics
 set t_ZH=[3m

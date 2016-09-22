@@ -312,7 +312,7 @@ nnoremap <space>gs :Gstatus<cr>
 nnoremap <space>gr :Git reset -q %<cr><cr>:GitGutter<cr>
 nnoremap <space>gR :Git reset -q<cr><cr>:GitGutter<cr>
 nnoremap <space>gd :Gdiff<cr>
-nnoremap <space>gt :Git! diff --staged<cr>
+nnoremap <space>gD :Git! diff --staged<cr>
 nnoremap <space>gp :Gpush<cr>
 nnoremap <space>gP :Git push --force<cr>
 nnoremap <space>gl :silent Glog<cr>:copen 20<cr>f<space>lzs

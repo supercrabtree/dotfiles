@@ -1081,27 +1081,8 @@ hi link markdownHeadingDelimiter markdownH1
 
 
 " JavaScript
-hi jsBooleanFalse guifg=#bf2222
-hi jsBooleanTrue guifg=#56bd22
-" hi jsGlobalObjects ctermfg=8
-" hi jsStorageClass ctermfg=8
-" hi jsFunction ctermfg=8
-" hi jsFuncName ctermfg=8
-
-" hi javascriptAngularMethods ctermfg=13
-" hi jsFutureKeys ctermfg=1
-" hi link jsDocParam Comment
-" hi link jsDocType Comment
-" hi link jsDocTags Comment
-
-
-" CSS
-" hi link cssClassName normal
-
-
-" Jade
-syn match jadeNbsp "nbsp"
-hi jadeNbsp guifg=#bf2222
+hi jsBooleanFalse    guifg=#bf2222
+hi jsBooleanTrue     guifg=#4ead1f
 
 syntax enable
 

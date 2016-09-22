@@ -336,6 +336,7 @@ command! ShowFileSize call <sid>ShowFileSize()
 command! ToggleWindowLayout call <sid>ToggleWindowLayout()
 command! DiffSaved call s:DiffSaved()
 command! DiffSavedComplete call s:DiffSavedComplete()
+command! CDC cd %:p:h
 
 
 

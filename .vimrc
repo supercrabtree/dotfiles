@@ -229,7 +229,7 @@ inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : "\<esc>"
 inoremap <silent> <C-y> :NeoCompleteDisable<cr><c-y>:NeoCompleteEnable<cr>
 
 " enter in visual mode for aliging
-vnoremap <Enter> <Plug>(EasyAlign)
+vmap <Enter> <Plug>(EasyAlign)
 
 " delete content, like dd but make it so you can jam it in another line somewhere
 nnoremap dc ^v$hd"_dd

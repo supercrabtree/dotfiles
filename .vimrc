@@ -334,7 +334,8 @@ command! -complete=file -nargs=? Open call <sid>Open(<q-args>)
 command! -complete=file -nargs=? Finder call <sid>RevealInFinder(<q-args>)
 command! ShowFileSize call <sid>ShowFileSize()
 command! ToggleWindowLayout call <sid>ToggleWindowLayout()
-command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+command! DiffSaved call s:DiffSaved()
+command! DiffSavedComplete call s:DiffSavedComplete()
 
 
 
@@ -683,6 +684,20 @@ function! <sid>PressK()
     return
   endif
   execute 'GitGutterPrevHunk'
+endfunction
+
+function! s:DiffSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+  wincmd W
+endfunction
+
+function! s:DiffSavedComplete()
+  windo diffoff
+  windo if &readonly | bd | endif
 endfunction
 
 function! s:HyperEnter()

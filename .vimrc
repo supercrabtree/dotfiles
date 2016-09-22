@@ -983,7 +983,7 @@ augroup END
 " black = #000000 => 100%
 
 " red      = #bf2222
-" green    = #56bd22
+" green    = #4ead1f
 " yellow   = #ffaf00
 " blue     = #2275bf
 " purple   = #8780c5
@@ -1012,13 +1012,13 @@ hi Identifier                       guifg=NONE
 hi Statement                        guifg=NONE
 hi Todo                             guifg=NONE
 hi WarningMsg                       guifg=#bf2222
-hi GoodMsg                          guifg=#56bd22
-hi Directory                        guifg=NONE
-hi MoreMsg                          guifg=NONE
+hi GoodMsg                          guifg=#4ead1f
+hi Directory                        guifg=#2275bf
+hi MoreMsg                          guifg=#2275bf
 hi Question                         guifg=NONE
 hi Folded                           guifg=NONE
 hi FoldColumn                       guifg=NONE
-hi DiffAdd           guibg=NONE     guifg=#56bd22
+hi DiffAdd           guibg=NONE     guifg=#4ead1f
 hi DiffChange        guibg=NONE
 hi DiffDelete        guibg=#bf2222  guifg=#bf2222
 hi DiffText          guibg=#e8e8e8  guifg=#bf2222
@@ -1032,16 +1032,14 @@ hi PMenu             guibg=#e8e8e8  guifg=#808080
 hi LineNr            guifg=#b3b3b3
 hi CursorLineNr      guifg=NONE
 hi MatchParen        guibg=NONE     guifg=#bf2222
-hi Search            guibg=#ffaf00  guifg=#000000
-hi IncSearch         guibg=#56bd22  guifg=#000000  cterm=NONE
-
 hi StatusLine        guibg=#e8e8e8  guifg=#000000  cterm=NONE
 hi StatusLineNC      guibg=#e8e8e8  guifg=#b3b3b3  cterm=NONE
 hi VertSplit         guibg=#e8e8e8  guifg=#e8e8e8
 hi WildMenu          guibg=#000000  guifg=#ffffff
 
+hi Search            guibg=#ffaf00  guifg=#000000
+hi IncSearch         guibg=#4ead1f  guifg=#000000  cterm=NONE
 hi ExtraWhitespace   guibg=#bf2222  guifg=#bf2222
-
 
 " Buftabline
 hi BufTabLineActive                 guifg=#808080
@@ -1052,11 +1050,11 @@ hi BufTabLineFill    guibg=#e8e8e8                 cterm=NONE
 hi SneakPluginTarget guibg=#e8e8e8  guifg=#bf2222  cterm=underline
 
 " Fugative
-hi diffAdded guifg=#56bd22
+hi diffAdded guifg=#4ead1f
 hi diffRemoved guifg=#bf2222
 
 " Git Gutter
-hi GitGutterAdd          guifg=#56bd22
+hi GitGutterAdd          guifg=#4ead1f
 hi GitGutterChange       guifg=#b3b3b3
 hi GitGutterDelete       guifg=#bf2222
 hi GitGutterChangeDelete guifg=#b3b3b3

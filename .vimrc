@@ -315,8 +315,10 @@ nnoremap <space>gd :Gdiff<cr>
 nnoremap <space>gD :Git! diff --staged<cr>
 nnoremap <space>gp :Gpush<cr>
 nnoremap <space>gP :Git push --force<cr>
-nnoremap <space>gl :silent Glog<cr>:copen 20<cr>f<space>lzs
-nnoremap <space>gq :copen 20<cr>f<space>lzs
+nnoremap <space>gb :Gita blame<cr>
+nnoremap <space>gl :GV<cr>
+" nnoremap <space>gl :silent Glog<cr>:copen 20<cr>f<space>lzs
+" nnoremap <space>gq :copen 20<cr>f<space>lzs
 
 
 

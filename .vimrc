@@ -657,6 +657,10 @@ function! <sid>PressCtrlJ()
   endif
 endfunction
 
+function! <sid>PressCtrlL()
+  bdelete
+endfunction
+
 function! <sid>PressH()
   if &diff
     normal do

@@ -266,6 +266,14 @@ xnoremap m d
 " use gm to do marks
 nnoremap gm m
 
+" incsearch + anzu
+nmap / gms<Plug>(incsearch-forward)
+vmap / <Plug>(incsearch-forward)
+nmap ? gms<Plug>(incsearch-fuzzy-/)
+nmap n <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
+nmap * *N
+nmap # g*N
 
 " Space Leaders
 " ------------------------------------------------------------------------------
@@ -345,15 +353,6 @@ set statusline+=%{fugitive#statusline()}
 
 " Plugin Settings
 " ------------------------------------------------------------------------------
-" incsearch + anzu
-nmap / ms<Plug>(incsearch-forward)
-vmap / <Plug>(incsearch-forward)
-nmap ? ms<Plug>(incsearch-fuzzy-/)
-nmap n <Plug>(anzu-n-with-echo)
-nmap N <Plug>(anzu-N-with-echo)
-nmap * *N
-
-
 " Extra whitespace
 let g:extra_whitespace_ignored_filetypes = [
   \'gitcommit',

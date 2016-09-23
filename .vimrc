@@ -178,7 +178,7 @@ nnoremap + mzj0d^i<bs> <esc>`z
 xnoremap + :join<cr>
 
 " Capital L end of line but not end of line char
-vnoremap L $h
+vnoremap g$ $h
 
 " Insert } after an {
 inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>

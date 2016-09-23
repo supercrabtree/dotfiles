@@ -6,7 +6,6 @@ source ~/.zplug/zplug
 
 zplug "rupa/z", use:z.sh
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
-zplug "knu/zsh-manydots-magic", use:manydots-magic, nice:11
 zplug "k4rthik/git-cal", as:command
 zplug "robbyrussell/oh-my-zsh", use:plugins/sudo/sudo.plugin.zsh
 zplug "djui/alias-tips"
@@ -202,6 +201,15 @@ alias glg="git log --graph --decorate --all --pretty='$git_log_defaults'"
 alias grc='git add -A && git rebase --continue'
 alias gaa='git add -A'
 alias fk='fuck'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
+alias ........='cd ../../../../../../..'
+
 
 # suffix
 alias -s git='git clone'

@@ -308,7 +308,7 @@ nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 
-
+" Git whatevers
 nnoremap <space>ga :Git add %<cr><cr>:GitGutter<cr>
 nnoremap <space>gA :Git add -A . <cr><cr>:GitGutter<cr>
 nnoremap <space>gc :Gcommit -v -q<cr>
@@ -322,8 +322,7 @@ nnoremap <space>gp :Gpush<cr>
 nnoremap <space>gP :Git push --force<cr>
 nnoremap <space>gb :Gita blame<cr>
 nnoremap <space>gl :GV<cr>
-" nnoremap <space>gl :silent Glog<cr>:copen 20<cr>f<space>lzs
-" nnoremap <space>gq :copen 20<cr>f<space>lzs
+
 
 
 " Commands

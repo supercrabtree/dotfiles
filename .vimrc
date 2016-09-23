@@ -178,7 +178,7 @@ nnoremap + mzj0d^i<bs> <esc>`z
 xnoremap + :join<cr>
 
 " Capital L end of line but not end of line char
-vnoremap g$ $h
+xnoremap g$ $h
 
 " Insert } after an {
 inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
@@ -214,8 +214,8 @@ nnoremap Y y$
 nnoremap !! :<Up><cr>
 
 " use - to interact with the system keyboard
-vnoremap - :<c-u>call g:CopyTheText()<cr>
-vnoremap g- xk:<c-u>r !pbpaste<cr>
+xnoremap - :<c-u>call g:CopyTheText()<cr>
+xnoremap g- xk:<c-u>r !pbpaste<cr>
 nnoremap - :<c-u>r !pbpaste<cr>
 nnoremap g- :<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
 
@@ -229,7 +229,7 @@ inoremap <expr> <c-c> pumvisible() ? neocomplete#cancel_popup() : "\<esc>"
 inoremap <silent> <C-y> :NeoCompleteDisable<cr><c-y>:NeoCompleteEnable<cr>
 
 " enter in visual mode for aliging
-vmap <Enter> <Plug>(EasyAlign)
+xmap <Enter> <Plug>(EasyAlign)
 
 " delete content, like dd but make it so you can jam it in another line somewhere
 nnoremap dc ^v$hd"_dd
@@ -271,13 +271,13 @@ nnoremap gm m
 
 " incsearch + anzu
 nmap / gms<Plug>(incsearch-forward)
-vmap / <Plug>(incsearch-forward)
+xmap / <Plug>(incsearch-forward)
 nmap ? gms<Plug>(incsearch-fuzzy-/)
 nmap n <Plug>(anzu-n-with-echo)
 nmap N <Plug>(anzu-N-with-echo)
 nmap * *N
 nmap # g*N
-vnoremap * y/<c-r>"<cr>N
+xnoremap * y/<c-r>"<cr>N
 
 
 
@@ -429,7 +429,7 @@ let g:ctrlsf_regex_pattern = 0
 let g:ctrlsf_confirm_save = 0
 let g:ctrlsf_indent = 2
 
-vmap <c-s>  <Plug>CtrlSFVwordPath
+xmap <c-s>  <Plug>CtrlSFVwordPath
 nmap <c-s>s <Plug>CtrlSFCwordPath
 nmap <c-s>/ <Plug>CtrlSFPwordPath
 
@@ -489,7 +489,7 @@ nmap <silent> <space>i <Plug>IndentGuidesToggle
 
 " FZF
 set rtp+=~/.fzf
-vnoremap <c-f>      :<c-u>execute 'FindFilesHere ' . <sid>get_visual_selection()<cr>
+xnoremap <c-f>      :<c-u>execute 'FindFilesHere ' . <sid>get_visual_selection()<cr>
 nnoremap <c-f>      :echoerr 'too slow!'<cr>
 nnoremap <c-f><c-f> :FindFilesIn<cr>
 nnoremap <c-f>!     :FindFilesIn!<cr>

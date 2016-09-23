@@ -217,10 +217,7 @@ nnoremap !! :<Up><cr>
 vnoremap - :<c-u>call g:CopyTheText()<cr>
 vnoremap g- xk:<c-u>r !pbpaste<cr>
 nnoremap - :<c-u>r !pbpaste<cr>
-
-" ctrl-a copies register to system clipboard
-nnoremap <c-a> :<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
-vnoremap <c-a> y:<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
+nnoremap g- :<c-u>call system('pbcopy', @")<cr>:echo 'Copied to clipboard'<cr>
 
 " shift 6 is hard to push...
 nnoremap g0 ^

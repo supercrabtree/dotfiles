@@ -189,7 +189,7 @@ alias zshrc="vim ~/dev/dotfiles/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 
-alias glg="git log --graph --decorate --all --pretty='$git_log_defaults'"
+alias glg="git log --graph --decorate --all --pretty='$git_log_defaults%C(auto)%d'"
 alias grc='git add -A && git rebase --continue'
 alias gaa='git add -A'
 alias fk='fuck'
@@ -397,7 +397,7 @@ glb() {
   if [ $1 ]; then
     LINES=$1
   fi
-  git log --decorate --pretty="$git_log_defaults" "-$LINES"
+  git log --decorate --pretty="$git_log_defaults%C(auto)%d" "-$LINES"
 }
 
 pr() {

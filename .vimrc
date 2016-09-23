@@ -986,11 +986,11 @@ augroup END
 
 " Highlight          Background     Foreground     Style (cterm)
 " ------------------------------------------------------------------------------
-hi Normal            guifg=NONE
+hi Normal                           guifg=NONE
 hi ErrorMsg          guibg=#bf2222  guifg=#ffffff
 hi Error             guibg=#bf2222  guifg=#ffffff
 hi NonText                          guifg=NONE
-hi Comment           guifg=#999999
+hi Comment                          guifg=#999999
 hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
 hi Title                            guifg=NONE
 hi Function                         guifg=NONE
@@ -1024,8 +1024,8 @@ hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
 hi ColorColumn       guibg=#f3f3f3
 hi CursorLine        guibg=#e8e8e8                 cterm=NONE
 hi PMenu             guibg=#e8e8e8  guifg=#808080
-hi LineNr            guifg=#b3b3b3
-hi CursorLineNr      guifg=NONE
+hi LineNr                           guifg=#b3b3b3
+hi CursorLineNr                     guifg=NONE
 hi MatchParen        guibg=NONE     guifg=#bf2222
 hi StatusLine        guibg=#e8e8e8  guifg=#000000  cterm=NONE
 hi StatusLineNC      guibg=#e8e8e8  guifg=#b3b3b3  cterm=NONE
@@ -1045,22 +1045,22 @@ hi BufTabLineFill    guibg=#e8e8e8                 cterm=NONE
 hi SneakPluginTarget guibg=#e8e8e8  guifg=#bf2222  cterm=underline
 
 " Fugative
-hi diffAdded guifg=#4ead1f
-hi diffRemoved guifg=#bf2222
+hi diffAdded                        guifg=#4ead1f
+hi diffRemoved                      guifg=#bf2222
 
 " Git Gutter
-hi GitGutterAdd          guifg=#4ead1f
-hi GitGutterChange       guifg=#b3b3b3
-hi GitGutterDelete       guifg=#bf2222
-hi GitGutterChangeDelete guifg=#b3b3b3
+hi GitGutterAdd                     guifg=#4ead1f
+hi GitGutterChange                  guifg=#b3b3b3
+hi GitGutterDelete                  guifg=#bf2222
+hi GitGutterChangeDelete            guifg=#b3b3b3
+
+" Indent Guides
+hi IndentGuidesOdd   guibg=#e8e8e8
+hi IndentGuidesEven  guibg=#f3f3f3
 
 " Multiple Cursors
 hi multiple_cursors_cursor guibg=#000000 guifg=#ffffff
 hi multiple_cursors_visual guibg=#666666 guifg=#ffffff
-
-" Indent Guides
-hi IndentGuidesOdd  guibg=#e8e8e8
-hi IndentGuidesEven guibg=#f3f3f3
 
 
 " Language Specific
@@ -1093,8 +1093,8 @@ hi link markdownHeadingDelimiter markdownH1
 
 
 " JavaScript
-hi jsBooleanFalse    guifg=#bf2222
-hi jsBooleanTrue     guifg=#4ead1f
+hi jsBooleanFalse                   guifg=#bf2222
+hi jsBooleanTrue                    guifg=#4ead1f
 
 syntax enable
 

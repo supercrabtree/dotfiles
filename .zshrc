@@ -8,7 +8,6 @@ zplug "rupa/z", use:z.sh
 zplug "zsh-users/zsh-syntax-highlighting", nice:10
 zplug "k4rthik/git-cal", as:command
 zplug "robbyrussell/oh-my-zsh", use:plugins/sudo/sudo.plugin.zsh
-zplug "djui/alias-tips"
 zplug "zsh-users/zsh-completions"
 zplug "mafredri/zsh-async"
 zplug "so-fancy/diff-so-fancy", as:command
@@ -70,8 +69,6 @@ export BACKGROUND=light
 export LSCOLORS=exfxcxdxbxegedabagacad
 # linux style
 export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
-
-export ZSH_PLUGINS_ALIAS_TIPS_TEXT="(╯°□°）╯︵ ┻━┻ "
 
 export LESS="-RFX"
 export GREP_OPTIONS='--color=auto'

@@ -459,7 +459,6 @@ export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\
   --bind=ctrl-n:toggle-down\
   --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:4,hl+:2,prompt:2,marker:2,pointer:2,info:9"
 
-# CTRL-T - Paste the selected file path(s) into the command line
 __fsel() {
   local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype 'proc' \\) -prune \
     -o -type f -print \

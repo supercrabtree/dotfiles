@@ -85,7 +85,6 @@ let g:loaded_zipPlugin = 1
 
 
 
-
 " Vim Settings
 " ------------------------------------------------------------------------------
 set autoindent
@@ -146,7 +145,6 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 
 
-
 " Change keycodes
 " ------------------------------------------------------------------------------
 " in karabiner ctrl-enter is remapped to <F17>
@@ -155,7 +153,6 @@ set <F17>=[15;2~
 set <F18>=[17;2~
 " in karabiner ctrl-m is remapped to <F19> so i can use it indepent of return
 set <F19>=[18;2~
-
 
 
 
@@ -288,6 +285,7 @@ vnoremap * y/<c-r>"<cr>N
 
 " Space Leaders
 " ------------------------------------------------------------------------------
+
 " append function parameter
 nnoremap <space>af 0/function.*<cr>:silent noh<cr>f(%i
 
@@ -329,8 +327,6 @@ nnoremap <space>gl :GV<cr>
 " nnoremap <space>gq :copen 20<cr>f<space>lzs
 
 
-
-
 " Commands
 " ------------------------------------------------------------------------------
 command! PutLastCommit call <sid>PutLastCommit()
@@ -361,6 +357,7 @@ set statusline+=%{IsModified()}
 set statusline+=%=                " align from here on to the right
 " set statusline+=%{getcwd()}\ \|\ 
 let &statusline = &statusline . "%{gita#statusline#format('%ln/%lb')}"
+
 
 
 " Plugin Settings
@@ -629,8 +626,6 @@ function! s:get_visual_selection()
   let lines[0] = lines[0][col1 - 1:]
   return join(lines, "\n")
 endfunction
-
-
 
 
 
@@ -991,6 +986,7 @@ augroup END
 " yellow   = #ffaf00
 " blue     = #2275bf
 " purple   = #8780c5
+
 
 
 " Highlight          Background     Foreground     Style (cterm)

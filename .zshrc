@@ -1,5 +1,7 @@
 # [ -f ~/.zshrc-pre ] && source ~/.zshrc-pre
 
+
+
 # Plugins
 # ------------------------------------------------------------------------------
 source ~/.zplug/zplug
@@ -14,7 +16,6 @@ zplug "so-fancy/diff-so-fancy", as:command
 zplug "supercrabtree/bam-pow", use:bam.sh
 zplug "supercrabtree/k"
 zplug "paulirish/git-open", as:command
-
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -35,12 +36,14 @@ source ~/dev/scratch/scratch
 # alias k="~/dev/knode/index.js"
 
 
+
 # Load
 # ------------------------------------------------------------------------------
 autoload -U run-help
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 # zmodload -i zsh/parameter
+
 
 
 # Zsh options
@@ -57,6 +60,7 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt share_history
 setopt ignoreeof
+
 
 
 # Exports
@@ -101,6 +105,7 @@ export PATH=$PATH:~/dev/git-more
 export PATH=$PATH:~/dev/ubik-cli
 
 
+
 # Misc
 # ------------------------------------------------------------------------------
 # stop control flow, gimme ctrl-s back
@@ -123,10 +128,12 @@ _Z_DATA=~/.z.data/.z
 git_log_defaults="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%cn"
 
 
+
 # Z Style
 # ------------------------------------------------------------------------------
 zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:*:*:*' menu select
+
 
 
 # New Keyboard Shortcuts
@@ -165,6 +172,7 @@ bindkey -M isearch " " magic-space # normal space during searches
 
 zle -N vim-pop
 bindkey "^V" vim-pop
+
 
 
 # Aliases
@@ -226,6 +234,7 @@ alias -g L='| less'
 alias -g J='| json'
 
 
+
 # ZLE Functions
 # ------------------------------------------------------------------------------
 searchup() {
@@ -237,7 +246,8 @@ searchdown() {
   _zsh_highlight
 }
 
-# standard Functions
+
+# Standard Functions
 # ------------------------------------------------------------------------------
 cdwhich() {
   cd "$(dirname $(which $1))"
@@ -455,6 +465,7 @@ insert-last-command-output() {
   _zsh_highlight
 }
 
+
 # FZF functions
 # ------------------------------------------------------------------------------
 export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\
@@ -570,6 +581,7 @@ z() {
     _z "$@"
   fi
 }
+
 
 
 # FZF

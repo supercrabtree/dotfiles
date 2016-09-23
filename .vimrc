@@ -248,6 +248,9 @@ nnoremap U mh:GitGutterRevertHunk<cr>'h
 " Ctrl-Enter is enter without leaving current place
 inoremap <F17> <esc>lmzi<cr><esc>`za
 
+" Enter selects from pum
+inoremap <silent> <cr> <C-r>=<SID>HyperEnter()<cr>
+
 " Allow file writing when no permissions
 cnoremap w!! w !sudo tee > /dev/null %
 
@@ -279,6 +282,9 @@ nmap n <Plug>(anzu-n-with-echo)
 nmap N <Plug>(anzu-N-with-echo)
 nmap * *N
 nmap # g*N
+vnoremap * y/<c-r>"<cr>N
+
+
 
 " Space Leaders
 " ------------------------------------------------------------------------------
@@ -305,9 +311,6 @@ nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 
-vnoremap * y/<c-r>"<cr>N
-
-inoremap <silent> <cr> <C-r>=<SID>HyperEnter()<cr>
 
 nnoremap <space>ga :Git add %<cr><cr>:GitGutter<cr>
 nnoremap <space>gA :Git add -A . <cr><cr>:GitGutter<cr>

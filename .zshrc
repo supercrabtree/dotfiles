@@ -235,24 +235,6 @@ searchdown() {
 
 # standard Functions
 # ------------------------------------------------------------------------------
-create255() {
-  hash=""
-  total=0
-  echo "$1" | fold -w1 | while read i; do
-    char_code=$(LC_CTYPE=C printf '%d ' "'$i")
-    ((total=total+$char_code))
-  done
-  ((res=total*total*total))
-  ((res=res%255))
-  echo $res
-}
-
-echogrey() {
-  s="$(create255 $1)"
-  printf "\x1b[38;2;$s;$s;$s""m$1\x1b[0m\n"
-}
-
-
 cdwhich() {
   cd "$(dirname $(which $1))"
 }

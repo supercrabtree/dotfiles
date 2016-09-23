@@ -279,7 +279,6 @@ md(){
 vim() {
   local currentPath="$(pwd)"
   currentPath=${currentPath#?}
-  currentPath=${currentPath//\//-}
 
   if test $# -gt 0; then
     env vim -c "silent Obsession ~/.vim/session/$currentPath/Session.vim" "$@"

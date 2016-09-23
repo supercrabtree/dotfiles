@@ -76,6 +76,7 @@ let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
 
 
+" " Slow vim debugging
 " :profile start profile.log
 " :profile func *
 " :profile file *

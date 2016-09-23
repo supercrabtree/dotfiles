@@ -189,11 +189,6 @@ alias zshrc="vim ~/dev/dotfiles/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 
-alias run="./run"
-alias build="./build"
-alias deploy="./deploy"
-alias setup="./setup"
-
 alias glg="git log --graph --decorate --all --pretty='$git_log_defaults'"
 alias grc='git add -A && git rebase --continue'
 alias gaa='git add -A'

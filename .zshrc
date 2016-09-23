@@ -308,8 +308,8 @@ globalaliasexpander() {
 
 first-tab() {
   if [[ $#BUFFER == 0 ]]; then
-    BUFFER="cd "
-    CURSOR=3
+    BUFFER="cat "
+    CURSOR=4
     zle list-choices
   else
     zle expand-or-complete

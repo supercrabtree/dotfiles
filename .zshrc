@@ -298,18 +298,6 @@ gc() {
   fi
 }
 
-switch-background () {
-  if [[ $BACKGROUND == "dark" ]]; then
-    export BACKGROUND="light"
-    echo -e "\033]50;SetProfile=supercrabtree-light\a             ┬─┬ ︵ ノ(°_° ノ)"
-    zle reset-prompt
-  else
-    export BACKGROUND="dark"
-    echo -e "\033]50;SetProfile=supercrabtree-dark\a(╯°□°)╯︵ ┻━┻"
-    zle reset-prompt
-  fi
-}
-
 globalaliasexpander() {
   if [[ $LBUFFER =~ " [A-Z0-9]+$" ]]; then
     zle _expand_alias

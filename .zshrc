@@ -270,12 +270,12 @@ vim() {
   currentPath=${currentPath//\//-}
 
   if test $# -gt 0; then
-    env vim "$@"
+    env vim -c "silent Obsession ~/.vim/session/$currentPath/Session.vim" "$@"
   elif test -f "$HOME/.vim/session/$currentPath/Session.vim"; then
-    env vim -S "$HOME/.vim/session/$currentPath/Session.vim"
+    env vim -S "$HOME/.vim/session/$currentPath/Session.vim" "$@"
   else
     mkdir -p "$HOME/.vim/session/$currentPath"
-    env vim -c "Obsession ~/.vim/session/$currentPath/Session.vim"
+    env vim -c "silent Obsession ~/.vim/session/$currentPath/Session.vim" "$@"
   fi
 }
 

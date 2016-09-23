@@ -146,7 +146,7 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 
 
-" Change keycodes
+" Map keycodes
 " ------------------------------------------------------------------------------
 " in karabiner ctrl-enter is remapped to <F17>
 set <F17>=[15;2~

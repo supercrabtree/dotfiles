@@ -560,10 +560,6 @@ killport() {
   fi
 }
 
-fvim() {
-  vim $(fzf -m)
-}
-
 unalias z 2> /dev/null
 z() {
   if [[ -z "$*" ]]; then

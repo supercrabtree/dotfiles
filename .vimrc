@@ -292,8 +292,6 @@ nnoremap <space>af 0/function.*<cr>:silent noh<cr>f(%i
 
 " append parameter
 nnoremap <space>aa f)i
-" when opening a new line in a comment, don't continue the comment, empty line please
-au FileType * set formatoptions-=r formatoptions-=o
 
 " insert empty lines easily
 nnoremap <space>o o<esc>

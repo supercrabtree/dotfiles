@@ -209,14 +209,14 @@ alias vmd='/Applications/vmd.app/Contents/MacOS/vmd'
 
 # suffix
 alias -s git='git clone'
-alias -s md='md'
-alias -s markdown='md'
-alias -s mdown='md'
-alias -s mkdn='md'
-alias -s mkd='md'
-alias -s mdwn='md'
-alias -s mdtxt='md'
-alias -s mdtext='md'
+alias -s md='vmd'
+alias -s markdown='vmd'
+alias -s mdown='vmd'
+alias -s mkdn='vmd'
+alias -s mkd='vmd'
+alias -s mdwn='vmd'
+alias -s mdtxt='vmd'
+alias -s mdtext='vmd'
 
 # global
 alias -g C='| pbcopy'

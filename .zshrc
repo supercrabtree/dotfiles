@@ -490,60 +490,6 @@ fzf-history-widget() {
   zle redisplay
 }
 
-# fshow - git commit browser
-fshow() {
-  local out shas sha q k
-  while out=$(
-    git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-    fzf --ansi --multi --no-sort --query="$q" --tiebreak=index \
-      --print-query --expect=ctrl-d --toggle-sort=\`); do
-    q=$(head -1 <<< "$out")
-    k=$(head -2 <<< "$out" | tail -1)
-    shas=$(sed '1,2d;s/^[^a-z0-9]*//;/^$/d' <<< "$out" | awk '{print $1}')
-    [ -z "$shas" ] && continue
-    if [ "$k" = 'ctrl-d' ]; then
-      git diff --color=always $shas | less -R
-    else
-      for sha in $shas; do
-        git show --color=always $sha | less -R
-      done
-    fi
-  done
-}
-
-# git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" | xargs printf 'yoyoyoyoyoyo\n%s'
-# --header-file="/Users/supercrabtree/.fstashheader"\
-fstash() {
-  local out q k sha
-  while out=$(
-    echo "enter: show stash contents | ctrl-d: diff stash against HEAD | ctrl-a: apply stash | ctrl-b: checkout new branch containing stash\n\
-      $(git stash list --pretty="$git_log_defaults")" |
-    fzf --ansi --no-sort --query="$q" --print-query \
-      --header-lines=1\
-      --expect=ctrl-d,ctrl-b,ctrl-p,ctrl-a);
-  do
-    q=$(head -1 <<< "$out")
-    k=$(head -2 <<< "$out" | tail -1)
-    sha=$(tail -1 <<< "$out" | cut -d' ' -f1)
-    [ -z "$sha" ] && continue
-    if [ "$k" = 'ctrl-d' ]; then
-      git diff $sha
-    elif [ "$k" = 'ctrl-b' ]; then
-      git stash branch "stash-$sha" $sha
-      break;
-    elif [ "$k" = 'ctrl-p' ]; then
-      git stash pop $sha
-      break;
-    elif [ "$k" = 'ctrl-a' ]; then
-      git stash apply $sha
-      break;
-    else
-      git stash show -p $sha
-    fi
-  done
-}
-
 # chrome history to fzf
 c() {
   local cols sep

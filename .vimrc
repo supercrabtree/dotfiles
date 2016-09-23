@@ -925,8 +925,10 @@ augroup georges_autocommands
   au filetype gitcommit setlocal spell
   au FileType gitcommit setlocal nocursorline
   au FileType gitcommit setlocal listchars+=tab:\ \ 
-  au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <down> :<C-U>execute <SNR>26_StageNext(v:count1)<cr>     | else | map <buffer> <down> 10j | endif
-  au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <up>   :<C-U>execute <SNR>26_StagePrevious(v:count1)<cr> | else | map <buffer> <up> 10k | endif
+  au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <down> <c-n>| else | map <buffer> <down> 10j| endif
+  au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <up> <c-p>| else | map <buffer> <up> 10k| endif
+  au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer>  -| endif
+  au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <NUL> cvc| endif
 
   " Markdown
   au BufNewFile,BufRead *.markdown,*.mdown,*.mkd,*.mkdn,*.md setfiletype markdown
@@ -1044,6 +1046,8 @@ hi SneakPluginTarget guibg=#e8e8e8  guifg=#bf2222  cterm=underline
 " Fugative
 hi diffAdded                        guifg=#4ead1f
 hi diffRemoved                      guifg=#bf2222
+hi gitcommitSelectedFile            guifg=#4ead1f
+hi gitcommitDiscardedFile           guifg=#bf2222
 
 " Git Gutter
 hi GitGutterAdd                     guifg=#4ead1f

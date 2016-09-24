@@ -42,6 +42,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'osyo-manga/vim-anzu'
+Plug 'vim-scripts/EnhancedJumps' | Plug 'vim-scripts/ingo-library'
 
 " Text Objects
 " Plug 'kana/vim-textobj-user'

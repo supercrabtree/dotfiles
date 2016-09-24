@@ -103,6 +103,10 @@ set diffopt+=vertical          " always vertical diffs
 set directory=~/.vim/tmp//     " swap file dir
 set encoding=utf-8
 set expandtab                  " tab becomes <space><space>
+set formatoptions-=o           " don't insert comment char on next line when on comment line and o is pressed
+set formatoptions+=a           " every time text is inserted or deleted the paragraph will be reformatted.
+set formatoptions+=n           " when formatting text, recognize numbered lists.
+set formatoptions+=j           " where it makes sense, remove a comment leader when joining lines.
 set hidden                     " allow buffers to be hidden
 set history=10000
 set hlsearch                   " highlight search results
@@ -112,6 +116,8 @@ set laststatus=2               " always show status bar
 set lazyredraw                 " dont redraw when executing macros
 set list                       " show me those ugly chars so i can kill them
 set listchars=tab:❯—,nbsp:§
+set listchars+=precedes:❮
+set listchars+=extends:❯
 set mouse=a                    " gimme mouse
 set nofoldenable               " disable folding
 set nostartofline              " dont move the cursor to the start of a line when switching buffers
@@ -129,7 +135,7 @@ set splitright                 " new split panes always on the right
 set synmaxcol=800              " Don't try to highlight lines longer than 800 characters.
 set tabstop=2
 set termguicolors              " allow hex values for colors
-set textwidth=0                " settings to stop automatic line wrapping when typing
+set textwidth=80               " only for comments (check formatoptions)
 set timeoutlen=1000
 set ttimeoutlen=0
 set ttyfast
@@ -138,7 +144,7 @@ set undofile
 set undolevels=1000            " how many undos per file
 set virtualedit=block
 set wildmenu
-set wrapmargin=0               " hate text wrap
+set wrapmargin=0
 
 " allow italics
 set t_ZH=[3m
@@ -980,6 +986,12 @@ augroup georges_autocommands
 
   au BufNewFile,BufRead *.tag setlocal ft=javascript
 
+  " filetypes where autoformatting is weird/annoying
+  au FileType sh        setlocal formatoptions-=a
+  au FileType gitcommit setlocal formatoptions-=a
+
+  " ftplugin sets this for everything
+  au FileType * setlocal formatoptions-=o
 augroup END
 
 
@@ -1009,13 +1021,13 @@ augroup END
 hi Normal                           guifg=NONE
 hi ErrorMsg          guibg=#bf2222  guifg=#ffffff
 hi Error             guibg=#bf2222  guifg=#ffffff
-hi NonText                          guifg=NONE
+hi NonText                          guifg=#b3b3b3
 hi Comment                          guifg=#999999
 hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
 hi Title                            guifg=NONE
 hi Function                         guifg=NONE
 hi Special                          guifg=NONE
-hi SpecialKey                       guifg=NONE
+hi SpecialKey                       guifg=#e8e8e8
 hi Keyword                          guifg=NONE
 hi Type                             guifg=NONE
 hi Constant                         guifg=NONE
@@ -1026,7 +1038,7 @@ hi Number                           guifg=#2275bf
 hi Identifier                       guifg=NONE
 hi Statement                        guifg=NONE
 hi Todo                             guifg=NONE
-hi WarningMsg                       guifg=#bf2222
+hi WarningMsg                       guifg=NONE
 hi GoodMsg                          guifg=#4ead1f
 hi Directory                        guifg=#2275bf
 hi MoreMsg                          guifg=#2275bf
@@ -1057,7 +1069,7 @@ hi IncSearch         guibg=#4ead1f  guifg=#000000  cterm=NONE
 hi ExtraWhitespace   guibg=#bf2222  guifg=#bf2222
 
 " Buftabline
-hi BufTabLineActive                 guifg=#808080
+hi BufTabLineActive                 guifg=#b3b3b3
 hi BufTabLineHidden  guibg=#e8e8e8  guifg=#808080  cterm=NONE
 hi BufTabLineFill    guibg=#e8e8e8                 cterm=NONE
 

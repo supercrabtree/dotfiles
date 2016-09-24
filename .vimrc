@@ -489,6 +489,7 @@ let g:user_emmet_settings = {
 
 " Multiple Cursors
 let g:multi_cursor_exit_from_insert_mode=0
+let g:multi_cursor_exit_from_visual_mode=0
 
 " Called once right before you start selecting multiple cursors
 function! Multiple_cursors_before()

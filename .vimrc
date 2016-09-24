@@ -181,9 +181,10 @@ noremap <c-c> <esc>
 nnoremap j gj
 nnoremap k gk
 
-" now give join back
-nnoremap g+ mzj0d^i<bs><esc>`z
-nnoremap + mzj0d^i<bs> <esc>`z
+
+" joins
+nnoremap g+ :join!<cr>
+nnoremap + :join<cr>
 xnoremap + :join<cr>
 
 " Capital L end of line but not end of line char

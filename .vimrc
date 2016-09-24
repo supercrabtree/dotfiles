@@ -181,6 +181,12 @@ noremap <c-c> <esc>
 nnoremap j gj
 nnoremap k gk
 
+" insert undo stop points
+inoremap <cr> <c-]><c-g>u<cr>
+inoremap <c-h> <c-g>u<c-h>
+inoremap <c-u> <c-g>u<c-u>
+inoremap <c-w> <c-g>u<c-w>
+inoremap <space> <c-g>u<space>
 
 " joins
 nnoremap g+ :join!<cr>

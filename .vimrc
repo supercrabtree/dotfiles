@@ -35,6 +35,7 @@ Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'AndrewRadev/linediff.vim'
+Plug 'chrisbra/Recover.vim'
 Plug 'ap/vim-buftabline'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'terryma/vim-multiple-cursors'

@@ -122,7 +122,6 @@ set mouse=a                    " gimme mouse
 set nofoldenable               " disable folding
 set nostartofline              " dont move the cursor to the start of a line when switching buffers
 set nowrap                     " no line wrap
-set nowritebackup              " off for some reason, can't remember why...
 set number                     " show the current line number
 set scrolloff=3                " always keep some context when moving about
 set shell=zsh\ -l              " use my login shell

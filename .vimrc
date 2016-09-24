@@ -124,9 +124,9 @@ set nostartofline              " dont move the cursor to the start of a line whe
 set nowrap                     " no line wrap
 set number                     " show the current line number
 set scrolloff=3                " always keep some context when moving about
-set shell=zsh\ -l              " use my login shell
+set shell=/usr/local/bin/zsh   " use my login shell
 set shiftwidth=2
-set shortmess=fimTF
+set shortmess=fimtTF
 set showcmd                    " for easierness show the command in the bottom right
 set smartcase                  " pig == PIG, Pig == Pig, but Pig != pig
 set softtabstop=2

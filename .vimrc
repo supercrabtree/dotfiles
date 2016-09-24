@@ -63,6 +63,7 @@ Plug 'Valloric/MatchTagAlways'
 " Trialing / tmp
 Plug 'lambdalisue/vim-gita'
 Plug 'sickill/vim-pasta'
+Plug 'skywind3000/asyncrun.vim'
 
 call plug#end()
 
@@ -721,6 +722,18 @@ function! <sid>Ghost()
     hi! link Todo Ignore
     let s:are_comments_invisible=1
   endif
+endfunction
+
+function! <sid>AsyncRunVerbose(command, successMessage)
+  let g:asyncrun_exit = '
+  \ if s:async_code == 0
+  \|  echo "'.a:successMessage.'"
+  \|else
+  \|  copen
+  \|endif
+  \'
+  execute ':silent AsyncRun ' . a:command
+  echo 'Running: '.a:command
 endfunction
 
 function! s:Tailf()

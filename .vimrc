@@ -32,12 +32,13 @@ Plug 'justinmk/vim-sneak'
 Plug 'justinmk/vim-dirvish'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-rooter'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'ap/vim-buftabline'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
-Plug 'airblade/vim-gitgutter'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'osyo-manga/vim-anzu'
 
@@ -354,6 +355,10 @@ let &statusline = &statusline . "%{gita#statusline#format('%ln/%lb')}"
 
 " Plugin Settings
 " ------------------------------------------------------------------------------
+"  Rooter
+let g:rooter_patterns = ['.git/', 'node_modules', 'package.json']
+let g:rooter_manual_only = 1
+
 " Extra whitespace
 let g:better_whitespace_filetypes_blacklist = [
   \ 'gitcommit',

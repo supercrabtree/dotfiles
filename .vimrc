@@ -62,6 +62,7 @@ Plug 'Valloric/MatchTagAlways'
 Plug 'lambdalisue/vim-gita'
 Plug 'sickill/vim-pasta'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'metakirby5/codi.vim'
 
 call plug#end()
 

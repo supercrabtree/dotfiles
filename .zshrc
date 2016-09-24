@@ -195,7 +195,7 @@ alias dvim="vim -c Dirvish"
 alias clearvim="rm -rf ~/.vim/tmp/*"
 alias vimrc="vim ~/dev/dotfiles/.vimrc"
 alias zshrc="vim ~/dev/dotfiles/.zshrc"
-
+alias update='brew update && brew upgrade && brew clean && n latest && npm update -g'
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 

@@ -200,7 +200,7 @@ xnoremap g$ $h
 inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
 
 " Ctrl<enter>{ inserts a });
-inoremap {<F18> {});<C-G>U<Left><Left><Left><cr><cr><c-g>U<Up><tab>
+inoremap <F18> });<C-G>U<Left><Left><Left><cr><cr><c-g>U<Up><tab>
 
 " clear search highlights and refresh screen and diff update
 nnoremap <silent> <bs> :noh<cr>:redraw<cr>jk:diffupdate<cr>

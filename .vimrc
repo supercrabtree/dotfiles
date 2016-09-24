@@ -287,42 +287,43 @@ xnoremap * y/<c-r>"<cr>N
 
 " Space Leaders
 " ------------------------------------------------------------------------------
+let mapleader="\<space>"
 
 " append function parameter
-nnoremap <space>af 0/function.*<cr>:silent noh<cr>f(%i
+nnoremap <leader>af 0/function.*<cr>:silent noh<cr>f(%i
 
 " append parameter
-nnoremap <space>aa f)i
+nnoremap <leader>aa f)i
 
 " insert empty lines easily
-nnoremap <space>o o<esc>
-nnoremap <space>O O<esc>
+nnoremap <leader>o o<esc>
+nnoremap <leader>O O<esc>
 
 " debugger toggle
-nnoremap <silent> <space>d :call <sid>ToggleDebugger()<cr>
+nnoremap <silent> <leader>d :call <sid>ToggleDebugger()<cr>
 
 " make use strict javascript
-nnoremap <space>us mzggO'use strict';<cr><esc>`z
+nnoremap <leader>us mzggO'use strict';<cr><esc>`z
 
 " show highlight group under cursor
-nnoremap <space>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+nnoremap <leader>sh :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 
 " Git whatevers
-nnoremap <space>ga :Git add %<cr><cr>:GitGutter<cr>
-nnoremap <space>gA :Git add -A . <cr><cr>:GitGutter<cr>
-nnoremap <space>gc :Gcommit -v -q<cr>
-nnoremap <space>gC :Gcommit --amend -v -q<cr>
-nnoremap <space>gs :Gstatus<cr>
-nnoremap <space>gr :Git reset -q %<cr><cr>:GitGutter<cr>
-nnoremap <space>gR :Git reset -q<cr><cr>:GitGutter<cr>
-nnoremap <space>gd :Gdiff<cr>
-nnoremap <space>gD :Git! diff --staged<cr>
-nnoremap <space>gp :Gpush<cr>
-nnoremap <space>gP :Git push --force<cr>
-nnoremap <space>gb :Gita blame<cr>
-nnoremap <space>gl :GV<cr>
+nnoremap <leader>ga :Git add %<cr><cr>:GitGutter<cr>
+nnoremap <leader>gA :Git add -A . <cr><cr>:GitGutter<cr>
+nnoremap <leader>gc :Gcommit -v -q<cr>
+nnoremap <leader>gC :Gcommit --amend -v -q<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gr :Git reset -q %<cr><cr>:GitGutter<cr>
+nnoremap <leader>gR :Git reset -q<cr><cr>:GitGutter<cr>
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gD :Git! diff --staged<cr>
+nnoremap <leader>gp :call <sid>AsyncRunVerbose("git push","Pushed")<cr>
+nnoremap <leader>gP :call <sid>AsyncRunVerbose("git push --force","Pushed")<cr>
+nnoremap <leader>gb :Gita blame<cr>
+nnoremap <leader>gl :GV<cr>
 
 
 
@@ -492,7 +493,7 @@ endfunction
 let g:indent_guides_guide_size=2
 let g:indent_guides_auto_colors=0
 let g:indent_guides_default_mapping=0
-nmap <silent> <space>i <Plug>IndentGuidesToggle
+nmap <silent> <leader>i <Plug>IndentGuidesToggle
 
 
 " FZF

@@ -263,7 +263,7 @@ inoremap <F17> <esc>lmzi<cr><esc>`za
 inoremap <silent> <cr> <C-r>=<SID>HyperEnter()<cr>
 
 " Allow file writing when no permissions
-cnoremap w!! w !sudo tee > /dev/null %
+" cnoremap w!! w !sudo tee > /dev/null %
 
 " Remove pointless map for goto line mark
 nnoremap ' `

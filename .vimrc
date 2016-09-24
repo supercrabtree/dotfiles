@@ -795,7 +795,7 @@ function! s:MkNonExDir(file, buf)
 endfunction
 
 function! AdjustWindowHeight(minheight, maxheight)
-  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+  execute max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
 endfunction
 
 function! s:Open(file)

@@ -985,12 +985,6 @@ augroup georges_autocommands
 
   au BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 
-  au FileType qf :nmap <up> k<cr>:copen 20<cr>f<space>lzs
-  au FileType qf :nmap <down> j<cr>:copen 20<cr>f<space>lzs
-
-  " Removes red highlight around subshell commands in shell files
-  au FileType sh hi Error ctermbg=10 ctermfg=15
-
   au BufNewFile,BufRead *.tag setlocal ft=javascript
 
   " filetypes where autoformatting is weird/annoying

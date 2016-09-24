@@ -282,6 +282,8 @@ vim() {
   local currentPath="$(pwd)"
   currentPath=${currentPath#?}
 
+  mkdir -p ~/.vim/session/$currentPath
+
   if test $# -gt 0; then
     env vim -c "silent Obsession ~/.vim/session/$currentPath/Session.vim" "$@"
   elif test -f "$HOME/.vim/session/$currentPath/Session.vim"; then

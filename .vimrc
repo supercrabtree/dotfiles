@@ -485,12 +485,12 @@ let g:multi_cursor_exit_from_insert_mode=0
 
 " Called once right before you start selecting multiple cursors
 function! Multiple_cursors_before()
-  exe 'NeoCompleteLock'
+  execute 'NeoCompleteLock'
 endfunction
 
 " Called once only when the multiple selection is canceled (default <Esc>)
 function! Multiple_cursors_after()
-  exe 'NeoCompleteUnlock'
+  execute 'NeoCompleteUnlock'
 endfunction
 
 
@@ -702,7 +702,7 @@ function! s:DiffSaved()
   diffthis
   vnew | r # | normal! 1Gdd
   diffthis
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+  execute "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
   wincmd W
 endfunction
 
@@ -944,7 +944,7 @@ augroup georges_autocommands
   au FileType ctrlsf map <buffer> J     <down>pzz
 
   " return to the last edited position when opening a file
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
 
   " highlight colums in git commit messages
   au filetype gitcommit setlocal colorcolumn=51,73

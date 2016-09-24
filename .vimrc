@@ -94,13 +94,13 @@ let g:loaded_zipPlugin = 1
 " ------------------------------------------------------------------------------
 set autoindent
 set backspace=indent,eol,start " let the backspace work normally
-set backupdir=~/.vim/tmp       " don't dirty up my repos
+set backupdir=~/.vim/tmp//     " don't dirty up my repos
 set colorcolumn=81             " highlight column 81
 set completeopt-=preview       " dont show annoying preview window
 set cursorline                 " highlight current cursor line
 set diffopt+=context:99999     " stop folds in diffs
 set diffopt+=vertical          " always vertical diffs
-set directory=~/.vim/tmp       " swap file dir
+set directory=~/.vim/tmp//     " swap file dir
 set encoding=utf-8
 set expandtab                  " tab becomes <space><space>
 set hidden                     " allow buffers to be hidden

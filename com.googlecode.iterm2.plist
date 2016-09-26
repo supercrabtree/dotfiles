@@ -1130,7 +1130,7 @@
 	<key>EliminateCloseButtons</key>
 	<true/>
 	<key>FlashTabBarInFullscreen</key>
-	<true/>
+	<false/>
 	<key>FocusFollowsMouse</key>
 	<false/>
 	<key>FsTabDelay</key>
@@ -1297,7 +1297,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>610 417 700 622 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1504 0 1504 1669 0 0 3008 1669 </string>
+	<string>388 256 1210 977 0 0 3008 1669 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4_selection</key>
@@ -1367,26 +1367,26 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.84908747673034668</real>
+				<real>0.84938156604766846</real>
 				<key>Color Space</key>
 				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.84907317161560059</real>
+				<real>0.84936714172363281</real>
 				<key>Red Component</key>
-				<real>0.8490985631942749</real>
+				<real>0.84939253330230713</real>
 			</dict>
 			<key>Ansi 12 Color</key>
 			<dict>
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.89999997615814209</real>
+				<real>0.88765668869018555</real>
 				<key>Color Space</key>
 				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.89999997615814209</real>
+				<real>0.88764166831970215</real>
 				<key>Red Component</key>
-				<real>0.89999997615814209</real>
+				<real>0.88766813278198242</real>
 			</dict>
 			<key>Ansi 13 Color</key>
 			<dict>
@@ -2161,13 +2161,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-09-22T15:41:43Z</date>
+	<date>2016-09-26T07:22:49Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>ShowNewOutputIndicator</key>
 	<false/>
 	<key>ShowPaneTitles</key>

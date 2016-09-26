@@ -364,13 +364,15 @@ command! -nargs=1 Run call <sid>AsyncRunVerbose("<args>")
 " Status Line
 " ------------------------------------------------------------------------------
 set statusline=
-set statusline+=%L\:%c\ \|\ %p%%\ " current line number / percentage
+set statusline+=\ \ %L\:%c\       " totallines:column
+set statusline+=%{IsModified()}   " tidier ismodified
+set statusline+=%{IsReadOnly()}   " tidier readonly
 set statusline+=%<                " when the window is too narrow, cut it here
 set statusline+=%f\               " path & filename
-set statusline+=%{IsReadOnly()}   " tidier readonly
-set statusline+=%{IsModified()}   " tidier ismodified
 set statusline+=%=                " align from here on to the right
-let &statusline = &statusline . "%{gita#statusline#format('%ln/%lb')}"
+set statusline+=\                 " padding
+set statusline+=%{gita#statusline#format('%ln/%lb')}
+set statusline+=\ \               " right hand side indent
 
 
 

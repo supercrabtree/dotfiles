@@ -491,6 +491,8 @@ let g:user_emmet_settings = {
 \   },
 \ }
 
+" Git Gutter
+let g:gitgutter_sign_column_always = 1
 
 " Multiple Cursors
 let g:multi_cursor_exit_from_insert_mode=0

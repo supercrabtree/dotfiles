@@ -182,7 +182,6 @@ unalias run-help
 alias man="run-help"
 alias l="ls -laG"
 alias e="exa --level=2 -T -la"
-alias vi="env vim"
 
 alias dev="cd ~/dev"
 alias f="open ."
@@ -278,6 +277,15 @@ md(){
   else
     pandoc -s -f markdown_github -t man | groff -T utf8 -man | less
   fi
+}
+
+vi() {
+  local currentPath="$(pwd)"
+  currentPath=${currentPath#?}
+
+  mkdir -p ~/.vim/session/$currentPath
+
+  env vim -c "silent Obsession ~/.vim/session/$currentPath/Session.vim | silent Obsession! | silent Obsession ~/.vim/session/$currentPath/Session.vim"
 }
 
 vim() {

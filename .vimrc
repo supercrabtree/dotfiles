@@ -106,7 +106,6 @@ set directory=~/.vim/tmp//     " swap file dir
 set encoding=utf-8
 set expandtab                  " tab becomes <space><space>
 set formatoptions-=o           " don't insert comment char on next line when on comment line and o is pressed
-set formatoptions+=a           " every time text is inserted or deleted the paragraph will be reformatted.
 set formatoptions+=n           " when formatting text, recognize numbered lists.
 set formatoptions+=j           " where it makes sense, remove a comment leader when joining lines.
 set hidden                     " allow buffers to be hidden

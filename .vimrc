@@ -1049,6 +1049,7 @@ hi Statement                        guifg=NONE
 hi Todo                             guifg=NONE
 hi WarningMsg                       guifg=NONE
 hi GoodMsg                          guifg=#4ead1f
+hi BadMsg                           guifg=#bf2222
 hi Directory                        guifg=#2275bf
 hi MoreMsg                          guifg=#2275bf
 hi Question                         guifg=NONE

@@ -305,6 +305,9 @@ let mapleader="\<space>"
 " append function parameter
 nnoremap <leader>af 0/function.*<cr>:silent noh<cr>f(%i
 
+" run async command
+nnoremap <leader>r :Run 
+
 " append parameter
 nnoremap <leader>aa f)i
 
@@ -354,6 +357,7 @@ command! ToggleWindowLayout call <sid>ToggleWindowLayout()
 command! DiffSaved call s:DiffSaved()
 command! DiffSavedComplete call s:DiffSavedComplete()
 command! CDC cd %:p:h
+command! -nargs=1 Run call <sid>AsyncRunVerbose("<args>")
 
 
 
@@ -745,12 +749,15 @@ function! <sid>Ghost()
   endif
 endfunction
 
-function! <sid>AsyncRunVerbose(command, successMessage)
+function! <sid>AsyncRunVerbose(command)
+  let l:success_message = 'Success: ' . a:command
+  let l:failure_message = 'Failed: ' . a:command
   let g:asyncrun_exit = '
   \ if s:async_code == 0
-  \|  echo "'.a:successMessage.'"
+  \|  echohl BrightGoodMsg | echo "'.l:success_message.'" | echohl None
   \|else
   \|  copen
+  \|  echohl ErrorMsg | echo "'.l:failure_message.'" | echohl None
   \|endif
   \'
   execute ':silent AsyncRun ' . a:command
@@ -1049,6 +1056,7 @@ hi Statement                        guifg=NONE
 hi Todo                             guifg=NONE
 hi WarningMsg                       guifg=NONE
 hi GoodMsg                          guifg=#4ead1f
+hi BrightGoodMsg     guibg=#4ead1f  guifg=#FFFFFF
 hi BadMsg                           guifg=#bf2222
 hi Directory                        guifg=#2275bf
 hi MoreMsg                          guifg=#2275bf

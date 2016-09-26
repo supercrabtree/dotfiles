@@ -999,10 +999,6 @@ augroup georges_autocommands
 
   au BufNewFile,BufRead *.tag setlocal ft=javascript
 
-  " filetypes where autoformatting is weird/annoying
-  au FileType sh        setlocal formatoptions-=a
-  au FileType gitcommit setlocal formatoptions-=a
-
   " ftplugin sets this for everything
   au FileType * setlocal formatoptions-=o
 augroup END

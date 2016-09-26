@@ -336,8 +336,8 @@ nnoremap <leader>gr :Git reset -q %<cr><cr>:GitGutter<cr>
 nnoremap <leader>gR :Git reset -q<cr><cr>:GitGutter<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gD :Git! diff --staged<cr>
-nnoremap <leader>gp :call <sid>AsyncRunVerbose("git push")<cr>
-nnoremap <leader>gP :call <sid>AsyncRunVerbose("git push --force")<cr>
+nnoremap <leader>gp :call <sid>AsyncRunVerbose("git -C %:p:h push")<cr>
+nnoremap <leader>gP :call <sid>AsyncRunVerbose("git -C %:p:h push --force")<cr>
 nnoremap <leader>gb :Gita blame<cr>
 nnoremap <leader>gl :GV<cr>
 

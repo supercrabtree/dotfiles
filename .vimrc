@@ -509,6 +509,14 @@ let g:indent_guides_auto_colors=0
 let g:indent_guides_default_mapping=0
 nmap <silent> <leader>i <Plug>IndentGuidesToggle
 
+" Resurrect
+let g:resurrect_ignore_patterns = [
+\ '/.git/',
+\ 'fugitive://',
+\ '/undotree_2',
+\ '/__CtrlSF__',
+\ '[Plugins]'
+\]
 
 " FZF
 set rtp+=~/.fzf

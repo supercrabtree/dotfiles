@@ -199,6 +199,7 @@ alias update='brew update && brew upgrade && brew clean && n latest && npm updat
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 
+alias gC="git commit --amend -v"
 alias glg="git log --graph --decorate --all --pretty='$git_log_defaults%C(auto)%d'"
 alias grc='git add -A && git rebase --continue'
 alias gaa='git add -A'
@@ -295,7 +296,9 @@ vim() {
 }
 
 gc() {
-  if [[ $@ == "-vp" ]]; then
+  if [[ $# == 0 ]]; then
+    git commit -v
+  elif [[ $@ == "-vp" ]]; then
     clear && git commit -vp
   else
     git commit "$@"

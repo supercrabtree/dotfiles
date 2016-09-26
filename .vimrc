@@ -1036,7 +1036,7 @@ hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
 hi Title                            guifg=NONE
 hi Function                         guifg=NONE
 hi Special                          guifg=NONE
-hi SpecialKey                       guifg=#e8e8e8
+hi SpecialKey                       guifg=#b3b3b3
 hi Keyword                          guifg=NONE
 hi Type                             guifg=NONE
 hi Constant                         guifg=NONE

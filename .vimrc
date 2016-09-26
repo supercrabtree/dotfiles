@@ -973,6 +973,9 @@ augroup georges_autocommands
   au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer>  -| endif
   au FileType gitcommit if expand("%:h:t") ."/". expand("%:t") == ".git/index" | nmap <buffer> <NUL> cvc| endif
 
+  au FileType help setlocal listchars+=tab:\ \ 
+  au FileType help setlocal tabstop=4
+
   " Markdown
   au BufNewFile,BufRead *.markdown,*.mdown,*.mkd,*.mkdn,*.md setfiletype markdown
   au filetype markdown setlocal spell

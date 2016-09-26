@@ -659,7 +659,7 @@ function! <sid>PressCtrlH()
     normal do
     return
   endif
-  exec "normal \<C-^>"
+  execute 'Resurrect'
 endfunction
 
 function! <sid>PressCtrlK()

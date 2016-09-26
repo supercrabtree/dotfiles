@@ -43,6 +43,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'osyo-manga/vim-anzu'
 Plug 'vim-scripts/EnhancedJumps' | Plug 'vim-scripts/ingo-library'
 Plug 'jceb/vim-shootingstar'
+Plug 'supercrabtree/vim-resurrect'
 
 " Text Objects
 " Plug 'kana/vim-textobj-user'

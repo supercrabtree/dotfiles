@@ -27,6 +27,7 @@ Plug 'junegunn/gv.vim', {'on': 'GV'}
 
 " UX
 Plug 'justinmk/vim-sneak'
+Plug 'ntpeters/vim-better-whitespace'
 Plug 'justinmk/vim-dirvish'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'

@@ -16,6 +16,7 @@ zplug "so-fancy/diff-so-fancy", as:command
 zplug "supercrabtree/bam-pow", use:bam.sh
 zplug "supercrabtree/k"
 zplug "paulirish/git-open", as:command
+zplug "grawity/code", as:command, use:term/xterm-color-chooser, rename-to:color-chooser
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then

@@ -1297,7 +1297,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>610 417 700 622 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>388 256 1210 977 0 0 3008 1669 </string>
+	<string>1504 0 1504 1669 0 0 3008 1669 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4_selection</key>
@@ -2038,7 +2038,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Thin Strokes</key>
-			<integer>1</integer>
+			<integer>0</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Triggers</key>
@@ -2161,7 +2161,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-09-26T07:22:49Z</date>
+	<date>2016-09-29T12:14:03Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -2190,7 +2190,9 @@
 	<integer>3</integer>
 	<key>ToolbeltTools</key>
 	<array>
-		<string>Profiles</string>
+		<string>Captured Output</string>
+		<string>Jobs</string>
+		<string>Command History</string>
 	</array>
 	<key>Use background pattern indicator</key>
 	<false/>

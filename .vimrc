@@ -448,9 +448,6 @@ let g:buftabline_show=1
 let g:neocomplete#enable_at_startup=1
 let g:neocomplete#enable_auto_select=1
 
-let g:neocomplete#same_filetypes = {}
-let g:neocomplete#same_filetypes._ = '_'
-
 
 " Ctrlsf
 let g:ctrlsf_regex_pattern = 0
@@ -1154,3 +1151,4 @@ hi jsBooleanTrue                    guifg=#4ead1f
 
 syntax enable
 
+" source ~/dev/vim-resurrect/plugin/resurrect.vim

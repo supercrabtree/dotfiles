@@ -83,7 +83,7 @@ export ZDOTDIR=$HOME
 export BAM_DIR="$HOME/dev/scratches"
 export POW_DIR="$HOME/dev"
 
-export LESS_TERMCAP_mb=$'\E[1;31m'
+export LESS_TERMCAP_mb=$'\E[3;31m'
 export LESS_TERMCAP_md=$'\E[1;32m'
 export LESS_TERMCAP_me=$'\E[0m'
 export LESS_TERMCAP_se=$'\E[0m'
@@ -91,7 +91,6 @@ export LESS_TERMCAP_so=$'\E[38;05;00;48;05;03m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[1;34m'
 
-export PATH=$PATH:~/.rvm/bin
 export PATH=$PATH:~/.npm/bin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
@@ -104,6 +103,7 @@ export PATH=$PATH:~/git-functions
 
 export PATH=$PATH:~/dev/git-more
 export PATH=$PATH:~/dev/ubik-cli
+export PATH=$PATH:~/dev/l
 
 
 
@@ -180,7 +180,7 @@ bindkey "^V" vim-pop
 # ------------------------------------------------------------------------------
 unalias run-help
 alias man="run-help"
-alias l="ls -laG"
+# alias l="ls -laGh"
 alias e="exa --level=2 -T -la"
 
 alias dev="cd ~/dev"
@@ -189,9 +189,9 @@ alias reload="exec zsh"
 alias download-video="youtube-dl -o -x \"~/dl/%(title)s.%(ext)s\""
 alias download="youtube-dl -o \"~/dl/%(title)s.%(ext)s\""
 
-alias vanillavim="command /Applications/MacVim.app/Contents/MacOS/Vim -u NONE"
-alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
+alias vanillavim="command vim -u NONE"
 alias dvim="vim -c Dirvish"
+alias gdvim="git ls-files | vim -c 'setf dirvish | set bt=nowrite | file %' -"
 alias clearvim="rm -rf ~/.vim/tmp/*"
 alias vimrc="vim ~/dev/dotfiles/.vimrc"
 alias zshrc="vim ~/dev/dotfiles/.zshrc"

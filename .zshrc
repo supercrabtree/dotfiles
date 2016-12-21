@@ -1,41 +1,13 @@
-# [ -f ~/.zshrc-pre ] && source ~/.zshrc-pre
-
 
 
 # Plugins
 # ------------------------------------------------------------------------------
-source ~/.zplug/zplug
-
-zplug "rupa/z", use:z.sh
-zplug "zsh-users/zsh-syntax-highlighting", nice:10
-zplug "k4rthik/git-cal", as:command
-zplug "robbyrussell/oh-my-zsh", use:plugins/sudo/sudo.plugin.zsh
-zplug "zsh-users/zsh-completions"
-zplug "mafredri/zsh-async"
-zplug "so-fancy/diff-so-fancy", as:command
-zplug "supercrabtree/bam-pow", use:bam.sh
-zplug "supercrabtree/k"
-zplug "paulirish/git-open", as:command
-zplug "grawity/code", as:command, use:term/xterm-color-chooser, rename-to:color-chooser
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-  printf "Install? [y/N]: "
-  if read -q; then
-    echo; zplug install
-  else
-    echo
-  fi
-fi
-
-zplug load
-
-# easier to work on / see pr's
-# source ~/dev/k/k.sh
+source ~/dev/pure/async.zsh
 source ~/dev/pure/pure.zsh
-source ~/dev/scratch/scratch
-# alias k="~/dev/knode/index.js"
-
+source ~/dev/z/z.sh
+source ~/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/dev/bam-pow/bam.sh
+fpath=(~/dev/zsh-completions/src $fpath)
 
 
 # Load
@@ -43,7 +15,8 @@ source ~/dev/scratch/scratch
 autoload -U run-help
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
-# zmodload -i zsh/parameter
+autoload -U compinit
+compinit
 
 
 
@@ -122,8 +95,6 @@ SAVEHIST=100000
 # using the homebrew version of zsh, so point at their docs
 HELPDIR=/usr/local/share/zsh/help
 
-source <(npm completion)
-
 _Z_DATA=~/.z.data/.z
 
 git_log_defaults="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%cn"
@@ -141,9 +112,6 @@ zstyle ':completion:*:*:*:*:*' menu select
 # ------------------------------------------------------------------------------
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
-
-zle -N fancy-ctrl-q
-bindkey '^Q' fancy-ctrl-q
 
 zle -N fancy-branch
 bindkey '^b' fancy-branch
@@ -271,39 +239,6 @@ g() {
   fi
 }
 
-md(){
-  if [ $# -ge 1 -a -f "$1" ]; then
-    pandoc -s -f markdown_github -t man "$*" | groff -T utf8 -man | less
-  else
-    pandoc -s -f markdown_github -t man | groff -T utf8 -man | less
-  fi
-}
-
-vi() {
-  local currentPath="$(pwd)"
-  currentPath=${currentPath#?}
-
-  mkdir -p ~/.vim/session/$currentPath
-
-  env vim -c "silent Obsession ~/.vim/session/$currentPath/Session.vim | silent Obsession! | silent Obsession ~/.vim/session/$currentPath/Session.vim"
-}
-
-vim() {
-  local currentPath="$(pwd)"
-  currentPath=${currentPath#?}
-
-  mkdir -p ~/.vim/session/$currentPath
-
-  if test $# -gt 0; then
-    env vim -c "silent Obsession ~/.vim/session/$currentPath/Session.vim" "$@"
-  elif test -f "$HOME/.vim/session/$currentPath/Session.vim"; then
-    env vim -S "$HOME/.vim/session/$currentPath/Session.vim" "$@"
-  else
-    mkdir -p "$HOME/.vim/session/$currentPath"
-    env vim -c "silent Obsession ~/.vim/session/$currentPath/Session.vim" "$@"
-  fi
-}
-
 gc() {
   if [[ $# == 0 ]]; then
     git commit -v
@@ -332,13 +267,19 @@ first-tab() {
   fi
 }
 
+fk() {
+  if type "fuck" > /dev/null; then
+    eval "$(thefuck --alias)"
+  fi
+  fuck
+}
 
 # open any files that have been edited, or are new and untracked.
 # if working directory is clean, open files edited in last commit.
 gvim() {
-  local files=$(git ls-files -m && git ls-files -o --exclude-standard)
+  local files=$(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
   if [[ $files != "" ]]; then
-    vim $(git ls-files -m && git ls-files -o --exclude-standard)
+    vim $(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
   else
     echo '\nCommits' && git log @{1}.. --decorate --pretty="$git_log_defaults" && echo '\nFiles' && git diff --stat @{1}..
     echo '\nPress any key open these files'; read -k1 -s
@@ -379,19 +320,6 @@ glb() {
   git log --decorate --pretty="$git_log_defaults%C(auto)%d" "-$LINES"
 }
 
-pr() {
-  echo
-  echo "Are you sure? Have you tested in Chrome, IE9-11, Safari and Firefox?"
-  echo
-
-  read "REPLY?Press [y] to continue "
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
-    CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    hub pull-request -m $CURRENT_BRANCH -b "dev" -h $CURRENT_BRANCH
-  fi
-}
-
 colortest() {
   if [ $1 ]; then
     for i in $@; do
@@ -418,15 +346,6 @@ colortest() {
   fi
 }
 
-vim-pop() {
-  [[ -z $BUFFER ]] && zle up-history
-  if [[ $BUFFER == vim\ * ]]; then
-    LBUFFER="${LBUFFER#sudo }"
-  else
-    LBUFFER="vim $LBUFFER"
-  fi
-}
-
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
     BUFFER="fg"
@@ -437,15 +356,8 @@ fancy-ctrl-z () {
   fi
 }
 
-fancy-ctrl-q () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="vim"
-    zle accept-line
-  else
-    zle push-input
-    zle clear-screen
-  fi
-}
+alias dw='git diff --word-diff=color'
+alias Dw='git diff --staged --word-diff=color'
 
 d() {
   if test "$#" = 0; then
@@ -586,18 +498,15 @@ z() {
 }
 
 
-
 # FZF
 # ------------------------------------------------------------------------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export  FZF_COMPLETION_TRIGGER=''
+export FZF_COMPLETION_TRIGGER=''
 zle      -N  fzf-history-widget
 zle      -N  fzf-file-widget
 bindkey '^R' fzf-history-widget
-bindkey '^F' fzf-file-widget
 bindkey '^I' $fzf_default_completion
 
-eval "$(thefuck --alias)"
 
 [ -f ~/.zshrc-post ] && source ~/.zshrc-post
 

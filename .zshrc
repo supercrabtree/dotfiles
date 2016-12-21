@@ -75,6 +75,9 @@ export PATH=$PATH:~/git-functions
 export PATH=$PATH:~/dev/git-more
 export PATH=$PATH:~/dev/ubik-cli
 export PATH=$PATH:~/dev/lm
+export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
+export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
+export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
 
 
 

@@ -49,8 +49,6 @@ export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
 
 export LESS="-RFX"
-export GREP_OPTIONS='--color=auto'
-export GREP_COLOR='43;0'
 export ZDOTDIR=$HOME
 
 export BAM_DIR="$HOME/dev/scratches"
@@ -76,7 +74,7 @@ export PATH=$PATH:~/git-functions
 
 export PATH=$PATH:~/dev/git-more
 export PATH=$PATH:~/dev/ubik-cli
-export PATH=$PATH:~/dev/l
+export PATH=$PATH:~/dev/lm
 
 
 
@@ -139,16 +137,13 @@ bindkey " " globalaliasexpander
 bindkey "^ " magic-space           # control-space to bypass completion
 bindkey -M isearch " " magic-space # normal space during searches
 
-zle -N vim-pop
-bindkey "^V" vim-pop
-
-
 
 # Aliases
 # ------------------------------------------------------------------------------
 unalias run-help
 alias man="run-help"
-# alias l="ls -laGh"
+alias l="gls --color -AU"
+alias ll="lm"
 alias e="exa --level=2 -T -la"
 
 alias dev="cd ~/dev"
@@ -158,12 +153,11 @@ alias download-video="youtube-dl -o -x \"~/dl/%(title)s.%(ext)s\""
 alias download="youtube-dl -o \"~/dl/%(title)s.%(ext)s\""
 
 alias vanillavim="command vim -u NONE"
-alias dvim="vim -c Dirvish"
-alias gdvim="git ls-files | vim -c 'setf dirvish | set bt=nowrite | file %' -"
-alias clearvim="rm -rf ~/.vim/tmp/*"
-alias vimrc="vim ~/dev/dotfiles/.vimrc"
-alias zshrc="vim ~/dev/dotfiles/.zshrc"
-alias update='brew update && brew upgrade && brew clean && n latest && npm update -g'
+#alias dvim="vim -c Dirvish"
+#alias gdvim="git ls-files | vim -c 'setf dirvish | set bt=nowrite | file %' -"
+alias vi=vim
+alias vimrc="vim ~/.vimrc"
+alias zshrc="vim ~/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 
@@ -171,7 +165,7 @@ alias gC="git commit --amend -v"
 alias glg="git log --graph --decorate --all --pretty='$git_log_defaults%C(auto)%d'"
 alias grc='git add -A && git rebase --continue'
 alias gaa='git add -A'
-alias fk='fuck'
+alias git=hub
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -188,14 +182,6 @@ alias vmd='/Applications/vmd.app/Contents/MacOS/vmd'
 
 # suffix
 alias -s git='git clone'
-alias -s md='vmd'
-alias -s markdown='vmd'
-alias -s mdown='vmd'
-alias -s mkdn='vmd'
-alias -s mkd='vmd'
-alias -s mdwn='vmd'
-alias -s mdtxt='vmd'
-alias -s mdtext='vmd'
 
 # global
 alias -g C='| pbcopy'

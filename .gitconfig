@@ -2,7 +2,6 @@
   default = current
 [user]
   email = supercrabtree@googlemail.com
-  name = George Crabtree
 [core]
   excludesfile = ~/.gitignore
 [web]
@@ -20,15 +19,12 @@
   smudge = git hawser smudge %f
   required = true
 [alias]
-  last-commit-subject      = !git log -1 --pretty=%B
-  contributors-markdown    = !git config --get remote.origin.url | sed \"s/\\(^git@github\\.com\\:\\)/https:\\/\\/api.github.com\\/repos\\//\"| sed 's/\\.git$/\\/contributors/' | xargs curl -s | jsawk -a 'return this.join(\"\")' 'return \"[\" + this.login +\"](\" + this.html_url + \") \" + this.contributions + \" \\n\"'
-  peek                     = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)'
-  br                       = !git for-each-ref --sort=committerdate refs/heads/ --format=' %(color:8)%(committerdate:relative)%(color:reset)|%(color:blue)%(HEAD)%(color:reset) %(refname:short)' | column -ts'|'
+  undo = reset HEAD~1
+  peek = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%cn%C(auto)'
 [pager]
   diff = diff-so-fancy | less --tabs=4 -RFX
   show = diff-so-fancy | less --tabs=4 -RFX
-[color "diff-highlight"]
-  oldNormal = red bold
-  oldHighlight = red bold 12
-  newNormal = green bold
-  newHighlight = green bold 12
+[difftool]
+	prompt = false
+[commit]
+  verbose = true

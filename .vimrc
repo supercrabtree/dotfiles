@@ -27,7 +27,8 @@ function! SetupVAM()
   let &rtp.=(empty(&rtp)?'':',').l:c.plugin_root_dir.'/vim-addon-manager'
   call vam#ActivateAddons([
   \   'github:airblade/vim-gitgutter',
-  \   'github:tpope/vim-commentary'
+  \   'github:tpope/vim-commentary',
+  \   'github:tpope/vim-fugitive'
   \ ], {'auto_install' : 1})
 endfunction
 
@@ -45,7 +46,9 @@ let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
 
 set backspace=indent,eol,start
+set completeopt=longest,menu
 set cursorline
+set diffopt+=vertical
 set expandtab
 set hidden
 set history=10000
@@ -65,17 +68,20 @@ set nowrap
 set scroll=10
 set scrolloff=1
 set shiftwidth=4
-set shortmess=F
 set smartcase
 set smarttab
 set softtabstop=4
-set statusline=%f:%l\ of\ %L\ col\ %c\ %y%q%m%r
+set statusline=%m%r%y\ %f:%l\ of\ %L\ col\ %c
 set tabstop=4
 set termguicolors
 set ttimeoutlen=0
 set undodir=~/.vim/undo
 set undofile
 set wildmenu
+
+" find files in require() statments
+set suffixesadd+=.js
+set path+=$PWD/node_modules
 
 " different cursor shapes for insert mode for iTerm2
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
@@ -100,10 +106,13 @@ augroup vimrc_mini
 
   au Filetype qf setlocal statusline=%t%{exists('w:quickfix_title')\ ?\ '\ '.w:quickfix_title\ :\ ''}\ %l\ of\ %L\ col\ %c
   au Filetype qf nnoremap <buffer> <silent> g<CR> <CR>:ccl<CR>
+  au Filetype qf nnoremap <buffer> <C-C> :ccl<CR>
 
   au FileType gitcommit setlocal colorcolumn=51,73
   au FileType gitcommit setlocal spell
   au FileType gitcommit setlocal nocursorline
+
+  au FileType * setlocal formatoptions-=cor
 
   au BufEnter * call s:save_file_to_MRU_file(expand('%:p'))
 augroup END
@@ -141,12 +150,7 @@ function! s:Find(regex, ignore_git)
   if (!l:is_git)
     let l:files = map(split(l:files), {key, val -> substitute(fnamemodify(val, ':s?' . escape(l:root, '?') . '??:~'), '^\/', '', '')})
   endif
-  if a:regex != ''
-    let l:name = '/' . a:regex . ' ' . fnamemodify(l:root, ':~')
-  else
-    let l:name = fnamemodify(l:root, ':~')
-  endif
-  call s:setup_file_buffer(l:files, l:root, 'Find', l:name, a:regex)
+  call s:setup_file_buffer(l:files, l:root, a:regex)
 endfunction
 
 function! s:MRU()
@@ -154,6 +158,10 @@ function! s:MRU()
   let l:files = filter(l:files, "!empty(v:val)")
   let l:files = filter(l:files, 'v:val != "'.expand('%:p').'"')
   let l:files = filter(l:files, {key, val -> match(val, '\/vim\d\d\/') == -1})
+  let l:files = filter(l:files, {key, val -> match(val, '^fugitive:\/\/\/') == -1})
+  let l:files = filter(l:files, {key, val -> match(val, '\/var\/folders') == -1})
+  let l:files = filter(l:files, {key, val -> match(val, '\/.vim\/vim-addons.*doc\/') == -1})
+
   let l:files = map(l:files, {key, val -> fnamemodify(val, ':~:.')})
   let l:open_buffers = filter(copy(l:files), {key, val -> bufloaded(expand(val))})
   let l:other_files = filter(copy(l:files), {key, val -> !bufloaded(expand(val))})
@@ -162,8 +170,7 @@ function! s:MRU()
   else
     let l:file_list = l:other_files
   endif
-  let l:name = fnamemodify(expand('.'), ":~")
-  call s:setup_file_buffer(l:file_list, ".", 'MRU', l:name)
+  call s:setup_file_buffer(l:file_list, ".")
 endfunction
 
 function! s:Grep(args, ignore_git, force_case_sensitive)
@@ -187,54 +194,29 @@ function! s:Grep(args, ignore_git, force_case_sensitive)
   let &grepprg = l:save
 endfunction
 
-function! s:setup_file_buffer(files, root, type, title, ...)
+function! s:GStatusFiles(args)
+  let l:files = system("git status -s " . a:args . "| sed 's/^...//'")
+  call s:setup_file_buffer(l:files, '.')
+endfunction
+
+function! s:setup_file_buffer(files, root, ...)
   enew
   execute "lcd " . a:root
   setlocal statusline=%f\ \|\ %l\ of\ %L\ col\ %c
   setlocal buftype=nofile
-  setlocal nobuflisted
-  "execute "file " . escape(a:type . ' ' . bufnr('%') . ' ' . a:title , ' ')
   put = a:files
   normal ggdd
   if a:0 > 0 && a:1 != ''
-    " call feedkeys("/" . a:1 . "\<CR>", "nt")
-    " call feedkeys(":v//d\<CR>", "nt")
-    call feedkeys(":v/" . a:1 . "/d\<CR>", "nt")
-    call feedkeys("gg:noh\<CR>:echo\<CR>", "nt")
+    call feedkeys(":g/" . a:1 . "/m0\<CR>", "nt")
   endif
   nnoremap <buffer> <C-C> :bw<cr>
   nnoremap <buffer> <Enter> gf
-  xnoremap <buffer> gf :call OpenAllVisuallySelectedFiles()<cr>:echo<cr>
-  xmap <buffer> <Enter> gf
 endfunction
 
-function! QF()
-  return expand("%") . ":" . line(".") .  ":" . getline(".")
-endfunction
-
-function! s:Ranger()
-    let tmp = tempname()
-    exec 'silent !ranger --choosefiles=' . shellescape(tmp)
-    if !filereadable(tmp)
-        redraw!
-        return
-    endif
-    let names = readfile(tmp)
-    if empty(names)
-        redraw!
-        return
-    endif
-    exec 'edit ' . fnameescape(names[0])
-    for name in names[1:]
-        exec 'argadd ' . fnameescape(name)
-    endfor
-    redraw!
-endfunction
-
-command! -bar Ranger call s:Ranger()
 command! -nargs=+ -bang -complete=dir Grep call s:Grep(<q-args>, <bang>0, 0)
 command! -nargs=+ -bang -complete=dir GrepCaseSensitive call s:Grep(<q-args>, <bang>0, 1)
 command! -nargs=? -bang -complete=file Find call s:Find("<args>", <bang>0)
+command! -nargs=* GStatusFiles call s:GStatusFiles("<args>")
 command! -nargs=0 MRU call s:MRU()
 
 " Find and grep mappings
@@ -248,13 +230,14 @@ nnoremap <C-G> :Grep
 nnoremap <C-G>! :Grep! 
 xmap <C-G> *N:noh<CR>:<C-U>Grep /
 
+nnoremap <C-G><C-S> :GStatusFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
-nnoremap <C-B> :ls<cr>:b
 
-" Mappings
-nnoremap * *N
+nnoremap * :let @/=expand("<cword>")\|set hlsearch<CR>lN
+xnoremap * "zy:let @/=expand(@z)\|set hlsearch<CR>
+
+cnoremap <C-X> <C-R>=getline(".")
 nnoremap Y y$
-xnoremap * mzy/<C-R>=escape('<C-R>"', '/.')<CR><CR>`z
 nnoremap - o<esc>"*p
 xnoremap - "*y
 nnoremap _ g-
@@ -262,36 +245,56 @@ nnoremap + g+
 nnoremap <silent> <BS> :noh<cr>:redraw!<cr>jk:diffupdate<cr>
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
+
+" stamp to osx clipboard
 nnoremap s :let @*=@"<cr>:echo 'Stamped'<cr>
 nnoremap S :let @*=@
+
+" substitute shortcuts
 nnoremap <C-S> :%s//
-xnoremap <C-S> y:%s/<C-R>=escape('<C-R>"', '/.')<CR>/
+xnoremap <C-S> y:%s/<C-R>=escape(@", '/.')<CR>/
+
+" select multiple files
+xnoremap gf :call OpenAllVisuallySelectedFiles()<cr>:echo<cr>
+xmap <Enter> gf
 
 " insert undo stop points
-inoremap <cr> <c-]><c-g>u<cr>
-inoremap <c-h> <c-g>u<c-h>
-inoremap <c-u> <c-g>u<c-u>
-inoremap <c-w> <c-g>u<c-w>
-inoremap <space> <c-g>u<space>
+inoremap <cr> <c-]><C-G>u<cr>
+inoremap <c-h> <C-G>u<c-h>
+inoremap <c-u> <C-G>u<c-u>
+inoremap <c-w> <C-G>u<c-w>
+inoremap <space> <C-G>u<space>
 
 " cheapo brace expansion
-inoremap {<cr> {}<C-G>U<Left><cr><cr><c-g>U<Up><tab>
+inoremap {<cr> {}<C-G>U<Left><cr><cr><C-G>U<Up><tab>
 
 " 'line-content' mappings, yank content - delete content
 nnoremap yc mz^yg_`z
 nnoremap dc mz^dg_`z
 
-nnoremap H :GitGutterStageHunk<cr>
 nmap J ]c
 nmap K [c
+nnoremap H :GitGutterStageHunk<cr>
 nnoremap U mz:GitGutterUndoHunk<cr>`z
 
+" navigate quickfix quickly
 nmap [q :cp<cr>zz
 nmap ]q :cn<cr>zz
 
+" buffer movement
 nmap <silent> <C-N> :bn<CR>
 nmap <silent> <C-P> :bp<CR>
-nmap <silent> <C-C> :bn<CR>:bd #<CR>
+nmap <expr> <silent> <C-C> len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 ? ':bd<cr>' : ':bp<CR>:bd #<CR>'
+nnoremap <C-B> :ls<cr>:b
+cmap <expr> <silent> <C-N> getcmdline() == 'b' ? 'n\|redraw\|ls<CR>:b' : ':bn<CR>'
+cmap <expr> <silent> <C-P> getcmdline() == 'b' ? 'p\|redraw\|ls<CR>:b' : ':bp<CR>'
+
+" fix missing mappings due to hjkl global remap
+inoremap <c-x><right> <c-x><c-l>
+inoremap <c-x><up> <c-x><c-k>
+inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
+
+" toggle line numbers
+nnoremap <space> :set number!<cr>
 
 colorscheme supercrabtree
-

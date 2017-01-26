@@ -19,7 +19,6 @@ autoload -U compinit
 compinit
 
 
-
 # Zsh options
 # ------------------------------------------------------------------------------
 setopt auto_cd
@@ -34,7 +33,6 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt share_history
 setopt ignoreeof
-
 
 
 # Exports
@@ -66,15 +64,13 @@ export PATH=$PATH:~/.npm/bin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/bin
-export PATH=$PATH:/bin
 export PATH=$PATH:/usr/sbin
+export PATH=$PATH:/bin
 export PATH=$PATH:/sbin
 export PATH=$PATH:~/bin
-export PATH=$PATH:~/git-functions
 
-export PATH=$PATH:~/dev/git-more
-export PATH=$PATH:~/dev/ubik-cli
 export PATH=$PATH:~/dev/lm
+export PATH=$PATH:~/dev/git-functions
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
@@ -98,15 +94,13 @@ HELPDIR=/usr/local/share/zsh/help
 
 _Z_DATA=~/.z.data/.z
 
-git_log_defaults="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%cn"
-
+git_log_defaults="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an"
 
 
 # Z Style
 # ------------------------------------------------------------------------------
 zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:*:*:*' menu select
-
 
 
 # New Keyboard Shortcuts
@@ -125,16 +119,6 @@ zle -N down-line-or-beginning-search
 zle -N searchdown
 bindkey "^[[B" searchdown
 
-zle -N insert-last-command-output
-bindkey "^d" insert-last-command-output
-
-zle -N first-tab
-bindkey '^I' first-tab
-
-zle -N switch-background
-bindkey -r '^_'
-bindkey '^_' switch-background
-
 zle -N globalaliasexpander
 bindkey " " globalaliasexpander
 bindkey "^ " magic-space           # control-space to bypass completion
@@ -147,7 +131,6 @@ unalias run-help
 alias man="run-help"
 alias l="gls --color -AU"
 alias ll="lm"
-alias e="exa --level=2 -T -la"
 
 alias dev="cd ~/dev"
 alias f="open ."
@@ -156,19 +139,21 @@ alias download-video="youtube-dl -o -x \"~/dl/%(title)s.%(ext)s\""
 alias download="youtube-dl -o \"~/dl/%(title)s.%(ext)s\""
 
 alias vanillavim="command vim -u NONE"
-#alias dvim="vim -c Dirvish"
-#alias gdvim="git ls-files | vim -c 'setf dirvish | set bt=nowrite | file %' -"
+# alias vim=nvim
 alias vi=vim
-alias vimrc="vim ~/.vimrc"
-alias zshrc="vim ~/.zshrc"
+alias vimrc="vim ~/dev/dotfiles/.vimrc"
+alias zshrc="vim ~/dev/dotfiles/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 
-alias gC="git commit --amend -v"
+alias gC="git commit --amend"
 alias glg="git log --graph --decorate --all --pretty='$git_log_defaults%C(auto)%d'"
 alias grc='git add -A && git rebase --continue'
 alias gaa='git add -A'
 alias git=hub
+
+alias gl="git log --decorate --all --pretty='$git_log_defaults' -20"
+alias glb="git log --decorate --pretty='$git_log_defaults%C(auto)%d' -20"
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -206,6 +191,24 @@ searchdown() {
   _zsh_highlight
 }
 
+globalaliasexpander() {
+  if [[ $LBUFFER =~ " [A-Z0-9]+$" ]]; then
+    zle _expand_alias
+    zle expand-word
+  fi
+  zle self-insert
+}
+
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line
+  else
+    zle push-input
+    zle clear-screen
+  fi
+}
+
 
 # Standard Functions
 # ------------------------------------------------------------------------------
@@ -215,98 +218,6 @@ cdwhich() {
 
 mkcd() {
   mkdir -p $1 && cd $1
-}
-
-# No arguments: `git status -s`
-# With arguments: acts like `git`
-compdef g=git
-g() {
-  if [[ $# > 0 ]]; then
-    git $@
-  else
-    git status -s
-  fi
-}
-
-gc() {
-  if [[ $# == 0 ]]; then
-    git commit -v
-  elif [[ $@ == "-vp" ]]; then
-    clear && git commit -vp
-  else
-    git commit "$@"
-  fi
-}
-
-globalaliasexpander() {
-  if [[ $LBUFFER =~ " [A-Z0-9]+$" ]]; then
-    zle _expand_alias
-    zle expand-word
-  fi
-  zle self-insert
-}
-
-first-tab() {
-  if [[ $#BUFFER == 0 ]]; then
-    BUFFER="cat "
-    CURSOR=4
-    zle list-choices
-  else
-    zle expand-or-complete
-  fi
-}
-
-fk() {
-  if type "fuck" > /dev/null; then
-    eval "$(thefuck --alias)"
-  fi
-  fuck
-}
-
-# open any files that have been edited, or are new and untracked.
-# if working directory is clean, open files edited in last commit.
-gvim() {
-  local files=$(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
-  if [[ $files != "" ]]; then
-    vim $(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
-  else
-    echo '\nCommits' && git log @{1}.. --decorate --pretty="$git_log_defaults" && echo '\nFiles' && git diff --stat @{1}..
-    echo '\nPress any key open these files'; read -k1 -s
-    vim $(git diff --name-only @{1}..)
-  fi
-}
-
-# conflict vim
-cvim() {
-  vim $(git diff --name-only --diff-filter=u)
-}
-
-ff() {
-  if [ $1 ]; then
-    if [ $2 ]; then
-      find $1 | grep $2
-    else
-      find . | grep $1
-    fi
-  else
-    find .
-  fi
-}
-
-gl() {
-  LINES=20
-  if [ $1 ]; then
-    LINES=$1
-  fi
-  git log --decorate --all --pretty="$git_log_defaults" "-$LINES"
-}
-
-glb() {
-  LINES=20
-  if [ $1 ]; then
-    LINES=$1
-  fi
-  git log --decorate --pretty="$git_log_defaults%C(auto)%d" "-$LINES"
 }
 
 colortest() {
@@ -335,18 +246,42 @@ colortest() {
   fi
 }
 
-fancy-ctrl-z () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="fg"
-    zle accept-line
+# Git things
+# ------------------------------------------------------------------------------
+compdef g=git
+g() {
+  if [[ $# > 0 ]]; then
+    git $@
   else
-    zle push-input
-    zle clear-screen
+    git status -s
   fi
 }
 
-alias dw='git diff --word-diff=color'
-alias Dw='git diff --staged --word-diff=color'
+gc() {
+  if [[ $@ == "-p" ]]; then
+    clear && git commit -p
+  else
+    git commit "$@"
+  fi
+}
+
+# open any files that have been edited, or are new and untracked.
+# if working directory is clean, open files edited in last commit.
+gvim() {
+  local files=$(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
+  if [[ $files != "" ]]; then
+    vim $(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
+  else
+    echo '\nCommits' && git log @{1}.. --decorate --pretty="$git_log_defaults" && echo '\nFiles' && git diff --stat @{1}..
+    echo '\nPress any key open these files'; read -k1 -s
+    vim $(git diff --name-only @{1}..)
+  fi
+}
+
+# conflict vim
+cvim() {
+  vim $(git diff --name-only --diff-filter=u)
+}
 
 d() {
   if test "$#" = 0; then
@@ -363,14 +298,8 @@ D() {
   git diff --staged --color | diff-so-fancy | less
 }
 
-# use with ctrl-d as a zle binding above
-insert-last-command-output() {
-  LBUFFER+="$(eval $history[$((HISTCMD-1))])"
-  _zsh_highlight
-}
 
-
-# FZF functions
+# FZF things
 # ------------------------------------------------------------------------------
 export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\
   --bind=ctrl-n:toggle-down\
@@ -407,28 +336,6 @@ fzf-history-widget() {
   zle redisplay
 }
 
-# chrome history to fzf
-c() {
-  local cols sep
-  export cols=$(( COLUMNS / 3 ))
-  export sep='{::}'
-
-  cp -f ~/Library/Application\ Support/Google/Chrome/Profile\ 1/History /tmp/h
-  sqlite3 -separator $sep /tmp/h \
-    "select title, url from urls order by last_visit_time desc" |
-  ruby -ne '
-    cols = ENV["cols"].to_i
-    title, url = $_.split(ENV["sep"])
-    len = 0
-    puts "\x1b[36m" + title.each_char.take_while { |e|
-      if len < cols
-        len += e =~ /\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/ ? 2 : 1
-      end
-    }.join + " " * (2 + cols - len) + "\x1b[m" + url' |
-  fzf --ansi --multi --no-hscroll --tiebreak=index |
-  sed 's#.*\(https*://\)#\1#' | xargs open
-}
-
 fancy-branch() {
   local tags localbranches remotebranches target
   tags=$(
@@ -460,23 +367,6 @@ fancy-branch() {
   fi
 }
 
-killprocess() {
-  pid=$(ps -ef | sed 1d | fzf -m -e | awk '{print $2}')
-
-  if [ "x$pid" != "x" ]
-  then
-    kill -${1:-9} $pid
-  fi
-}
-
-killport() {
-  pid=$(lsof -P | fzf -e | awk '{print $2}')
-  if [ "x$pid" != "x" ]
-  then
-    kill -${1:-9} $pid
-  fi
-}
-
 unalias z 2> /dev/null
 z() {
   if [[ -z "$*" ]]; then
@@ -486,9 +376,6 @@ z() {
   fi
 }
 
-
-# FZF
-# ------------------------------------------------------------------------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_COMPLETION_TRIGGER=''
 zle      -N  fzf-history-widget

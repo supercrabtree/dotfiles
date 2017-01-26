@@ -1197,10 +1197,24 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
+		<key>0x6a-0x140000</key>
+		<dict>
+			<key>Action</key>
+			<integer>6</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
 		<key>0x6b-0x100000</key>
 		<dict>
 			<key>Action</key>
 			<integer>30</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0x6b-0x140000</key>
+		<dict>
+			<key>Action</key>
+			<integer>7</integer>
 			<key>Text</key>
 			<string></string>
 		</dict>
@@ -1310,11 +1324,11 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>257 110 445 517 0 0 1920 1178 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>650 589 620 392 0 0 1920 1178 </string>
+	<string>1292 1039 620 392 0 0 3200 1778 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>501 904 796 473 0 0 3200 1778 </string>
+	<string>234 521 937 465 0 0 1920 1178 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>478 0 1442 1178 0 0 1920 1178 </string>
+	<string>640 0 1280 1178 0 0 1920 1178 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>588 278 570 452 0 0 1920 1177 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
@@ -2929,7 +2943,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-12-01T02:50:02Z</date>
+	<date>2017-01-24T06:00:13Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -2981,7 +2995,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.12</string>
+	<string>3.0.13</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>2</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

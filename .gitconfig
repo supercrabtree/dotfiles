@@ -3,7 +3,7 @@
 [user]
   email = supercrabtree@googlemail.com
 [core]
-  excludesfile = ~/.gitignore
+  excludesfile = ~/.gitignore-global
 [web]
   browser = google-chrome
 [advice]

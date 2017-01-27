@@ -1148,6 +1148,13 @@
 			<key>Text</key>
 			<string>Clear Buffer</string>
 		</dict>
+		<key>0x38-0x140000</key>
+		<dict>
+			<key>Action</key>
+			<integer>5</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
 		<key>0x3b-0x100000</key>
 		<dict>
 			<key>Action</key>
@@ -1190,6 +1197,13 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
+		<key>0x69-0x140000</key>
+		<dict>
+			<key>Action</key>
+			<integer>9</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
 		<key>0x6a-0x100000</key>
 		<dict>
 			<key>Action</key>
@@ -1218,6 +1232,13 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
+		<key>0x6d-0x140000</key>
+		<dict>
+			<key>Action</key>
+			<integer>4</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
 		<key>0x6f-0x100000</key>
 		<dict>
 			<key>Action</key>
@@ -1243,6 +1264,13 @@
 		<dict>
 			<key>Action</key>
 			<integer>2</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
+		<key>0x75-0x140000</key>
+		<dict>
+			<key>Action</key>
+			<integer>8</integer>
 			<key>Text</key>
 			<string></string>
 		</dict>
@@ -1282,7 +1310,7 @@
 	<key>MinTabWidth</key>
 	<integer>75</integer>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/dev/dotfiles</string>
+	<string>~</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
@@ -1326,9 +1354,9 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>1292 1039 620 392 0 0 3200 1778 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>234 521 937 465 0 0 1920 1178 </string>
+	<string>1406 1025 796 473 0 0 3360 1868 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>640 0 1280 1178 0 0 1920 1178 </string>
+	<string>176 71 1210 977 0 0 3360 1868 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>588 278 570 452 0 0 1920 1177 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
@@ -1628,7 +1656,7 @@
 			<key>Columns</key>
 			<integer>120</integer>
 			<key>Command</key>
-			<string>/Users/supercrabtree/.launch/launch.sh</string>
+			<string></string>
 			<key>Cursor Boost</key>
 			<real>0.0</real>
 			<key>Cursor Color</key>
@@ -2921,7 +2949,7 @@
 	<key>PointerActions</key>
 	<dict/>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/george.crabtree/dev/dotfiles</string>
+	<string>/Users/george.crabtree</string>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>PromptOnQuit</key>
@@ -2943,7 +2971,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-01-24T06:00:13Z</date>
+	<date>2017-01-25T06:02:41Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>

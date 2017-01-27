@@ -141,8 +141,8 @@ alias download="youtube-dl -o \"~/dl/%(title)s.%(ext)s\""
 alias vanillavim="command vim -u NONE"
 # alias vim=nvim
 alias vi=vim
-alias vimrc="vim ~/dev/dotfiles/.vimrc"
-alias zshrc="vim ~/dev/dotfiles/.zshrc"
+alias vimrc="vim ~/.vimrc"
+alias zshrc="vim ~/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 

@@ -246,15 +246,15 @@ nnoremap <silent> <BS> :noh<cr>:redraw!<cr>jk:diffupdate<cr>
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 
-" stamp to osx clipboard
-nnoremap s :let @*=@"<cr>:echo 'Stamped'<cr>
-nnoremap S :let @*=@
+" stamp between clipboards
+nnoremap s :let @*=@"<cr>:echo 'StampedOut'<cr>
+nnoremap S :let @"=@*<cr>:echo 'StampedIn'<cr>
 
 " substitute shortcuts
 nnoremap <C-S> :%s//
 xnoremap <C-S> y:%s/<C-R>=escape(@", '/.')<CR>/
 
-" select multiple files
+" open multiple files in visualmode
 xnoremap gf :call OpenAllVisuallySelectedFiles()<cr>:echo<cr>
 xmap <Enter> gf
 

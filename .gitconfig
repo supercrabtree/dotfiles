@@ -1,5 +1,6 @@
 [push]
   default = current
+  followTags = true
 [user]
   email = supercrabtree@googlemail.com
 [core]
@@ -10,7 +11,7 @@
   statusHints = false
 [diff]
   mnemonicprefix = true
-	tool = vimdiff
+  tool = vimdiff
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
@@ -26,6 +27,6 @@
   diff = diff-so-fancy | less --tabs=4 -RFX
   show = diff-so-fancy | less --tabs=4 -RFX
 [difftool]
-	prompt = false
+  prompt = false
 [commit]
   verbose = true

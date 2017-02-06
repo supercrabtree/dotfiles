@@ -96,13 +96,17 @@ endif
 command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " softtabstop=" . <args> . " tabstop=" . <args> . " expandtab"
 command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " softtabstop=" . <args> . " tabstop=" . <args> . " noexpandtab"
 
-augroup vimrc_mini
+augroup vimrc
   autocmd!
   " maintain window layout between sessions
   au BufLeave * if !&diff | let b:winview = winsaveview() | endif
   au BufEnter * if exists("b:winview") && !&diff | call winrestview(b:winview) | unlet! b:winview | endif
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
   au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
+
+  au BufEnter * if &diff | nnoremap <buffer> H do | endif
+  au BufEnter * if &diff | nnoremap <buffer> U dp | endif
+  au BufEnter * if &diff | nnoremap <buffer> dy <c-w><c-w>yy<c-w><c-w>Vp | endif
 
   au Filetype qf setlocal statusline=%t%{exists('w:quickfix_title')\ ?\ '\ '.w:quickfix_title\ :\ ''}\ %l\ of\ %L\ col\ %c
   au Filetype qf nnoremap <buffer> <silent> g<CR> <CR>:ccl<CR>

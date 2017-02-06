@@ -233,7 +233,7 @@ nnoremap <C-G> :Grep
 nnoremap <C-G>! :Grep! 
 xmap <C-G> *N:noh<CR>:<C-U>Grep /
 
-nnoremap <C-G><C-S> :GStatusFiles<cr>
+nnoremap <C-F><C-G> :GStatusFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
 
 nnoremap * :let @/=expand("<cword>")\|set hlsearch<CR>lN

@@ -109,8 +109,7 @@ augroup vimrc
   au BufEnter * if &diff | nnoremap <buffer> dy <c-w><c-w>yy<c-w><c-w>Vp | endif
 
   au Filetype qf setlocal statusline=%t%{exists('w:quickfix_title')\ ?\ '\ '.w:quickfix_title\ :\ ''}\ %l\ of\ %L\ col\ %c
-  au Filetype qf nnoremap <buffer> <silent> g<CR> <CR>:ccl<CR>
-  au Filetype qf nnoremap <buffer> <C-C> :ccl<CR>
+  au Filetype qf nnoremap <buffer> <C-C> :execute "try\n:ccl\ncatch\n:bd\nendtry"<cr>
 
   au FileType gitcommit setlocal colorcolumn=51,73
   au FileType gitcommit setlocal spell

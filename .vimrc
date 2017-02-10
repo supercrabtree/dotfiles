@@ -213,7 +213,7 @@ function! s:setup_file_buffer(files, root, ...)
     call feedkeys(":g/" . a:1 . "/m0\<CR>", "nt")
   endif
   nnoremap <buffer> <C-C> :bw<cr>
-  nnoremap <buffer> <Enter> gf
+  nnoremap <buffer> <Enter> mSgf
 endfunction
 
 command! -nargs=+ -bang -complete=dir Grep call s:Grep(<q-args>, <bang>0, 0)

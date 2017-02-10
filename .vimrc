@@ -300,4 +300,7 @@ inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
 " toggle line numbers
 nnoremap <space> :set number!<cr>
 
+" last file
+nnoremap <cr> <c-^>
+
 colorscheme supercrabtree

@@ -237,7 +237,7 @@ nnoremap <C-F><C-G> :GStatusFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
 
 nnoremap * :let @/=expand("<cword>")\|set hlsearch<CR>lN
-xnoremap * "zy:let @/=substitute(expand(@z), '\n', '\\n', 'g')\|set hlsearch<CR>
+xnoremap * "zy:let @/=substitute(escape(@z, '/\'), '\n', '\\n', 'g')\|set hlsearch<CR>
 
 cnoremap <C-X> <C-R>=getline(".")
 nnoremap Y y$

@@ -301,6 +301,6 @@ inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
 nnoremap <space> :set number!<cr>
 
 " last file
-nnoremap <cr> <c-^>
+nnoremap <expr> <cr> &filetype == 'qf' ? "\<cr>" : "\<c-^>"
 
 colorscheme supercrabtree

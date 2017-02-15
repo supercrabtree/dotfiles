@@ -314,17 +314,12 @@ done
 echo
 }
 
-fzf-file-widget() {
-  LBUFFER="${LBUFFER}$(__fsel)"
-  zle redisplay
-}
-
 fzf-history-widget() {
   local selected num fade
   if [[ $BACKGROUND == "dark" ]]; then fade=0 fi
   if [[ $BACKGROUND == "light" ]]; then fade=15 fi
   # --color=spinner:"$fade",info:"$fade"
-  selected=( $(fc -l 1 | tail -r | awk '!seen[$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20]++' | fzf +s +m -n2..,.. --no-reverse --tiebreak=index --toggle-sort=ctrl-r -q "${LBUFFER//$/\\$}") )
+  selected=( $(fc -l 1 | tail -r | awk '!seen[$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20]++' | fzf +s +m -n2..,.. --no-reverse --tiebreak=index --exact --toggle-sort=ctrl-r -q "${LBUFFER//$/\\$}") )
   if [ -n "$selected" ]; then
     num=$selected[1]
     if [ -n "$num" ]; then
@@ -374,13 +369,7 @@ z() {
   fi
 }
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_COMPLETION_TRIGGER=''
 zle      -N  fzf-history-widget
-zle      -N  fzf-file-widget
 bindkey '^R' fzf-history-widget
-bindkey '^I' $fzf_default_completion
 
-
-[ -f ~/.zshrc-post ] && source ~/.zshrc-post
 

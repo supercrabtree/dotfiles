@@ -94,8 +94,8 @@ HELPDIR=/usr/local/share/zsh/help
 
 _Z_DATA=~/.z.data/.z
 
-git_log_defaults="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an"
-
+git_log_defaults="%n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an "
+pretty="--pretty=$git_log_defaults"
 
 # Z Style
 # ------------------------------------------------------------------------------
@@ -146,14 +146,10 @@ alias zshrc="vim ~/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 
-alias gC="git commit --amend"
-alias glg="git log --graph --decorate --all --pretty='$git_log_defaults%C(auto)%d'"
-alias grc='git add -A && git rebase --continue'
-alias gaa='git add -A'
 alias git=hub
-
-alias gl="git log --decorate --all --pretty='$git_log_defaults' -20"
-alias glb="git log --decorate --pretty='$git_log_defaults%C(auto)%d' -20"
+alias gaa='git add -A'
+alias gl="git log --decorate -z --pretty='$git_log_defaults' -20"
+alias glv="git log --decorate -z --pretty='$git_log_defaults'"
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -283,6 +279,7 @@ cvim() {
   vim $(git diff --name-only --diff-filter=u)
 }
 
+# git diff
 d() {
   if test "$#" = 0; then
     (
@@ -294,6 +291,7 @@ d() {
   fi
 }
 
+# diff staged
 D() {
   git diff --staged --color | diff-so-fancy | less
 }

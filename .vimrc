@@ -210,7 +210,7 @@ function! s:setup_file_buffer(files, root, ...)
   put = a:files
   normal ggdd
   if a:0 > 0 && a:1 != ''
-    call feedkeys(":g/" . a:1 . "/m0\<CR>", "nt")
+    call feedkeys(":g/" . escape(a:1, '/\') . "/m0\<CR>", "nt")
   endif
   nnoremap <buffer> <C-C> :bw<cr>
   nnoremap <buffer> <Enter> mSgf

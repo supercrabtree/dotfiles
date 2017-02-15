@@ -135,7 +135,7 @@ alias ll="lm"
 alias dev="cd ~/dev"
 alias f="open ."
 alias reload="exec zsh"
-alias download-video="youtube-dl -o -x \"~/dl/%(title)s.%(ext)s\""
+alias download-video-as-audio="youtube-dl -o -x \"~/dl/%(title)s.%(ext)s\""
 alias download="youtube-dl -o \"~/dl/%(title)s.%(ext)s\""
 
 alias vanillavim="command vim -u NONE"

@@ -40,3 +40,5 @@
 [filter "tabspace"]
 	smudge = gunexpand --tabs=4 --first-only
 	clean = gexpand --tabs=4 --initial
+[commit]
+  verbose = true

@@ -92,6 +92,7 @@ HELPDIR=/usr/local/share/zsh/help
 
 _Z_DATA=~/.z.data/.z
 
+
 # Z Style
 # ------------------------------------------------------------------------------
 zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
@@ -361,13 +362,7 @@ z() {
   fi
 }
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_COMPLETION_TRIGGER=''
 zle      -N  fzf-history-widget
-zle      -N  fzf-file-widget
 bindkey '^R' fzf-history-widget
-bindkey '^I' $fzf_default_completion
 
-
-[ -f ~/.zshrc-post ] && source ~/.zshrc-post
 

@@ -235,7 +235,6 @@ xmap <C-G> *N:noh<CR>:<C-U>Grep /
 nnoremap <C-F><C-G> :GStatusFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
 
-nnoremap * mS:let @/=expand("<cword>")\|set hlsearch<CR>lN
 xnoremap * "zymS:let @/=substitute(escape(@z, '/\'), '\n', '\\n', 'g')\|set hlsearch<CR>
 
 cnoremap <C-X> <C-R>=getline(".")
@@ -318,6 +317,7 @@ function! s:BuildPathFromGit(overwrite)
 endfunction
 
 command! -nargs=0 -bang BuildPathFromGit call s:BuildPathFromGit(<bang>0)
+
 colorscheme supercrabtree
 
 match ExtraWhitespace /\s\+$/

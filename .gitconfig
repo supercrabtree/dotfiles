@@ -1,16 +1,18 @@
 [push]
   default = current
+  followTags = true
 [user]
-  email = supercrabtree@googlemail.com
+  name = George Crabtree
+  email = george.crabtree@bigcommerce.com
 [core]
-  excludesfile = ~/.gitignore
+  excludesfile = ~/.gitignore-global
 [web]
   browser = google-chrome
 [advice]
   statusHints = false
 [diff]
   mnemonicprefix = true
-	tool = vimdiff
+  tool = vimdiff
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
@@ -26,6 +28,15 @@
   diff = diff-so-fancy | less --tabs=4 -RFX
   show = diff-so-fancy | less --tabs=4 -RFX
 [difftool]
-	prompt = false
-[commit]
-  verbose = true
+  prompt = false
+[pretty]
+  #stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an%>(23)%+N
+  stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an
+  ignacio = %C(yellow)%h %C(green)%<(14,trunc)%an %Creset%s%Cred%d
+[merge]
+	conflictstyle = diff3
+[status]
+	showUntrackedFiles = all
+[filter "tabspace"]
+	smudge = gunexpand --tabs=4 --first-only
+	clean = gexpand --tabs=4 --initial

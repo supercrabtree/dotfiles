@@ -31,7 +31,6 @@ setopt extended_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_ignore_space
-setopt share_history
 setopt ignoreeof
 
 
@@ -71,6 +70,7 @@ export PATH=$PATH:~/bin
 
 export PATH=$PATH:~/dev/lm
 export PATH=$PATH:~/dev/git-functions
+
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
@@ -80,9 +80,7 @@ export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
 # Misc
 # ------------------------------------------------------------------------------
 # stop control flow, gimme ctrl-s back
-bindkey -r '\C-s'
 stty -ixon
-setopt noflowcontrol
 
 # history settings
 HISTFILE=$HOME/.zsh_history
@@ -93,9 +91,6 @@ SAVEHIST=100000
 HELPDIR=/usr/local/share/zsh/help
 
 _Z_DATA=~/.z.data/.z
-
-git_log_defaults="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an"
-
 
 # Z Style
 # ------------------------------------------------------------------------------
@@ -132,28 +127,19 @@ alias man="run-help"
 alias l="gls --color -AU"
 alias ll="lm"
 
-alias dev="cd ~/dev"
-alias f="open ."
-alias reload="exec zsh"
-alias download-video="youtube-dl -o -x \"~/dl/%(title)s.%(ext)s\""
-alias download="youtube-dl -o \"~/dl/%(title)s.%(ext)s\""
+alias download-video-as-audio="youtube-dl -x --audio-format=mp3"
 
 alias vanillavim="command vim -u NONE"
-# alias vim=nvim
 alias vi=vim
-alias vimrc="vim ~/dev/dotfiles/.vimrc"
-alias zshrc="vim ~/dev/dotfiles/.zshrc"
+alias vimrc="vim ~/.vimrc"
+alias zshrc="vim ~/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 
-alias gC="git commit --amend"
-alias glg="git log --graph --decorate --all --pretty='$git_log_defaults%C(auto)%d'"
-alias grc='git add -A && git rebase --continue'
-alias gaa='git add -A'
 alias git=hub
-
-alias gl="git log --decorate --all --pretty='$git_log_defaults' -20"
-alias glb="git log --decorate --pretty='$git_log_defaults%C(auto)%d' -20"
+alias gaa='git add -A'
+alias gl="git log --no-merges -z --pretty=stacked -20"
+alias glv="git log --no-merges -z --pretty=stacked"
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -163,10 +149,8 @@ alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
 
-alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
-
 alias vmd='/Applications/vmd.app/Contents/MacOS/vmd'
+alias rm=trash
 
 # suffix
 alias -s git='git clone'
@@ -220,6 +204,10 @@ mkcd() {
   mkdir -p $1 && cd $1
 }
 
+touchforce() {
+  mkdir -p $(dirname "$1") && touch "$1"
+}
+
 colortest() {
   if [ $1 ]; then
     for i in $@; do
@@ -253,7 +241,7 @@ g() {
   if [[ $# > 0 ]]; then
     git $@
   else
-    git status -s
+    git status -sb
   fi
 }
 
@@ -272,7 +260,7 @@ gvim() {
   if [[ $files != "" ]]; then
     vim $(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
   else
-    echo '\nCommits' && git log @{1}.. --decorate --pretty="$git_log_defaults" && echo '\nFiles' && git diff --stat @{1}..
+    echo '\nCommits' && git log @{1}.. -z --pretty=stacked && echo '\nFiles' && git diff --stat @{1}..
     echo '\nPress any key open these files'; read -k1 -s
     vim $(git diff --name-only @{1}..)
   fi
@@ -283,6 +271,7 @@ cvim() {
   vim $(git diff --name-only --diff-filter=u)
 }
 
+# git diff
 d() {
   if test "$#" = 0; then
     (
@@ -294,6 +283,7 @@ d() {
   fi
 }
 
+# diff staged
 D() {
   git diff --staged --color | diff-so-fancy | less
 }
@@ -316,17 +306,12 @@ done
 echo
 }
 
-fzf-file-widget() {
-  LBUFFER="${LBUFFER}$(__fsel)"
-  zle redisplay
-}
-
 fzf-history-widget() {
   local selected num fade
   if [[ $BACKGROUND == "dark" ]]; then fade=0 fi
   if [[ $BACKGROUND == "light" ]]; then fade=15 fi
   # --color=spinner:"$fade",info:"$fade"
-  selected=( $(fc -l 1 | tail -r | awk '!seen[$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20]++' | fzf +s +m -n2..,.. --no-reverse --tiebreak=index --toggle-sort=ctrl-r -q "${LBUFFER//$/\\$}") )
+  selected=( $(fc -l 1 | tail -r | awk '!seen[$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20]++' | fzf +s +m -n2..,.. --no-reverse --tiebreak=index --exact --toggle-sort=ctrl-r -q "${LBUFFER//$/\\$}") )
   if [ -n "$selected" ]; then
     num=$selected[1]
     if [ -n "$num" ]; then

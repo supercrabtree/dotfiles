@@ -49,7 +49,6 @@ set backspace=indent,eol,start
 set completeopt=longest,menu
 set cursorline
 set diffopt+=vertical
-set expandtab
 set hidden
 set history=10000
 set hlsearch
@@ -65,12 +64,12 @@ set nofixendofline
 set nostartofline
 set noswapfile
 set nowrap
+" set path=.,**/*
 set scroll=10
 set scrolloff=1
 set shiftwidth=4
 set smartcase
 set smarttab
-set softtabstop=4
 set statusline=%m%r%y\ %f:%l\ of\ %L\ col\ %c
 set tabstop=4
 set termguicolors
@@ -96,26 +95,28 @@ endif
 command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " softtabstop=" . <args> . " tabstop=" . <args> . " expandtab"
 command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " softtabstop=" . <args> . " tabstop=" . <args> . " noexpandtab"
 
-augroup vimrc_mini
+augroup vimrc
   autocmd!
   " maintain window layout between sessions
   au BufLeave * if !&diff | let b:winview = winsaveview() | endif
-  au BufEnter * if exists("b:winview") && !&diff | call winrestview(b:winview) | unlet! b:winview | endif
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
+  au BufEnter * if exists("b:winview") | call winrestview(b:winview) | unlet! b:winview | endif
   au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
 
   au Filetype qf setlocal statusline=%t%{exists('w:quickfix_title')\ ?\ '\ '.w:quickfix_title\ :\ ''}\ %l\ of\ %L\ col\ %c
-  au Filetype qf nnoremap <buffer> <silent> g<CR> <CR>:ccl<CR>
-  au Filetype qf nnoremap <buffer> <C-C> :ccl<CR>
+  au Filetype qf nnoremap <buffer> <C-C> :execute "try\n:ccl\ncatch\n:bd\nendtry"<cr>
 
   au FileType gitcommit setlocal colorcolumn=51,73
   au FileType gitcommit setlocal spell
   au FileType gitcommit setlocal nocursorline
 
+  au FileType markdown setlocal spell
+
   au FileType * setlocal formatoptions-=cor
 
   au BufEnter * call s:save_file_to_MRU_file(expand('%:p'))
 augroup END
+
+
 
 function! s:save_file_to_MRU_file(filename)
   let l:lines = readfile($HOME.'/.vim/mru.txt')
@@ -207,10 +208,10 @@ function! s:setup_file_buffer(files, root, ...)
   put = a:files
   normal ggdd
   if a:0 > 0 && a:1 != ''
-    call feedkeys(":g/" . a:1 . "/m0\<CR>", "nt")
+    call feedkeys(":g/" . escape(a:1, '/\') . "/m0\<CR>", "nt")
   endif
   nnoremap <buffer> <C-C> :bw<cr>
-  nnoremap <buffer> <Enter> gf
+  nnoremap <buffer> <Enter> mSgf
 endfunction
 
 command! -nargs=+ -bang -complete=dir Grep call s:Grep(<q-args>, <bang>0, 0)
@@ -229,12 +230,13 @@ nnoremap <C-G><C-G> g*N:noh<CR>:Grep /
 nnoremap <C-G> :Grep 
 nnoremap <C-G>! :Grep! 
 xmap <C-G> *N:noh<CR>:<C-U>Grep /
+" xmap g<C-G> TODO: grep selected files
 
-nnoremap <C-G><C-S> :GStatusFiles<cr>
+nnoremap <C-F><C-G> :GStatusFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
 
-nnoremap * :let @/=expand("<cword>")\|set hlsearch<CR>lN
-xnoremap * "zy:let @/=expand(@z)\|set hlsearch<CR>
+nnoremap * mS:let @/=expand("<cword>")\|set hlsearch<CR>lN
+xnoremap * "zymS:let @/=substitute(escape(@z, '/\'), '\n', '\\n', 'g')\|set hlsearch<CR>
 
 cnoremap <C-X> <C-R>=getline(".")
 nnoremap Y y$
@@ -246,15 +248,15 @@ nnoremap <silent> <BS> :noh<cr>:redraw!<cr>jk:diffupdate<cr>
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 
-" stamp to osx clipboard
-nnoremap s :let @*=@"<cr>:echo 'Stamped'<cr>
-nnoremap S :let @*=@
+" stamp between clipboards
+nnoremap s :let @*=@"<cr>:echo 'StampedOut'<cr>
+nnoremap S :let @"=@*<cr>:echo 'StampedIn'<cr>
 
 " substitute shortcuts
 nnoremap <C-S> :%s//
 xnoremap <C-S> y:%s/<C-R>=escape(@", '/.')<CR>/
 
-" select multiple files
+" open multiple files in visualmode
 xnoremap gf :call OpenAllVisuallySelectedFiles()<cr>:echo<cr>
 xmap <Enter> gf
 
@@ -274,8 +276,9 @@ nnoremap dc mz^dg_`z
 
 nmap J ]c
 nmap K [c
-nnoremap H :GitGutterStageHunk<cr>
-nnoremap U mz:GitGutterUndoHunk<cr>`z
+nnoremap <expr> H &diff ? 'do' : ':GitGutterStageHunk<cr>'
+nnoremap <expr> U &diff ? 'dp' : 'mz:GitGutterUndoHunk<cr>`z'
+nnoremap <expr> dy &diff ? '<c-w><c-w>yy<c-w><c-w>Vp' : 'dy'
 
 " navigate quickfix quickly
 nmap [q :cp<cr>zz
@@ -297,4 +300,31 @@ inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
 " toggle line numbers
 nnoremap <space> :set number!<cr>
 
+" last file
+nnoremap <expr> <cr> &filetype == 'qf' ? "\<cr>" : "\<c-^>"
+
+" mark just before a search
+nnoremap / mS/
+nnoremap g/ `S
+
+" build path from git
+function! s:BuildPathFromGit(overwrite)
+    let l:p = system('git ls-files | gxargs dirname | sort -u | paste -sd "," -')
+    if (a:overwrite)
+        exec 'set path='.l:p
+    else
+        exec 'set path+='.l:p
+    endif
+endfunction
+
+command! -nargs=0 -bang BuildPathFromGit call s:BuildPathFromGit(<bang>0)
 colorscheme supercrabtree
+
+match ExtraWhitespace /\s\+$/
+augroup whitespace
+  autocmd!
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
+augroup END

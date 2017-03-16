@@ -132,8 +132,8 @@ alias download-video-as-audio="youtube-dl -x --audio-format=mp3"
 
 alias vanillavim="command vim -u NONE"
 alias vi=vim
-alias vimrc="vim ~/.vimrc"
-alias zshrc="vim ~/.zshrc"
+alias vimrc="vim ~/dev/dotfiles/.vimrc"
+alias zshrc="vim ~/dev/dotfiles/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 
@@ -276,8 +276,8 @@ cvim() {
 d() {
   if test "$#" = 0; then
     (
-      git diff --color | diff-so-fancy
-      git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i" | diff-so-fancy; done
+    git diff --color | diff-so-fancy
+    git ls-files --others --exclude-standard | while read -r i; do git diff --color -- /dev/null "$i" | diff-so-fancy; done
     ) | less
   else
     git diff "$@"

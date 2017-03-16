@@ -26,13 +26,17 @@ function! SetupVAM()
   endif
   let &rtp.=(empty(&rtp)?'':',').l:c.plugin_root_dir.'/vim-addon-manager'
   call vam#ActivateAddons([
-  \   'github:airblade/vim-gitgutter',
-  \   'github:tpope/vim-commentary',
-  \   'github:tpope/vim-fugitive'
-  \ ], {'auto_install' : 1})
+  \  'github:airblade/vim-gitgutter',
+  \  'github:tpope/vim-commentary',
+  \  'github:tpope/vim-fugitive',
+  \  'github:heavenshell/vim-jsdoc',
+  \  'github:editorconfig/editorconfig-vim'
+  \], {'auto_install' : 1})
 endfunction
 
 call SetupVAM()
+
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " Disable unused builtin plugins
 let g:loaded_getscriptPlugin = 1
@@ -58,13 +62,12 @@ set iskeyword+=-,$
 set laststatus=2
 set lazyredraw
 set list
-set listchars=tab:❯—,nbsp:§,precedes:❮,extends:❯
+set listchars=tab:˖˗,nbsp:§,precedes:❮,extends:❯
 set mouse=a
 set nofixendofline
 set nostartofline
 set noswapfile
 set nowrap
-" set path=.,**/*
 set scroll=10
 set scrolloff=1
 set shiftwidth=4
@@ -78,7 +81,7 @@ set undodir=~/.vim/undo
 set undofile
 set wildmenu
 
-" find files in require() statments
+" find files in require() and import statments
 set suffixesadd+=.js
 set path+=$PWD/node_modules
 
@@ -151,7 +154,16 @@ function! s:Find(regex, ignore_git)
   if (!l:is_git)
     let l:files = map(split(l:files), {key, val -> substitute(fnamemodify(val, ':s?' . escape(l:root, '?') . '??:~'), '^\/', '', '')})
   endif
-  call s:setup_file_buffer(l:files, l:root, a:regex)
+
+  if exists("g:file_buffer_no") && buffer_exists(g:file_buffer_no)
+    exec 'b' . g:file_buffer_no
+    normal ggdG
+  else
+    enew
+    let g:file_buffer_no = bufnr('%')
+  endif
+
+  call s:setup_file_buffer(l:files, l:root, g:file_buffer_no, a:regex)
 endfunction
 
 function! s:MRU()
@@ -163,15 +175,49 @@ function! s:MRU()
   let l:files = filter(l:files, {key, val -> match(val, '\/var\/folders') == -1})
   let l:files = filter(l:files, {key, val -> match(val, '\/.vim\/vim-addons.*doc\/') == -1})
 
-  let l:files = map(l:files, {key, val -> fnamemodify(val, ':~:.')})
-  let l:open_buffers = filter(copy(l:files), {key, val -> bufloaded(expand(val))})
-  let l:other_files = filter(copy(l:files), {key, val -> !bufloaded(expand(val))})
+  let l:open_buffers = filter(copy(l:files), {key, val -> bufloaded(val)})
+  let l:remaining_files = filter(copy(l:files), {key, val -> (index(open_buffers, val) == -1)})
+
+  let l:in_cwd = filter(copy(l:remaining_files), {key, val -> (stridx(val, getcwd()) > -1)})
+  let l:remaining_files = filter(copy(l:remaining_files), {key, val -> (index(in_cwd, val) == -1)})
+
+  let l:file_list = map(l:remaining_files, {key, val -> fnamemodify(val, ':~:.')})
+
   if len(l:open_buffers)
-    let l:file_list = l:open_buffers + [""] + l:other_files
-  else
-    let l:file_list = l:other_files
+    let l:open_buffers = map(l:open_buffers, {key, val -> fnamemodify(val, ':~:.')})
+    let l:file_list = l:open_buffers + [""] + l:file_list
   endif
+
+  if len(l:in_cwd)
+    let l:in_cwd = map(l:in_cwd, {key, val -> fnamemodify(val, ':~:.')})
+    let l:file_list = l:in_cwd + [""] + l:file_list
+  endif
+
   call s:setup_file_buffer(l:file_list, ".")
+endfunction
+
+function! s:GStatusFiles(args)
+  let l:files = system("git status -s " . a:args . "| sed 's/^...//'")
+  call s:setup_file_buffer(l:files, '.')
+endfunction
+
+function! s:setup_file_buffer(files, root, ...)
+  if exists("a:1")
+    exec 'b' . a:1
+    normal ggdG
+  else
+    enew
+  endif
+  execute "lcd " . a:root
+  setlocal statusline=%f\ \|\ %l\ of\ %L\ col\ %c
+  setlocal buftype=nofile
+  put = a:files
+  normal ggdd
+  if a:0 > 1 && a:2 != ''
+    call feedkeys(":g/" . escape(a:1, '/\') . "/m0\<CR>", "nt")
+  endif
+  nnoremap <buffer> <C-C> :bw<cr>
+  nnoremap <buffer> <Enter> mSgf
 endfunction
 
 function! s:Grep(args, ignore_git, force_case_sensitive)
@@ -193,25 +239,6 @@ function! s:Grep(args, ignore_git, force_case_sensitive)
   execute 'silent grep! ' . a:args . ' | cwindow | sleep 10m | redraw!'
 
   let &grepprg = l:save
-endfunction
-
-function! s:GStatusFiles(args)
-  let l:files = system("git status -s " . a:args . "| sed 's/^...//'")
-  call s:setup_file_buffer(l:files, '.')
-endfunction
-
-function! s:setup_file_buffer(files, root, ...)
-  enew
-  execute "lcd " . a:root
-  setlocal statusline=%f\ \|\ %l\ of\ %L\ col\ %c
-  setlocal buftype=nofile
-  put = a:files
-  normal ggdd
-  if a:0 > 0 && a:1 != ''
-    call feedkeys(":g/" . escape(a:1, '/\') . "/m0\<CR>", "nt")
-  endif
-  nnoremap <buffer> <C-C> :bw<cr>
-  nnoremap <buffer> <Enter> mSgf
 endfunction
 
 command! -nargs=+ -bang -complete=dir Grep call s:Grep(<q-args>, <bang>0, 0)

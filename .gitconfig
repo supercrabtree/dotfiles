@@ -4,6 +4,9 @@
 [user]
   name = George Crabtree
   email = george.crabtree@bigcommerce.com
+[commit]
+  gpgsign = true
+  verbose = true
 [core]
   excludesfile = ~/.gitignore-global
 [web]
@@ -34,11 +37,11 @@
   stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an
   ignacio = %C(yellow)%h %C(green)%<(14,trunc)%an %Creset%s%Cred%d
 [merge]
-	conflictstyle = diff3
+  conflictstyle = diff3
 [status]
-	showUntrackedFiles = all
+  showUntrackedFiles = all
 [filter "tabspace"]
-	smudge = gunexpand --tabs=4 --first-only
-	clean = gexpand --tabs=4 --initial
+  smudge = gunexpand --tabs=4 --first-only
+  clean = gexpand --tabs=4 --initial
 [commit]
   verbose = true

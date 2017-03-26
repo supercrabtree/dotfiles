@@ -30,13 +30,15 @@ function! SetupVAM()
   \  'github:tpope/vim-commentary',
   \  'github:tpope/vim-fugitive',
   \  'github:heavenshell/vim-jsdoc',
-  \  'github:editorconfig/editorconfig-vim'
+  \  'github:editorconfig/editorconfig-vim',
+  \  'github:pangloss/vim-javascript'
   \], {'auto_install' : 1})
 endfunction
 
 call SetupVAM()
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+let g:EditorConfig_core_mode = 'external_command'
 
 " Disable unused builtin plugins
 let g:loaded_getscriptPlugin = 1
@@ -50,9 +52,9 @@ let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
 
 set backspace=indent,eol,start
-set completeopt=longest,menu
 set cursorline
 set diffopt+=vertical
+set expandtab
 set hidden
 set history=10000
 set hlsearch
@@ -73,6 +75,7 @@ set scrolloff=1
 set shiftwidth=4
 set smartcase
 set smarttab
+set softtabstop=-1
 set statusline=%m%r%y\ %f:%l\ of\ %L\ col\ %c
 set tabstop=4
 set termguicolors
@@ -95,8 +98,8 @@ if !filereadable($HOME . '/.vim/mru.txt')
 endif
 
 " commands for adjusting indentation rules manually
-command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " softtabstop=" . <args> . " tabstop=" . <args> . " expandtab"
-command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " softtabstop=" . <args> . " tabstop=" . <args> . " noexpandtab"
+command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " expandtab"
+command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
 
 augroup vimrc
   autocmd!
@@ -113,6 +116,7 @@ augroup vimrc
   au FileType gitcommit setlocal nocursorline
 
   au FileType markdown setlocal spell
+  au FileType markdown setlocal colorcolumn=81
 
   au FileType * setlocal formatoptions-=cor
 
@@ -183,14 +187,14 @@ function! s:MRU()
 
   let l:file_list = map(l:remaining_files, {key, val -> fnamemodify(val, ':~:.')})
 
-  if len(l:open_buffers)
-    let l:open_buffers = map(l:open_buffers, {key, val -> fnamemodify(val, ':~:.')})
-    let l:file_list = l:open_buffers + [""] + l:file_list
-  endif
-
   if len(l:in_cwd)
     let l:in_cwd = map(l:in_cwd, {key, val -> fnamemodify(val, ':~:.')})
     let l:file_list = l:in_cwd + [""] + l:file_list
+  endif
+
+  if len(l:open_buffers)
+    let l:open_buffers = map(l:open_buffers, {key, val -> fnamemodify(val, ':~:.')})
+    let l:file_list = l:open_buffers + [""] + l:file_list
   endif
 
   call s:setup_file_buffer(l:file_list, ".")
@@ -213,8 +217,8 @@ function! s:setup_file_buffer(files, root, ...)
   setlocal buftype=nofile
   put = a:files
   normal ggdd
-  if a:0 > 1 && a:2 != ''
-    call feedkeys(":g/" . escape(a:1, '/\') . "/m0\<CR>", "nt")
+  if exists("a:2") && a:2 != ''
+    call feedkeys(":g/" . escape(a:2, '/\') . "/m0\<CR>", "nt")
   endif
   nnoremap <buffer> <C-C> :bw<cr>
   nnoremap <buffer> <Enter> mSgf
@@ -333,6 +337,9 @@ nnoremap <expr> <cr> &filetype == 'qf' ? "\<cr>" : "\<c-^>"
 nnoremap / mS/
 nnoremap g/ `S
 
+" quick spell fixes
+inoremap <c-s> <esc>[sea<c-x><c-s>
+
 " build path from git
 function! s:BuildPathFromGit(overwrite)
     let l:p = system('git ls-files | gxargs dirname | sort -u | paste -sd "," -')
@@ -345,6 +352,12 @@ endfunction
 
 command! -nargs=0 -bang BuildPathFromGit call s:BuildPathFromGit(<bang>0)
 
+nnoremap [a :call <SID>Context(1)<CR>
+nnoremap ]a :call <SID>Context(0)<CR>
+
+function! s:Context(reverse)
+  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+endfunction
 colorscheme supercrabtree
 
 match ExtraWhitespace /\s\+$/

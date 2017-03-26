@@ -209,6 +209,11 @@ touchforce() {
   mkdir -p $(dirname "$1") && touch "$1"
 }
 
+jobscount() {
+  local jobs=$(jobs | grep ^\\\[ | wc -l)
+  ((jobs)) && echo -n "${jobs} "
+}
+
 colortest() {
   if [ $1 ]; then
     for i in $@; do

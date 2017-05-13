@@ -53,8 +53,9 @@ let g:loaded_zipPlugin = 1
 
 set backspace=indent,eol,start
 set cursorline
-set diffopt+=vertical
+set diffopt+=vertical,context:3
 set expandtab
+set encoding=utf-8
 set hidden
 set history=10000
 set hlsearch
@@ -122,8 +123,6 @@ augroup vimrc
 
   au BufEnter * call s:save_file_to_MRU_file(expand('%:p'))
 augroup END
-
-
 
 function! s:save_file_to_MRU_file(filename)
   let l:lines = readfile($HOME.'/.vim/mru.txt')
@@ -221,7 +220,7 @@ function! s:setup_file_buffer(files, root, ...)
     call feedkeys(":g/" . escape(a:2, '/\') . "/m0\<CR>", "nt")
   endif
   nnoremap <buffer> <C-C> :bw<cr>
-  nnoremap <buffer> <Enter> mSgf
+  nnoremap <buffer> <Enter> mFgf
 endfunction
 
 function! s:Grep(args, ignore_git, force_case_sensitive)
@@ -266,7 +265,8 @@ xmap <C-G> *N:noh<CR>:<C-U>Grep /
 nnoremap <C-F><C-G> :GStatusFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
 
-xnoremap * "zymS:let @/=substitute(escape(@z, '/\'), '\n', '\\n', 'g')\|set hlsearch<CR>
+nnoremap * mN:let @/=expand("<cword>")\|set hlsearch<CR>`N
+xnoremap * mN"zy:let @/=substitute(escape(@z, '/\'), '\n', '\\n', 'g')\|set hlsearch<CR>`N
 
 cnoremap <C-X> <C-R>=getline(".")
 nnoremap Y y$
@@ -337,8 +337,41 @@ nnoremap <expr> <cr> &filetype == 'qf' ? "\<cr>" : "\<c-^>"
 nnoremap / mS/
 nnoremap g/ `S
 
+nnoremap ]t :tabnext<cr>
+nnoremap [t :tabprevious<cr>
+
+nnoremap [a :call <SID>Context(1)<CR>
+nnoremap ]a :call <SID>Context(0)<CR>
+
+nmap <silent> <F5> :call ChangeCWD()<CR>
+imap <silent> <F5> <c-o>:call ChangeCWD()<CR>
+
 " quick spell fixes
 inoremap <c-s> <esc>[sea<c-x><c-s>
+
+" fix indent
+xnoremap > >gv
+xnoremap < <gv
+
+cmap <C-R>' <C-R>=getline('.')<CR>
+
+function! ChangeCWD()
+    if !exists("g:change_cwd_root_directory")
+        let g:change_cwd_root_directory = getcwd()
+    endif
+
+    let l:currentFileDir=expand('%:p:h')
+
+    if l:currentFileDir != getcwd()
+        exec("cd " . l:currentFileDir)
+    else
+        exec("cd " . g:change_cwd_root_directory)
+    endif
+endfunction
+
+function! s:Context(reverse)
+  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+endfunction
 
 " build path from git
 function! s:BuildPathFromGit(overwrite)
@@ -352,12 +385,6 @@ endfunction
 
 command! -nargs=0 -bang BuildPathFromGit call s:BuildPathFromGit(<bang>0)
 
-nnoremap [a :call <SID>Context(1)<CR>
-nnoremap ]a :call <SID>Context(0)<CR>
-
-function! s:Context(reverse)
-  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
-endfunction
 colorscheme supercrabtree
 
 match ExtraWhitespace /\s\+$/
@@ -368,3 +395,4 @@ augroup whitespace
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
   autocmd BufWinLeave * call clearmatches()
 augroup END
+

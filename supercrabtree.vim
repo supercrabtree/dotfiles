@@ -14,7 +14,7 @@
 " yellow   = #ffaf00
 " blue     = #2275bf
 " purple   = #8780c5
-
+" 80807f
 
 
 " Highlight          Background     Foreground     Style (cterm)
@@ -51,7 +51,7 @@ hi FoldColumn                       guifg=NONE
 hi DiffAdd           guibg=NONE     guifg=#4ead1f
 hi DiffChange        guibg=NONE
 hi DiffDelete        guibg=#bf2222  guifg=#bf2222
-hi DiffText          guibg=#e8e8e8
+hi DiffText          guibg=#dbdbdb
 hi SpellBad          guibg=NONE     guifg=#bf2222  cterm=NONE
 hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
 

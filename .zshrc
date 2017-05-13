@@ -23,21 +23,23 @@ compinit
 # ------------------------------------------------------------------------------
 setopt auto_cd
 setopt auto_pushd
+setopt dotglob
+setopt ignoreeof
+setopt no_flow_control
 setopt pushd_ignore_dups
 setopt pushdminus
-setopt dotglob
 
 setopt extended_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_ignore_space
-setopt ignoreeof
+setopt share_history
 
 
 # Exports
 # ------------------------------------------------------------------------------
-export VISUAL=vim
 export EDITOR=vim
+export VISUAL=$EDITOR
 export BACKGROUND=light
 
 # mac style
@@ -59,33 +61,30 @@ export LESS_TERMCAP_so=$'\E[38;05;00;48;05;03m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[1;34m'
 
-export PATH=$PATH:~/.npm/bin
+export PATH=$PATH:$HOME/.npm/bin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/bin
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/bin
 export PATH=$PATH:/sbin
-export PATH=$PATH:~/bin
+export PATH=$PATH:$HOME/bin
 
-export PATH=$PATH:~/dev/lm
-export PATH=$PATH:~/dev/git-functions
+export PATH=$PATH:$HOME/dev/lm
+export PATH=$PATH:$HOME/dev/git-functions
 
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
-
+export PATH=$PATH:`yarn global bin`
 
 
 # Misc
 # ------------------------------------------------------------------------------
-# stop control flow, gimme ctrl-s back
-stty -ixon
-
 # history settings
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=200000
-SAVEHIST=100000
+SAVEHIST=200000
 
 # using the homebrew version of zsh, so point at their docs
 HELPDIR=/usr/local/share/zsh/help
@@ -127,42 +126,43 @@ unalias run-help
 alias man="run-help"
 alias l="gls --color -AU"
 alias ll="lm"
+alias t="tree -I node_modules"
 
 alias download-video-as-audio="youtube-dl -x --audio-format=mp3"
 
 alias vanillavim="command vim -u NONE"
-alias vi=vim
-alias vimrc="vim ~/dev/dotfiles/.vimrc"
-alias zshrc="vim ~/dev/dotfiles/.zshrc"
+alias vi="$EDITOR"
+alias vimrc="$EDITOR $HOME/dev/dotfiles/.vimrc"
+alias zshrc="$EDITOR $HOME/dev/dotfiles/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
+alias vless='vim -u /usr/local/Cellar/vim/8.0.0596/share/vim/vim80/macros/less.vim'
 
 alias git=hub
-alias gaa='git add -A'
+alias g=magic-g
+alias ga="git add"
+alias gaa="git add -A"
+alias gc="git commit"
 alias gl="git log --no-merges -z --pretty=stacked -20"
+alias glm="git log -z --pretty=stacked -20"
 alias glv="git log --no-merges -z --pretty=stacked"
+alias glmv="git log -z --pretty=stacked"
+alias d="standard-diff"
+alias D="git diff --staged --color"
+alias ds="git diff --stat"
+alias DS="git diff --staged --stat"
+alias cvim="git mergetool --no-prompt"
+alias gvim=git-files-vim
 
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
-alias .......='cd ../../../../../..'
-alias ........='cd ../../../../../../..'
-
-alias vmd='/Applications/vmd.app/Contents/MacOS/vmd'
 alias rm=trash
 
 # suffix
 alias -s git='git clone'
 
 # global
-alias -g C='| pbcopy'
-alias -g G='| grep -i '
-alias -g F='| fzf --ansi'
-alias -g L='| less'
-alias -g J='| json'
-
+alias -g UP='@{u}'
+alias -g IN='..@{u}'
+alias -g OUT='@{u}..'
 
 
 # ZLE Functions
@@ -205,10 +205,6 @@ mkcd() {
   mkdir -p $1 && cd $1
 }
 
-touchforce() {
-  mkdir -p $(dirname "$1") && touch "$1"
-}
-
 jobscount() {
   local jobs=$(jobs | grep ^\\\[ | wc -l)
   ((jobs)) && echo -n "${jobs} "
@@ -240,10 +236,32 @@ colortest() {
   fi
 }
 
+# ..() Switch to parent directory by matching on partial name
+# Usage:
+# cd /usr/share/doc/zsh
+# .. ha      # cd's to /usr/share
+function .. () {
+    (( $# == 0 )) && { cd .. && return }
+
+    local match_idx
+    local -a parents matching_parents new_path
+    parents=( ${(s:/:)PWD} )
+    matching_parents=( ${(M)${parents[1,-2]}:#*"${1}"*} )
+
+    if (( ${#matching_parents} )); then
+        match_idx=${parents[(i)${matching_parents[-1]}]}
+        new_path=( ${parents[1,${match_idx}]} )
+
+        cd "/${(j:/:)new_path}"
+        return $?
+    fi
+
+    return 1
+}
+
 # Git things
 # ------------------------------------------------------------------------------
-compdef g=git
-g() {
+magic-g() {
   if [[ $# > 0 ]]; then
     git $@
   else
@@ -251,17 +269,9 @@ g() {
   fi
 }
 
-gc() {
-  if [[ $@ == "-p" ]]; then
-    clear && git commit -p
-  else
-    git commit "$@"
-  fi
-}
-
 # open any files that have been edited, or are new and untracked.
-# if working directory is clean, open files edited in last commit.
-gvim() {
+# if working directory is clean, open files edited in last commit (with a prompt).
+git-files-vim() {
   local files=$(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
   if [[ $files != "" ]]; then
     vim $(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
@@ -272,13 +282,8 @@ gvim() {
   fi
 }
 
-# conflict vim
-cvim() {
-  vim $(git diff --name-only --diff-filter=u)
-}
-
 # git diff
-d() {
+standard-diff() {
   if test "$#" = 0; then
     (
     git diff --color | diff-so-fancy
@@ -289,10 +294,12 @@ d() {
   fi
 }
 
-# diff staged
-D() {
-  git diff --staged --color | diff-so-fancy | less
-}
+# completion for git functions
+# `alias __git-diff_main=_git_diff` is a hacky edit to get around ... something weird to do with git, hub, zsh, brew?
+# https://github.com/robbyrussell/oh-my-zsh/issues/2394#issuecomment-45287624
+alias __git-diff_main=_git_diff
+compdef _git standard-diff=git-diff
+compdef g git
 
 
 # FZF things

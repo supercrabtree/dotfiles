@@ -1,21 +1,19 @@
-[push]
-  default = current
-  followTags = true
-[user]
-  name = George Crabtree
-  email = george.crabtree@bigcommerce.com
-[commit]
-  gpgsign = true
-  verbose = true
-[core]
-  excludesfile = ~/.gitignore-global
-[web]
-  browser = google-chrome
 [advice]
   statusHints = false
+[alias]
+  go = "!~/.npm/bin/git-open"
+  undo = reset HEAD~1
+  peek = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%an%C(auto)'
+[commit]
+  verbose = true
+  template = ~/.config/git/templates/commit
+[core]
+  excludesfile = ~/.gitignore-global
 [diff]
   mnemonicprefix = true
   tool = vimdiff
+[difftool]
+  prompt = false
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
@@ -24,24 +22,30 @@
   clean = git hawser clean %f
   smudge = git hawser smudge %f
   required = true
-[alias]
-  undo = reset HEAD~1
-  peek = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%an%C(auto)'
+[filter "tabspace"]
+  clean = gexpand --tabs=4 --initial
+  smudge = gunexpand --tabs=4 --first-only
+[merge]
+  tool = diffconflicts
+[mergetool]
+  keepBackup = false
+[mergetool "fugitive"]
+  cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+[mergetool "diffconflicts"]
+  cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+  trustExitCode = true
 [pager]
-  diff = diff-so-fancy | less --tabs=4 -RFX
-  show = diff-so-fancy | less --tabs=4 -RFX
-[difftool]
-  prompt = false
+  log = diff-so-fancy | less --tabs=4
+  diff = diff-so-fancy | less --tabs=4
+  show = diff-so-fancy | less --tabs=4
 [pretty]
   #stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an%>(23)%+N
   stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an
   ignacio = %C(yellow)%h %C(green)%<(14,trunc)%an %Creset%s%Cred%d
-[merge]
-  conflictstyle = diff3
+[push]
+  default = current
 [status]
   showUntrackedFiles = all
-[filter "tabspace"]
-  smudge = gunexpand --tabs=4 --first-only
-  clean = gexpand --tabs=4 --initial
-[commit]
-  verbose = true
+[user]
+  name = George Crabtree
+  email = george.crabtree@bigcommerce.com

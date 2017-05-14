@@ -114,8 +114,8 @@ zle -N down-line-or-beginning-search
 zle -N searchdown
 bindkey "^[[B" searchdown
 
-zle -N globalaliasexpander
-bindkey " " globalaliasexpander
+zle -N aliasexpander
+bindkey " " aliasexpander
 bindkey "^ " magic-space           # control-space to bypass completion
 bindkey -M isearch " " magic-space # normal space during searches
 
@@ -126,7 +126,7 @@ unalias run-help
 alias man="run-help"
 alias l="gls --color -AU"
 alias ll="lm"
-alias t="tree -I node_modules"
+alias t="tree -Ca -I 'node_modules|.git|.DS_Store'"
 
 alias download-video-as-audio="youtube-dl -x --audio-format=mp3"
 
@@ -148,7 +148,7 @@ alias glm="git log -z --pretty=stacked -20"
 alias glv="git log --no-merges -z --pretty=stacked"
 alias glmv="git log -z --pretty=stacked"
 alias d="standard-diff"
-alias D="git diff --staged --color"
+alias D="git diff --staged"
 alias ds="git diff --stat"
 alias DS="git diff --staged --stat"
 alias cvim="git mergetool --no-prompt"
@@ -164,6 +164,24 @@ alias -g UP='@{u}'
 alias -g IN='..@{u}'
 alias -g OUT='@{u}..'
 
+aliasestoexpand=(
+  "l"
+  "download-video-as-audio"
+  "vanillavim"
+  "t"
+  "ga"
+  "gc"
+  "gl"
+  "glm"
+  "glv"
+  "glmv"
+  "D"
+  "ds"
+  "DS"
+  "cvim"
+  "rm"
+)
+
 
 # ZLE Functions
 # ------------------------------------------------------------------------------
@@ -176,7 +194,15 @@ searchdown() {
   _zsh_highlight
 }
 
-globalaliasexpander() {
+aliasexpander() {
+  # expand aliases listed in $aliasestoexpand
+  for a in ${aliasestoexpand}; do
+      if [[ $LBUFFER =~ "^$a$" ]]; then
+        zle _expand_alias
+        zle expand-word
+      fi
+  done
+  # expand all global aliases
   if [[ $LBUFFER =~ " [A-Z0-9]+$" ]]; then
     zle _expand_alias
     zle expand-word

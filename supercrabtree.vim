@@ -1,29 +1,33 @@
 " Colors
 " ------------------------------------------------------------------------------
-" white = #ffffff => 100%
-" grey1 = #f3f3f3 => 97%
+" white = #ffffff => 100% => 15
+" grey1 = #f3f3f3 => 97%  =>
 " grey2 = #e8e8e8 => 91%
 " grey3 = #dbdbdb => 86%
 " grey4 = #b3b3b3 => 70%
 " grey5 = #999999 => 60%
 " grey6 = #808080 => 50%
-" black = #000000 => 100%
+" black = #000000 => 0%   =>
 
-" red      = #bf2222
-" green    = #4ead1f
-" yellow   = #ffaf00
-" blue     = #2275bf
-" purple   = #8780c5
-" 80807f
+" " red      = #bf2222
+" " green    = #008c00
+" " yellow   = #ffaf00
+" " blue     = #2275bf
+" " brown    = #724700
 
-
+" red        = #941a1e -> ad1f1f
+" green      = #006215 -> 006600
+" blue       = #1a5b94
+" yellow     = #ffaf00
+" darkorange = #ea7a19
+"
 " Highlight          Background     Foreground     Style (cterm)
 " ------------------------------------------------------------------------------
 hi Normal                           guifg=NONE
-hi ErrorMsg          guibg=#bf2222  guifg=#ffffff
-hi Error             guibg=#bf2222  guifg=#ffffff
+hi ErrorMsg          guibg=#941a1e  guifg=#ffffff
+hi Error             guibg=#941a1e  guifg=#ffffff
 hi NonText                          guifg=#b3b3b3
-hi Comment                          guifg=#999999
+hi Comment                          guifg=#999999 cterm=italic
 hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
 hi Title                            guifg=NONE
 hi Function                         guifg=NONE
@@ -32,27 +36,23 @@ hi SpecialKey                       guifg=#b3b3b3
 hi Keyword                          guifg=NONE
 hi Type                             guifg=NONE
 hi Constant                         guifg=NONE
-hi String                           guifg=#2275bf
-hi Boolean                          guifg=#2275bf
+hi String                           guifg=#1a5b94
+hi Boolean                          guifg=#1a5b94
 hi Preproc                          guifg=NONE
-hi Number                           guifg=#2275bf
+hi Number                           guifg=#1a5b94
 hi Identifier                       guifg=NONE
 hi Statement                        guifg=NONE
 hi Todo                             guifg=NONE
 hi WarningMsg                       guifg=NONE
-hi GoodMsg                          guifg=#4ead1f
-hi BrightGoodMsg     guibg=#4ead1f  guifg=#FFFFFF
-hi BadMsg                           guifg=#bf2222
-hi Directory                        guifg=#2275bf
-hi MoreMsg                          guifg=#2275bf
+hi GoodMsg                          guifg=#006215
+hi BrightGoodMsg     guibg=#006215  guifg=#FFFFFF
+hi BadMsg                           guifg=#941a1e
+hi Directory                        guifg=#1a5b94
+hi MoreMsg                          guifg=#1a5b94
 hi Question                         guifg=NONE
-hi Folded                           guifg=NONE
+hi Folded            guibg=#f3f3f3  guifg=NONE
 hi FoldColumn                       guifg=NONE
-hi DiffAdd           guibg=NONE     guifg=#4ead1f
-hi DiffChange        guibg=NONE
-hi DiffDelete        guibg=#bf2222  guifg=#bf2222
-hi DiffText          guibg=#dbdbdb
-hi SpellBad          guibg=NONE     guifg=#bf2222  cterm=NONE
+hi SpellBad          guibg=NONE     guifg=#941a1e  cterm=NONE
 hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
 
 " UI elements
@@ -61,43 +61,35 @@ hi CursorLine        guibg=#e8e8e8                 cterm=NONE
 hi PMenu             guibg=#e8e8e8  guifg=#808080
 hi LineNr                           guifg=#b3b3b3
 hi CursorLineNr                     guifg=NONE
-hi MatchParen        guibg=NONE     guifg=#bf2222
+hi MatchParen        guibg=NONE     guifg=#941a1e
 hi StatusLine        guibg=#e8e8e8  guifg=#000000  cterm=NONE
 hi StatusLineNC      guibg=#e8e8e8  guifg=#b3b3b3  cterm=NONE
 hi VertSplit         guibg=#e8e8e8  guifg=#e8e8e8
 hi WildMenu          guibg=#000000  guifg=#ffffff
+hi QuickFixLine      guibg=#e8e8e8
 
 hi Search            guibg=#ffaf00  guifg=#000000
-hi IncSearch         guibg=#4ead1f  guifg=#000000  cterm=NONE
-hi ExtraWhitespace   guibg=#bf2222  guifg=#bf2222
+hi IncSearch         guibg=#006215  guifg=#ffffff  cterm=NONE
+hi ExtraWhitespace   guibg=#941a1e  guifg=#941a1e
 
-" Buftabline
-hi BufTabLineActive                 guifg=#b3b3b3
-hi BufTabLineHidden  guibg=#e8e8e8  guifg=#808080  cterm=NONE
-hi BufTabLineFill    guibg=#e8e8e8                 cterm=NONE
+" Diffs
+hi DiffAdd           guibg=NONE     guifg=#006215
+hi DiffChange        guibg=NONE
+hi DiffDelete        guibg=#941a1e  guifg=#941a1e
+hi DiffText          guifg=#ea7a19  guibg=#f6f6f6 cterm=NONE
+hi diffAdded                        guifg=#006215
+hi diffRemoved                      guifg=#941a1e
 
-" Sneak
-hi SneakPluginTarget guibg=#e8e8e8  guifg=#bf2222  cterm=underline
-
-" Fugative
-hi diffAdded                        guifg=#4ead1f
-hi diffRemoved                      guifg=#bf2222
-hi gitcommitSelectedFile            guifg=#4ead1f
-hi gitcommitDiscardedFile           guifg=#bf2222
+" Commits
+hi gitcommitSelectedFile            guifg=#006215
+hi gitcommitDiscardedFile           guifg=#941a1e
 
 " Git Gutter
-hi GitGutterAdd                     guifg=#4ead1f
+hi GitGutterAdd                     guifg=#006215
 hi GitGutterChange                  guifg=#b3b3b3
-hi GitGutterDelete                  guifg=#bf2222
+hi GitGutterDelete                  guifg=#941a1e
 hi GitGutterChangeDelete            guifg=#b3b3b3
 
-" Indent Guides
-hi IndentGuidesOdd   guibg=#e8e8e8
-hi IndentGuidesEven  guibg=#f3f3f3
-
-" Multiple Cursors
-hi multiple_cursors_cursor guibg=#000000 guifg=#ffffff
-hi multiple_cursors_visual guibg=#666666 guifg=#ffffff
 
 " Language Specific
 " -----------------
@@ -126,6 +118,14 @@ hi markdownH5        guibg=NONE     guifg=NONE     cterm=reverse
 hi markdownH6        guibg=NONE     guifg=NONE     cterm=reverse
 hi link markdownHeadingDelimiter markdownH1
 
-" JavaScript
-" hi jsBooleanFalse                   guifg=#bf2222
-" hi jsBooleanTrue                    guifg=#4ead1f
+hi ALEErrorSign      guibg=#ffffff  guifg=#bb0900
+hi ALEWarningSign    guibg=#ffffff  guifg=#c1a700
+
+match ExtraWhitespace /\s\+$/
+augroup whitespace
+  autocmd!
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
+augroup END

@@ -1,31 +1,25 @@
 
-
-# Plugins
-# ------------------------------------------------------------------------------
+# Plugins {{{
 source ~/dev/pure/async.zsh
 source ~/dev/pure/pure.zsh
 source ~/dev/z/z.sh
 source ~/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/dev/bam-pow/bam.sh
-fpath=(~/dev/zsh-completions/src $fpath)
+# }}}
 
-
-# Load
-# ------------------------------------------------------------------------------
+# Load {{{
 autoload -U run-help
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 autoload -U compinit
 compinit
+# }}}
 
-
-# Zsh options
-# ------------------------------------------------------------------------------
+# Zsh setopt {{{
 setopt auto_cd
 setopt auto_pushd
 setopt dotglob
 setopt ignoreeof
-setopt no_flow_control
 setopt pushd_ignore_dups
 setopt pushdminus
 
@@ -34,10 +28,9 @@ setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt share_history
+# }}}
 
-
-# Exports
-# ------------------------------------------------------------------------------
+# Exports {{{
 export EDITOR=vim
 export VISUAL=$EDITOR
 export BACKGROUND=light
@@ -77,10 +70,12 @@ export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
 export PATH=$PATH:`yarn global bin`
+# }}}
 
+# Misc {{{
+# stop control flow, gimme ctrl-s back
+stty -ixon
 
-# Misc
-# ------------------------------------------------------------------------------
 # history settings
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=200000
@@ -91,15 +86,21 @@ HELPDIR=/usr/local/share/zsh/help
 
 _Z_DATA=~/.z.data/.z
 
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=blue'
 
-# Z Style
-# ------------------------------------------------------------------------------
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# }}}
+
+# Z Style {{{
 zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:*:*:*' menu select
+# }}}
 
-
-# New Keyboard Shortcuts
-# ------------------------------------------------------------------------------
+# New Keyboard Shortcuts {{{
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
@@ -118,15 +119,14 @@ zle -N aliasexpander
 bindkey " " aliasexpander
 bindkey "^ " magic-space           # control-space to bypass completion
 bindkey -M isearch " " magic-space # normal space during searches
+# }}}
 
-
-# Aliases
-# ------------------------------------------------------------------------------
+# Aliases {{{
 unalias run-help
 alias man="run-help"
 alias l="gls --color -AU"
 alias ll="lm"
-alias t="tree -Ca -I 'node_modules|.git|.DS_Store'"
+alias t="tree -Ca -I 'node_modules|.git|.DS_Store|bower_components'"
 
 alias download-video-as-audio="youtube-dl -x --audio-format=mp3"
 
@@ -140,6 +140,7 @@ alias vless='vim -u /usr/local/Cellar/vim/8.0.0596/share/vim/vim80/macros/less.v
 
 alias git=hub
 alias g=magic-g
+alias gg="git remote -v"
 alias ga="git add"
 alias gaa="git add -A"
 alias gc="git commit"
@@ -156,6 +157,11 @@ alias gvim=git-files-vim
 
 alias rm=trash
 
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+
 # suffix
 alias -s git='git clone'
 
@@ -170,6 +176,7 @@ aliasestoexpand=(
   "vanillavim"
   "t"
   "ga"
+  "gg"
   "gc"
   "gl"
   "glm"
@@ -181,10 +188,9 @@ aliasestoexpand=(
   "cvim"
   "rm"
 )
+# }}}
 
-
-# ZLE Functions
-# ------------------------------------------------------------------------------
+# ZLE Functions {{{
 searchup() {
   zle up-line-or-beginning-search
   _zsh_highlight
@@ -219,21 +225,15 @@ fancy-ctrl-z () {
     zle clear-screen
   fi
 }
+# }}}
 
-
-# Standard Functions
-# ------------------------------------------------------------------------------
+# Standard Functions {{{
 cdwhich() {
   cd "$(dirname $(which $1))"
 }
 
 mkcd() {
   mkdir -p $1 && cd $1
-}
-
-jobscount() {
-  local jobs=$(jobs | grep ^\\\[ | wc -l)
-  ((jobs)) && echo -n "${jobs} "
 }
 
 colortest() {
@@ -285,8 +285,13 @@ function .. () {
     return 1
 }
 
-# Git things
-# ------------------------------------------------------------------------------
+jobcount() {
+  local jobs=$(jobs | grep ^\\\[ | wc -l | xargs)
+  ((jobs)) && echo -n "${jobs} "
+}
+# }}}
+
+# Git things {{{
 magic-g() {
   if [[ $# > 0 ]]; then
     git $@
@@ -302,9 +307,14 @@ git-files-vim() {
   if [[ $files != "" ]]; then
     vim $(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
   else
-    echo '\nCommits' && git log @{1}.. -z --pretty=stacked && echo '\nFiles' && git diff --stat @{1}..
-    echo '\nPress any key open these files'; read -k1 -s
-    vim $(git diff --name-only @{1}..)
+    if [ $1 ]; then
+      local REF=$1
+    else
+      local REF="@^"
+    fi
+      echo '\nCommits' && git log "$REF.." -z --pretty=stacked && echo '\nFiles' && git diff --stat "$REF.."
+      echo '\nPress any key open these files'; read -k1 -s
+      vim $(git diff --name-only "$REF..")
   fi
 }
 
@@ -326,13 +336,12 @@ standard-diff() {
 alias __git-diff_main=_git_diff
 compdef _git standard-diff=git-diff
 compdef g git
+# }}}
 
-
-# FZF things
-# ------------------------------------------------------------------------------
+# FZF things {{{
 export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\
   --bind=ctrl-n:toggle-down\
-  --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:4,hl+:2,prompt:2,marker:2,pointer:2,info:9"
+  --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:0,hl+:3,prompt:2,marker:2,pointer:2,info:9"
 
 __fsel() {
   local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype 'proc' \\) -prune \
@@ -402,5 +411,8 @@ z() {
 
 zle      -N  fzf-history-widget
 bindkey '^R' fzf-history-widget
+# }}}
 
 
+
+# vim:fdm=marker

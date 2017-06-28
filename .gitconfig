@@ -2,8 +2,11 @@
   statusHints = false
 [alias]
   go = "!~/.npm/bin/git-open"
-  undo = reset HEAD~1
   peek = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%an%C(auto)'
+  check = !git commit -m tmp && git stash save check-stash && git reset HEAD~1 && git add -u
+  tmp = commit -m tmp
+[branch "master"]
+  pushRemote = origin
 [commit]
   verbose = true
   template = ~/.config/git/templates/commit
@@ -12,6 +15,7 @@
 [diff]
   mnemonicprefix = true
   tool = vimdiff
+  algorithm = patience
 [difftool]
   prompt = false
 [filter "lfs"]
@@ -27,6 +31,8 @@
   smudge = gunexpand --tabs=4 --first-only
 [merge]
   tool = diffconflicts
+  algorithm = patience
+  strategy = recursive
 [mergetool]
   keepBackup = false
 [mergetool "fugitive"]

@@ -2,6 +2,7 @@ set nocompatible
 filetype plugin indent on
 syntax enable
 
+" VAM Setup {{{
 function! EnsureVamIsOnDisk(plugin_root_dir)
   let vam_autoload_dir = a:plugin_root_dir.'/vim-addon-manager/autoload'
   if isdirectory(vam_autoload_dir)
@@ -9,8 +10,8 @@ function! EnsureVamIsOnDisk(plugin_root_dir)
   else
     if 1 == confirm("Clone VAM into ".a:plugin_root_dir."?","&Y\n&N")
       call mkdir(a:plugin_root_dir, 'p')
-      exe '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '.shellescape(a:plugin_root_dir, 1).'/vim-addon-manager'
-      exe 'helptags '.fnameescape(a:plugin_root_dir.'/vim-addon-manager/doc')
+      execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '.shellescape(a:plugin_root_dir, 1).'/vim-addon-manager'
+      execute 'helptags '.fnameescape(a:plugin_root_dir.'/vim-addon-manager/doc')
     endif
     return isdirectory(vam_autoload_dir)
   endif
@@ -27,20 +28,38 @@ function! SetupVAM()
   let &rtp.=(empty(&rtp)?'':',').l:c.plugin_root_dir.'/vim-addon-manager'
   call vam#ActivateAddons([
   \  'github:airblade/vim-gitgutter',
+  \  'github:editorconfig/editorconfig-vim',
+  \  'github:heavenshell/vim-jsdoc',
+  \  'github:pangloss/vim-javascript',
+  \  'github:ronakg/quickr-preview.vim',
   \  'github:tpope/vim-commentary',
   \  'github:tpope/vim-fugitive',
-  \  'github:heavenshell/vim-jsdoc',
-  \  'github:editorconfig/editorconfig-vim',
-  \  'github:pangloss/vim-javascript'
+  \  'github:tpope/vim-rhubarb',
+  \  'github:w0rp/ale',
   \], {'auto_install' : 1})
 endfunction
 
 call SetupVAM()
+" }}}
+
+" Plugin Settings {{{
+let g:quickr_preview_keymaps = 0
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 let g:EditorConfig_core_mode = 'external_command'
 
-" Disable unused builtin plugins
+let g:ale_linters = {
+\   'html': [],
+\}
+
+let g:ale_sign_column_always = 1
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_statusline_format = ['E%d', 'W%d', '']
+let g:ale_sign_error = 'E'
+let g:ale_sign_warning = 'W'
+" }}}
+
+" Disable unused builtin plugins {{{
 let g:loaded_getscriptPlugin = 1
 let g:loaded_gzip = 1
 let g:loaded_logiPat = 1
@@ -50,9 +69,11 @@ let g:loaded_rrhelper = 1
 let g:loaded_tarPlugin = 1
 let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
+" }}}
 
+" Settings {{{
 set backspace=indent,eol,start
-set cursorline
+set clipboard=unnamed
 set diffopt+=vertical,context:3
 set expandtab
 set encoding=utf-8
@@ -67,23 +88,27 @@ set lazyredraw
 set list
 set listchars=tab:˖˗,nbsp:§,precedes:❮,extends:❯
 set mouse=a
+set number
 set nofixendofline
 set nostartofline
 set noswapfile
 set nowrap
+set path=.,**
 set scroll=10
-set scrolloff=1
+set scrolloff=3
 set shiftwidth=4
+set signcolumn=yes
 set smartcase
 set smarttab
 set softtabstop=-1
-set statusline=%m%r%y\ %f:%l\ of\ %L\ col\ %c
+set statusline=%m%r%y\ %f:%l\ of\ %L\ col\ %c\ %P
 set tabstop=4
 set termguicolors
 set ttimeoutlen=0
-set undodir=~/.vim/undo
+set undodir=$HOME/.vim/undo
 set undofile
 set wildmenu
+set wildignore+=*/node_modules/*,*/bower_components/*,node_modules,bower_components
 
 " find files in require() and import statments
 set suffixesadd+=.js
@@ -93,34 +118,55 @@ set path+=$PWD/node_modules
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-if !filereadable($HOME . '/.vim/mru.txt')
-  call system('mkdir -p ' . $HOME . '/.vim/')
-  call system('touch ' . $HOME . '/.vim/mru.txt')
-endif
+" allow italics
+set t_ZH=[3m
+set t_ZR=[23m
+" }}}
 
 " commands for adjusting indentation rules manually
 command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " expandtab"
 command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
 
+" Auto Commands {{{
 augroup vimrc
   autocmd!
   " maintain window layout between sessions
-  au BufLeave * if !&diff | let b:winview = winsaveview() | endif
-  au BufEnter * if exists("b:winview") | call winrestview(b:winview) | unlet! b:winview | endif
+  " au BufLeave * if !&diff | let b:winview = winsaveview() | endif
+  " au BufEnter * if exists("b:winview") | call winrestview(b:winview) | unlet! b:winview | endif
   au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
 
   au Filetype qf setlocal statusline=%t%{exists('w:quickfix_title')\ ?\ '\ '.w:quickfix_title\ :\ ''}\ %l\ of\ %L\ col\ %c
-  au Filetype qf nnoremap <buffer> <C-C> :execute "try\n:ccl\ncatch\n:bd\nendtry"<cr>
+  au FileType qf setlocal nobuflisted
+  au Filetype qf nnoremap <buffer><silent> <c-c> :<c-u>execute "try\n:ccl\ncatch\n:bd\nendtry"<cr>
+  au Filetype qf nmap <buffer> <space> <plug>(quickr_preview)
+  au FileType qf execute max([min([line("$"), 20]), 3]) . "wincmd _"
+  au FileType qf wincmd J
+  au FileType qf nmap <buffer> <c-n> j<space>
+  au FileType qf nmap <buffer> <c-p> k<space>
+  au FileType qf nnoremap <buffer> s :cfdo %s///gc<left><left><left>
+  au FileType qf nnoremap <buffer> S yiw:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+  au FileType qf xnoremap <buffer> s y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+  au FileType qf xnoremap <buffer> S y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
 
   au FileType gitcommit setlocal colorcolumn=51,73
   au FileType gitcommit setlocal spell
-  au FileType gitcommit setlocal nocursorline
+  au FileType gitcommit setlocal nonumber
 
   au FileType markdown setlocal spell
   au FileType markdown setlocal colorcolumn=81
 
   au FileType * setlocal formatoptions-=cor
+augroup END
+" }}}
 
+" MRU {{{
+if !filereadable($HOME . '/.vim/mru.txt')
+  call system('mkdir -p ' . $HOME . '/.vim/')
+  call system('touch ' . $HOME . '/.vim/mru.txt')
+endif
+
+augroup mru
+  autocmd!
   au BufEnter * call s:save_file_to_MRU_file(expand('%:p'))
 augroup END
 
@@ -131,6 +177,40 @@ function! s:save_file_to_MRU_file(filename)
   let l:lines = filter(l:lines, '!empty(v:val)')
   call writefile(l:lines[0:100000], $HOME.'/.vim/mru.txt')
 endfunction
+
+function! s:MRU()
+  let l:files = readfile($HOME."/.vim/mru.txt")
+  let l:files = filter(l:files, "!empty(v:val)")
+  let l:files = filter(l:files, 'v:val != "'.expand('%:p').'"')
+  let l:files = filter(l:files, {key, val -> match(val, '\/vim\d\d\/') == -1})
+  let l:files = filter(l:files, {key, val -> match(val, '^fugitive:\/\/\/') == -1})
+  let l:files = filter(l:files, {key, val -> match(val, '\/var\/folders') == -1})
+  let l:files = filter(l:files, {key, val -> match(val, '\/.vim\/vim-addons.*doc\/') == -1})
+  let l:files = filter(l:files, {key, val -> match(val, '\/quickfix-\d*$') == -1})
+
+  let l:open_buffers = filter(copy(l:files), {key, val -> bufloaded(val)})
+  let l:remaining_files = filter(copy(l:files), {key, val -> (index(open_buffers, val) == -1)})
+
+  let l:in_cwd = filter(copy(l:remaining_files), {key, val -> (stridx(val, getcwd()) > -1)})
+  let l:remaining_files = filter(copy(l:remaining_files), {key, val -> (index(in_cwd, val) == -1)})
+
+  let l:file_list = map(l:remaining_files, {key, val -> fnamemodify(val, ':~:.')})
+
+  if len(l:in_cwd)
+    let l:in_cwd = map(l:in_cwd, {key, val -> fnamemodify(val, ':~:.')})
+    let l:file_list = l:in_cwd + [""] + l:file_list
+  endif
+
+  if len(l:open_buffers)
+    let l:open_buffers = map(l:open_buffers, {key, val -> fnamemodify(val, ':~:.')})
+    let l:file_list = l:open_buffers + [""] + l:file_list
+  endif
+
+  call s:setup_file_buffer(l:file_list, ".")
+endfunction
+
+command! -nargs=0 MRU call s:MRU()
+" }}}
 
 function! OpenAllVisuallySelectedFiles()
   if line(".") == line("'>")
@@ -169,37 +249,8 @@ function! s:Find(regex, ignore_git)
   call s:setup_file_buffer(l:files, l:root, g:file_buffer_no, a:regex)
 endfunction
 
-function! s:MRU()
-  let l:files = readfile($HOME."/.vim/mru.txt")
-  let l:files = filter(l:files, "!empty(v:val)")
-  let l:files = filter(l:files, 'v:val != "'.expand('%:p').'"')
-  let l:files = filter(l:files, {key, val -> match(val, '\/vim\d\d\/') == -1})
-  let l:files = filter(l:files, {key, val -> match(val, '^fugitive:\/\/\/') == -1})
-  let l:files = filter(l:files, {key, val -> match(val, '\/var\/folders') == -1})
-  let l:files = filter(l:files, {key, val -> match(val, '\/.vim\/vim-addons.*doc\/') == -1})
 
-  let l:open_buffers = filter(copy(l:files), {key, val -> bufloaded(val)})
-  let l:remaining_files = filter(copy(l:files), {key, val -> (index(open_buffers, val) == -1)})
-
-  let l:in_cwd = filter(copy(l:remaining_files), {key, val -> (stridx(val, getcwd()) > -1)})
-  let l:remaining_files = filter(copy(l:remaining_files), {key, val -> (index(in_cwd, val) == -1)})
-
-  let l:file_list = map(l:remaining_files, {key, val -> fnamemodify(val, ':~:.')})
-
-  if len(l:in_cwd)
-    let l:in_cwd = map(l:in_cwd, {key, val -> fnamemodify(val, ':~:.')})
-    let l:file_list = l:in_cwd + [""] + l:file_list
-  endif
-
-  if len(l:open_buffers)
-    let l:open_buffers = map(l:open_buffers, {key, val -> fnamemodify(val, ':~:.')})
-    let l:file_list = l:open_buffers + [""] + l:file_list
-  endif
-
-  call s:setup_file_buffer(l:file_list, ".")
-endfunction
-
-function! s:GStatusFiles(args)
+function! s:DirtyFiles(args)
   let l:files = system("git status -s " . a:args . "| sed 's/^...//'")
   call s:setup_file_buffer(l:files, '.')
 endfunction
@@ -245,10 +296,8 @@ function! s:Grep(args, ignore_git, force_case_sensitive)
 endfunction
 
 command! -nargs=+ -bang -complete=dir Grep call s:Grep(<q-args>, <bang>0, 0)
-command! -nargs=+ -bang -complete=dir GrepCaseSensitive call s:Grep(<q-args>, <bang>0, 1)
 command! -nargs=? -bang -complete=file Find call s:Find("<args>", <bang>0)
-command! -nargs=* GStatusFiles call s:GStatusFiles("<args>")
-command! -nargs=0 MRU call s:MRU()
+command! -nargs=* DirtyFiles call s:DirtyFiles("<args>")
 
 " Find and grep mappings
 nnoremap <C-F><C-F> g*<esc>N:Find /
@@ -256,17 +305,18 @@ nnoremap <C-F> :Find
 nnoremap <C-F>! :Find! 
 xmap <C-F> *N<esc>:<C-U>Find /
 
-nnoremap <C-G><C-G> g*N:noh<CR>:Grep /
-nnoremap <C-G> :Grep 
-nnoremap <C-G>! :Grep! 
-xmap <C-G> *N:noh<CR>:<C-U>Grep /
+" nnoremap <C-G> :Executioner Ggrep $1 -- $2<CR>:1,0<cr>cc
+" nnoremap <C-G><C-G> g*N:noh<CR>:Executioner Ggrep $1 -- $2<CR>:1,0<cr>cc/<ESC>
+" xmap <C-G> *N:noh<CR>:Executioner Ggrep $1 -- $2<CR>:1,0<cr>cc/<ESC>
+
+" nnoremap <C-G><C-G> g*N:noh<CR>:Grep /
+" nnoremap <C-G> :Grep 
+" nnoremap <C-G>! :Grep! 
+" xmap <C-G> *N:noh<CR>:<C-U>Grep /
 " xmap g<C-G> TODO: grep selected files
 
-nnoremap <C-F><C-G> :GStatusFiles<cr>
+nnoremap <C-F><C-G> :DirtyFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
-
-nnoremap * mN:let @/=expand("<cword>")\|set hlsearch<CR>`N
-xnoremap * mN"zy:let @/=substitute(escape(@z, '/\'), '\n', '\\n', 'g')\|set hlsearch<CR>`N
 
 cnoremap <C-X> <C-R>=getline(".")
 nnoremap Y y$
@@ -278,13 +328,12 @@ nnoremap <silent> <BS> :noh<cr>:redraw!<cr>jk:diffupdate<cr>
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 
-" stamp between clipboards
-nnoremap s :let @*=@"<cr>:echo 'StampedOut'<cr>
-nnoremap S :let @"=@*<cr>:echo 'StampedIn'<cr>
-
 " substitute shortcuts
-nnoremap <C-S> :%s//
-xnoremap <C-S> y:%s/<C-R>=escape(@", '/.')<CR>/
+nnoremap s :%s///gc<left><left><left>
+nnoremap S yiw:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+xnoremap S y:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+
 
 " open multiple files in visualmode
 xnoremap gf :call OpenAllVisuallySelectedFiles()<cr>:echo<cr>
@@ -298,7 +347,7 @@ inoremap <c-w> <C-G>u<c-w>
 inoremap <space> <C-G>u<space>
 
 " cheapo brace expansion
-inoremap {<cr> {}<C-G>U<Left><cr><cr><C-G>U<Up><tab>
+inoremap {<cr> {<cr>}<esc>O
 
 " 'line-content' mappings, yank content - delete content
 nnoremap yc mz^yg_`z
@@ -327,9 +376,6 @@ inoremap <c-x><right> <c-x><c-l>
 inoremap <c-x><up> <c-x><c-k>
 inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
 
-" toggle line numbers
-nnoremap <space> :set number!<cr>
-
 " last file
 nnoremap <expr> <cr> &filetype == 'qf' ? "\<cr>" : "\<c-^>"
 
@@ -343,17 +389,21 @@ nnoremap [t :tabprevious<cr>
 nnoremap [a :call <SID>Context(1)<CR>
 nnoremap ]a :call <SID>Context(0)<CR>
 
-nmap <silent> <F5> :call ChangeCWD()<CR>
-imap <silent> <F5> <c-o>:call ChangeCWD()<CR>
+nnoremap <silent> <F5> :call ChangeCWD()<CR>
+inoremap <silent> <F5> <c-o>:call ChangeCWD()<CR>
 
 " quick spell fixes
-inoremap <c-s> <esc>[sea<c-x><c-s>
+inoremap <c-s> <esc>:set spell<cr>[sea<c-x><c-s>
+nnoremap <c-s> :set spell!<cr>
 
 " fix indent
 xnoremap > >gv
 xnoremap < <gv
 
 cmap <C-R>' <C-R>=getline('.')<CR>
+
+nnoremap <expr> dy &diff ? '<c-w><c-w>yy<c-w><c-w>Vp' : ':echoerr "E99: Current buffer is not in diff mode"<cr>'
+" nnoremap dy <c-w>hyy<c-w>lVp' : 'dy'
 
 function! ChangeCWD()
     if !exists("g:change_cwd_root_directory")
@@ -387,12 +437,131 @@ command! -nargs=0 -bang BuildPathFromGit call s:BuildPathFromGit(<bang>0)
 
 colorscheme supercrabtree
 
-match ExtraWhitespace /\s\+$/
-augroup whitespace
-  autocmd!
-  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-  autocmd BufWinLeave * call clearmatches()
-augroup END
+function! s:Ranger()
+    let tmp = tempname()
+    exec 'silent !ranger --choosefiles=' . shellescape(tmp)
+    if !filereadable(tmp)
+        redraw!
+        return
+    endif
+    let names = readfile(tmp)
+    if empty(names)
+        redraw!
+        return
+    endif
+    exec 'edit ' . fnameescape(names[0])
+    for name in names[1:]
+        exec 'argadd ' . fnameescape(name)
+    endfor
+    redraw!
+endfunction
 
+command! -bar Ranger call s:Ranger()
+
+function! s:ExecutionerRun(prev_win)
+    let l:command = getline('$')
+    let l:arguments = getline(1, '$')[:-2]
+    q
+    exec a:prev_win . "wincmd w"
+
+    let l:i = 1
+    let l:command = substitute(l:command, '"', '', '')
+
+    for param in l:arguments
+        let l:command = substitute(l:command, "$" . l:i, param, 'g')
+        let l:i += 1
+    endfor
+
+    exec l:command
+endfunction
+
+function! Executioner(command)
+    let l:executioner_prev_win = winnr()
+    let l:program = split(a:command, ' ')[0]
+    let l:folder = expand('~/.vim/executioner/')
+
+    let l:cwd = getcwd()
+    let l:file_name = l:folder . substitute(l:cwd, '/', '-', 'g') . '-' . l:program . '.vim'
+
+    let maxdollar = max(split(substitute(a:command, '.\{-}\$\(\d\)', '\1 ', 'g'), ' '))
+
+    bot new
+    setlocal statusline=\ 
+    execute "edit " . l:file_name
+
+    let l:filecontents = getline(1, '$')
+
+    if join(l:filecontents, '\n') == ''
+        execute 'norm ' . l:maxdollar . 'o'
+        call setline('$', '" ' . a:command)
+        norm gg
+    endif
+
+    execute 'resize ' . len(getline(1, '$'))
+    set nobuflisted
+
+    nnoremap <buffer> <cr> :w<cr>
+    nnoremap <buffer> <c-c> :bd!<cr>
+
+    augroup executioner
+        autocmd!
+        " autocmd TextChanged,TextChangedI <buffer> execute 'resize ' . len(getline(1, '$')) . '|norm gg``'
+        execute 'autocmd BufWritePost <buffer> exec "call s:ExecutionerRun("' . l:executioner_prev_win . '")"'
+    augroup END
+endfunction
+
+command! -nargs=? Executioner call Executioner("<args>")
+
+nnoremap <C-G> :Executioner Grep $1 -- $2<CR>:1<cr>cc
+nnoremap <C-G><CR> :Executioner Grep $1 -- $2<CR>:1<cr>$
+nnoremap <C-G><C-G> g*N:noh<CR>:Executioner Grep $1 -- $2<CR>:1,0<cr>cc/<ESC>
+xmap <silent> <C-G> :call setreg('/', SearchEscape(GetVisualSelection()))<cr>:noh<CR>:Executioner Grep $1 -- $2<CR>:1,0<cr>cc/<ESC>
+
+function! CaseChange(str)
+    let l:snake = '^[a-z0-9]\+\(-\+[a-z0-9]\+\)\+$'
+    let l:camel = '\C^[a-z][a-z0-9]*\([A-Z][a-z0-9]*\)*$'
+    let l:under = '\C^[a-z0-9]\+\(_\+[a-z0-9]\+\)*$'
+    let l:constant = '\C^[A-Z][A-Z0-9]*\(_[A-Z0-9]\+\)*$'
+    let l:pascal = '\C^[A-Z][a-z0-9]*\([A-Z0-9][a-z0-9]*\)*$'
+
+    if (a:str =~ l:snake)
+        return substitute(a:str, '-\+\([a-z]\)', '\U\1', 'g')
+    elseif (a:str =~ l:camel)
+        return substitute(a:str, '^.*$', '\u\0', 'g')
+    elseif (a:str =~ l:constant)
+        return tolower(a:str)
+    elseif (a:str =~ l:pascal)
+        return toupper(substitute(a:str, '\C^\@<![A-Z]', '_\0', 'g'))
+    else
+        return substitute(a:str, '_\+', '-', 'g')
+    endif
+endfunction
+
+vnoremap ~ "zc<C-R>=CaseChange(@z)<CR><Esc>v`[
+
+function! GetVisualSelection()
+  try
+    let l:a_save = @a
+    silent normal! gv"aygv
+    return @a
+  finally
+    let @a = l:a_save
+  endtry
+endfunction
+
+function! SearchEscape(reg)
+    return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
+endfunction
+
+function! SetSearch(reg)
+    call setreg('/', "\\V" . SearchEscape(a:reg))
+endfunction
+
+function! SetSearchWord(reg)
+    call setreg('/', "\\V\\<" . SearchEscape(a:reg) . "\\>")
+endfunction
+
+xnoremap <silent> * :call SetSearch(GetVisualSelection())\|set hlsearch<CR>
+nnoremap <silent> * :call SetSearchWord(expand("<cword>"))\|set hlsearch<CR>
+
+" vim:fdm=marker

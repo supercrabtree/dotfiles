@@ -1,4 +1,3 @@
-
 # Plugins {{{
 source ~/dev/pure/async.zsh
 source ~/dev/pure/pure.zsh
@@ -30,7 +29,7 @@ setopt hist_ignore_space
 setopt share_history
 # }}}
 
-# Exports {{{
+# Exports + PATH {{{
 export EDITOR=vim
 export VISUAL=$EDITOR
 export BACKGROUND=light
@@ -64,7 +63,7 @@ export PATH=$PATH:/sbin
 export PATH=$PATH:$HOME/bin
 
 export PATH=$PATH:$HOME/dev/lm
-export PATH=$PATH:$HOME/dev/git-functions
+export PATH=$PATH:$HOME/dev/git-more
 
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
@@ -143,6 +142,7 @@ alias g=magic-g
 alias gg="git remote -v"
 alias ga="git add"
 alias gaa="git add -A"
+alias gdm="git diff-mega"
 alias gc="git commit"
 alias gl="git log --no-merges -z --pretty=stacked -20"
 alias glm="git log -z --pretty=stacked -20"
@@ -343,17 +343,6 @@ export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\
   --bind=ctrl-n:toggle-down\
   --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:0,hl+:3,prompt:2,marker:2,pointer:2,info:9"
 
-__fsel() {
-  local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype 'proc' \\) -prune \
-    -o -type f -print \
-    -o -type d -print \
-    -o -type l -print 2> /dev/null | sed 1d | cut -b3-"}"
-  eval "$cmd" | fzf -m | while read item; do
-  printf '%q ' "$item"
-done
-echo
-}
-
 fzf-history-widget() {
   local selected num fade
   if [[ $BACKGROUND == "dark" ]]; then fade=0 fi
@@ -370,33 +359,32 @@ fzf-history-widget() {
 }
 
 fancy-branch() {
-  local tags localbranches remotebranches target
-  tags=$(
-  git tag | awk '{print "\x1b[33;1mtag\x1b[m\t" $1}') || return
-  localbranches=$(
-  git for-each-ref --sort=-committerdate refs/heads/ |
-  sed 's|.*refs/heads/||' |
-  awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
-  remotebranches=$(
-  git branch --remote | grep -v HEAD             |
-  sed "s/.* //"       | sed "s#remotes/[^/]*/##" |
-  sort -u             | awk '{print "\x1b[31;1mremote\x1b[m\t" $1}') || return
-  target=$(
-  (echo "$localbranches"; echo "$tags"; echo "$remotebranches";) |
-  fzf --no-hscroll --ansi +m -d "\t" -n 2) || return
-  if [[ -z "$BUFFER" ]]; then
-    if [[ $(echo "$target" | awk '{print $1}') == 'remote' ]]; then
-      target=$(echo "$target" | awk '{print $2}' | sed 's|.*/||')
-      git checkout "$target"
-      zle accept-line
-    else
-      git checkout $(echo "$target" | awk '{print $2}')
-      zle accept-line
+  local awk_coloring='BEGIN { prev=""; color=0; } ! /^$/ { first=$1; $1 = ""; if (prev != first) { color=(color + 1) % 6; prev=first; } print "\x1b[3" color ";1m" first "\x1b[m\t" $0; }'
+  local other_coloring='{print "\x1b[" color ";1m" text "\x1b[m\t" $1}'
+
+  local local_branches=`git branch --sort=-committerdate | cut -c 3- | awk -v color=36 -v text="local" $other_coloring`
+  local remote_branches=`git branch -r | grep -vE 'HEAD|--hooks--' | cut -c 3-`
+  local tags=`git tag -l --sort=-taggerdate | awk -v color=37 -v text="tag" $other_coloring`
+
+  local origin=`printf $remote_branches | grep '^\s*origin/'`
+  local other=`printf $remote_branches | grep -v '^\s*origin/'`
+  local remote_sorted=`printf "$origin\n$other" | awk -F "/" $awk_coloring`
+
+  local selected=`echo "$local_branches\n$remote_sorted\n$tags" | column -t | sed '/^$/d' | fzf --no-hscroll --ansi +m -d "\t"`
+
+  if [[ -n "$selected" ]]; then
+    local type=`printf $selected | awk '{print $1}'`
+    local target=`printf $selected | awk '{print $2}'`
+
+    if [[ "$type" == "remote" ]]; then
+      target=`print $target | sed 's|.*/||'`
     fi
-  else
-    res=$(echo "$target" | awk '{print $2}')
-    LBUFFER="$(echo "$LBUFFER" | xargs) ${res}"
-    zle redisplay
+
+    if [[ -z "$LBUFFER" ]]; then
+        LBUFFER="git checkout $target"
+    else
+        LBUFFER="$LBUFFER$target"
+    fi
   fi
 }
 

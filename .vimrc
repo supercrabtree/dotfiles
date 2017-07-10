@@ -31,6 +31,9 @@ function! SetupVAM()
   \  'github:editorconfig/editorconfig-vim',
   \  'github:heavenshell/vim-jsdoc',
   \  'github:pangloss/vim-javascript',
+  \  'github:Quramy/tsuquyomi',
+  \  'github:leafgarland/typescript-vim',
+  \  'github:ianks/vim-tsx',
   \  'github:ronakg/quickr-preview.vim',
   \  'github:tpope/vim-commentary',
   \  'github:tpope/vim-fugitive',
@@ -74,6 +77,7 @@ let g:loaded_zipPlugin = 1
 " Settings {{{
 set backspace=indent,eol,start
 set clipboard=unnamed
+set completeopt=menu,longest
 set diffopt+=vertical,context:3
 set expandtab
 set encoding=utf-8
@@ -123,10 +127,6 @@ set t_ZH=[3m
 set t_ZR=[23m
 " }}}
 
-" commands for adjusting indentation rules manually
-command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " expandtab"
-command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
-
 " Auto Commands {{{
 augroup vimrc
   autocmd!
@@ -147,6 +147,8 @@ augroup vimrc
   au FileType qf nnoremap <buffer> S yiw:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
   au FileType qf xnoremap <buffer> s y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
   au FileType qf xnoremap <buffer> S y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+
+  au FileType php setlocal complete=.,w,b,u
 
   au FileType gitcommit setlocal colorcolumn=51,73
   au FileType gitcommit setlocal spell
@@ -212,15 +214,15 @@ endfunction
 command! -nargs=0 MRU call s:MRU()
 " }}}
 
-function! OpenAllVisuallySelectedFiles()
+function! OpenAllVisuallySelectedFiles() " {{{
   if line(".") == line("'>")
     execute "edit " . getline(".")
   else
     execute "edit " . getline(".") | b#
   endif
-endfunction
+endfunction " }}}
 
-function! s:Find(regex, ignore_git)
+function! s:Find(regex, ignore_git) " {{{
   let l:root = systemlist("git rev-parse --show-toplevel")[0]
   if (v:shell_error || a:ignore_git)
     let l:files = system("find " . getcwd() . " -type f")
@@ -247,15 +249,14 @@ function! s:Find(regex, ignore_git)
   endif
 
   call s:setup_file_buffer(l:files, l:root, g:file_buffer_no, a:regex)
-endfunction
+endfunction " }}}
 
-
-function! s:DirtyFiles(args)
+function! s:DirtyFiles(args) " {{{
   let l:files = system("git status -s " . a:args . "| sed 's/^...//'")
   call s:setup_file_buffer(l:files, '.')
-endfunction
+endfunction " }}}
 
-function! s:setup_file_buffer(files, root, ...)
+function! s:setup_file_buffer(files, root, ...) " {{{
   if exists("a:1")
     exec 'b' . a:1
     normal ggdG
@@ -272,9 +273,9 @@ function! s:setup_file_buffer(files, root, ...)
   endif
   nnoremap <buffer> <C-C> :bw<cr>
   nnoremap <buffer> <Enter> mFgf
-endfunction
+endfunction " }}}
 
-function! s:Grep(args, ignore_git, force_case_sensitive)
+function! s:Grep(args, ignore_git, force_case_sensitive) " {{{
   let l:save = &grepprg
   let l:grep_cmd = 'grep -n'
   let l:is_git_dir = system("git rev-parse >/dev/null 2>&1; printf $?") == 0
@@ -293,30 +294,162 @@ function! s:Grep(args, ignore_git, force_case_sensitive)
   execute 'silent grep! ' . a:args . ' | cwindow | sleep 10m | redraw!'
 
   let &grepprg = l:save
+endfunction " }}}
+
+function! ChangeCWD() " {{{
+    if !exists("g:change_cwd_root_directory")
+        let g:change_cwd_root_directory = getcwd()
+    endif
+
+    let l:currentFileDir=expand('%:p:h')
+
+    if l:currentFileDir != getcwd()
+        exec("cd " . l:currentFileDir)
+    else
+        exec("cd " . g:change_cwd_root_directory)
+    endif
+endfunction " }}}
+
+function! s:Context(reverse) " {{{
+  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+endfunction " }}}
+
+function! s:Ranger() " {{{
+    let tmp = tempname()
+    exec 'silent !ranger --choosefiles=' . shellescape(tmp)
+    if !filereadable(tmp)
+        redraw!
+        return
+    endif
+    let names = readfile(tmp)
+    if empty(names)
+        redraw!
+        return
+    endif
+    exec 'edit ' . fnameescape(names[0])
+    for name in names[1:]
+        exec 'argadd ' . fnameescape(name)
+    endfor
+    redraw!
+endfunction " }}}
+
+" Executioner {{{
+function! s:ExecutionerRun(prev_win)
+    let l:command = getline('$')
+    let l:arguments = getline(1, '$')[:-2]
+    q
+    exec a:prev_win . "wincmd w"
+
+    let l:i = 1
+    let l:command = substitute(l:command, '"', '', '')
+
+    for param in l:arguments
+        let l:command = substitute(l:command, "$" . l:i, param, 'g')
+        let l:i += 1
+    endfor
+
+    exec l:command
 endfunction
 
-command! -nargs=+ -bang -complete=dir Grep call s:Grep(<q-args>, <bang>0, 0)
-command! -nargs=? -bang -complete=file Find call s:Find("<args>", <bang>0)
-command! -nargs=* DirtyFiles call s:DirtyFiles("<args>")
+function! Executioner(command)
+    let l:executioner_prev_win = winnr()
+    let l:program = split(a:command, ' ')[0]
+    let l:folder = expand('~/.vim/executioner/')
 
+    let l:cwd = getcwd()
+    let l:file_name = l:folder . substitute(l:cwd, '/', '-', 'g') . '-' . l:program . '.vim'
+
+    let maxdollar = max(split(substitute(a:command, '.\{-}\$\(\d\)', '\1 ', 'g'), ' '))
+
+    bot new
+    setlocal statusline=\ 
+    execute "edit " . l:file_name
+
+    let l:filecontents = getline(1, '$')
+
+    if join(l:filecontents, '\n') == ''
+        execute 'norm ' . l:maxdollar . 'o'
+        call setline('$', '" ' . a:command)
+        norm gg
+    endif
+
+    execute 'resize ' . len(getline(1, '$'))
+    set nobuflisted
+
+    nnoremap <buffer> <cr> :w<cr>
+    nnoremap <buffer> <c-c> :bd!<cr>
+
+    augroup executioner
+        autocmd!
+        " autocmd TextChanged,TextChangedI <buffer> execute 'resize ' . len(getline(1, '$')) . '|norm gg``'
+        execute 'autocmd BufWritePost <buffer> exec "call s:ExecutionerRun("' . l:executioner_prev_win . '")"'
+    augroup END
+endfunction
+
+command! -nargs=? Executioner call Executioner("<args>")
+
+" }}}
+
+function! CaseChange(str) " {{{
+    let l:snake = '^[a-z0-9]\+\(-\+[a-z0-9]\+\)\+$'
+    let l:camel = '\C^[a-z][a-z0-9]*\([A-Z][a-z0-9]*\)*$'
+    let l:under = '\C^[a-z0-9]\+\(_\+[a-z0-9]\+\)*$'
+    let l:constant = '\C^[A-Z][A-Z0-9]*\(_[A-Z0-9]\+\)*$'
+    let l:pascal = '\C^[A-Z][a-z0-9]*\([A-Z0-9][a-z0-9]*\)*$'
+
+    if (a:str =~ l:snake)
+        return substitute(a:str, '-\+\([a-z]\)', '\U\1', 'g')
+    elseif (a:str =~ l:camel)
+        return substitute(a:str, '^.*$', '\u\0', 'g')
+    elseif (a:str =~ l:constant)
+        return tolower(a:str)
+    elseif (a:str =~ l:pascal)
+        return toupper(substitute(a:str, '\C^\@<![A-Z]', '_\0', 'g'))
+    else
+        return substitute(a:str, '_\+', '-', 'g')
+    endif
+endfunction " }}}
+
+function! GetVisualSelection() " {{{
+  try
+    let l:a_save = @a
+    silent normal! gv"aygv
+    return @a
+  finally
+    let @a = l:a_save
+  endtry
+endfunction " }}}
+
+" Search Functions {{{
+function! SearchEscape(reg)
+    return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
+endfunction
+
+function! SetSearch(reg)
+    call setreg('/', "\\V" . SearchEscape(a:reg))
+endfunction
+
+function! SetSearchWord(reg)
+    call setreg('/', "\\V\\<" . SearchEscape(a:reg) . "\\>")
+endfunction
+" }}}
+
+" Mappings {{{
 " Find and grep mappings
 nnoremap <C-F><C-F> g*<esc>N:Find /
 nnoremap <C-F> :Find 
 nnoremap <C-F>! :Find! 
 xmap <C-F> *N<esc>:<C-U>Find /
 
-" nnoremap <C-G> :Executioner Ggrep $1 -- $2<CR>:1,0<cr>cc
-" nnoremap <C-G><C-G> g*N:noh<CR>:Executioner Ggrep $1 -- $2<CR>:1,0<cr>cc/<ESC>
-" xmap <C-G> *N:noh<CR>:Executioner Ggrep $1 -- $2<CR>:1,0<cr>cc/<ESC>
-
-" nnoremap <C-G><C-G> g*N:noh<CR>:Grep /
-" nnoremap <C-G> :Grep 
-" nnoremap <C-G>! :Grep! 
-" xmap <C-G> *N:noh<CR>:<C-U>Grep /
-" xmap g<C-G> TODO: grep selected files
+nnoremap <C-G> :Executioner Grep $1 -- $2<CR>:1<cr>cc
+nnoremap <C-G><CR> :Executioner Grep $1 -- $2<CR>:1<cr>$
+nnoremap <C-G><C-G> g*N:noh<CR>:Executioner Grep $1 -- $2<CR>:1,0<cr>cc/<ESC>
+xmap <silent> <C-G> :call setreg('/', SearchEscape(GetVisualSelection()))<cr>:noh<CR>:Executioner Grep $1 -- $2<CR>:1,0<cr>cc/<ESC>
 
 nnoremap <C-F><C-G> :DirtyFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
+
+inoremap <expr> <right> pumvisible() ? "\<C-L>" : "<right>"
 
 cnoremap <C-X> <C-R>=getline(".")
 nnoremap Y y$
@@ -405,163 +538,159 @@ cmap <C-R>' <C-R>=getline('.')<CR>
 nnoremap <expr> dy &diff ? '<c-w><c-w>yy<c-w><c-w>Vp' : ':echoerr "E99: Current buffer is not in diff mode"<cr>'
 " nnoremap dy <c-w>hyy<c-w>lVp' : 'dy'
 
-function! ChangeCWD()
-    if !exists("g:change_cwd_root_directory")
-        let g:change_cwd_root_directory = getcwd()
-    endif
-
-    let l:currentFileDir=expand('%:p:h')
-
-    if l:currentFileDir != getcwd()
-        exec("cd " . l:currentFileDir)
-    else
-        exec("cd " . g:change_cwd_root_directory)
-    endif
-endfunction
-
-function! s:Context(reverse)
-  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
-endfunction
-
-" build path from git
-function! s:BuildPathFromGit(overwrite)
-    let l:p = system('git ls-files | gxargs dirname | sort -u | paste -sd "," -')
-    if (a:overwrite)
-        exec 'set path='.l:p
-    else
-        exec 'set path+='.l:p
-    endif
-endfunction
-
-command! -nargs=0 -bang BuildPathFromGit call s:BuildPathFromGit(<bang>0)
-
-colorscheme supercrabtree
-
-function! s:Ranger()
-    let tmp = tempname()
-    exec 'silent !ranger --choosefiles=' . shellescape(tmp)
-    if !filereadable(tmp)
-        redraw!
-        return
-    endif
-    let names = readfile(tmp)
-    if empty(names)
-        redraw!
-        return
-    endif
-    exec 'edit ' . fnameescape(names[0])
-    for name in names[1:]
-        exec 'argadd ' . fnameescape(name)
-    endfor
-    redraw!
-endfunction
-
-command! -bar Ranger call s:Ranger()
-
-function! s:ExecutionerRun(prev_win)
-    let l:command = getline('$')
-    let l:arguments = getline(1, '$')[:-2]
-    q
-    exec a:prev_win . "wincmd w"
-
-    let l:i = 1
-    let l:command = substitute(l:command, '"', '', '')
-
-    for param in l:arguments
-        let l:command = substitute(l:command, "$" . l:i, param, 'g')
-        let l:i += 1
-    endfor
-
-    exec l:command
-endfunction
-
-function! Executioner(command)
-    let l:executioner_prev_win = winnr()
-    let l:program = split(a:command, ' ')[0]
-    let l:folder = expand('~/.vim/executioner/')
-
-    let l:cwd = getcwd()
-    let l:file_name = l:folder . substitute(l:cwd, '/', '-', 'g') . '-' . l:program . '.vim'
-
-    let maxdollar = max(split(substitute(a:command, '.\{-}\$\(\d\)', '\1 ', 'g'), ' '))
-
-    bot new
-    setlocal statusline=\ 
-    execute "edit " . l:file_name
-
-    let l:filecontents = getline(1, '$')
-
-    if join(l:filecontents, '\n') == ''
-        execute 'norm ' . l:maxdollar . 'o'
-        call setline('$', '" ' . a:command)
-        norm gg
-    endif
-
-    execute 'resize ' . len(getline(1, '$'))
-    set nobuflisted
-
-    nnoremap <buffer> <cr> :w<cr>
-    nnoremap <buffer> <c-c> :bd!<cr>
-
-    augroup executioner
-        autocmd!
-        " autocmd TextChanged,TextChangedI <buffer> execute 'resize ' . len(getline(1, '$')) . '|norm gg``'
-        execute 'autocmd BufWritePost <buffer> exec "call s:ExecutionerRun("' . l:executioner_prev_win . '")"'
-    augroup END
-endfunction
-
-command! -nargs=? Executioner call Executioner("<args>")
-
-nnoremap <C-G> :Executioner Grep $1 -- $2<CR>:1<cr>cc
-nnoremap <C-G><CR> :Executioner Grep $1 -- $2<CR>:1<cr>$
-nnoremap <C-G><C-G> g*N:noh<CR>:Executioner Grep $1 -- $2<CR>:1,0<cr>cc/<ESC>
-xmap <silent> <C-G> :call setreg('/', SearchEscape(GetVisualSelection()))<cr>:noh<CR>:Executioner Grep $1 -- $2<CR>:1,0<cr>cc/<ESC>
-
-function! CaseChange(str)
-    let l:snake = '^[a-z0-9]\+\(-\+[a-z0-9]\+\)\+$'
-    let l:camel = '\C^[a-z][a-z0-9]*\([A-Z][a-z0-9]*\)*$'
-    let l:under = '\C^[a-z0-9]\+\(_\+[a-z0-9]\+\)*$'
-    let l:constant = '\C^[A-Z][A-Z0-9]*\(_[A-Z0-9]\+\)*$'
-    let l:pascal = '\C^[A-Z][a-z0-9]*\([A-Z0-9][a-z0-9]*\)*$'
-
-    if (a:str =~ l:snake)
-        return substitute(a:str, '-\+\([a-z]\)', '\U\1', 'g')
-    elseif (a:str =~ l:camel)
-        return substitute(a:str, '^.*$', '\u\0', 'g')
-    elseif (a:str =~ l:constant)
-        return tolower(a:str)
-    elseif (a:str =~ l:pascal)
-        return toupper(substitute(a:str, '\C^\@<![A-Z]', '_\0', 'g'))
-    else
-        return substitute(a:str, '_\+', '-', 'g')
-    endif
-endfunction
+xnoremap <silent> * :call SetSearch(GetVisualSelection())\|set hlsearch<CR>
+nnoremap <silent> * :call SetSearchWord(expand("<cword>"))\|set hlsearch<CR>
 
 vnoremap ~ "zc<C-R>=CaseChange(@z)<CR><Esc>v`[
 
-function! GetVisualSelection()
-  try
-    let l:a_save = @a
-    silent normal! gv"aygv
-    return @a
-  finally
-    let @a = l:a_save
-  endtry
-endfunction
+" }}}
 
-function! SearchEscape(reg)
-    return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
-endfunction
+"Commands {{{
 
-function! SetSearch(reg)
-    call setreg('/', "\\V" . SearchEscape(a:reg))
-endfunction
+" Manual Indentation Adjustments
+command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " expandtab"
+command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
 
-function! SetSearchWord(reg)
-    call setreg('/', "\\V\\<" . SearchEscape(a:reg) . "\\>")
-endfunction
+command! -nargs=+ -bang -complete=dir Grep call s:Grep(<q-args>, <bang>0, 0)
+command! -nargs=? -bang -complete=file Find call s:Find("<args>", <bang>0)
+command! -nargs=* DirtyFiles call s:DirtyFiles("<args>")
 
-xnoremap <silent> * :call SetSearch(GetVisualSelection())\|set hlsearch<CR>
-nnoremap <silent> * :call SetSearchWord(expand("<cword>"))\|set hlsearch<CR>
+command! -bar Ranger call s:Ranger()
+
+command! -nargs=+ GitGutterBase execute "let g:gitgutter_diff_base = '" . system("git rev-parse <args>")[:-2] . "'"
+" }}}
+
+" Colors {{{
+" white = #ffffff => 100% => 15
+" grey1 = #f3f3f3 => 97%  =>
+" grey2 = #e8e8e8 => 91%
+" grey3 = #dbdbdb => 86%
+" grey4 = #b3b3b3 => 70%
+" grey5 = #999999 => 60%
+" grey6 = #808080 => 50%
+" black = #000000 => 0%   =>
+
+" " red      = #bf2222
+" " green    = #008c00
+" " yellow   = #ffaf00
+" " blue     = #2275bf
+" " brown    = #724700
+
+" red        = #941a1e -> ad1f1f
+" green      = #006215 -> 006600
+" blue       = #1a5b94
+" yellow     = #ffaf00
+" darkorange = #ea7a19
+"
+" Highlight          Background     Foreground     Style (cterm)
+" ------------------------------------------------------------------------------
+hi Normal                           guifg=NONE
+hi ErrorMsg          guibg=#941a1e  guifg=#ffffff
+hi Error             guibg=#941a1e  guifg=#ffffff
+hi NonText                          guifg=#b3b3b3
+hi Comment                          guifg=#999999 cterm=italic
+hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
+hi Title                            guifg=NONE
+hi Function                         guifg=NONE
+hi Special                          guifg=NONE
+hi SpecialKey                       guifg=#b3b3b3
+hi Keyword                          guifg=NONE
+hi Type                             guifg=NONE
+hi Constant                         guifg=NONE
+hi String                           guifg=#1a5b94
+hi Boolean                          guifg=#1a5b94
+hi Preproc                          guifg=NONE
+hi Number                           guifg=#1a5b94
+hi Identifier                       guifg=NONE
+hi Statement                        guifg=NONE
+hi Todo                             guifg=NONE
+hi WarningMsg                       guifg=NONE
+hi GoodMsg                          guifg=#006215
+hi BrightGoodMsg     guibg=#006215  guifg=#FFFFFF
+hi BadMsg                           guifg=#941a1e
+hi Directory                        guifg=#1a5b94
+hi MoreMsg                          guifg=#1a5b94
+hi Question                         guifg=NONE
+hi Folded            guibg=#f3f3f3  guifg=NONE
+hi FoldColumn                       guifg=NONE
+hi SpellBad          guibg=NONE     guifg=#941a1e  cterm=NONE
+hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
+
+" UI elements
+hi ColorColumn       guibg=#f3f3f3
+hi CursorLine        guibg=#e8e8e8                 cterm=NONE
+hi PMenu             guibg=#e8e8e8  guifg=#808080
+hi LineNr                           guifg=#b3b3b3
+hi CursorLineNr                     guifg=NONE
+hi MatchParen        guibg=NONE     guifg=#941a1e
+hi StatusLine        guibg=#e8e8e8  guifg=#000000  cterm=NONE
+hi StatusLineNC      guibg=#e8e8e8  guifg=#b3b3b3  cterm=NONE
+hi VertSplit         guibg=#e8e8e8  guifg=#e8e8e8
+hi WildMenu          guibg=#000000  guifg=#ffffff
+hi QuickFixLine      guibg=#e8e8e8
+hi Visual            guibg=#dbdbdb
+
+hi Search            guibg=#ffaf00  guifg=#000000
+hi IncSearch         guibg=#006215  guifg=#ffffff  cterm=NONE
+hi ExtraWhitespace   guibg=#941a1e  guifg=#941a1e
+
+" Diffs
+hi DiffAdd           guibg=NONE     guifg=#006215
+hi DiffChange        guibg=NONE
+hi DiffDelete        guibg=#941a1e  guifg=#941a1e
+hi DiffText          guifg=#ea7a19  guibg=#f6f6f6 cterm=NONE
+hi diffAdded                        guifg=#006215
+hi diffRemoved                      guifg=#941a1e
+
+" Commits
+hi gitcommitSelectedFile            guifg=#006215
+hi gitcommitDiscardedFile           guifg=#941a1e
+
+" Git Gutter
+hi GitGutterAdd                     guifg=#006215
+hi GitGutterChange                  guifg=#b3b3b3
+hi GitGutterDelete                  guifg=#941a1e
+hi GitGutterChangeDelete            guifg=#b3b3b3
+
+
+" Language Specific
+" -----------------
+" HTML
+hi htmlItalic                                      cterm=italic
+hi MatchTag          guibg=#dbdbdb  guifg=#000000
+hi link htmlH1 Normal
+hi link htmlH2 Normal
+hi link htmlH3 Normal
+hi link htmlH4 Normal
+hi link htmlH5 Normal
+hi link htmlH6 Normal
+hi link htmlTag Keyword
+hi link htmlTagName Keyword
+hi link htmlSpecialTagName Keyword
+hi link htmlArg Keyword
+hi link htmlTagN htmlTagName
+hi link htmlEndTag htmlTag
+
+" Markdown
+hi markdownH1        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH2        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH3        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH4        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH5        guibg=NONE     guifg=NONE     cterm=reverse
+hi markdownH6        guibg=NONE     guifg=NONE     cterm=reverse
+hi link markdownHeadingDelimiter markdownH1
+
+hi ALEErrorSign      guibg=#ffffff  guifg=#bb0900
+hi ALEWarningSign    guibg=#ffffff  guifg=#c1a700
+
+match ExtraWhitespace /\s\+$/
+augroup whitespace
+  autocmd!
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
+augroup END
+" }}}
 
 " vim:fdm=marker

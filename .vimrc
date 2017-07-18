@@ -434,6 +434,26 @@ function! SetSearchWord(reg)
 endfunction
 " }}}
 
+function! s:Subl(allfiles) " {{{
+    let l:root = system('cd ' . expand('%:h') . ' && git rev-parse --show-toplevel')[:-2]
+    if (v:shell_error)
+        let l:root = getcwd() . ' ' . expand('%:h')
+    endif
+    if (a:allfiles)
+        let l:bufnumbers = filter(range(1, bufnr('$')), 'buflisted(v:val)')
+        let l:bufnames = map(bufnumbers, 'bufname(v:val)')
+        let l:validbufnames = filter(bufnumbers, 'filereadable(v:val)')
+        let l:validbufnames = filter(validbufnames, 'v:val != expand("%")')
+        let l:validbufnames = add(validbufnames, expand('%'))
+        let l:files = join(l:validbufnames, ' ')
+    else
+        let l:files = expand('%')
+    endif
+    execute 'silent !subl -n' l:root l:files
+    redraw!
+endfunction
+" }}}
+
 " Mappings {{{
 " Find and grep mappings
 nnoremap <C-F><C-F> g*<esc>N:Find /
@@ -558,6 +578,8 @@ command! -nargs=* DirtyFiles call s:DirtyFiles("<args>")
 command! -bar Ranger call s:Ranger()
 
 command! -nargs=+ GitGutterBase execute "let g:gitgutter_diff_base = '" . system("git rev-parse <args>")[:-2] . "'"
+
+command! -nargs=0 -bang Subl call s:Subl(<bang>0)
 " }}}
 
 " Colors {{{

@@ -462,9 +462,9 @@ cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 
 " substitute shortcuts
-nnoremap s :%s///gc<left><left><left>
-nnoremap S yiw:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
-xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+nnoremap s :%s/<C-R>///gc<left><left><left>
+nnoremap S yiw:%s/\V\<<C-R>=escape(@", '/')<CR>\>//gc<left><left><left>
+xnoremap s :s/<C-R>///gc<left><left><left>
 xnoremap S y:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
 
 

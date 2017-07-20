@@ -3,7 +3,6 @@ source ~/dev/pure/async.zsh
 source ~/dev/pure/pure.zsh
 source ~/dev/z/z.sh
 source ~/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/dev/bam-pow/bam.sh
 # }}}
 
 # Load {{{
@@ -42,8 +41,6 @@ export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0
 export LESS="-RFX"
 export ZDOTDIR=$HOME
 
-export BAM_DIR="$HOME/dev/scratches"
-export POW_DIR="$HOME/dev"
 
 export LESS_TERMCAP_mb=$'\E[3;31m'
 export LESS_TERMCAP_md=$'\E[1;32m'
@@ -236,6 +233,17 @@ mkcd() {
   mkdir -p $1 && cd $1
 }
 
+bam() {
+    local name
+    if [ $1 ]; then
+        name = $1
+    else
+        name=`date | sed 's/ /-/g'`
+    fi
+
+    mkdir -p "$HOME/dev/scratches/$name" && cd "~/dev/scratches/$name"
+}
+
 colortest() {
   if [ $1 ]; then
     for i in $@; do
@@ -296,7 +304,7 @@ magic-g() {
   if [[ $# > 0 ]]; then
     git $@
   else
-    git status -sb
+    git status -sb || lm
   fi
 }
 
@@ -400,7 +408,5 @@ z() {
 zle      -N  fzf-history-widget
 bindkey '^R' fzf-history-widget
 # }}}
-
-
 
 # vim:fdm=marker

@@ -27,13 +27,15 @@ function! SetupVAM()
   endif
   let &rtp.=(empty(&rtp)?'':',').l:c.plugin_root_dir.'/vim-addon-manager'
   call vam#ActivateAddons([
+  \  'github:Quramy/tsuquyomi',
   \  'github:airblade/vim-gitgutter',
   \  'github:editorconfig/editorconfig-vim',
+  \  'github:flowtype/vim-flow',
+  \  'github:gcavallanti/vim-noscrollbar',
   \  'github:heavenshell/vim-jsdoc',
-  \  'github:pangloss/vim-javascript',
-  \  'github:Quramy/tsuquyomi',
-  \  'github:leafgarland/typescript-vim',
   \  'github:ianks/vim-tsx',
+  \  'github:leafgarland/typescript-vim',
+  \  'github:pangloss/vim-javascript',
   \  'github:ronakg/quickr-preview.vim',
   \  'github:tpope/vim-commentary',
   \  'github:tpope/vim-fugitive',
@@ -105,14 +107,14 @@ set signcolumn=yes
 set smartcase
 set smarttab
 set softtabstop=-1
-set statusline=%m%r%y\ %f:%l\ of\ %L\ col\ %c\ %P
+set statusline=%m%r%y\ %f:%l%<\ of\ %L\ col\ %c%=%{noscrollbar#statusline(20,'□','■')}\ 
 set tabstop=4
 set termguicolors
 set ttimeoutlen=0
 set undodir=$HOME/.vim/undo
 set undofile
 set wildmenu
-set wildignore+=*/node_modules/*,*/bower_components/*,node_modules,bower_components
+set wildignore+=dist/**,**/node_modules/**,**/bower_components/**
 
 " find files in require() and import statments
 set suffixesadd+=.js
@@ -130,9 +132,6 @@ set t_ZR=[23m
 " Auto Commands {{{
 augroup vimrc
   autocmd!
-  " maintain window layout between sessions
-  " au BufLeave * if !&diff | let b:winview = winsaveview() | endif
-  " au BufEnter * if exists("b:winview") | call winrestview(b:winview) | unlet! b:winview | endif
   au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
 
   au Filetype qf setlocal statusline=%t%{exists('w:quickfix_title')\ ?\ '\ '.w:quickfix_title\ :\ ''}\ %l\ of\ %L\ col\ %c
@@ -143,10 +142,12 @@ augroup vimrc
   au FileType qf wincmd J
   au FileType qf nmap <buffer> <c-n> j<space>
   au FileType qf nmap <buffer> <c-p> k<space>
-  au FileType qf nnoremap <buffer> s :cfdo %s///gc<left><left><left>
-  au FileType qf nnoremap <buffer> S yiw:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+  au FileType qf nnoremap <buffer> s :cfdo %s/<C-R>///gc<left><left><left>
+  au FileType qf nnoremap <buffer> S yiw:cfdo %s/<C-R>"//gc<left><left><left>
   au FileType qf xnoremap <buffer> s y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
-  au FileType qf xnoremap <buffer> S y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+  au FileType qf xnoremap <buffer> S :echo 'need to implement'
+
+  au QuickFixCmdPost *grep* cwindow
 
   au FileType php setlocal complete=.,w,b,u
 
@@ -483,9 +484,9 @@ cnoremap <C-E> <End>
 
 " substitute shortcuts
 nnoremap s :%s/<C-R>///gc<left><left><left>
-nnoremap S yiw:%s/\V\<<C-R>=escape(@", '/')<CR>\>//gc<left><left><left>
-xnoremap s :s/<C-R>///gc<left><left><left>
-xnoremap S y:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+nnoremap S yiw:%s/<C-R>"//gc<left><left><left>
+xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+xnoremap S :s/<C-R>///gc<left><left><left>
 
 
 " open multiple files in visualmode
@@ -646,6 +647,7 @@ hi LineNr                           guifg=#b3b3b3
 hi CursorLineNr                     guifg=NONE
 hi MatchParen        guibg=NONE     guifg=#941a1e
 hi StatusLine        guibg=#e8e8e8  guifg=#000000  cterm=NONE
+" hi StatusLineWarn    guibg=#e8e8e8  guifg=#941a1e  cterm=NONE
 hi StatusLineNC      guibg=#e8e8e8  guifg=#b3b3b3  cterm=NONE
 hi VertSplit         guibg=#e8e8e8  guifg=#e8e8e8
 hi WildMenu          guibg=#000000  guifg=#ffffff

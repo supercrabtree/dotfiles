@@ -1,0 +1,10 @@
+{
+	"color_scheme": "Packages/User/Ol' Grumpy.tmTheme",
+	"font_face": "SF Mono Regular",
+	"font_size": 18,
+	"ignored_packages":
+	[
+		"ActualVim"
+	],
+	"theme": "ayu-light.sublime-theme"
+}

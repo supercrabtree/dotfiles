@@ -2,7 +2,6 @@
   statusHints = false
 [alias]
   diff-mega = "!vim -p $(git diff --name-only) -c \"tabdo :Gdiff\" -c \"tabdo :wincmd h\" -c \"tabdo :norm gg0\"  -c \"tabfirst\""
-  go = "!~/.npm/bin/git-open"
   peek = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%an%C(auto)'
   check = !git commit -m tmp && git stash save check-stash && git reset HEAD~1 && git add -u
   tmp = commit -m tmp

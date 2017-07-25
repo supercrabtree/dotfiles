@@ -304,7 +304,13 @@ magic-g() {
   if [[ $# > 0 ]]; then
     git $@
   else
-    git status -sb || lm
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+      local remote_branch=$(git rev-parse --abbrev-ref @{u} 2> /dev/null | sed 's|/.*||')
+      local remote_url=$(git remote get-url $remote_branch 2> /dev/null)
+      git -c color.ui=always status -sb | sed "1 s,$, => $remote_url,"
+    else
+      lm
+    fi
   fi
 }
 

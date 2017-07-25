@@ -503,7 +503,7 @@ nnoremap S yiw:%s/<C-R>"//gc<left><left><left>
 xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
 xnoremap S :s/<C-R>///gc<left><left><left>
 
-map gf :e <cfile><CR>
+nnoremap cgf :e <cfile><CR>
 
 " open multiple files in visualmode
 xnoremap gf :call OpenAllVisuallySelectedFiles()<cr>:echo<cr>

@@ -122,7 +122,7 @@ unalias run-help
 alias man="run-help"
 alias l="gls --color -AU"
 alias ll="lm"
-alias t="tree -Ca -I 'node_modules|.git|.DS_Store|bower_components'"
+alias t="tree -a -I 'node_modules|.git|.DS_Store|bower_components|dist|build'"
 
 alias download-video-as-audio="youtube-dl -x --audio-format=mp3"
 
@@ -136,7 +136,7 @@ alias vless='vim -u /usr/local/Cellar/vim/8.0.0596/share/vim/vim80/macros/less.v
 
 alias git=hub
 alias g=magic-g
-alias gg="git remote -v"
+alias gg="git remote -v | column -t"
 alias ga="git add"
 alias gaa="git add -A"
 alias gdm="git diff-mega"
@@ -236,12 +236,12 @@ mkcd() {
 bam() {
     local name
     if [ $1 ]; then
-        name = $1
+        name=$1
     else
         name=`date | sed 's/ /-/g'`
     fi
 
-    mkdir -p "$HOME/dev/scratches/$name" && cd "~/dev/scratches/$name"
+    mkdir -p "$HOME/dev/scratches/$name" && cd "$HOME/dev/scratches/$name"
 }
 
 colortest() {
@@ -348,7 +348,7 @@ compdef g git
 
 # FZF things {{{
 export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\
-  --bind=ctrl-n:toggle-down\
+  --bind=ctrl-d:half-page-down,ctrl-u:half-page-up\
   --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:0,hl+:3,prompt:2,marker:2,pointer:2,info:9"
 
 fzf-history-widget() {

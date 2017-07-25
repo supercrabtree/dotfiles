@@ -30,7 +30,6 @@ function! SetupVAM()
   \  'github:Quramy/tsuquyomi',
   \  'github:airblade/vim-gitgutter',
   \  'github:editorconfig/editorconfig-vim',
-  \  'github:flowtype/vim-flow',
   \  'github:gcavallanti/vim-noscrollbar',
   \  'github:heavenshell/vim-jsdoc',
   \  'github:ianks/vim-tsx',
@@ -107,7 +106,7 @@ set signcolumn=yes
 set smartcase
 set smarttab
 set softtabstop=-1
-set statusline=%m%r%y\ %f:%l%<\ of\ %L\ col\ %c%=%{noscrollbar#statusline(20,'□','■')}\ 
+set statusline=%m%r%y\ %f:%l%<\ of\ %L\ col\ %c%=%{noscrollbar#statusline(20,'■','□')}\ 
 set tabstop=4
 set termguicolors
 set ttimeoutlen=0
@@ -296,6 +295,22 @@ function! s:Grep(args, ignore_git, force_case_sensitive) " {{{
 
   let &grepprg = l:save
 endfunction " }}}
+
+" function! s:Grep(pattern, ignore, ignore_git, force_case_sensitive) " {{{
+"   let l:is_git_dir = system("git rev-parse >/dev/null 2>&1; printf $?") == 0
+
+"   if l:is_git_dir && !a:ignore_git
+"     let l:files = '`git ls-files && git ls-files --others --exclude-standard`'
+"   else
+"     let l:files = '**/*'
+"   endif
+
+"   " if !a:force_case_sensitive && !(a:pattern !=# tolower(a:pattern))
+"   "   let l:grep_cmd = l:grep_cmd . " /\C" .
+"   " endif
+
+"   execute 'vimgrep' a:pattern l:files '| cwindow | sleep 10m | redraw!'
+" endfunction " }}}
 
 function! ChangeCWD() " {{{
     if !exists("g:change_cwd_root_directory")
@@ -488,6 +503,7 @@ nnoremap S yiw:%s/<C-R>"//gc<left><left><left>
 xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
 xnoremap S :s/<C-R>///gc<left><left><left>
 
+map gf :e <cfile><CR>
 
 " open multiple files in visualmode
 xnoremap gf :call OpenAllVisuallySelectedFiles()<cr>:echo<cr>

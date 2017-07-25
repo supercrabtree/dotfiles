@@ -13,7 +13,7 @@
   template = ~/.config/git/templates/commit
 [core]
   excludesfile = ~/.gitignore-global
-	hooksPath = /Users/george.crabtree/.config/git/hooks
+  hooksPath = ~/.config/git/hooks
 [diff]
   mnemonicprefix = true
   tool = vimdiff

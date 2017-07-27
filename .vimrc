@@ -326,10 +326,6 @@ function! ChangeCWD() " {{{
     endif
 endfunction " }}}
 
-function! s:Context(reverse) " {{{
-  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
-endfunction " }}}
-
 function! s:Ranger() " {{{
     let tmp = tempname()
     exec 'silent !ranger --choosefiles=' . shellescape(tmp)
@@ -556,8 +552,8 @@ nnoremap g/ `S
 nnoremap ]t :tabnext<cr>
 nnoremap [t :tabprevious<cr>
 
-nnoremap [a :call <SID>Context(1)<CR>
-nnoremap ]a :call <SID>Context(0)<CR>
+nmap <silent> [a <Plug>(ale_previous_wrap)
+nmap <silent> ]a <Plug>(ale_next_wrap)
 
 nnoremap <silent> <F5> :call ChangeCWD()<CR>
 inoremap <silent> <F5> <c-o>:call ChangeCWD()<CR>

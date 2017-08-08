@@ -275,42 +275,24 @@ function! s:setup_file_buffer(files, root, ...) " {{{
   nnoremap <buffer> <Enter> mFgf
 endfunction " }}}
 
-function! s:Grep(args, ignore_git, force_case_sensitive) " {{{
-  let l:save = &grepprg
-  let l:grep_cmd = 'grep -n'
+function! s:VimGrep(pattern, ignore_git) " {{{
   let l:is_git_dir = system("git rev-parse >/dev/null 2>&1; printf $?") == 0
 
   if l:is_git_dir && !a:ignore_git
-    let l:grep_cmd = 'git ' . l:grep_cmd
+    execute "vimgrep" a:pattern "`git ls-files && git ls-files --others --exclude-standard`"
   else
-    let l:grep_cmd = l:grep_cmd . ' -R'
+    execute "vimgrep" a:pattern "`find .`"
   endif
+endfunction
 
-  if !a:force_case_sensitive && !(a:args !=# tolower(a:args))
-    let l:grep_cmd = l:grep_cmd . " -i"
-  endif
+command! -nargs=+ -bang VimGrep call s:VimGrep(<q-args>, <bang>0)
 
-  execute 'set grepprg=' . escape(l:grep_cmd, ' ')
-  execute 'silent grep! ' . a:args . ' | cwindow | sleep 10m | redraw!'
+nnoremap <C-G> :VimGrep //<left>
+nnoremap <C-G>! :VimGrep! //<left>
+nnoremap <C-G><C-G> g*N:noh<CR>:VimGrep ///
+xmap <silent> <C-G> :call setreg('/', SearchEscape(GetVisualSelection()))<cr>:noh<CR>:<C-U>VimGrep ///<CR>
 
-  let &grepprg = l:save
-endfunction " }}}
-
-" function! s:Grep(pattern, ignore, ignore_git, force_case_sensitive) " {{{
-"   let l:is_git_dir = system("git rev-parse >/dev/null 2>&1; printf $?") == 0
-
-"   if l:is_git_dir && !a:ignore_git
-"     let l:files = '`git ls-files && git ls-files --others --exclude-standard`'
-"   else
-"     let l:files = '**/*'
-"   endif
-
-"   " if !a:force_case_sensitive && !(a:pattern !=# tolower(a:pattern))
-"   "   let l:grep_cmd = l:grep_cmd . " /\C" .
-"   " endif
-
-"   execute 'vimgrep' a:pattern l:files '| cwindow | sleep 10m | redraw!'
-" endfunction " }}}
+" }}}
 
 function! ChangeCWD() " {{{
     if !exists("g:change_cwd_root_directory")
@@ -344,63 +326,6 @@ function! s:Ranger() " {{{
     endfor
     redraw!
 endfunction " }}}
-
-" Executioner {{{
-function! s:ExecutionerRun(prev_win)
-    let l:command = getline('$')
-    let l:arguments = getline(1, '$')[:-2]
-    q
-    exec a:prev_win . "wincmd w"
-
-    let l:i = 1
-    let l:command = substitute(l:command, '"', '', '')
-
-    for param in l:arguments
-        let l:command = substitute(l:command, "$" . l:i, param, 'g')
-        let l:i += 1
-    endfor
-
-    exec l:command
-endfunction
-
-function! Executioner(command)
-    let l:executioner_prev_win = winnr()
-    let l:program = split(a:command, ' ')[0]
-    let l:folder = expand('~/.vim/executioner/')
-
-    let l:cwd = getcwd()
-    let l:file_name = l:folder . substitute(l:cwd, '/', '-', 'g') . '-' . l:program . '.vim'
-
-    let maxdollar = max(split(substitute(a:command, '.\{-}\$\(\d\)', '\1 ', 'g'), ' '))
-
-    bot new
-    setlocal statusline=\ 
-    execute "edit " . l:file_name
-
-    let l:filecontents = getline(1, '$')
-
-    if join(l:filecontents, '\n') == ''
-        execute 'norm ' . l:maxdollar . 'o'
-        call setline('$', '" ' . a:command)
-        norm gg
-    endif
-
-    execute 'resize ' . len(getline(1, '$'))
-    set nobuflisted
-
-    nnoremap <buffer> <cr> :w<cr>
-    nnoremap <buffer> <c-c> :bd!<cr>
-
-    augroup executioner
-        autocmd!
-        " autocmd TextChanged,TextChangedI <buffer> execute 'resize ' . len(getline(1, '$')) . '|norm gg``'
-        execute 'autocmd BufWritePost <buffer> exec "call s:ExecutionerRun("' . l:executioner_prev_win . '")"'
-    augroup END
-endfunction
-
-command! -nargs=? Executioner call Executioner("<args>")
-
-" }}}
 
 function! CaseChange(str) " {{{
     let l:snake = '^[a-z0-9]\+\(-\+[a-z0-9]\+\)\+$'
@@ -473,10 +398,6 @@ nnoremap <C-F> :Find
 nnoremap <C-F>! :Find! 
 xmap <C-F> *N<esc>:<C-U>Find /
 
-nnoremap <C-G> :Executioner Grep $1 -- $2<CR>:1<cr>cc
-nnoremap <C-G><CR> :Executioner Grep $1 -- $2<CR>:1<cr>$
-nnoremap <C-G><C-G> g*N:noh<CR>:Executioner Grep $1 -- $2<CR>:1,0<cr>cc/<ESC>
-xmap <silent> <C-G> :call setreg('/', SearchEscape(GetVisualSelection()))<cr>:noh<CR>:Executioner Grep $1 -- $2<CR>:1,0<cr>cc/<ESC>
 
 nnoremap <C-F><C-G> :DirtyFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
@@ -503,7 +424,7 @@ nnoremap cgf :e <cfile><CR>
 
 " open multiple files in visualmode
 xnoremap gf :call OpenAllVisuallySelectedFiles()<cr>:echo<cr>
-xmap <Enter> gf
+" xmap <Enter> gf
 
 " insert undo stop points
 inoremap <cr> <c-]><C-G>u<cr>
@@ -543,7 +464,7 @@ inoremap <c-x><up> <c-x><c-k>
 inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
 
 " last file
-nnoremap <expr> <cr> &filetype == 'qf' ? "\<cr>" : "\<c-^>"
+" nnoremap <expr> <cr> &filetype == 'qf' ? "\<cr>" : "\<c-^>"
 
 " mark just before a search
 nnoremap / mS/
@@ -584,7 +505,6 @@ vnoremap ~ "zc<C-R>=CaseChange(@z)<CR><Esc>v`[
 command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " expandtab"
 command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
 
-command! -nargs=+ -bang -complete=dir Grep call s:Grep(<q-args>, <bang>0, 0)
 command! -nargs=? -bang -complete=file Find call s:Find("<args>", <bang>0)
 command! -nargs=* DirtyFiles call s:DirtyFiles("<args>")
 

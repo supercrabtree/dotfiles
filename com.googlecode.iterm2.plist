@@ -1379,9 +1379,9 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 126 606 469 0 0 3360 1868 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>543 1344 796 473 0 0 3360 1868 </string>
+	<string>238 792 918 381 0 0 1920 1178 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>462 1 1330 1177 0 0 1920 1178 </string>
+	<string>1680 0 1680 1868 0 0 3360 1868 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>588 278 570 452 0 0 1920 1177 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
@@ -2408,7 +2408,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-07-21T01:41:50Z</date>
+	<date>2017-08-02T06:30:49Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>Selection Respects Soft Boundaries</key>
@@ -2416,7 +2416,7 @@
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>ShowNewOutputIndicator</key>
 	<false/>
 	<key>ShowPaneTitles</key>
@@ -2464,7 +2464,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.beta.5</string>
+	<string>3.1.beta.6</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>2</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

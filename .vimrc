@@ -1,9 +1,8 @@
 set nocompatible
 filetype plugin indent on
 syntax enable
-
 " VAM Setup {{{
-function! EnsureVamIsOnDisk(plugin_root_dir)
+function! EnsureVamIsOnDisk(plugin_root_dir) "{{{
   let vam_autoload_dir = a:plugin_root_dir.'/vim-addon-manager/autoload'
   if isdirectory(vam_autoload_dir)
     return 1
@@ -26,26 +25,25 @@ function! SetupVAM()
     return
   endif
   let &rtp.=(empty(&rtp)?'':',').l:c.plugin_root_dir.'/vim-addon-manager'
+  " }}}
   call vam#ActivateAddons([
-  \  'github:Quramy/tsuquyomi',
-  \  'github:airblade/vim-gitgutter',
-  \  'github:editorconfig/editorconfig-vim',
-  \  'github:gcavallanti/vim-noscrollbar',
-  \  'github:heavenshell/vim-jsdoc',
-  \  'github:ianks/vim-tsx',
-  \  'github:leafgarland/typescript-vim',
-  \  'github:pangloss/vim-javascript',
-  \  'github:ronakg/quickr-preview.vim',
-  \  'github:tpope/vim-commentary',
-  \  'github:tpope/vim-fugitive',
-  \  'github:tpope/vim-rhubarb',
-  \  'github:w0rp/ale',
+   \  'github:Quramy/tsuquyomi',
+   \  'github:airblade/vim-gitgutter',
+   \  'github:editorconfig/editorconfig-vim',
+   \  'github:gcavallanti/vim-noscrollbar',
+   \  'github:heavenshell/vim-jsdoc',
+   \  'github:ianks/vim-tsx',
+   \  'github:leafgarland/typescript-vim',
+   \  'github:pangloss/vim-javascript',
+   \  'github:ronakg/quickr-preview.vim',
+   \  'github:tpope/vim-commentary',
+   \  'github:tpope/vim-fugitive',
+   \  'github:tpope/vim-rhubarb',
+   \  'github:w0rp/ale',
   \], {'auto_install' : 1})
 endfunction
-
 call SetupVAM()
 " }}}
-
 " Plugin Settings {{{
 let g:quickr_preview_keymaps = 0
 
@@ -53,7 +51,7 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 let g:EditorConfig_core_mode = 'external_command'
 
 let g:ale_linters = {
-\   'html': [],
+\   'html': [''],
 \}
 
 let g:ale_sign_column_always = 1
@@ -62,7 +60,6 @@ let g:ale_statusline_format = ['E%d', 'W%d', '']
 let g:ale_sign_error = 'E'
 let g:ale_sign_warning = 'W'
 " }}}
-
 " Disable unused builtin plugins {{{
 let g:loaded_getscriptPlugin = 1
 let g:loaded_gzip = 1
@@ -74,7 +71,6 @@ let g:loaded_tarPlugin = 1
 let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
 " }}}
-
 " Settings {{{
 set backspace=indent,eol,start
 set clipboard=unnamed
@@ -82,6 +78,8 @@ set completeopt=menu,longest
 set diffopt+=vertical,context:3
 set expandtab
 set encoding=utf-8
+set grepformat=%f:%l:%c:%m
+set grepprg=ag\ --vimgrep\ --smart-case
 set hidden
 set history=10000
 set hlsearch
@@ -113,6 +111,7 @@ set ttimeoutlen=0
 set undodir=$HOME/.vim/undo
 set undofile
 set wildmenu
+set wildcharm=<Tab>
 set wildignore+=dist/**,**/node_modules/**,**/bower_components/**
 
 " find files in require() and import statments
@@ -124,10 +123,9 @@ let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " allow italics
-set t_ZH=[3m
-set t_ZR=[23m
+set t_ZH=[3m
+set t_ZR=[23m
 " }}}
-
 " Auto Commands {{{
 augroup vimrc
   autocmd!
@@ -160,7 +158,6 @@ augroup vimrc
   au FileType * setlocal formatoptions-=cor
 augroup END
 " }}}
-
 " MRU {{{
 if !filereadable($HOME . '/.vim/mru.txt')
   call system('mkdir -p ' . $HOME . '/.vim/')
@@ -211,9 +208,7 @@ function! s:MRU()
   call s:setup_file_buffer(l:file_list, ".")
 endfunction
 
-command! -nargs=0 MRU call s:MRU()
 " }}}
-
 function! OpenAllVisuallySelectedFiles() " {{{
   if line(".") == line("'>")
     execute "edit " . getline(".")
@@ -221,7 +216,6 @@ function! OpenAllVisuallySelectedFiles() " {{{
     execute "edit " . getline(".") | b#
   endif
 endfunction " }}}
-
 function! s:Find(regex, ignore_git) " {{{
   let l:root = systemlist("git rev-parse --show-toplevel")[0]
   if (v:shell_error || a:ignore_git)
@@ -250,12 +244,10 @@ function! s:Find(regex, ignore_git) " {{{
 
   call s:setup_file_buffer(l:files, l:root, g:file_buffer_no, a:regex)
 endfunction " }}}
-
 function! s:DirtyFiles(args) " {{{
   let l:files = system("git status -s " . a:args . "| sed 's/^...//'")
   call s:setup_file_buffer(l:files, '.')
 endfunction " }}}
-
 function! s:setup_file_buffer(files, root, ...) " {{{
   if exists("a:1")
     exec 'b' . a:1
@@ -272,28 +264,9 @@ function! s:setup_file_buffer(files, root, ...) " {{{
     call feedkeys(":g/" . escape(a:2, '/\') . "/m0\<CR>", "nt")
   endif
   nnoremap <buffer> <C-C> :bw<cr>
-  nnoremap <buffer> <Enter> mFgf
+  nnoremap <buffer> <CR> gf
+  cnoremap <buffer> : <space><c-r><c-f><home>!
 endfunction " }}}
-
-function! s:VimGrep(pattern, ignore_git) " {{{
-  let l:is_git_dir = system("git rev-parse >/dev/null 2>&1; printf $?") == 0
-
-  if l:is_git_dir && !a:ignore_git
-    execute "vimgrep" a:pattern "`git ls-files && git ls-files --others --exclude-standard`"
-  else
-    execute "vimgrep" a:pattern "`find .`"
-  endif
-endfunction
-
-command! -nargs=+ -bang VimGrep call s:VimGrep(<q-args>, <bang>0)
-
-nnoremap <C-G> :VimGrep //<left>
-nnoremap <C-G>! :VimGrep! //<left>
-nnoremap <C-G><C-G> g*N:noh<CR>:VimGrep ///
-xmap <silent> <C-G> :call setreg('/', SearchEscape(GetVisualSelection()))<cr>:noh<CR>:<C-U>VimGrep ///<CR>
-
-" }}}
-
 function! ChangeCWD() " {{{
     if !exists("g:change_cwd_root_directory")
         let g:change_cwd_root_directory = getcwd()
@@ -307,7 +280,6 @@ function! ChangeCWD() " {{{
         exec("cd " . g:change_cwd_root_directory)
     endif
 endfunction " }}}
-
 function! s:Ranger() " {{{
     let tmp = tempname()
     exec 'silent !ranger --choosefiles=' . shellescape(tmp)
@@ -326,7 +298,6 @@ function! s:Ranger() " {{{
     endfor
     redraw!
 endfunction " }}}
-
 function! CaseChange(str) " {{{
     let l:snake = '^[a-z0-9]\+\(-\+[a-z0-9]\+\)\+$'
     let l:camel = '\C^[a-z][a-z0-9]*\([A-Z][a-z0-9]*\)*$'
@@ -346,31 +317,15 @@ function! CaseChange(str) " {{{
         return substitute(a:str, '_\+', '-', 'g')
     endif
 endfunction " }}}
-
 function! GetVisualSelection() " {{{
   try
     let l:a_save = @a
-    silent normal! gv"aygv
+    silent normal! gv"aygv
     return @a
   finally
     let @a = l:a_save
   endtry
 endfunction " }}}
-
-" Search Functions {{{
-function! SearchEscape(reg)
-    return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
-endfunction
-
-function! SetSearch(reg)
-    call setreg('/', "\\V" . SearchEscape(a:reg))
-endfunction
-
-function! SetSearchWord(reg)
-    call setreg('/', "\\V\\<" . SearchEscape(a:reg) . "\\>")
-endfunction
-" }}}
-
 function! s:Subl(allfiles) " {{{
     let l:root = system('cd ' . expand('%:h') . ' && git rev-parse --show-toplevel')[:-2]
     if (v:shell_error)
@@ -390,14 +345,59 @@ function! s:Subl(allfiles) " {{{
     redraw!
 endfunction
 " }}}
+function! BetterIncSearch(key) abort " {{{
+  let l:cmdType = getcmdtype()
 
+  if l:cmdType ==# '/' || l:cmdType ==# '?'
+    " Search Mode
+    let l:cmd = getcmdline()
+
+    call feedkeys("\<C-C>:set hlsearch\<Enter>")
+
+    if @/ !=# l:cmd
+      call setreg('/', l:cmd)
+    else
+      if xor(a:key ==# 'tab', !v:searchforward)
+        call feedkeys("N")
+      else
+        call feedkeys("n")
+      endif
+    endif
+
+    call feedkeys(l:cmdType . "\<C-R>/")
+    return
+  else
+    " Not in search mode
+    if a:key ==# 'tab'
+      return "\<Tab>"
+    else
+      return "\<S-Tab>"
+    endif
+  endif
+endfunction " }}}
+" Search Functions {{{
+function! SearchEscape(reg)
+    return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
+endfunction
+
+function! SetSearch(reg)
+    call setreg('/', "\\V" . SearchEscape(a:reg))
+endfunction
+
+function! SetSearchWord(reg)
+    call setreg('/', "\\V\\<" . SearchEscape(a:reg) . "\\>")
+endfunction
+" }}}
 " Mappings {{{
 " Find and grep mappings
-nnoremap <C-F><C-F> g*<esc>N:Find /
+nnoremap <C-F><C-F> g*<esc>N:Find /
 nnoremap <C-F> :Find 
 nnoremap <C-F>! :Find! 
-xmap <C-F> *N<esc>:<C-U>Find /
+xmap <C-F> *N<esc>:<C-U>Find /
 
+nnoremap <C-G> :grep! 
+nnoremap <C-G><C-G> g*N:grep! -Q "/"<cr>:redraw!<cr>
+xnoremap <C-G> :call setreg('/', substitute(GetVisualSelection(), '"', '\\"', 'g'))<CR>:grep! -Q "/"<cr>:redraw!<cr>//<cr>
 
 nnoremap <C-F><C-G> :DirtyFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
@@ -407,12 +407,14 @@ inoremap <expr> <right> pumvisible() ? "\<C-L>" : "<right>"
 cnoremap <C-X> <C-R>=getline(".")
 nnoremap Y y$
 nnoremap - o<esc>"*p
-xnoremap - "*y
 nnoremap _ g-
 nnoremap + g+
 nnoremap <silent> <BS> :noh<cr>:redraw!<cr>jk:diffupdate<cr>
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
+cnoremap : <space><c-r>%<home>!
+cnoremap <expr> <S-Tab> BetterIncSearch('stab')
+cnoremap <expr> <Tab> BetterIncSearch('tab')
 
 " substitute shortcuts
 nnoremap s :%s/<C-R>///gc<left><left><left>
@@ -457,6 +459,8 @@ nmap <expr> <silent> <C-C> len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
 nnoremap <C-B> :ls<cr>:b
 cmap <expr> <silent> <C-N> getcmdline() == 'b' ? 'n\|redraw\|ls<CR>:b' : ':bn<CR>'
 cmap <expr> <silent> <C-P> getcmdline() == 'b' ? 'p\|redraw\|ls<CR>:b' : ':bp<CR>'
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 
 " fix missing mappings due to hjkl global remap
 inoremap <c-x><right> <c-x><c-l>
@@ -464,7 +468,7 @@ inoremap <c-x><up> <c-x><c-k>
 inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
 
 " last file
-" nnoremap <expr> <cr> &filetype == 'qf' ? "\<cr>" : "\<c-^>"
+nnoremap # <c-^>
 
 " mark just before a search
 nnoremap / mS/
@@ -498,7 +502,6 @@ nnoremap <silent> * :call SetSearchWord(expand("<cword>"))\|set hlsearch<CR>
 vnoremap ~ "zc<C-R>=CaseChange(@z)<CR><Esc>v`[
 
 " }}}
-
 "Commands {{{
 
 " Manual Indentation Adjustments
@@ -508,13 +511,17 @@ command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" .
 command! -nargs=? -bang -complete=file Find call s:Find("<args>", <bang>0)
 command! -nargs=* DirtyFiles call s:DirtyFiles("<args>")
 
+command! -nargs=0 MRU call s:MRU()
+
 command! -bar Ranger call s:Ranger()
 
 command! -nargs=+ GitGutterBase execute "let g:gitgutter_diff_base = '" . system("git rev-parse <args>")[:-2] . "'"
 
 command! -nargs=0 -bang Subl call s:Subl(<bang>0)
-" }}}
 
+command! -nargs=0 Vimrc e ~/dev/dotfiles/.vimrc
+
+" }}}
 " Colors {{{
 " white = #ffffff => 100% => 15
 " grey1 = #f3f3f3 => 97%  =>
@@ -648,5 +655,5 @@ augroup whitespace
   autocmd BufWinLeave * call clearmatches()
 augroup END
 " }}}
-
 " vim:fdm=marker
+

@@ -161,6 +161,7 @@ alias ......="cd ../../../../.."
 
 # suffix
 alias -s git='git clone'
+alias -s js='vim'
 
 # global
 alias -g UP='@{u}'

@@ -4,8 +4,8 @@
 	"font_size": 18,
 	"ignored_packages":
 	[
-		"Vintage",
-		"ActualVim"
+		"ActualVim",
+		"Vintage"
 	],
 	"theme": "ayu-light.sublime-theme"
 }

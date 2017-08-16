@@ -408,6 +408,7 @@ function! s:setup_file_buffer(files, root, ...) " {{{
   endif
   nnoremap <buffer> <C-C> :bw<cr>
   nnoremap <buffer> <CR> gf
+  xmap <CR> gf
   " cnoremap <buffer> : <space><c-r><c-f><home>!
 endfunction " }}}
 function! s:ChangeCWD() " {{{
@@ -579,7 +580,6 @@ nnoremap cgf :e <cfile><CR>
 
 " open multiple files in visualmode
 xnoremap gf :call <SID>OpenAllVisuallySelectedFiles()<cr>:echo<cr>
-" xmap <Enter> gf
 
 " insert undo stop points
 inoremap <cr> <c-]><C-G>u<cr>

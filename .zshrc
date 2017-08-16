@@ -4,7 +4,6 @@ source ~/dev/pure/pure.zsh
 source ~/dev/z/z.sh
 source ~/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # }}}
-
 # Load {{{
 autoload -U run-help
 autoload -U up-line-or-beginning-search
@@ -12,7 +11,6 @@ autoload -U down-line-or-beginning-search
 autoload -U compinit
 compinit
 # }}}
-
 # Zsh setopt {{{
 setopt auto_cd
 setopt auto_pushd
@@ -27,7 +25,6 @@ setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt share_history
 # }}}
-
 # Exports + PATH {{{
 export EDITOR=vim
 export VISUAL=$EDITOR
@@ -40,7 +37,6 @@ export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0
 
 export LESS="-RFX"
 export ZDOTDIR=$HOME
-
 
 export LESS_TERMCAP_mb=$'\E[3;31m'
 export LESS_TERMCAP_md=$'\E[1;32m'
@@ -67,7 +63,6 @@ export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
 export PATH=$PATH:`yarn global bin`
 # }}}
-
 # Misc {{{
 # stop control flow, gimme ctrl-s back
 stty -ixon
@@ -90,12 +85,10 @@ ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=blue'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 # }}}
-
 # Z Style {{{
 zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:*:*:*' menu select
 # }}}
-
 # New Keyboard Shortcuts {{{
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
@@ -115,14 +108,17 @@ zle -N aliasexpander
 bindkey " " aliasexpander
 bindkey "^ " magic-space           # control-space to bypass completion
 bindkey -M isearch " " magic-space # normal space during searches
-# }}}
 
+zle      -N  fzf-history-widget
+bindkey '^R' fzf-history-widget
+# }}}
 # Aliases {{{
 unalias run-help
 alias man="run-help"
 alias l="gls --color -AU"
 alias ll="lm"
 alias t="tree -a -I 'node_modules|.git|.DS_Store|bower_components|dist|build'"
+alias rm="trash"
 
 alias download-video-as-audio="youtube-dl -x --audio-format=mp3"
 
@@ -143,16 +139,12 @@ alias gdm="git diff-mega"
 alias gc="git commit"
 alias gl="git log --no-merges -z --pretty=stacked -20"
 alias glm="git log -z --pretty=stacked -20"
-alias glv="git log --no-merges -z --pretty=stacked"
-alias glmv="git log -z --pretty=stacked"
 alias d="standard-diff"
 alias D="git diff --staged"
 alias ds="git diff --stat"
 alias DS="git diff --staged --stat"
 alias cvim="git mergetool --no-prompt"
-alias gvim=git-files-vim
-
-alias rm=trash
+alias gvim="git-files-vim"
 
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -187,7 +179,6 @@ aliasestoexpand=(
   "rm"
 )
 # }}}
-
 # ZLE Functions {{{
 searchup() {
   zle up-line-or-beginning-search
@@ -224,7 +215,6 @@ fancy-ctrl-z () {
   fi
 }
 # }}}
-
 # Standard Functions {{{
 cdwhich() {
   cd "$(dirname $(which $1))"
@@ -245,61 +235,11 @@ bam() {
     mkdir -p "$HOME/dev/scratches/$name" && cd "$HOME/dev/scratches/$name"
 }
 
-colortest() {
-  if [ $1 ]; then
-    for i in $@; do
-      echo -en "\033[48;5;${i}m  \033[m "
-    done
-  else
-    echo -en "\n   +  "
-    for i in {0..35}; do
-      printf "%2b " $i
-    done
-    printf "\n\n %3b  " 0
-    for i in {0..15}; do
-      echo -en "\033[48;5;${i}m  \033[m "
-    done
-    #for i in 16 52 88 124 160 196 232; do
-    for i in {0..6}; do
-      let "i = i*36 +16"
-      printf "\n\n %3b  " $i
-      for j in {0..35}; do
-        let "val = i+j"
-        echo -en "\033[48;5;${val}m  \033[m "
-      done
-    done
-  fi
-}
-
-# ..() Switch to parent directory by matching on partial name
-# Usage:
-# cd /usr/share/doc/zsh
-# .. ha      # cd's to /usr/share
-function .. () {
-    (( $# == 0 )) && { cd .. && return }
-
-    local match_idx
-    local -a parents matching_parents new_path
-    parents=( ${(s:/:)PWD} )
-    matching_parents=( ${(M)${parents[1,-2]}:#*"${1}"*} )
-
-    if (( ${#matching_parents} )); then
-        match_idx=${parents[(i)${matching_parents[-1]}]}
-        new_path=( ${parents[1,${match_idx}]} )
-
-        cd "/${(j:/:)new_path}"
-        return $?
-    fi
-
-    return 1
-}
-
 jobcount() {
   local jobs=$(jobs | grep ^\\\[ | wc -l | xargs)
   ((jobs)) && echo -n "${jobs} "
 }
 # }}}
-
 # Git things {{{
 magic-g() {
   if [[ $# > 0 ]]; then
@@ -352,17 +292,13 @@ alias __git-diff_main=_git_diff
 compdef _git standard-diff=git-diff
 compdef g git
 # }}}
-
 # FZF things {{{
 export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\
   --bind=ctrl-d:half-page-down,ctrl-u:half-page-up\
   --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:0,hl+:3,prompt:2,marker:2,pointer:2,info:9"
 
 fzf-history-widget() {
-  local selected num fade
-  if [[ $BACKGROUND == "dark" ]]; then fade=0 fi
-  if [[ $BACKGROUND == "light" ]]; then fade=15 fi
-  # --color=spinner:"$fade",info:"$fade"
+  local selected num
   selected=( $(fc -l 1 | tail -r | awk '!seen[$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20]++' | fzf +s +m -n2..,.. --no-reverse --tiebreak=index --exact --toggle-sort=ctrl-r -q "${LBUFFER//$/\\$}") )
   if [ -n "$selected" ]; then
     num=$selected[1]
@@ -412,8 +348,4 @@ z() {
   fi
 }
 
-zle      -N  fzf-history-widget
-bindkey '^R' fzf-history-widget
 # }}}
-
-# vim:fdm=marker

@@ -26,40 +26,41 @@ syntax enable
 " Highlight          Background     Foreground     Style (cterm)
 " ------------------------------------------------------------------------------
 hi Normal                           guifg=NONE
-hi ErrorMsg          guibg=#941a1e  guifg=#ffffff
-hi Error             guibg=#941a1e  guifg=#ffffff
-hi NonText                          guifg=#b3b3b3
+hi BadMsg                           guifg=#941a1e
+hi Boolean                          guifg=#1a5b94
+hi BrightGoodMsg     guibg=#006215  guifg=#FFFFFF
 hi Comment                          guifg=#999999 cterm=italic
-hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
-hi Title                            guifg=NONE
+hi Constant                         guifg=NONE
+hi Directory                        guifg=#1a5b94
+hi Error             guibg=#941a1e  guifg=#ffffff
+hi ErrorMsg          guibg=#941a1e  guifg=#ffffff
+hi FoldColumn                       guifg=NONE
+hi Folded            guibg=#f3f3f3  guifg=NONE
 hi Function                         guifg=NONE
+hi GoodMsg                          guifg=#006215
+hi Identifier                       guifg=NONE
+hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
+hi Keyword                          guifg=NONE
+hi MoreMsg                          guifg=#1a5b94
+hi NonText                          guifg=#b3b3b3
+hi Number                           guifg=#1a5b94
+hi Preproc                          guifg=NONE
+hi Question                         guifg=NONE
 hi Special                          guifg=NONE
 hi SpecialKey                       guifg=#b3b3b3
-hi Keyword                          guifg=NONE
-hi Type                             guifg=NONE
-hi Constant                         guifg=NONE
-hi String                           guifg=#1a5b94
-hi Boolean                          guifg=#1a5b94
-hi Preproc                          guifg=NONE
-hi Number                           guifg=#1a5b94
-hi Identifier                       guifg=NONE
-hi Statement                        guifg=NONE
-hi Todo                             guifg=NONE
-hi WarningMsg                       guifg=NONE
-hi GoodMsg                          guifg=#006215
-hi BrightGoodMsg     guibg=#006215  guifg=#FFFFFF
-hi BadMsg                           guifg=#941a1e
-hi Directory                        guifg=#1a5b94
-hi MoreMsg                          guifg=#1a5b94
-hi Question                         guifg=NONE
-hi Folded            guibg=#f3f3f3  guifg=NONE
-hi FoldColumn                       guifg=NONE
 hi SpellBad          guibg=NONE     guifg=#941a1e  cterm=NONE
 hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
+hi Statement                        guifg=NONE
+hi String                           guifg=#1a5b94
+hi Title                            guifg=NONE
+hi Todo                             guifg=NONE
+hi Type                             guifg=NONE
+hi WarningMsg                       guifg=NONE
+hi Underlined                       guifg=NONE     cterm=NONE
 
 " UI elements
 hi ColorColumn       guibg=#f3f3f3
-hi CursorLine        guibg=#e8e8e8                 cterm=NONE
+hi CursorLine                                      cterm=NONE
 hi PMenu             guibg=#e8e8e8  guifg=#808080
 hi LineNr                           guifg=#b3b3b3
 hi CursorLineNr                     guifg=NONE
@@ -74,7 +75,7 @@ hi Visual            guibg=#dbdbdb
 
 hi Search            guibg=#ffaf00  guifg=#000000
 hi IncSearch         guibg=#006215  guifg=#ffffff  cterm=NONE
-hi ExtraWhitespace   guibg=#941a1e  guifg=#941a1e
+hi ExtraWhitespace   guibg=#e8e8e8  guifg=#e8e8e8
 
 " Diffs
 hi DiffAdd           guibg=NONE     guifg=#006215
@@ -122,8 +123,13 @@ hi markdownH5        guibg=NONE     guifg=NONE     cterm=reverse
 hi markdownH6        guibg=NONE     guifg=NONE     cterm=reverse
 hi link markdownHeadingDelimiter markdownH1
 
-hi ALEErrorSign      guibg=#ffffff  guifg=#bb0900
-hi ALEWarningSign    guibg=#ffffff  guifg=#c1a700
+" old
+" hi ALEErrorSign      guibg=#ffffff  guifg=#bb0900
+" hi ALEWarningSign    guibg=#ffffff  guifg=#c1a700
+
+" new
+hi ALEErrorSign      guibg=#ffffff  guifg=#941a1e
+hi ALEWarningSign    guibg=#ffffff  guifg=#ffaf00
 
 match ExtraWhitespace /\s\+$/
 augroup whitespace
@@ -137,13 +143,12 @@ augroup END
 " Settings {{{
 set backspace=indent,eol,start
 set clipboard=unnamed
-set completeopt=menu,longest
+set completeopt=menuone,longest,noinsert
+" set cursorline
 set diffopt+=vertical,context:3
 set expandtab
 set encoding=utf-8
 set gdefault
-" set grepformat=%f:%l:%c:%m
-" set grepprg=ag\ --vimgrep\ --smart-case
 set grepformat=%f:%l:%c:%m,%f:%l:%m
 set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden
 set foldmethod=indent
@@ -168,6 +173,7 @@ set nowrap
 set path=.,**
 set scroll=10
 set scrolloff=3
+set shell=/usr/local/bin/zsh
 set shiftwidth=4
 set signcolumn=yes
 set smartcase
@@ -194,9 +200,13 @@ set path+=$PWD/node_modules
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-" " allow italics
+" allow italics
 set t_ZH=[3m
 set t_ZR=[23m
+
+" allow $() in sh scripts
+let g:is_posix=1
+
 " }}}
 " Auto Commands {{{
 augroup vimrc
@@ -204,14 +214,13 @@ augroup vimrc
   au Filetype qf setlocal statusline=%t%{exists('w:quickfix_title')\ ?\ '\ '.w:quickfix_title\ :\ ''}\ %l\ of\ %L\ col\ %c
   au FileType qf setlocal nobuflisted
   au Filetype qf nnoremap <buffer><silent> <c-c> :<c-u>execute "try\n:ccl\ncatch\n:bd\nendtry"<cr>
-  au Filetype qf nmap <buffer> <space> <plug>(quickr_preview)
   au FileType qf execute max([min([line("$"), 20]), 3]) . "wincmd _"
   au FileType qf wincmd J
   au FileType qf nmap <buffer> <c-n> j<space>
   au FileType qf nmap <buffer> <c-p> k<space>
-  au FileType qf nnoremap <buffer> s :cfdo %s/<C-R>///gc<left><left><left>
-  au FileType qf nnoremap <buffer> S yiw:cfdo %s/<C-R>"//gc<left><left><left>
-  au FileType qf xnoremap <buffer> s y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//gc<left><left><left>
+  au FileType qf nnoremap <buffer> s :cfdo %s/<C-R>///c<left><left>
+  au FileType qf nnoremap <buffer> S yiw:cfdo %s/<C-R>"//c<left><left>
+  au FileType qf xnoremap <buffer> s y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//c<left><left>
   au FileType qf xnoremap <buffer> S :echo 'need to implement'
 
   au FileType php setlocal complete=.,w,b,u
@@ -221,70 +230,64 @@ augroup vimrc
   au FileType gitcommit setlocal nonumber
 
   au FileType markdown setlocal spell
+  au FileType markdown setlocal textwidth=80
   au FileType markdown setlocal colorcolumn=81
+
+  au BufRead,BufNewFile *.filedump setfiletype filedump
+  au FileType filedump nnoremap <buffer> <C-C> :bd<cr>
+  au FileType filedump nnoremap <buffer> <CR> gf
+  au FileType filedump xmap <CR> gf
 
   au FileType * setlocal formatoptions-=cor
 
   au BufWritePost $HOME/dev/dotfiles/.vimrc source $HOME/dev/dotfiles/.vimrc|setlocal foldmethod=marker
-  au BufReadPost $HOME/dev/dotfiles/.vimrc setlocal foldmethod=marker|setlocal foldlevel=0
+  au BufReadPost $HOME/dev/dotfiles/.vimrc,$HOME/dev/dotfiles/.zshrc setlocal foldmethod=marker|setlocal foldlevel=0
   au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
 
   au QuickFixCmdPost *grep* cwindow
 augroup END
 " }}}
-" VAM & Plugins{{{
-function! s:EnsureVamIsOnDisk(plugin_root_dir) "{{{
-  let vam_autoload_dir = a:plugin_root_dir.'/vim-addon-manager/autoload'
-  if isdirectory(vam_autoload_dir)
-    return 1
-  else
-    if 1 == confirm("Clone VAM into ".a:plugin_root_dir."?","&Y\n&N")
-      call mkdir(a:plugin_root_dir, 'p')
-      execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '.shellescape(a:plugin_root_dir, 1).'/vim-addon-manager'
-      execute 'helptags '.fnameescape(a:plugin_root_dir.'/vim-addon-manager/doc')
-    endif
-    return isdirectory(vam_autoload_dir)
-  endif
-endfunction
-
-function! s:SetupVAM()
-  let l:c = get(g:, 'vim_addon_manager', {})
-  let g:vim_addon_manager = l:c
-  let l:c.plugin_root_dir = expand('$HOME/.vim/vim-addons', 1)
-  if !s:EnsureVamIsOnDisk(l:c.plugin_root_dir)
-    echohl ErrorMsg | echomsg "No VAM found!" | echohl NONE
-    return
-  endif
-  let &rtp.=(empty(&rtp)?'':',').l:c.plugin_root_dir.'/vim-addon-manager'
-  " }}}
+" VAM & Plugins {{{
+function! s:SetupVAM() " {{{
+  let c = get(g:, 'vim_addon_manager', {})
+  let g:vim_addon_manager = c
+  let c.plugin_root_dir = expand('$HOME', 1) . '/.vim/vim-addons'
+  let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
+  if !isdirectory(c.plugin_root_dir.'/vim-addon-manager/autoload')
+    execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager' shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
+  endif " }}}
   call vam#ActivateAddons([
   \  'github:Quramy/tsuquyomi',
   \  'github:airblade/vim-gitgutter',
-  \  'github:editorconfig/editorconfig-vim',
   \  'github:gcavallanti/vim-noscrollbar',
   \  'github:heavenshell/vim-jsdoc',
   \  'github:ianks/vim-tsx',
   \  'github:leafgarland/typescript-vim',
   \  'github:pangloss/vim-javascript',
-  \  'github:ronakg/quickr-preview.vim',
+  \  'github:supercrabtree/vim-subl',
   \  'github:tpope/vim-commentary',
   \  'github:tpope/vim-fugitive',
   \  'github:tpope/vim-rhubarb',
+  \  'github:tpope/vim-sleuth',
+  \  'github:tpope/vim-surround',
+  \  'github:tpope/vim-repeat',
+  \  'github:Alok/notational-fzf-vim',
+  \  'github:junegunn/fzf',
+  \  'github:junegunn/fzf.vim',
   \  'github:w0rp/ale',
   \], {'auto_install' : 1})
 endfunction
 call s:SetupVAM()
+" source $HOME/dev/snaplist/snaplist.vim
 " }}}
 " Plugin Settings {{{
-let g:quickr_preview_keymaps = 0
-
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-let g:EditorConfig_core_mode = 'external_command'
+let g:nv_directories=["/Users/george.crabtree/Notes", "./docs", "readme.md"]
+let g:nv_use_short_pathnames=1
+let g:nv_create_note_window = 'split'
 
 let g:ale_linters = {
 \   'html': [],
 \}
-
 let g:ale_sign_column_always = 1
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_statusline_format = ['E%d', 'W%d', '']
@@ -400,15 +403,13 @@ function! s:setup_file_buffer(files, root, ...) " {{{
   endif
   execute "lcd " . a:root
   setlocal statusline=%f\ \|\ %l\ of\ %L\ col\ %c
-  setlocal buftype=nofile
+  set buftype=nofile
+  set filetype=filedump
   put = a:files
   normal ggdd
   if exists("a:2") && a:2 != ''
     call feedkeys(":g/" . escape(a:2, '/\') . "/m0\<CR>", "nt")
   endif
-  nnoremap <buffer> <C-C> :bw<cr>
-  nnoremap <buffer> <CR> gf
-  xmap <CR> gf
   " cnoremap <buffer> : <space><c-r><c-f><home>!
 endfunction " }}}
 function! s:ChangeCWD() " {{{
@@ -423,24 +424,6 @@ function! s:ChangeCWD() " {{{
     else
         exec("cd " . g:change_cwd_root_directory)
     endif
-endfunction " }}}
-function! s:Ranger() " {{{
-    let tmp = tempname()
-    exec 'silent !ranger --choosefiles=' . shellescape(tmp)
-    if !filereadable(tmp)
-        redraw!
-        return
-    endif
-    let names = readfile(tmp)
-    if empty(names)
-        redraw!
-        return
-    endif
-    exec 'edit ' . fnameescape(names[0])
-    for name in names[1:]
-        exec 'argadd ' . fnameescape(name)
-    endfor
-    redraw!
 endfunction " }}}
 function! s:CaseChange(str) " {{{
     let l:snake = '^[a-z0-9]\+\(-\+[a-z0-9]\+\)\+$'
@@ -470,25 +453,6 @@ function! s:GetVisualSelection() " {{{
     let @a = l:a_save
   endtry
 endfunction " }}}
-function! s:Subl(allfiles) " {{{
-    let l:root = system('cd ' . expand('%:h') . ' && git rev-parse --show-toplevel')[:-2]
-    if (v:shell_error)
-        let l:root = getcwd() . ' ' . expand('%:h')
-    endif
-    if (a:allfiles)
-        let l:bufnumbers = filter(range(1, bufnr('$')), 'buflisted(v:val)')
-        let l:bufnames = map(bufnumbers, 'bufname(v:val)')
-        let l:validbufnames = filter(bufnumbers, 'filereadable(v:val)')
-        let l:validbufnames = filter(validbufnames, 'v:val != expand("%")')
-        let l:validbufnames = add(validbufnames, expand('%'))
-        let l:files = join(l:validbufnames, ' ')
-    else
-        let l:files = expand('%')
-    endif
-    execute 'silent !subl -n' l:root l:files
-    redraw!
-endfunction
-" }}}
 function! s:ShowGitLogs() " {{{
  enew
  setlocal buftype=nofile
@@ -528,6 +492,17 @@ function! s:BetterIncSearch(key) abort " {{{
   endif
 endfunction
 " }}}
+function! s:VMD() " {{{
+  let b:VMDpid=systemlist("vmd " . shellescape(bufname('')) . "&echo $!")[0]
+  redraw!
+  echo "vmd " . bufname('') . "&echo $!"
+  augroup vmd
+    autocmd!
+    au TextChanged,TextChangedI <buffer> silent write
+    au BufDelete,VimLeave <buffer> call system("kill " . b:VMDpid)
+  augroup END
+endfunction
+" }}}
 " Search Functions {{{
 function! s:SearchEscape(reg)
     return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
@@ -546,12 +521,14 @@ endfunction
 nnoremap <C-F><C-F> g*<esc>N:Find /
 nnoremap <C-F> :Find 
 nnoremap <C-F>! :Find! 
+
 nnoremap <C-F><C-O> :execute 'Find' expand('%:h')<cr>
+nnoremap <C-F><C-N> :NV<cr>
 xmap <C-F> *N<esc>:<C-U>Find /
 
 nnoremap <C-G> :grep! 
-nnoremap <C-G><C-G> g*N:grep! -F "/"<cr>:redraw!<cr>
-xnoremap <C-G> :call setreg('/', substitute(GetVisualSelection(), '"', '\\"', 'g'))<CR>:grep! -F "/"<cr>:redraw!<cr>//<cr>
+nnoremap <C-G><C-G> :call <SID>SetSearchWord(expand("<cword>"))\|set hlsearch<CR>:call feedkeys(":grep! -F " . expand("<cword>"))<cr>
+xnoremap <C-G> :call setreg('/', substitute(<SID>GetVisualSelection(), '"', '\\"', 'g'))\|set hlsearch<CR>:<c-u>grep! -F "/"
 
 nnoremap <C-F><C-G> :DirtyFiles<cr>
 nnoremap <C-F><C-R> :MRU<cr>
@@ -572,11 +549,14 @@ cnoremap <expr> <Tab> <SID>BetterIncSearch('tab')
 
 " substitute shortcuts
 nnoremap s :%s/
-nnoremap S yiw:%s/<C-R>"//c<left><left><left>
-xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//c<left><left><left>
-xnoremap S :s/<C-R>///c<left><left><left>
+nnoremap S yiw:%s/<C-R>"//c<left><left>
+xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//c<left><left>
 
+" force go file
 nnoremap cgf :e <cfile><CR>
+
+" toggle fugative blame with c-q
+nnoremap <expr> <c-q> &filetype == 'fugitiveblame' ? "\<c-w>\<c-c>" : ":Gblame<cr>"
 
 " open multiple files in visualmode
 xnoremap gf :call <SID>OpenAllVisuallySelectedFiles()<cr>:echo<cr>
@@ -587,6 +567,9 @@ inoremap <c-h> <C-G>u<c-h>
 inoremap <c-u> <C-G>u<c-u>
 inoremap <c-w> <C-G>u<c-w>
 inoremap <space> <C-G>u<space>
+
+nnoremap j gj
+nnoremap k gk
 
 " cheapo brace expansion
 inoremap {<cr> {<cr>}<esc>O
@@ -607,9 +590,12 @@ nmap ]q :cn<cr>zz
 
 
 " buffer movement
+" nmap <silent> <C-P> :SnapForward<CR>
+" nmap <silent> <C-N> :SnapBack<CR>
 nmap <silent> <C-N> :bn<CR>
 nmap <silent> <C-P> :bp<CR>
-nmap <expr> <silent> <C-C> len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 ? ':bd<cr>' : ':bp<CR>:bd #<CR>'
+" nmap <expr> <silent> <C-C> len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 ? ':bd<cr>' : ':bp<CR>:bd #<CR>'
+nmap <silent> <C-C> :bd<cr>
 nnoremap g<C-C> :%bd<cr>:e#<cr>
 nnoremap <C-B> :ls<cr>:b
 cmap <expr> <silent> <C-N> getcmdline() == 'b' ? 'n\|redraw\|ls<CR>:b' : ':bn<CR>'
@@ -657,6 +643,7 @@ nnoremap cs :%s///n<cr>
 
 vnoremap ~ "zc<C-R>=<SID>CaseChange(@z)<CR><Esc>v`[
 
+
 " }}}
 "Commands {{{
 
@@ -665,17 +652,14 @@ command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" .
 command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
 
 command! -nargs=? -bang -complete=file Find call s:Find("<args>", <bang>0)
+
 command! -nargs=* DirtyFiles call s:DirtyFiles("<args>")
 
 command! -nargs=0 MRU call s:MRU()
 
-command! -bar Ranger call s:Ranger()
-
-command! -nargs=+ GitGutterBase execute "let g:gitgutter_diff_base = '" . system("git rev-parse <args>")[:-2] . "'"
-
-command! -nargs=0 -bang Subl call s:Subl(<bang>0)
-
 command! -nargs=0 ShowGitLogs call s:ShowGitLogs()
 
 command! -nargs=0 Vimrc e ~/dev/dotfiles/.vimrc
+
+command! -nargs=0 VMD call s:VMD()
 " }}}

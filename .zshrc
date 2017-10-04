@@ -61,7 +61,7 @@ export PATH=$PATH:$HOME/dev/git-more
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
-export PATH=$PATH:`yarn global bin`
+# export PATH=$PATH:`yarn global bin`
 # }}}
 # Misc {{{
 # stop control flow, gimme ctrl-s back
@@ -84,6 +84,8 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=blue'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+. <(ng completion --zsh 2>/dev/null)
 # }}}
 # Z Style {{{
 zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
@@ -129,6 +131,7 @@ alias zshrc="$EDITOR $HOME/dev/dotfiles/.zshrc"
 alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
 alias vless='vim -u /usr/local/Cellar/vim/8.0.0596/share/vim/vim80/macros/less.vim'
+alias nv='vim -c "NV"'
 
 alias git=hub
 alias g=magic-g
@@ -229,7 +232,7 @@ bam() {
     if [ $1 ]; then
         name=$1
     else
-        name=`date | sed 's/ /-/g'`
+        name=`date "+%H-%M-%S-%A-%d-%h-%Y"`
     fi
 
     mkdir -p "$HOME/dev/scratches/$name" && cd "$HOME/dev/scratches/$name"

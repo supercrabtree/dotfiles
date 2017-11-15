@@ -2,136 +2,160 @@ set nocompatible
 filetype plugin indent on
 syntax enable
 " Colors {{{
-" white = #ffffff => 100% => 15
-" grey1 = #f3f3f3 => 97%  =>
-" grey2 = #e8e8e8 => 91%
-" grey3 = #dbdbdb => 86%
-" grey4 = #b3b3b3 => 70%
-" grey5 = #999999 => 60%
-" grey6 = #808080 => 50%
-" black = #000000 => 0%   =>
-
-" " red      = #bf2222
-" " green    = #008c00
-" " yellow   = #ffaf00
-" " blue     = #2275bf
-" " brown    = #724700
-
-" red        = #941a1e -> ad1f1f
-" green      = #006215 -> 006600
-" blue       = #1a5b94
-" yellow     = #ffaf00
-" darkorange = #ea7a19
+" white  = #ffffff => 100%
+" grey0  = #fafafa => 99%
+" grey1  = #f3f3f3 => 97%
+" grey2  = #e8e8e8 => 91%
+" grey3  = #dbdbdb => 86%
+" grey4  = #b3b3b3 => 70%
+" grey5  = #999999 => 60%
+" grey6  = #808080 => 50%
+" grey7  = #333333 => 20%
+" black  = #000000 => 0%
 "
-" Highlight          Background     Foreground     Style (cterm)
+" red    = #941a1e
+" green  = #006215
+" blue   = #1a5b94
+" yellow = #ffaf00
+" orange = #ea7a19
+
+"  Name             Foreground    Background    Attributes
 " ------------------------------------------------------------------------------
-hi Normal                           guifg=NONE
-hi BadMsg                           guifg=#941a1e
-hi Boolean                          guifg=#1a5b94
-hi BrightGoodMsg     guibg=#006215  guifg=#FFFFFF
-hi Comment                          guifg=#999999 cterm=italic
-hi Constant                         guifg=NONE
-hi Directory                        guifg=#1a5b94
-hi Error             guibg=#941a1e  guifg=#ffffff
-hi ErrorMsg          guibg=#941a1e  guifg=#ffffff
-hi FoldColumn                       guifg=NONE
-hi Folded            guibg=#f3f3f3  guifg=NONE
-hi Function                         guifg=NONE
-hi GoodMsg                          guifg=#006215
-hi Identifier                       guifg=NONE
-hi Ignore            guibg=#f3f3f3  guifg=#f3f3f3
-hi Keyword                          guifg=NONE
-hi MoreMsg                          guifg=#1a5b94
-hi NonText                          guifg=#b3b3b3
-hi Number                           guifg=#1a5b94
-hi Preproc                          guifg=NONE
-hi Question                         guifg=NONE
-hi Special                          guifg=NONE
-hi SpecialKey                       guifg=#b3b3b3
-hi SpellBad          guibg=NONE     guifg=#941a1e  cterm=NONE
-hi SpellCap          guibg=NONE     guifg=NONE     cterm=NONE
-hi Statement                        guifg=NONE
-hi String                           guifg=#1a5b94
-hi Title                            guifg=NONE
-hi Todo                             guifg=NONE
-hi Type                             guifg=NONE
-hi WarningMsg                       guifg=NONE
-hi Underlined                       guifg=NONE     cterm=NONE
+hi xNone            guifg=NONE    guibg=NONE    cterm=NONE
+hi xGrey0Bg         guifg=NONE    guibg=#fafafa cterm=NONE
+hi xGrey2Bg         guifg=NONE    guibg=#e8e8e8 cterm=NONE
+hi xGrey3Bg         guifg=NONE    guibg=#dbdbdb cterm=NONE
+hi xGrey4           guifg=#b3b3b3 guibg=NONE    cterm=NONE
+hi xGrey5Italic     guifg=#999999 guibg=NONE    cterm=italic
+hi xGrey4FgGrey2Bg  guifg=#b3b3b3 guibg=#e8e8e8 cterm=NONE
+hi xGrey6FgGrey0Bg  guifg=#808080 guibg=#fafafa cterm=NONE
+hi xGrey7FgGrey2Bg  guifg=#333333 guibg=#e8e8e8 cterm=NONE
+hi xBlue            guifg=#1a5b94 guibg=NONE    cterm=NONE
+hi xGreen           guifg=#006215 guibg=NONE    cterm=NONE
+hi xRed             guifg=#941a1e guibg=NONE    cterm=NONE
+hi xRedBg           guifg=NONE    guibg=#941a1e cterm=NONE
+hi xBlackFgYellowBg guifg=#000000 guibg=#ffaf00 cterm=NONE
+hi xOrangeFgGrey1Bg guifg=#ea7a19 guibg=#f3f3f3 cterm=NONE
+hi xWhiteFgGreenBg  guifg=#ffffff guibg=#006215 cterm=NONE
+hi xWhiteFgRedBg    guifg=#ffffff guibg=#941a1e cterm=NONE
+hi xWhiteFgOrangeBg guifg=#ffffff guibg=#ea7a19 cterm=NONE
+hi xWhiteFgGrey7Bg  guifg=#ffffff guibg=#333333 cterm=NONE
+
+" Match above colors " {{{
+call matchadd('xNone', 'xNone')
+call matchadd('xGrey4', 'xGrey4')
+call matchadd('xGrey5Italic', 'xGrey5Italic')
+call matchadd('xGrey4FgGrey2Bg', 'xGrey4FgGrey2Bg')
+call matchadd('xGrey6FgGrey0Bg', 'xGrey6FgGrey0Bg')
+call matchadd('xGrey7FgGrey2Bg', 'xGrey7FgGrey2Bg')
+call matchadd('xBlue', 'xBlue')
+call matchadd('xRed', 'xRed')
+call matchadd('xRedBg', 'xRedBg')
+call matchadd('xGreen', 'xGreen')
+call matchadd('xBlackFgYellowBg', 'xBlackFgYellowBg')
+call matchadd('xOrangeFgGrey1Bg', 'xOrangeFgGrey1Bg')
+call matchadd('xWhiteFgGreenBg', 'xWhiteFgGreenBg')
+call matchadd('xWhiteFgRedBg', 'xWhiteFgRedBg')
+call matchadd('xWhiteFgOrangeBg', 'xWhiteFgOrangeBg')
+call matchadd('xWhiteFgGrey7Bg', 'xWhiteFgGrey7Bg')
+call matchadd('xGrey0Bg', 'xGrey0Bg')
+call matchadd('xGrey2Bg', 'xGrey2Bg')
+call matchadd('xGrey3Bg', 'xGrey3Bg')
+" }}}
+
+" Black text
+hi! link Normal          xNone
+hi! link Constant        xNone
+hi! link Function        xNone
+hi! link Identifier      xNone
+hi! link Keyword         xNone
+hi! link Preproc         xNone
+hi! link Question        xNone
+hi! link Special         xNone
+hi! link SpellCap        xNone
+hi! link Statement       xNone
+hi! link Title           xNone
+hi! link Type            xNone
+hi! link Underlined      xNone
+hi! link WarningMsg      xNone
+
+" Grey text
+hi! link NonText         xGrey4
+hi! link SpecialKey      xGrey4
+hi! link Comment         xGrey5Italic
+hi! link Todo            xGrey5Italic
+
+" Blue text
+hi! link Boolean         xBlue
+hi! link Directory       xBlue
+hi! link MoreMsg         xBlue
+hi! link Number          xBlue
+hi! link String          xBlue
+
+" Red text
+hi! link BadMsg          xRed
+hi! link SpellBad        xRed
+hi! link Error           xWhiteFgRedBg
+hi! link ErrorMsg        xWhiteFgRedBg
+
+" Green text
+hi! link GoodMsg         xGreen
+hi! link BrightGoodMsg   xWhiteFgGreenBg
 
 " UI elements
-hi ColorColumn       guibg=#f3f3f3
-hi CursorLine                                      cterm=NONE
-hi PMenu             guibg=#e8e8e8  guifg=#808080
-hi LineNr                           guifg=#b3b3b3
-hi CursorLineNr                     guifg=NONE
-hi MatchParen        guibg=NONE     guifg=#941a1e
-hi StatusLine        guibg=#e8e8e8  guifg=#000000  cterm=NONE
-" hi StatusLineWarn    guibg=#e8e8e8  guifg=#941a1e  cterm=NONE
-hi StatusLineNC      guibg=#e8e8e8  guifg=#b3b3b3  cterm=NONE
-hi VertSplit         guibg=#e8e8e8  guifg=#e8e8e8
-hi WildMenu          guibg=#000000  guifg=#ffffff
-hi QuickFixLine      guibg=#e8e8e8
-hi Visual            guibg=#dbdbdb
+hi! link ColorColumn     xGrey0Bg
+hi! link ExtraWhitespace xGrey2Bg
+hi! link Ignore          xGrey2Bg
+hi! link QuickFixLine    xGrey2Bg
+hi! link VertSplit       xGrey2Bg
+hi! link StatusLine      xGrey2Bg
+hi! link StatusLineNC    xGrey4FgGrey2Bg
+hi! link LineNr          xGrey4
+hi! link Folded          xGrey6FgGrey0Bg
+hi! link Visual          xGrey3Bg
 
-hi Search            guibg=#ffaf00  guifg=#000000
-hi IncSearch         guibg=#006215  guifg=#ffffff  cterm=NONE
-hi ExtraWhitespace   guibg=#e8e8e8  guifg=#e8e8e8
+hi! link IncSearch       xWhiteFgGreenBg
+hi! link MatchParen      xGrey2Bg
+hi! link Search          xBlackFgYellowBg
+hi! link WildMenu        xWhiteFgGrey7Bg
+hi! link PMenu           xGrey7FgGrey2Bg
+hi! link PMenuSel        xWhiteFgGrey7Bg
 
 " Diffs
-hi DiffAdd           guibg=NONE     guifg=#006215
-hi DiffChange        guibg=NONE
-hi DiffDelete        guibg=#941a1e  guifg=#941a1e
-hi DiffText          guifg=#ea7a19  guibg=#f6f6f6 cterm=NONE
-hi diffAdded                        guifg=#006215
-hi diffRemoved                      guifg=#941a1e
+hi! link DiffAdd         xGreen
+hi! link DiffChange      xNone
+hi! link DiffDelete      xRedBg
+hi! link DiffText        xOrangeFgGrey1Bg
+hi! link diffAdded       xGreen
+hi! link diffRemoved     xRed
 
-" Commits
-hi gitcommitSelectedFile            guifg=#006215
-hi gitcommitDiscardedFile           guifg=#941a1e
+" Git Commits
+hi! link gitcommitSelectedFile  xGreen
+hi! link gitcommitDiscardedFile xGreen
 
 " Git Gutter
-hi GitGutterAdd                     guifg=#006215
-hi GitGutterChange                  guifg=#b3b3b3
-hi GitGutterDelete                  guifg=#941a1e
-hi GitGutterChangeDelete            guifg=#b3b3b3
+hi! link GitGutterAdd           xGreen
+hi! link GitGutterChange        xGrey4
+hi! link GitGutterDelete        xRed
+hi! link GitGutterChangeDelete  xGrey4
 
-
-" Language Specific
-" -----------------
-" HTML
-hi htmlItalic                                      cterm=italic
-hi MatchTag          guibg=#dbdbdb  guifg=#000000
-hi link htmlH1 Normal
-hi link htmlH2 Normal
-hi link htmlH3 Normal
-hi link htmlH4 Normal
-hi link htmlH5 Normal
-hi link htmlH6 Normal
-hi link htmlTag Keyword
-hi link htmlTagName Keyword
-hi link htmlSpecialTagName Keyword
-hi link htmlArg Keyword
-hi link htmlTagN htmlTagName
-hi link htmlEndTag htmlTag
+" ALE
+hi! link ALEErrorSign   xWhiteFgRedBg
+hi! link ALEWarningSign xWhiteFgOrangeBg
 
 " Markdown
-hi markdownH1        guibg=NONE     guifg=NONE     cterm=reverse
-hi markdownH2        guibg=NONE     guifg=NONE     cterm=reverse
-hi markdownH3        guibg=NONE     guifg=NONE     cterm=reverse
-hi markdownH4        guibg=NONE     guifg=NONE     cterm=reverse
-hi markdownH5        guibg=NONE     guifg=NONE     cterm=reverse
-hi markdownH6        guibg=NONE     guifg=NONE     cterm=reverse
-hi link markdownHeadingDelimiter markdownH1
+hi! link markdownH1               xWhiteFgGrey7Bg
+hi! link markdownH2               xWhiteFgGrey7Bg
+hi! link markdownH3               xWhiteFgGrey7Bg
+hi! link markdownH4               xWhiteFgGrey7Bg
+hi! link markdownH5               xWhiteFgGrey7Bg
+hi! link markdownH6               xWhiteFgGrey7Bg
+hi! link markdownHeadingDelimiter xWhiteFgGrey7Bg
 
-" old
-" hi ALEErrorSign      guibg=#ffffff  guifg=#bb0900
-" hi ALEWarningSign    guibg=#ffffff  guifg=#c1a700
+" JavaScript
+hi! link jsUndefined xBlue
+hi! link jsNull xBlue
 
-" new
-hi ALEErrorSign      guibg=#ffffff  guifg=#941a1e
-hi ALEWarningSign    guibg=#ffffff  guifg=#ffaf00
-
-match ExtraWhitespace /\s\+$/
 augroup whitespace
   autocmd!
   autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
@@ -143,17 +167,20 @@ augroup END
 " Settings {{{
 set backspace=indent,eol,start
 set clipboard=unnamed
-set completeopt=menuone,longest,noinsert
-" set cursorline
+set completeopt=menuone,longest
+set colorcolumn=81
 set diffopt+=vertical,context:3
 set expandtab
 set encoding=utf-8
 set gdefault
 set grepformat=%f:%l:%c:%m,%f:%l:%m
 set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden
+set fillchars=vert:\ ,fold:\ ,diff:\ 
+set foldminlines=0
 set foldmethod=indent
 set foldlevelstart=5
 set foldnestmax=5
+set foldtext=FoldText()
 set hidden
 set history=10000
 set hlsearch
@@ -187,7 +214,7 @@ set undodir=$HOME/.vim/undo
 set undofile
 set wildmenu
 set wildcharm=<Tab>
-set wildignore+=dist/**,**/node_modules/**,**/bower_components/**
+set wildignore=dist/**,**/node_modules/**,**/bower_components/**
 
 " start matchit
 runtime macros/matchit.vim
@@ -222,23 +249,27 @@ augroup vimrc
   au FileType qf nnoremap <buffer> S yiw:cfdo %s/<C-R>"//c<left><left>
   au FileType qf xnoremap <buffer> s y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//c<left><left>
   au FileType qf xnoremap <buffer> S :echo 'need to implement'
+  au FileType qf setlocal conceallevel=2
+  au FileType qf setlocal concealcursor=nc
+  au FileType qf syntax match glogCruft /^fugitive:\/\/\/\S*|| / conceal
 
   au FileType php setlocal complete=.,w,b,u
 
   au FileType gitcommit setlocal colorcolumn=51,73
   au FileType gitcommit setlocal spell
   au FileType gitcommit setlocal nonumber
+  au FileType gitcommit setlocal omnifunc=GitLogOmni
 
   au FileType markdown setlocal spell
   au FileType markdown setlocal textwidth=80
   au FileType markdown setlocal colorcolumn=81
 
+  au FileType * setlocal formatoptions-=cor
+
   au BufRead,BufNewFile *.filedump setfiletype filedump
   au FileType filedump nnoremap <buffer> <C-C> :bd<cr>
   au FileType filedump nnoremap <buffer> <CR> gf
   au FileType filedump xmap <CR> gf
-
-  au FileType * setlocal formatoptions-=cor
 
   au BufWritePost $HOME/dev/dotfiles/.vimrc source $HOME/dev/dotfiles/.vimrc|setlocal foldmethod=marker
   au BufReadPost $HOME/dev/dotfiles/.vimrc,$HOME/dev/dotfiles/.zshrc setlocal foldmethod=marker|setlocal foldlevel=0
@@ -247,7 +278,7 @@ augroup vimrc
   au QuickFixCmdPost *grep* cwindow
 augroup END
 " }}}
-" VAM & Plugins {{{
+" Plugins {{{
 function! s:SetupVAM() " {{{
   let c = get(g:, 'vim_addon_manager', {})
   let g:vim_addon_manager = c
@@ -257,42 +288,39 @@ function! s:SetupVAM() " {{{
     execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager' shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
   endif " }}}
   call vam#ActivateAddons([
-  \  'github:Quramy/tsuquyomi',
-  \  'github:airblade/vim-gitgutter',
-  \  'github:gcavallanti/vim-noscrollbar',
-  \  'github:heavenshell/vim-jsdoc',
   \  'github:ianks/vim-tsx',
   \  'github:leafgarland/typescript-vim',
+  \  'github:Quramy/tsuquyomi',
+  \  'github:heavenshell/vim-jsdoc',
   \  'github:pangloss/vim-javascript',
+  \
+  \  'github:airblade/vim-gitgutter',
+  \  'github:gcavallanti/vim-noscrollbar',
   \  'github:supercrabtree/vim-subl',
   \  'github:tpope/vim-commentary',
+  \  'github:tpope/vim-eunuch',
   \  'github:tpope/vim-fugitive',
   \  'github:tpope/vim-rhubarb',
   \  'github:tpope/vim-sleuth',
-  \  'github:tpope/vim-surround',
   \  'github:tpope/vim-repeat',
-  \  'github:Alok/notational-fzf-vim',
-  \  'github:junegunn/fzf',
-  \  'github:junegunn/fzf.vim',
   \  'github:w0rp/ale',
+  \
+  \  'github:kana/vim-textobj-user',
+  \  'github:Julian/vim-textobj-variable-segment',
+  \  'github:saaguero/vim-textobj-pastedtext',
   \], {'auto_install' : 1})
 endfunction
 call s:SetupVAM()
 " source $HOME/dev/snaplist/snaplist.vim
 " }}}
 " Plugin Settings {{{
-let g:nv_directories=["/Users/george.crabtree/Notes", "./docs", "readme.md"]
-let g:nv_use_short_pathnames=1
-let g:nv_create_note_window = 'split'
-
 let g:ale_linters = {
 \   'html': [],
 \}
 let g:ale_sign_column_always = 1
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_statusline_format = ['E%d', 'W%d', '']
-let g:ale_sign_error = 'E'
-let g:ale_sign_warning = 'W'
+" some more ⇨ ⊗ ◗ ⊙ ≫ 𝒆 𝒘 𝓮 𝔀  𝕖 𝕨 𝔼 𝕎
+let g:ale_sign_error = '»'
+let g:ale_sign_warning = '»'
 " }}}
 " Disable unused builtin plugins {{{
 let g:loaded_getscriptPlugin = 1
@@ -323,7 +351,7 @@ function! s:save_file_to_MRU_file(filename)
   call writefile(l:lines[0:100000], $HOME.'/.vim/mru.txt')
 endfunction
 
-function! s:MRU()
+function! MRU()
   let l:files = readfile($HOME."/.vim/mru.txt")
   let l:files = filter(l:files, "!empty(v:val)")
   let l:files = filter(l:files, 'v:val != "'.expand('%:p').'"')
@@ -331,19 +359,31 @@ function! s:MRU()
   let l:files = filter(l:files, {key, val -> match(val, '^fugitive:\/\/\/') == -1})
   let l:files = filter(l:files, {key, val -> match(val, '\/var\/folders') == -1})
   let l:files = filter(l:files, {key, val -> match(val, '\/.vim\/vim-addons.*doc\/') == -1})
-  let l:files = filter(l:files, {key, val -> match(val, '\/quickfix-\d*$') == -1})
 
   let l:open_buffers = filter(copy(l:files), {key, val -> bufloaded(val)})
-  let l:remaining_files = filter(copy(l:files), {key, val -> (index(open_buffers, val) == -1)})
+  let l:unopened_files = filter(copy(l:files), {key, val -> (index(open_buffers, val) == -1)})
 
-  let l:in_cwd = filter(copy(l:remaining_files), {key, val -> (stridx(val, getcwd()) > -1)})
-  let l:remaining_files = filter(copy(l:remaining_files), {key, val -> (index(in_cwd, val) == -1)})
+  let l:last_ten_in_cwd = []
+  let l:remaining_files = []
+  let l:cwd_count = 0
+  for file in l:unopened_files
+      if l:cwd_count < 10
+          if stridx(file, getcwd()) > -1
+              let l:cwd_count += 1
+              call add(l:last_ten_in_cwd, file)
+          else
+              call add(l:remaining_files, file)
+          endif
+      else
+          call add(l:remaining_files, file)
+      endif
+  endfor
 
   let l:file_list = map(l:remaining_files, {key, val -> fnamemodify(val, ':~:.')})
 
-  if len(l:in_cwd)
-    let l:in_cwd = map(l:in_cwd, {key, val -> fnamemodify(val, ':~:.')})
-    let l:file_list = l:in_cwd + [""] + l:file_list
+  if len(l:last_ten_in_cwd)
+    let l:last_ten_in_cwd = map(l:last_ten_in_cwd, {key, val -> fnamemodify(val, ':~:.')})
+    let l:file_list = l:last_ten_in_cwd + [""] + l:file_list
   endif
 
   if len(l:open_buffers)
@@ -351,9 +391,167 @@ function! s:MRU()
     let l:file_list = l:open_buffers + [""] + l:file_list
   endif
 
-  call s:setup_file_buffer(l:file_list, ".")
+  call s:SetupFileDumpBuffer(l:file_list, ".")
 endfunction
 
+" }}}
+" Mappings {{{
+nnoremap <C-F><C-F> g*<esc>N:FileDump /
+nnoremap <C-F> :FileDump 
+nnoremap <C-F>! :FileDump! 
+
+nnoremap <C-F><C-O> :execute 'FileDump' expand('%:h')<cr>
+xmap <C-F> *N<esc>:<C-U>FileDump /
+
+nnoremap <C-F><C-G> :call <SID>DirtyFiles()<cr>
+nnoremap <C-F><C-R> :call MRU()<cr>
+
+nnoremap <C-G> :grep! 
+nnoremap <C-G><C-G> :call <SID>SetSearchWord(expand("<cword>"))\|set hlsearch<CR>:call feedkeys(":grep! -F '" . expand("<cword>") . "'")<cr>
+xnoremap <C-G> :call setreg('/', substitute(<SID>GetVisualSelection(), "'", "'\\\\''", 'g'))\|set hlsearch<CR>:<c-u>grep! -F '/'
+
+nnoremap Q @q
+nnoremap Y y$
+nnoremap _ g-
+nnoremap + g+
+nnoremap <silent> <BS> :noh<cr>:redraw!<cr>jk:diffupdate<cr>
+nnoremap <c-q> :<space><c-r>%<home>!
+nnoremap j gj
+nnoremap k gk
+
+" Count Search
+nnoremap cs :%s///n<cr>
+
+" 'line-content' mappings, yank content - delete content
+nnoremap yc mz^yg_`z
+nnoremap dc mz^dg_`z
+
+" force go file
+nnoremap cgf :e <cfile><CR>
+
+" if pumvisible complete next letter
+inoremap <expr> <right> pumvisible() ? "\<C-L>" : "<right>"
+
+" Format line
+inoremap <c-f> <esc>gqq$A
+
+" cheapo brace expansion
+inoremap {<cr> {<cr>}<esc>O
+
+" insert undo stop points
+inoremap <cr> <c-]><C-G>u<cr>
+inoremap <c-h> <C-G>u<c-h>
+inoremap <c-u> <C-G>u<c-u>
+inoremap <c-w> <C-G>u<c-w>
+inoremap <space> <C-G>u<space>
+
+" fix missing mappings due to hjkl global remap
+inoremap <c-x><right> <c-x><c-l>
+inoremap <c-x><up> <c-x><c-k>
+inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
+
+" open multiple files in visualmode
+xnoremap gf :call <SID>OpenAllVisuallySelectedFiles()<cr>:echo<cr>
+
+" faster indenting
+xnoremap > >gv
+xnoremap < <gv
+
+" Stop accidently lowercasing everything when I want to yank
+xnoremap u y
+
+" Rotate Case
+xnoremap ~ "zc<C-R>=<SID>RotateCase(@z)<CR><Esc>v`[
+
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-X> <C-R>=getline(".")<cr>
+cnoremap <expr> <S-Tab> <SID>BetterIncSearch('stab')
+cnoremap <expr> <Tab> <SID>BetterIncSearch('tab')
+
+" substitute shortcuts
+nnoremap s :%s/
+nnoremap S yiw:%s/<C-R>"/<C-R>"/c<left><left>
+xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//c<left><left>
+xnoremap S :s///c<left><left>
+
+" Buffer Movement
+nmap <silent> <C-N> :bn<CR>
+nmap <silent> <C-P> :bp<CR>
+nmap <silent> <C-C> :bp\|bd#<cr>
+nnoremap <C-B> :ls<cr>:b
+cmap <expr> <silent> <C-N> getcmdline() == 'b' ? 'n\|redraw\|ls<CR>:b' : ':bn<CR>'
+cmap <expr> <silent> <C-P> getcmdline() == 'b' ? 'p\|redraw\|ls<CR>:b' : ':bp<CR>'
+
+" Previous Buffer
+nnoremap # <c-^>
+
+" Quickfix Movement
+nmap [q :cp<cr>zz
+nmap ]q :cn<cr>zz
+
+" Tab Movement
+nnoremap ]t :tabnext<cr>
+nnoremap [t :tabprevious<cr>
+
+" Ale Movement
+nmap <silent> [a <Plug>(ale_previous_wrap)
+nmap <silent> ]a <Plug>(ale_next_wrap)
+
+" Diff Movement
+nmap J ]c
+nmap K [c
+
+" Hunk Control
+nnoremap <expr> H &diff ? 'do' : ':GitGutterStageHunk<cr>'
+nnoremap <expr> U &diff ? 'dp' : 'mz:GitGutterUndoHunk<cr>`z'
+nnoremap <expr> dy &diff ? '<c-w><c-w>yy<c-w><c-w>Vp' : ':echoerr "E99: Current buffer is not in diff mode"<cr>'
+" nnoremap dy <c-w>hyy<c-w>lVp' : 'dy'
+
+" Change CWD from project root to file location
+nnoremap <silent> <c-_> :call <SID>ChangeCWD()<CR>
+inoremap <silent> <c-_> <c-o>:call <SID>ChangeCWD()<CR>
+
+" Spelling Fixes
+inoremap <c-s> <esc>:set spell<cr>[sea<c-x><c-s>
+nnoremap <c-s> :set spell!<cr>:set spell?<cr>
+
+" Star Remaps
+xnoremap <silent> * :call <SID>SetSearch(<SID>GetVisualSelection())\|set hlsearch<CR><esc>
+nnoremap <silent> * :call <SID>SetSearchWord(expand("<cword>"))\|set hlsearch<CR>
+
+" }}}
+" Commands {{{
+
+" Manual Indentation Adjustments
+command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " expandtab"
+command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
+
+command! -nargs=? -bang -complete=file FileDump call s:FileDump("<args>", <bang>0)
+
+command! -nargs=0 Vimrc e ~/dev/dotfiles/.vimrc
+
+command! -nargs=0 VMD call s:VMD()
+
+command! -nargs=0 WipeReg for r in split('abcdefghijklmnopqrstuvwxyz"', '\zs') | silent! exec 'let @'. r . ' = ""' | endfor
+
+command! -nargs=0 OnlyBuffer %bd|e#|bd#
+" }}}
+" Macros {{{
+let @f='ru/<[^ >]\{-} \|" /ezz'
+" }}}
+" Search Functions {{{
+function! s:SearchEscape(reg)
+    return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
+endfunction
+
+function! s:SetSearch(reg)
+    call setreg('/', "\\V" . s:SearchEscape(a:reg))
+endfunction
+
+function! s:SetSearchWord(reg)
+    call setreg('/', "\\V\\<" . s:SearchEscape(a:reg) . "\\>")
+endfunction
 " }}}
 function! s:OpenAllVisuallySelectedFiles() " {{{
   if line(".") == line("'>")
@@ -362,7 +560,7 @@ function! s:OpenAllVisuallySelectedFiles() " {{{
     execute "edit " . getline(".") | b#
   endif
 endfunction " }}}
-function! s:Find(regex, ignore_git) " {{{
+function! s:FileDump(regex, ignore_git) " {{{
   let l:root = systemlist("git rev-parse --show-toplevel")[0]
   if (v:shell_error || a:ignore_git)
     let l:files = system("find " . getcwd() . " -type f")
@@ -388,19 +586,15 @@ function! s:Find(regex, ignore_git) " {{{
     let g:file_buffer_no = bufnr('%')
   endif
 
-  call s:setup_file_buffer(l:files, l:root, g:file_buffer_no, a:regex)
+  call s:SetupFileDumpBuffer(l:files, l:root, g:file_buffer_no, a:regex)
 endfunction " }}}
-function! s:DirtyFiles(args) " {{{
-  let l:files = system("git status -s " . a:args . "| sed 's/^...//'")
-  call s:setup_file_buffer(l:files, '.')
-endfunction " }}}
-function! s:setup_file_buffer(files, root, ...) " {{{
-  if exists("a:1")
-    exec 'b' . a:1
-    normal ggdG
-  else
+function! s:SetupFileDumpBuffer(files, root, ...) " {{{
+  " if exists("a:1")
+  "   exec 'b' . a:1
+  "   normal ggdG
+  " else
     enew
-  endif
+  " endif
   execute "lcd " . a:root
   setlocal statusline=%f\ \|\ %l\ of\ %L\ col\ %c
   set buftype=nofile
@@ -410,22 +604,9 @@ function! s:setup_file_buffer(files, root, ...) " {{{
   if exists("a:2") && a:2 != ''
     call feedkeys(":g/" . escape(a:2, '/\') . "/m0\<CR>", "nt")
   endif
-  " cnoremap <buffer> : <space><c-r><c-f><home>!
+  nnoremap <buffer> <c-q> :<space><c-r><c-f><home>!
 endfunction " }}}
-function! s:ChangeCWD() " {{{
-    if !exists("g:change_cwd_root_directory")
-        let g:change_cwd_root_directory = getcwd()
-    endif
-
-    let l:currentFileDir=expand('%:p:h')
-
-    if l:currentFileDir != getcwd()
-        exec("cd " . l:currentFileDir)
-    else
-        exec("cd " . g:change_cwd_root_directory)
-    endif
-endfunction " }}}
-function! s:CaseChange(str) " {{{
+function! s:RotateCase(str) " {{{
     let l:snake = '^[a-z0-9]\+\(-\+[a-z0-9]\+\)\+$'
     let l:camel = '\C^[a-z][a-z0-9]*\([A-Z][a-z0-9]*\)*$'
     let l:under = '\C^[a-z0-9]\+\(_\+[a-z0-9]\+\)*$'
@@ -452,13 +633,6 @@ function! s:GetVisualSelection() " {{{
   finally
     let @a = l:a_save
   endtry
-endfunction " }}}
-function! s:ShowGitLogs() " {{{
- enew
- setlocal buftype=nofile
- setlocal nonumber
- silent exec '.!git log --no-merges --pretty="\%s\%b\%n---"'
- " silent exec '.!git log --no-merges --pretty="\%an \%H\%n\%s\%b\%n"'
 endfunction " }}}
 function! s:BetterIncSearch(key) abort " {{{
   let l:cmdType = getcmdtype()
@@ -503,163 +677,40 @@ function! s:VMD() " {{{
   augroup END
 endfunction
 " }}}
-" Search Functions {{{
-function! s:SearchEscape(reg)
-    return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
-endfunction
+function! s:DirtyFiles() " {{{
+  let l:files = system("git status -s | sed 's/^...//'")
+  call s:SetupFileDumpBuffer(l:files, '.')
+endfunction " }}}
+function! s:ChangeCWD() " {{{
+    if !exists("g:change_cwd_root_directory")
+        let g:change_cwd_root_directory = getcwd()
+    endif
 
-function! s:SetSearch(reg)
-    call setreg('/', "\\V" . s:SearchEscape(a:reg))
-endfunction
+    let l:currentFileDir=expand('%:p:h')
 
-function! s:SetSearchWord(reg)
-    call setreg('/', "\\V\\<" . s:SearchEscape(a:reg) . "\\>")
+    if l:currentFileDir != getcwd()
+        exec("cd " . l:currentFileDir)
+    else
+        exec("cd " . g:change_cwd_root_directory)
+    endif
+endfunction " }}}
+function! GitLogOmni(findstart, base) " {{{
+  if a:findstart
+    return 0
+  else
+    return systemlist('git log --pretty=%s --no-merges -10')
+  endif
 endfunction
 " }}}
-" Mappings {{{
-" Find and grep mappings
-nnoremap <C-F><C-F> g*<esc>N:Find /
-nnoremap <C-F> :Find 
-nnoremap <C-F>! :Find! 
-
-nnoremap <C-F><C-O> :execute 'Find' expand('%:h')<cr>
-nnoremap <C-F><C-N> :NV<cr>
-xmap <C-F> *N<esc>:<C-U>Find /
-
-nnoremap <C-G> :grep! 
-nnoremap <C-G><C-G> :call <SID>SetSearchWord(expand("<cword>"))\|set hlsearch<CR>:call feedkeys(":grep! -F " . expand("<cword>"))<cr>
-xnoremap <C-G> :call setreg('/', substitute(<SID>GetVisualSelection(), '"', '\\"', 'g'))\|set hlsearch<CR>:<c-u>grep! -F "/"
-
-nnoremap <C-F><C-G> :DirtyFiles<cr>
-nnoremap <C-F><C-R> :MRU<cr>
-
-inoremap <expr> <right> pumvisible() ? "\<C-L>" : "<right>"
-
-cnoremap <C-X> <C-R>=getline(".")
-nnoremap Y y$
-nnoremap - o<esc>"*p
-nnoremap _ g-
-nnoremap + g+
-nnoremap <silent> <BS> :noh<cr>:redraw!<cr>jk:diffupdate<cr>
-cnoremap <C-A> <Home>
-cnoremap <C-E> <End>
-" cnoremap <expr> : <space><c-r>%<home>!
-cnoremap <expr> <S-Tab> <SID>BetterIncSearch('stab')
-cnoremap <expr> <Tab> <SID>BetterIncSearch('tab')
-
-" substitute shortcuts
-nnoremap s :%s/
-nnoremap S yiw:%s/<C-R>"//c<left><left>
-xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//c<left><left>
-
-" force go file
-nnoremap cgf :e <cfile><CR>
-
-" toggle fugative blame with c-q
-nnoremap <expr> <c-q> &filetype == 'fugitiveblame' ? "\<c-w>\<c-c>" : ":Gblame<cr>"
-
-" open multiple files in visualmode
-xnoremap gf :call <SID>OpenAllVisuallySelectedFiles()<cr>:echo<cr>
-
-" insert undo stop points
-inoremap <cr> <c-]><C-G>u<cr>
-inoremap <c-h> <C-G>u<c-h>
-inoremap <c-u> <C-G>u<c-u>
-inoremap <c-w> <C-G>u<c-w>
-inoremap <space> <C-G>u<space>
-
-nnoremap j gj
-nnoremap k gk
-
-" cheapo brace expansion
-inoremap {<cr> {<cr>}<esc>O
-
-" 'line-content' mappings, yank content - delete content
-nnoremap yc mz^yg_`z
-nnoremap dc mz^dg_`z
-
-nmap J ]c
-nmap K [c
-nnoremap <expr> H &diff ? 'do' : ':GitGutterStageHunk<cr>'
-nnoremap <expr> U &diff ? 'dp' : 'mz:GitGutterUndoHunk<cr>`z'
-nnoremap <expr> dy &diff ? '<c-w><c-w>yy<c-w><c-w>Vp' : 'dy'
-
-" navigate quickfix quickly
-nmap [q :cp<cr>zz
-nmap ]q :cn<cr>zz
-
-
-" buffer movement
-" nmap <silent> <C-P> :SnapForward<CR>
-" nmap <silent> <C-N> :SnapBack<CR>
-nmap <silent> <C-N> :bn<CR>
-nmap <silent> <C-P> :bp<CR>
-" nmap <expr> <silent> <C-C> len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 ? ':bd<cr>' : ':bp<CR>:bd #<CR>'
-nmap <silent> <C-C> :bd<cr>
-nnoremap g<C-C> :%bd<cr>:e#<cr>
-nnoremap <C-B> :ls<cr>:b
-cmap <expr> <silent> <C-N> getcmdline() == 'b' ? 'n\|redraw\|ls<CR>:b' : ':bn<CR>'
-cmap <expr> <silent> <C-P> getcmdline() == 'b' ? 'p\|redraw\|ls<CR>:b' : ':bp<CR>'
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-cnoremap <expr> / getcmdtype() == '/' ? getcmdline() == '' ? '/' : '\/' : '/'
-
-" fix missing mappings due to hjkl global remap
-inoremap <c-x><right> <c-x><c-l>
-inoremap <c-x><up> <c-x><c-k>
-inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
-
-" last file
-nnoremap # <c-^>
-
-" mark just before a search
-nnoremap / mS/
-nnoremap g/ `S
-
-nnoremap ]t :tabnext<cr>
-nnoremap [t :tabprevious<cr>
-
-nmap <silent> [a <Plug>(ale_previous_wrap)
-nmap <silent> ]a <Plug>(ale_next_wrap)
-
-nnoremap <silent> <F11> :call s:ChangeCWD()<CR>
-inoremap <silent> <F11> <c-o>:call s:ChangeCWD()<CR>
-
-" quick spell fixes
-inoremap <c-s> <esc>:set spell<cr>[sea<c-x><c-s>
-nnoremap <c-s> :set spell!<cr>
-
-" fix indent
-xnoremap > >gv
-xnoremap < <gv
-
-cmap <C-R>' <C-R>=getline('.')<CR>
-
-nnoremap <expr> dy &diff ? '<c-w><c-w>yy<c-w><c-w>Vp' : ':echoerr "E99: Current buffer is not in diff mode"<cr>'
-" nnoremap dy <c-w>hyy<c-w>lVp' : 'dy'
-
-xnoremap <silent> * :call <SID>SetSearch(<SID>GetVisualSelection())\|set hlsearch<CR>
-nnoremap <silent> * :call <SID>SetSearchWord(expand("<cword>"))\|set hlsearch<CR>
-nnoremap cs :%s///n<cr>
-
-vnoremap ~ "zc<C-R>=<SID>CaseChange(@z)<CR><Esc>v`[
-
-
-" }}}
-"Commands {{{
-
-" Manual Indentation Adjustments
-command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " expandtab"
-command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
-
-command! -nargs=? -bang -complete=file Find call s:Find("<args>", <bang>0)
-
-command! -nargs=* DirtyFiles call s:DirtyFiles("<args>")
-
-command! -nargs=0 MRU call s:MRU()
-
-command! -nargs=0 ShowGitLogs call s:ShowGitLogs()
-
-command! -nargs=0 Vimrc e ~/dev/dotfiles/.vimrc
-
-command! -nargs=0 VMD call s:VMD()
+function! FoldText() " {{{
+    let line_count = v:foldend - v:foldstart + 1
+    let line_count_text = line_count ==# 1 ? ' line' : ' lines'
+    let line = getline(v:foldstart)
+    let line = substitute(line, '\(" \)\{-}{{{$', '', 'g')
+    let line = substitute(line, '\s*$', '', 'g')
+    let line = substitute(line, '^"', '', 'g')
+    let line = substitute(line, '^ ', '', 'g')
+    let line = substitute(line, '^ ', '', 'g')
+    return '» ' . line . ' - ' . line_count . line_count_text
+endfunction
 " }}}

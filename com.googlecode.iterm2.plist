@@ -1373,7 +1373,7 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>508 196 445 383 0 0 3360 1868 </string>
+	<string>503 198 445 249 0 0 3360 1868 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>1482 1304 400 129 0 0 3360 1868 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
@@ -1381,9 +1381,9 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 126 606 469 0 0 3360 1868 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>285 1259 796 473 0 0 3360 1868 </string>
+	<string>285 1149 918 512 0 0 3360 1868 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>412 0 1508 1178 0 0 1920 1178 </string>
+	<string>0 0 1916 1178 0 0 1920 1178 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>588 278 570 452 0 0 1920 1177 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
@@ -2050,7 +2050,7 @@
 			<key>Non-ASCII Ligatures</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>InconsolataGo-Regular 20</string>
+			<string>InconsolataGo-Regular 18</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Option Key Sends</key>
@@ -2217,7 +2217,7 @@
 							<key>action</key>
 							<integer>2</integer>
 							<key>parameter</key>
-							<string>cd \d; /usr/local/bin/hub browse -- commit/\0</string>
+							<string>cd \d; /usr/local/bin/hub browse -- commit/\1</string>
 							<key>title</key>
 							<string>github</string>
 						</dict>
@@ -2227,7 +2227,7 @@
 					<key>precision</key>
 					<string>very_low</string>
 					<key>regex</key>
-					<string>\b[0-9a-f]{6,40}\b</string>
+					<string>\b([0-9a-f]{6,40})\b</string>
 				</dict>
 				<dict>
 					<key>actions</key>
@@ -2410,7 +2410,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-10-16T00:41:32Z</date>
+	<date>2017-11-07T22:54:07Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>Selection Respects Soft Boundaries</key>
@@ -2466,7 +2466,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.4.beta.1</string>
+	<string>3.1.5.beta.1</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>2</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

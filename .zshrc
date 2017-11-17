@@ -61,7 +61,6 @@ export PATH=$PATH:$HOME/dev/git-more
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
-# export PATH=$PATH:`yarn global bin`
 # }}}
 # Misc {{{
 # stop control flow, gimme ctrl-s back
@@ -156,7 +155,6 @@ alias ......="cd ../../../../.."
 
 # suffix
 alias -s git='git clone'
-alias -s js='vim'
 
 # global
 alias -g UP='@{u}'

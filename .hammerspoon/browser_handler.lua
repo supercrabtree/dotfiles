@@ -15,8 +15,6 @@ local browsers = {
 local browserMap = {
   { regex = 'http.*localhost:*', id = browsers.chrome  },
   { regex = '.*.127.0.0.1:*', id = browsers.chrome  },
-  { regex = '.*.travis.com', id = browsers.chrome  },
-  { regex = '.*.github.com', id = browsers.chrome  },
   { regex = '.*',           id = browsers.safari  },
 }
 

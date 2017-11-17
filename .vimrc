@@ -167,7 +167,7 @@ augroup END
 " Settings {{{
 set backspace=indent,eol,start
 set clipboard=unnamed
-set completeopt=menuone,longest
+set completeopt=menu,longest
 set colorcolumn=81
 set diffopt+=vertical,context:3
 set expandtab

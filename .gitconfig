@@ -56,4 +56,7 @@
   showUntrackedFiles = all
 [user]
   name = George Crabtree
-  email = george.crabtree@bigcommerce.com
+  email = supercrabtree@googlemail.com
+
+[includeIf "gitdir:~/dev/bigcommerce"]
+  path = .gitconfig-work

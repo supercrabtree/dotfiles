@@ -340,10 +340,10 @@ endif
 
 augroup mru
   autocmd!
-  au BufEnter * call s:save_file_to_MRU_file(expand('%:p'))
+  au BufEnter * call s:saveFileToMRU(expand('%:p'))
 augroup END
 
-function! s:save_file_to_MRU_file(filename)
+function! s:saveFileToMRU(filename)
   let l:lines = readfile($HOME.'/.vim/mru.txt')
   let l:lines = filter(l:lines, 'v:val != "'.a:filename.'"')
   let l:lines = insert(l:lines, a:filename)
@@ -351,7 +351,7 @@ function! s:save_file_to_MRU_file(filename)
   call writefile(l:lines[0:100000], $HOME.'/.vim/mru.txt')
 endfunction
 
-function! MRU()
+function! s:MRU()
   let l:files = readfile($HOME."/.vim/mru.txt")
   let l:files = filter(l:files, "!empty(v:val)")
   let l:files = filter(l:files, 'v:val != "'.expand('%:p').'"')
@@ -367,16 +367,16 @@ function! MRU()
   let l:remaining_files = []
   let l:cwd_count = 0
   for file in l:unopened_files
-      if l:cwd_count < 10
-          if stridx(file, getcwd()) > -1
-              let l:cwd_count += 1
-              call add(l:last_ten_in_cwd, file)
-          else
-              call add(l:remaining_files, file)
-          endif
+    if l:cwd_count < 10
+      if stridx(file, getcwd()) > -1
+        let l:cwd_count += 1
+        call add(l:last_ten_in_cwd, file)
       else
-          call add(l:remaining_files, file)
+        call add(l:remaining_files, file)
       endif
+    else
+      call add(l:remaining_files, file)
+    endif
   endfor
 
   let l:file_list = map(l:remaining_files, {key, val -> fnamemodify(val, ':~:.')})
@@ -391,7 +391,7 @@ function! MRU()
     let l:file_list = l:open_buffers + [""] + l:file_list
   endif
 
-  call s:SetupFileDumpBuffer(l:file_list, ".")
+  call s:setupFileDumpBuffer(l:file_list, ".")
 endfunction
 
 " }}}
@@ -403,12 +403,12 @@ nnoremap <C-F>! :FileDump!
 nnoremap <C-F><C-O> :execute 'FileDump' expand('%:h')<cr>
 xmap <C-F> *N<esc>:<C-U>FileDump /
 
-nnoremap <C-F><C-G> :call <SID>DirtyFiles()<cr>
-nnoremap <C-F><C-R> :call MRU()<cr>
+nnoremap <C-F><C-G> :call <SID>dirtyFiles()<cr>
+nnoremap <C-F><C-R> :call <SID>MRU()<cr>
 
 nnoremap <C-G> :grep! 
-nnoremap <C-G><C-G> :call <SID>SetSearchWord(expand("<cword>"))\|set hlsearch<CR>:call feedkeys(":grep! -F '" . expand("<cword>") . "'")<cr>
-xnoremap <C-G> :call setreg('/', substitute(<SID>GetVisualSelection(), "'", "'\\\\''", 'g'))\|set hlsearch<CR>:<c-u>grep! -F '/'
+nnoremap <C-G><C-G> :call <SID>setSearchWord(expand("<cword>"))\|set hlsearch<CR>:call feedkeys(":grep! -F '" . expand("<cword>") . "'")<cr>
+xnoremap <C-G> :call setreg('/', substitute(<SID>getVisualSelection(), "'", "'\\\\''", 'g'))\|set hlsearch<CR>:<c-u>grep! -F '/'
 
 nnoremap Q @q
 nnoremap Y y$
@@ -451,7 +451,7 @@ inoremap <c-x><up> <c-x><c-k>
 inoremap <expr> <right> pumvisible() ? "\<C-L>" : "\<right>"
 
 " open multiple files in visualmode
-xnoremap gf :call <SID>OpenAllVisuallySelectedFiles()<cr>:echo<cr>
+xnoremap gf :call <SID>openAllVisuallySelectedFiles()<cr>:echo<cr>
 
 " faster indenting
 xnoremap > >gv
@@ -461,13 +461,13 @@ xnoremap < <gv
 xnoremap u y
 
 " Rotate Case
-xnoremap ~ "zc<C-R>=<SID>RotateCase(@z)<CR><Esc>v`[
+xnoremap ~ "zc<C-R>=<SID>rotateCase(@z)<CR><Esc>v`[
 
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 cnoremap <C-X> <C-R>=getline(".")<cr>
-cnoremap <expr> <S-Tab> <SID>BetterIncSearch('stab')
-cnoremap <expr> <Tab> <SID>BetterIncSearch('tab')
+cnoremap <expr> <S-Tab> <SID>betterIncSearch('stab')
+cnoremap <expr> <Tab> <SID>betterIncSearch('tab')
 
 " substitute shortcuts
 nnoremap s :%s/
@@ -509,16 +509,17 @@ nnoremap <expr> dy &diff ? '<c-w><c-w>yy<c-w><c-w>Vp' : ':echoerr "E99: Current 
 " nnoremap dy <c-w>hyy<c-w>lVp' : 'dy'
 
 " Change CWD from project root to file location
-nnoremap <silent> <c-_> :call <SID>ChangeCWD()<CR>
-inoremap <silent> <c-_> <c-o>:call <SID>ChangeCWD()<CR>
+nnoremap <silent> <c-_> :call <SID>switchCWD()<CR>
+inoremap <silent> <c-_> <c-o>:call <SID>switchCWD()<CR>
 
 " Spelling Fixes
 inoremap <c-s> <esc>:set spell<cr>[sea<c-x><c-s>
 nnoremap <c-s> :set spell!<cr>:set spell?<cr>
 
 " Star Remaps
-xnoremap <silent> * :call <SID>SetSearch(<SID>GetVisualSelection())\|set hlsearch<CR><esc>
-nnoremap <silent> * :call <SID>SetSearchWord(expand("<cword>"))\|set hlsearch<CR>
+xnoremap <silent> * :call <SID>setSearch(<SID>getVisualSelection())<CR><esc>
+nnoremap <silent> * :call <SID>setSearchWord(expand("<cword>"))\|set hlsearch<CR>
+nnoremap <silent> g* :call <SID>setSearch(expand("<cword>"))\|set hlsearch<CR>
 
 " }}}
 " Commands {{{
@@ -527,11 +528,11 @@ nnoremap <silent> * :call <SID>SetSearchWord(expand("<cword>"))\|set hlsearch<CR
 command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " expandtab"
 command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
 
-command! -nargs=? -bang -complete=file FileDump call s:FileDump("<args>", <bang>0)
+command! -nargs=? -bang -complete=file FileDump call s:fileDump("<args>", <bang>0)
 
 command! -nargs=0 Vimrc e ~/dev/dotfiles/.vimrc
 
-command! -nargs=0 VMD call s:VMD()
+command! -nargs=0 VMD call s:vmd()
 
 command! -nargs=0 WipeReg for r in split('abcdefghijklmnopqrstuvwxyz"', '\zs') | silent! exec 'let @'. r . ' = ""' | endfor
 
@@ -541,26 +542,43 @@ command! -nargs=0 OnlyBuffer %bd|e#|bd#
 let @f='ru/<[^ >]\{-} \|" /ezz'
 " }}}
 " Search Functions {{{
-function! s:SearchEscape(reg)
-    return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
+function! s:regexEscape(str)
+  return escape(a:str, '^$.*~[]')
 endfunction
 
-function! s:SetSearch(reg)
-    call setreg('/', "\\V" . s:SearchEscape(a:reg))
+function! s:searchEscape(str)
+  let l:res = s:regexEscape(a:str)
+  let l:res = substitute(l:res, '\', '\\', 'g')
+  let l:res = substitute(l:res, '/', '\\/', 'g')
+  return l:res
 endfunction
 
-function! s:SetSearchWord(reg)
-    call setreg('/', "\\V\\<" . s:SearchEscape(a:reg) . "\\>")
+function! s:setSearch(str, ...)
+  let l:with_word_boundries = a:0 > 0 ? a:1 : 0
+  if (l:with_word_boundries)
+    let l:search_command = "/\\<" . s:searchEscape(a:str) . "\\>"
+  else
+    let l:search_command = "/" . s:searchEscape(a:str)
+  endif
+  let g:presearch_winview = winsaveview()
+  norm mz
+  call feedkeys(":keepjumps " . l:search_command . "\<CR>")
+  call feedkeys(":keepjumps norm `z\<CR>")
+  call feedkeys(":call winrestview(g:presearch_winview)\<CR>:echo '" .  l:search_command . "'\<CR>")
+endfunction
+
+function! s:setSearchWord(str)
+  return s:setSearch(a:str, 1)
 endfunction
 " }}}
-function! s:OpenAllVisuallySelectedFiles() " {{{
+function! s:openAllVisuallySelectedFiles() " {{{
   if line(".") == line("'>")
     execute "edit " . getline(".")
   else
     execute "edit " . getline(".") | b#
   endif
 endfunction " }}}
-function! s:FileDump(regex, ignore_git) " {{{
+function! s:fileDump(regex, ignore_git) " {{{
   let l:root = systemlist("git rev-parse --show-toplevel")[0]
   if (v:shell_error || a:ignore_git)
     let l:files = system("find " . getcwd() . " -type f")
@@ -586,14 +604,14 @@ function! s:FileDump(regex, ignore_git) " {{{
     let g:file_buffer_no = bufnr('%')
   endif
 
-  call s:SetupFileDumpBuffer(l:files, l:root, g:file_buffer_no, a:regex)
+  call s:setupFileDumpBuffer(l:files, l:root, g:file_buffer_no, a:regex)
 endfunction " }}}
-function! s:SetupFileDumpBuffer(files, root, ...) " {{{
+function! s:setupFileDumpBuffer(files, root, ...) " {{{
   " if exists("a:1")
   "   exec 'b' . a:1
   "   normal ggdG
   " else
-    enew
+  enew
   " endif
   execute "lcd " . a:root
   setlocal statusline=%f\ \|\ %l\ of\ %L\ col\ %c
@@ -606,35 +624,35 @@ function! s:SetupFileDumpBuffer(files, root, ...) " {{{
   endif
   nnoremap <buffer> <c-q> :<space><c-r><c-f><home>!
 endfunction " }}}
-function! s:RotateCase(str) " {{{
-    let l:snake = '^[a-z0-9]\+\(-\+[a-z0-9]\+\)\+$'
-    let l:camel = '\C^[a-z][a-z0-9]*\([A-Z][a-z0-9]*\)*$'
-    let l:under = '\C^[a-z0-9]\+\(_\+[a-z0-9]\+\)*$'
-    let l:constant = '\C^[A-Z][A-Z0-9]*\(_[A-Z0-9]\+\)*$'
-    let l:pascal = '\C^[A-Z][a-z0-9]*\([A-Z0-9][a-z0-9]*\)*$'
+function! s:rotateCase(str) " {{{
+  let l:snake = '^[a-z0-9]\+\(-\+[a-z0-9]\+\)\+$'
+  let l:camel = '\C^[a-z][a-z0-9]*\([A-Z][a-z0-9]*\)*$'
+  let l:kebab = '\C^[a-z0-9]\+\(_\+[a-z0-9]\+\)*$'
+  let l:constant = '\C^[A-Z][A-Z0-9]*\(_[A-Z0-9]\+\)*$'
+  let l:pascal = '\C^[A-Z][a-z0-9]*\([A-Z0-9][a-z0-9]*\)*$'
 
-    if (a:str =~ l:snake)
-        return substitute(a:str, '-\+\([a-z]\)', '\U\1', 'g')
-    elseif (a:str =~ l:camel)
-        return substitute(a:str, '^.*$', '\u\0', 'g')
-    elseif (a:str =~ l:constant)
-        return tolower(a:str)
-    elseif (a:str =~ l:pascal)
-        return toupper(substitute(a:str, '\C^\@<![A-Z]', '_\0', 'g'))
-    else
-        return substitute(a:str, '_\+', '-', 'g')
-    endif
+  if (a:str =~ l:snake)
+    return substitute(a:str, '-\+\([a-z]\)', '\U\1', 'g')
+  elseif (a:str =~ l:camel)
+    return substitute(a:str, '^.*$', '\u\0', 'g')
+  elseif (a:str =~ l:constant)
+    return tolower(a:str)
+  elseif (a:str =~ l:pascal)
+    return toupper(substitute(a:str, '\C^\@<![A-Z]', '_\0', 'g'))
+  else
+    return substitute(a:str, '_\+', '-', 'g')
+  endif
 endfunction " }}}
-function! s:GetVisualSelection() " {{{
+function! s:getVisualSelection() " {{{
   try
-    let l:a_save = @a
-    silent normal! gv"aygv
-    return @a
+    let l:z_save = @z
+    silent normal! gv"zygv
+    return @z
   finally
-    let @a = l:a_save
+    let @z = l:z_save
   endtry
 endfunction " }}}
-function! s:BetterIncSearch(key) abort " {{{
+function! s:betterIncSearch(key) abort " {{{
   let l:cmdType = getcmdtype()
 
   if l:cmdType ==# '/' || l:cmdType ==# '?'
@@ -666,30 +684,30 @@ function! s:BetterIncSearch(key) abort " {{{
   endif
 endfunction
 " }}}
-function! s:VMD() " {{{
-  let b:VMDpid=systemlist("vmd " . shellescape(bufname('')) . "&echo $!")[0]
+function! s:vmd() " {{{
+  let b:vmd_pid=systemlist("vmd " . shellescape(bufname('')) . "&echo $!")[0]
   redraw!
   echo "vmd " . bufname('') . "&echo $!"
   augroup vmd
     autocmd!
     au TextChanged,TextChangedI <buffer> silent write
-    au BufDelete,VimLeave <buffer> call system("kill " . b:VMDpid)
+    au BufDelete,VimLeave <buffer> call system("kill " . b:vmd_pid)
   augroup END
 endfunction
 " }}}
-function! s:DirtyFiles() " {{{
+function! s:dirtyFiles() " {{{
   let l:files = system("git status -s | sed 's/^...//'")
-  call s:SetupFileDumpBuffer(l:files, '.')
+  call s:setupFileDumpBuffer(l:files, '.')
 endfunction " }}}
-function! s:ChangeCWD() " {{{
+function! s:switchCWD() " {{{
     if !exists("g:change_cwd_root_directory")
         let g:change_cwd_root_directory = getcwd()
     endif
 
-    let l:currentFileDir=expand('%:p:h')
+    let l:current_file_dir=expand('%:p:h')
 
-    if l:currentFileDir != getcwd()
-        exec("cd " . l:currentFileDir)
+    if l:current_file_dir != getcwd()
+        exec("cd " . l:current_file_dir)
     else
         exec("cd " . g:change_cwd_root_directory)
     endif
@@ -698,7 +716,7 @@ function! GitLogOmni(findstart, base) " {{{
   if a:findstart
     return 0
   else
-    return systemlist('git log --pretty=%s --no-merges -10')
+    return systemlist("git branch | sed -e 's/..//' && git log --pretty=%s --no-merges -10")
   endif
 endfunction
 " }}}

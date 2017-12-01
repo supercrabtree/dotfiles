@@ -269,6 +269,8 @@ augroup vimrc
   au BufRead,BufNewFile *.filedump setfiletype filedump
   au FileType filedump nnoremap <buffer> <C-C> :bd<cr>
   au FileType filedump nnoremap <buffer> <CR> gf
+  au FileType filedump nnoremap <buffer> <C-S> :g//m0<cr>
+  au FileType filedump xnoremap <buffer> <C-S> :g//m0<cr>
   au FileType filedump xmap <CR> gf
 
   au BufWritePost $HOME/dev/dotfiles/.vimrc source $HOME/dev/dotfiles/.vimrc|setlocal foldmethod=marker
@@ -461,6 +463,7 @@ xnoremap < <gv
 xnoremap u y
 
 " Rotate Case
+nnoremap ~ "zciw<C-R>=<SID>rotateCase(@z)<CR><Esc>
 xnoremap ~ "zc<C-R>=<SID>rotateCase(@z)<CR><Esc>v`[
 
 cnoremap <C-A> <Home>
@@ -480,6 +483,7 @@ nmap <silent> <C-N> :bn<CR>
 nmap <silent> <C-P> :bp<CR>
 nmap <silent> <C-C> :bp\|bd#<cr>
 nnoremap <C-B> :ls<cr>:b
+nnoremap <silent> <C-@> :call setqflist(map(filter(range(1, bufnr('$')),'buflisted(v:val)'),'{"bufnr": v:val}'))\|copen<cr>
 cmap <expr> <silent> <C-N> getcmdline() == 'b' ? 'n\|redraw\|ls<CR>:b' : ':bn<CR>'
 cmap <expr> <silent> <C-P> getcmdline() == 'b' ? 'p\|redraw\|ls<CR>:b' : ':bp<CR>'
 

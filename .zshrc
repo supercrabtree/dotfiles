@@ -137,7 +137,7 @@ alias g=magic-g
 alias gg="git remote -v | column -t"
 alias ga="git add"
 alias gaa="git add -A"
-alias gdm="git diff-mega"
+alias gdm="g-diff-mega"
 alias gc="git commit"
 alias gl="git log --no-merges -z --pretty=stacked -20"
 alias glm="git log -z --pretty=stacked -20"
@@ -160,6 +160,7 @@ alias -s git='git clone'
 alias -g UP='@{u}'
 alias -g IN='..@{u}'
 alias -g OUT='@{u}..'
+alias -g INOUT='@{u}...'
 
 aliasestoexpand=(
   "l"
@@ -284,6 +285,10 @@ standard-diff() {
   else
     git diff "$@"
   fi
+}
+
+g-diff-mega() {
+  vim -p $(git diff --name-only $1) -c "tabdo :Gdiff $1" -c "tabdo :norm gg0" -c "tabdo :wincmd h" -c "tabdo :norm gg0" -c "tabfirst"
 }
 
 # completion for git functions

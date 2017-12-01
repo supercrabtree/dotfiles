@@ -1,7 +1,7 @@
 {
 	"color_scheme": "Packages/User/Ol' Grumpy.tmTheme",
 	"font_face": "SF Mono Regular",
-	"font_size": 18,
+	"font_size": 16,
 	"ignored_packages":
 	[
 		"ActualVim",

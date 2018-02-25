@@ -19,37 +19,46 @@ syntax enable
 " yellow = #ffaf00
 " orange = #ea7a19
 
-"  Name             Foreground    Background    Attributes
+"  Name              Foreground    Background    Attributes
 " ------------------------------------------------------------------------------
-hi xNone            guifg=NONE    guibg=NONE    cterm=NONE
-hi xGrey0Bg         guifg=NONE    guibg=#fafafa cterm=NONE
-hi xGrey2Bg         guifg=NONE    guibg=#e8e8e8 cterm=NONE
-hi xGrey3Bg         guifg=NONE    guibg=#dbdbdb cterm=NONE
-hi xGrey4           guifg=#b3b3b3 guibg=NONE    cterm=NONE
-hi xGrey5Italic     guifg=#999999 guibg=NONE    cterm=italic
-hi xGrey4FgGrey2Bg  guifg=#b3b3b3 guibg=#e8e8e8 cterm=NONE
-hi xGrey6FgGrey0Bg  guifg=#808080 guibg=#fafafa cterm=NONE
-hi xGrey7FgGrey2Bg  guifg=#333333 guibg=#e8e8e8 cterm=NONE
-hi xBlue            guifg=#1a5b94 guibg=NONE    cterm=NONE
-hi xGreen           guifg=#006215 guibg=NONE    cterm=NONE
-hi xRed             guifg=#941a1e guibg=NONE    cterm=NONE
-hi xRedBg           guifg=NONE    guibg=#941a1e cterm=NONE
-hi xBlackFgYellowBg guifg=#000000 guibg=#ffaf00 cterm=NONE
-hi xOrangeFgGrey1Bg guifg=#ea7a19 guibg=#f3f3f3 cterm=NONE
-hi xWhiteFgGreenBg  guifg=#ffffff guibg=#006215 cterm=NONE
-hi xWhiteFgRedBg    guifg=#ffffff guibg=#941a1e cterm=NONE
-hi xWhiteFgOrangeBg guifg=#ffffff guibg=#ea7a19 cterm=NONE
-hi xWhiteFgGrey7Bg  guifg=#ffffff guibg=#333333 cterm=NONE
+hi xNone             guifg=NONE    guibg=NONE    cterm=NONE
+hi xGrey0Bg          guifg=NONE    guibg=#fafafa cterm=NONE
+hi xGrey1Bg          guifg=NONE    guibg=#f3f3f3 cterm=NONE
+hi xGrey2Bg          guifg=NONE    guibg=#e8e8e8 cterm=NONE
+hi xGrey3Bg          guifg=NONE    guibg=#dbdbdb cterm=NONE
+hi xGrey4            guifg=#b3b3b3 guibg=NONE    cterm=NONE
+hi xGrey5Italic      guifg=#999999 guibg=NONE    cterm=italic
+hi xGrey5            guifg=#999999 guibg=NONE    cterm=NONE
+hi xGrey6            guifg=#808080 guibg=NONE    cterm=NONE
+hi xGrey4FgGrey2Bg   guifg=#b3b3b3 guibg=#e8e8e8 cterm=NONE
+hi xGrey6FgGrey0Bg   guifg=#808080 guibg=#fafafa cterm=NONE
+hi xGrey7FgGrey2Bg   guifg=#333333 guibg=#e8e8e8 cterm=NONE
+hi xBlue             guifg=#1a5b94 guibg=NONE    cterm=NONE
+hi xGreen            guifg=#006215 guibg=NONE    cterm=NONE
+hi xRed              guifg=#941a1e guibg=NONE    cterm=NONE
+hi xRedBold          guifg=#941a1e guibg=NONE    cterm=bold
+hi xOrangeBold       guifg=#ea7a19 guibg=NONE    cterm=bold
+hi xRedBg            guifg=NONE    guibg=#941a1e cterm=NONE
+hi xBlackFgYellowBg  guifg=#000000 guibg=#ffaf00 cterm=NONE
+hi xOrangeFgGrey1Bg  guifg=#ea7a19 guibg=#f3f3f3 cterm=NONE
+hi xWhiteFgGreenBg   guifg=#ffffff guibg=#006215 cterm=NONE
+hi xWhiteFgRedBg     guifg=#ffffff guibg=#941a1e cterm=NONE
+hi xWhiteFgOrangeBg  guifg=#ffffff guibg=#ea7a19 cterm=NONE
+hi xWhiteFgGrey7Bg   guifg=#ffffff guibg=#333333 cterm=NONE
 
 " Match above colors " {{{
 call matchadd('xNone', 'xNone')
 call matchadd('xGrey4', 'xGrey4')
 call matchadd('xGrey5Italic', 'xGrey5Italic')
+call matchadd('xGrey5', 'xGrey5')
+call matchadd('xGrey6', 'xGrey6')
 call matchadd('xGrey4FgGrey2Bg', 'xGrey4FgGrey2Bg')
 call matchadd('xGrey6FgGrey0Bg', 'xGrey6FgGrey0Bg')
 call matchadd('xGrey7FgGrey2Bg', 'xGrey7FgGrey2Bg')
 call matchadd('xBlue', 'xBlue')
 call matchadd('xRed', 'xRed')
+call matchadd('xRedBold', 'xRedBold')
+call matchadd('xOrangeBold', 'xOrangeBold')
 call matchadd('xRedBg', 'xRedBg')
 call matchadd('xGreen', 'xGreen')
 call matchadd('xBlackFgYellowBg', 'xBlackFgYellowBg')
@@ -59,6 +68,7 @@ call matchadd('xWhiteFgRedBg', 'xWhiteFgRedBg')
 call matchadd('xWhiteFgOrangeBg', 'xWhiteFgOrangeBg')
 call matchadd('xWhiteFgGrey7Bg', 'xWhiteFgGrey7Bg')
 call matchadd('xGrey0Bg', 'xGrey0Bg')
+call matchadd('xGrey1Bg', 'xGrey1Bg')
 call matchadd('xGrey2Bg', 'xGrey2Bg')
 call matchadd('xGrey3Bg', 'xGrey3Bg')
 " }}}
@@ -104,6 +114,7 @@ hi! link BrightGoodMsg   xWhiteFgGreenBg
 
 " UI elements
 hi! link ColorColumn     xGrey0Bg
+hi! link CursorLine      xGrey1Bg
 hi! link ExtraWhitespace xGrey2Bg
 hi! link Ignore          xGrey2Bg
 hi! link QuickFixLine    xGrey2Bg
@@ -111,6 +122,7 @@ hi! link VertSplit       xGrey2Bg
 hi! link StatusLine      xGrey2Bg
 hi! link StatusLineNC    xGrey4FgGrey2Bg
 hi! link LineNr          xGrey4
+hi! link CursorLineNr    xNone
 hi! link Folded          xGrey6FgGrey0Bg
 hi! link Visual          xGrey3Bg
 
@@ -142,6 +154,8 @@ hi! link GitGutterChangeDelete  xGrey4
 " ALE
 hi! link ALEErrorSign   xWhiteFgRedBg
 hi! link ALEWarningSign xWhiteFgOrangeBg
+hi! link ALEError       xRedBold
+hi! link ALEWarning     xOrangeBold
 
 " Markdown
 hi! link markdownH1               xWhiteFgGrey7Bg
@@ -163,6 +177,11 @@ augroup whitespace
   autocmd InsertLeave * match ExtraWhitespace /\s\+$/
   autocmd BufWinLeave * call clearmatches()
 augroup END
+
+command! -nargs=0 ShowHighlightGroup echo 
+  \ "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+  \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+  \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
 " }}}
 " Settings {{{
 set backspace=indent,eol,start
@@ -206,7 +225,9 @@ set signcolumn=yes
 set smartcase
 set smarttab
 set softtabstop=-1
-set statusline=%m%r%y\ %f:%l%<\ of\ %L\ col\ %c%=%{noscrollbar#statusline(20,'■','□')}\ 
+set splitright
+set statusline=%m\ %f:%l%<\ of\ %L\ col\ %c\ %r%y%=%{noscrollbar#statusline(20,'■','□')}\ 
+set synmaxcol=250
 set tabstop=4
 set termguicolors
 set ttimeoutlen=0
@@ -238,19 +259,22 @@ let g:is_posix=1
 " Auto Commands {{{
 augroup vimrc
   autocmd!
-  au Filetype qf setlocal statusline=%t%{exists('w:quickfix_title')\ ?\ '\ '.w:quickfix_title\ :\ ''}\ %l\ of\ %L\ col\ %c
-  au FileType qf setlocal nobuflisted
   au Filetype qf nnoremap <buffer><silent> <c-c> :<c-u>execute "try\n:ccl\ncatch\n:bd\nendtry"<cr>
-  au FileType qf execute max([min([line("$"), 20]), 3]) . "wincmd _"
-  au FileType qf wincmd J
-  au FileType qf nmap <buffer> <c-n> j<space>
-  au FileType qf nmap <buffer> <c-p> k<space>
+  " au FileType qf wincmd J
+  " au FileType qf execute max([min([line("$"), 20]), 3]) . "wincmd _"
+  au FileType qf nnoremap <buffer> D <cr>:only<cr>:Gdiff<cr>gg0:bo copen<cr>
+  au FileType qf nnoremap <buffer> o <cr>:copen<cr>
+  au FileType qf nnoremap <buffer> O <cr>:vsp<cr><c-w><c-p>:b#<cr><c-w><c-p>:copen<cr>
+  au FileType qf nnoremap <buffer> <cr> <cr>:ccl<cr>
   au FileType qf nnoremap <buffer> s :cfdo %s/<C-R>///c<left><left>
-  au FileType qf nnoremap <buffer> S yiw:cfdo %s/<C-R>"//c<left><left>
-  au FileType qf xnoremap <buffer> s y:cfdo %s/\V<C-R>=escape(@", '/')<CR>//c<left><left>
+  au FileType qf nnoremap <buffer> S *gvyiw:cfdo %s/<C-R>"//c<left><left>
+  au FileType qf xnoremap <buffer> s *gvy:cfdo %s/\V<C-R>=escape(@", '/')<CR>//c<left><left>
   au FileType qf xnoremap <buffer> S :echo 'need to implement'
+  au FileType qf setlocal cursorline
   au FileType qf setlocal conceallevel=2
   au FileType qf setlocal concealcursor=nc
+  au Filetype qf setlocal statusline=%t%{exists('w:quickfix_title')\ ?\ '\ '.w:quickfix_title\ :\ ''}\ %l\ of\ %L\ col\ %c
+  au FileType qf setlocal nobuflisted
   au FileType qf syntax match glogCruft /^fugitive:\/\/\/\S*|| / conceal
 
   au FileType php setlocal complete=.,w,b,u
@@ -258,26 +282,31 @@ augroup vimrc
   au FileType gitcommit setlocal colorcolumn=51,73
   au FileType gitcommit setlocal spell
   au FileType gitcommit setlocal nonumber
-  au FileType gitcommit setlocal omnifunc=GitLogOmni
+  au FileType gitcommit setlocal omnifunc=GitCommitOmni
 
   au FileType markdown setlocal spell
   au FileType markdown setlocal textwidth=80
   au FileType markdown setlocal colorcolumn=81
 
-  au FileType * setlocal formatoptions-=cor
-
   au BufRead,BufNewFile *.filedump setfiletype filedump
-  au FileType filedump nnoremap <buffer> <C-C> :bd<cr>
+  au FileType filedump nnoremap <buffer> <C-C> :bp\|bd#<cr>
+  au FileType filedump nnoremap <buffer> g<C-C> :wincmd c<cr>
   au FileType filedump nnoremap <buffer> <CR> gf
   au FileType filedump nnoremap <buffer> <C-S> :g//m0<cr>
-  au FileType filedump xnoremap <buffer> <C-S> :g//m0<cr>
-  au FileType filedump xmap <CR> gf
+  au FileType filedump xnoremap <buffer> <C-S> y:g/\V<C-R>=escape(@", '/')/m0<cr>
+  au FileType filedump xnoremap <buffer> <CR> :call <SID>openAllVisuallySelectedFiles()<cr>:echo<cr>
+  au FileType filedump setlocal cursorline
+  au FileType filedump syntax match filedumpDir /.*\//
+  au FileType filedump hi link filedumpDir xGrey5
 
   au BufWritePost $HOME/dev/dotfiles/.vimrc source $HOME/dev/dotfiles/.vimrc|setlocal foldmethod=marker
   au BufReadPost $HOME/dev/dotfiles/.vimrc,$HOME/dev/dotfiles/.zshrc setlocal foldmethod=marker|setlocal foldlevel=0
   au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
+  au BufWritePre * call s:autoMkDir()
 
-  au QuickFixCmdPost *grep* cwindow
+  au FileType html,jsx,javascript.jsx inoremap <buffer> <tab> <space><bs><esc>:call SuperTab()<cr>
+
+  au QuickFixCmdPost *grep* bo cwindow
 augroup END
 " }}}
 " Plugins {{{
@@ -295,6 +324,7 @@ function! s:SetupVAM() " {{{
   \  'github:Quramy/tsuquyomi',
   \  'github:heavenshell/vim-jsdoc',
   \  'github:pangloss/vim-javascript',
+  \  'github:mxw/vim-jsx',
   \
   \  'github:airblade/vim-gitgutter',
   \  'github:gcavallanti/vim-noscrollbar',
@@ -319,6 +349,9 @@ call s:SetupVAM()
 let g:ale_linters = {
 \   'html': [],
 \}
+let g:ale_javascript_eslint_options = '-c ./node_modules/ng-build/tasks/eslint/.eslintrc'
+let g:ale_javascript_eslint_use_global=1
+let g:ale_php_phpcs_standard=$BC_APP_DIR . "tools/standards/Bigcommerce"
 let g:ale_sign_column_always = 1
 " some more ⇨ ⊗ ◗ ⊙ ≫ 𝒆 𝒘 𝓮 𝔀  𝕖 𝕨 𝔼 𝕎
 let g:ale_sign_error = '»'
@@ -408,7 +441,7 @@ xmap <C-F> *N<esc>:<C-U>FileDump /
 nnoremap <C-F><C-G> :call <SID>dirtyFiles()<cr>
 nnoremap <C-F><C-R> :call <SID>MRU()<cr>
 
-nnoremap <C-G> :grep! 
+nnoremap <C-G> :grep! -F ''<left>
 nnoremap <C-G><C-G> :call <SID>setSearchWord(expand("<cword>"))\|set hlsearch<CR>:call feedkeys(":grep! -F '" . expand("<cword>") . "'")<cr>
 xnoremap <C-G> :call setreg('/', substitute(<SID>getVisualSelection(), "'", "'\\\\''", 'g'))\|set hlsearch<CR>:<c-u>grep! -F '/'
 
@@ -479,32 +512,34 @@ xnoremap s y:%s/\V<C-R>=escape(@", '/')<CR>//c<left><left>
 xnoremap S :s///c<left><left>
 
 " Buffer Movement
-nmap <silent> <C-N> :bn<CR>
-nmap <silent> <C-P> :bp<CR>
-nmap <silent> <C-C> :bp\|bd#<cr>
-nnoremap <C-B> :ls<cr>:b
-nnoremap <silent> <C-@> :call setqflist(map(filter(range(1, bufnr('$')),'buflisted(v:val)'),'{"bufnr": v:val}'))\|copen<cr>
-cmap <expr> <silent> <C-N> getcmdline() == 'b' ? 'n\|redraw\|ls<CR>:b' : ':bn<CR>'
-cmap <expr> <silent> <C-P> getcmdline() == 'b' ? 'p\|redraw\|ls<CR>:b' : ':bp<CR>'
+nnoremap <silent> <C-N> :bn<CR>
+nnoremap <silent> <C-P> :bp<CR>
+nnoremap <silent> <C-C> :bp\|bd#<cr>
+nnoremap <buffer> g<C-C> :wincmd c<cr>
+nnoremap <silent> <C-@> :call <SID>qfOpenFiles()<cr>
 
 " Previous Buffer
 nnoremap # <c-^>
 
 " Quickfix Movement
-nmap [q :cp<cr>zz
-nmap ]q :cn<cr>zz
+nnoremap [q :cp<cr>zz
+nnoremap ]q :cn<cr>zz
+
+" GDiff next quickfix
+nmap [d :copen<cr>kD
+nmap ]d :copen<cr>jD
 
 " Tab Movement
 nnoremap ]t :tabnext<cr>
 nnoremap [t :tabprevious<cr>
 
 " Ale Movement
-nmap <silent> [a <Plug>(ale_previous_wrap)
-nmap <silent> ]a <Plug>(ale_next_wrap)
+nnoremap <silent> [a <Plug>(ale_previous_wrap)
+nnoremap <silent> ]a <Plug>(ale_next_wrap)
 
 " Diff Movement
-nmap J ]c
-nmap K [c
+nnoremap J ]c
+nnoremap K [c
 
 " Hunk Control
 nnoremap <expr> H &diff ? 'do' : ':GitGutterStageHunk<cr>'
@@ -541,9 +576,18 @@ command! -nargs=0 VMD call s:vmd()
 command! -nargs=0 WipeReg for r in split('abcdefghijklmnopqrstuvwxyz"', '\zs') | silent! exec 'let @'. r . ' = ""' | endfor
 
 command! -nargs=0 OnlyBuffer %bd|e#|bd#
+
+" Filter quickfix window
+command! -nargs=* Reject call FilterQuickFix(<q-args>, 1, 'both')
+command! -nargs=* Refine call FilterQuickFix(<q-args>, 0, 'both')
+command! -nargs=* RejectName call FilterQuickFix(<q-args>, 1, 'name')
+command! -nargs=* RefineName call FilterQuickFix(<q-args>, 0, 'name')
+command! -nargs=* RejectContent call FilterQuickFix(<q-args>, 1, 'content')
+command! -nargs=* RefineContent call FilterQuickFix(<q-args>, 0, 'content')
 " }}}
 " Macros {{{
 let @f='ru/<[^ >]\{-} \|" /ezz'
+let @r='gg0f(lciwrefunds'
 " }}}
 " Search Functions {{{
 function! s:regexEscape(str)
@@ -716,11 +760,53 @@ function! s:switchCWD() " {{{
         exec("cd " . g:change_cwd_root_directory)
     endif
 endfunction " }}}
-function! GitLogOmni(findstart, base) " {{{
+function! s:autoMkDir() " {{{
+  let l:dir = expand('%:p:h')
+  if !isdirectory(dir)
+    call mkdir(dir, 'p')
+    echo 'Created new directory:' .dir
+  endif
+endfunction
+" }}}
+function! s:qfOpenFiles() " {{{
+    call setqflist(map(filter(range(1, bufnr('$')),'buflisted(v:val)'),'{"bufnr": v:val}'))
+    bo copen
+    nnoremap <silent> <buffer> dd :let g:curqflineno=line(".")<cr><cr>:ccl<cr>:exec "try\n:bp\|bd#\ncatch\n:bd\nendtry"<cr>:call <SID>qfOpenFiles()<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>
+    nnoremap <silent> <buffer> D :let g:curqflineno=line(".")<cr><cr>:only<cr>:Gdiff<cr>:call <SID>qfOpenFiles()<cr>:99wincmd j<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>:wincmd p<cr>gg
+    let w:quickfix_title='Open Files'
+endfunction " }}}
+function! SuperTab() " {{{
+    let l:charBeforeCursor = matchstr(getline('.'), '.', col('.')-1)
+    let l:wordBeforeCursor = expand("<cword>")
+    if l:charBeforeCursor == '>'
+        exe "norm! a\<cr>\<esc>\<up>o"
+        call feedkeys('cc', 'n')
+    elseif match(l:wordBeforeCursor, '^[\s]*$') != 0
+        exe "norm! ciw<\<c-r>\"></\<c-r>\">\<esc>F>"
+        call feedkeys('a', 'n')
+    else
+        exe "norm! a\<tab>"
+        call feedkeys('a', 'n')
+    endif
+endfunction " }}}
+function! GitCommitOmni(findstart, base) " {{{
   if a:findstart
-    return 0
+    return col('$')
   else
-    return systemlist("git branch | sed -e 's/..//' && git log --pretty=%s --no-merges -10")
+    return systemlist("echo \"$(git log --no-merges --pretty=%s -1 | sed 's/ .*//') $(git rev-parse --abbrev-ref HEAD) \" && git log --pretty=%s --no-merges -5 && git branch | sed -e 's/..//' ")
+  endif
+endfunction
+" }}}
+function! FilterQuickFix(pattern, reject, strategy) " {{{
+  let operator = a:reject == 0 ? '=~' : '!~'
+  if a:strategy == 'both'
+    call setqflist(filter(getqflist(), "(bufname(v:val['bufnr']) . v:val['text']" . operator . " a:pattern)"))
+  endif
+  if a:strategy == 'name'
+    call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . operator .  " a:pattern"))
+  endif
+  if a:strategy == 'content'
+    call setqflist(filter(getqflist(), "v:val['text'] " . operator . " a:patttern"))
   endif
 endfunction
 " }}}
@@ -735,4 +821,5 @@ function! FoldText() " {{{
     let line = substitute(line, '^ ', '', 'g')
     return '» ' . line . ' - ' . line_count . line_count_text
 endfunction
+" }}}
 " }}}

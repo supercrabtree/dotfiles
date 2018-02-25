@@ -1,61 +1,61 @@
 [advice]
-  statusHints = false
+	statusHints = false
 [alias]
-  peek = !git --no-pager diff @{1}.. && echo '\nCommits' && git --no-pager log @{1}.. --decorate --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%s %Creset%an%C(auto)'
-  check = !git commit -m tmp && git add -A && git stash save check-stash && git reset HEAD~1 && git add -u
-  tmp = commit -m tmp
-  stats = shortlog -sn
-[branch "master"]
-  pushRemote = origin
+	add-untracked = !git ls-files -o --exclude-standard -z $(git rev-parse --show-toplevel) | xargs -0 git add
+	check = !git commit -m tmp && git add -A && git stash save check-stash && git reset @^ && git add -A
+	tmp = commit -m tmp
+	wip = commit -m WIP
 [commit]
-  verbose = true
-  template = ~/.config/git/templates/commit
+	verbose = true
+	template = ~/.config/git/templates/commit
 [core]
-  excludesfile = ~/.gitignore-global
-  ; hooksPath = ~/.config/git/hooks
+	excludesfile = ~/.gitignore-global
+	; hooksPath = ~/.config/git/hooks
 [diff]
-  mnemonicprefix = true
-  tool = vimdiff
-  algorithm = patience
+	mnemonicprefix = true
+	tool = vimdiff
+	algorithm = patience
 [difftool]
-  prompt = false
+	prompt = false
 [filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	required = true
 [filter "hawser"]
-  clean = git hawser clean %f
-  smudge = git hawser smudge %f
-  required = true
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
 [filter "tabspace"]
-  clean = gexpand --tabs=4 --initial
-  smudge = gunexpand --tabs=4 --first-only
+	clean = gexpand --tabs=4 --initial
+	smudge = gunexpand --tabs=4 --first-only
 [merge]
-  tool = diffconflicts
-  algorithm = patience
-  strategy = recursive
+	tool = diffconflicts
+	algorithm = patience
+	strategy = recursive
 [mergetool]
-  keepBackup = false
+	keepBackup = false
 [mergetool "fugitive"]
-  cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
 [mergetool "diffconflicts"]
-  cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
-  trustExitCode = true
+	cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+	trustExitCode = true
 [pager]
-  log = diff-so-fancy | less --tabs=4
-  diff = diff-so-fancy | less --tabs=4
-  show = diff-so-fancy | less --tabs=4
+	log = diff-so-fancy | less --tabs=4
+	diff = diff-so-fancy | less --tabs=4
+	show = diff-so-fancy | less --tabs=4
 [pretty]
-  #stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an%>(23)%+N
-  stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an
-  ignacio = %C(yellow)%h %C(green)%<(14,trunc)%an %Creset%s%Cred%d
+	stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an
+	ignacio = %C(yellow)%h %C(green)%<(14,trunc)%an %Creset%s%Cred%d
 [push]
-  default = current
+	default = current
 [status]
-  showUntrackedFiles = all
+	showUntrackedFiles = all
 [user]
-  name = George Crabtree
-  email = supercrabtree@googlemail.com
-
+	name = George Crabtree
+	email = supercrabtree@googlemail.com
 [includeIf "gitdir:~/dev/bigcommerce"]
-  path = .gitconfig-work
+	path = .gitconfig-work
+[stash]
+	showPatch = true
+[rerere]
+	enabled = true

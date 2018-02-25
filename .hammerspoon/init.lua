@@ -52,7 +52,6 @@ hs.hotkey.bind({'ctrl', 'alt', 'cmd', 'shift'}, 'l', keyCode('right', {'alt', 'c
 browser_handler = require('browser_handler')
 browser_handler.start()
 
-
 -- hs.hotkey.bind({'shift'}, 'delete', keyCode('forwarddelete'), nil, keyCode('forwarddelete'))
 
 -- hs.eventtap.new({ hs.eventtap.event.types.NSSystemDefined }, function(event)

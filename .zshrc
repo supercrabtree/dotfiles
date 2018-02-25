@@ -1,4 +1,5 @@
 # Plugins {{{
+# source ~/prompt.zsh
 source ~/dev/pure/async.zsh
 source ~/dev/pure/pure.zsh
 source ~/dev/z/z.sh
@@ -35,7 +36,7 @@ export LSCOLORS=exfxcxdxbxegedabagacad
 # linux style
 export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
 
-export LESS="-RFX"
+export LESS='-RFX'
 export ZDOTDIR=$HOME
 
 export LESS_TERMCAP_mb=$'\E[3;31m'
@@ -46,6 +47,7 @@ export LESS_TERMCAP_so=$'\E[38;05;00;48;05;03m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[1;34m'
 
+export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.npm/bin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
@@ -53,7 +55,6 @@ export PATH=$PATH:/usr/bin
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/bin
 export PATH=$PATH:/sbin
-export PATH=$PATH:$HOME/bin
 
 export PATH=$PATH:$HOME/dev/lm
 export PATH=$PATH:$HOME/dev/git-more
@@ -82,13 +83,12 @@ ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=blue'
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_integration.zsh"
 
-. <(ng completion --zsh 2>/dev/null)
 # }}}
 # Z Style {{{
-zstyle ':completion:*'         list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' menu select
 # }}}
 # New Keyboard Shortcuts {{{
 zle -N fancy-ctrl-z
@@ -112,46 +112,72 @@ bindkey -M isearch " " magic-space # normal space during searches
 
 zle      -N  fzf-history-widget
 bindkey '^R' fzf-history-widget
+
+# zle -N command-palette
+# bindkey '^ ' command-palette
 # }}}
 # Aliases {{{
 unalias run-help
-alias man="run-help"
-alias l="gls --color -AU"
-alias ll="lm"
-alias t="tree -a -I 'node_modules|.git|.DS_Store|bower_components|dist|build'"
-alias rm="trash"
+alias man='run-help'
+alias l='/usr/local/bin/gls --group-directories-first -A --color'
+alias ll='lm'
+alias t='tree -a -I "node_modules|.git|.DS_Store|bower_components|dist|build"'
+alias rm='trash'
 
-alias download-video-as-audio="youtube-dl -x --audio-format=mp3"
+alias download-video-as-audio='youtube-dl -x --audio-format=mp3'
 
-alias vanillavim="command vim -u NONE"
+alias vanillavim='command vim -u NONE'
 alias vi="$EDITOR"
 alias vimrc="$EDITOR $HOME/dev/dotfiles/.vimrc"
 alias zshrc="$EDITOR $HOME/dev/dotfiles/.zshrc"
-alias jsonp='pbpaste | joli -o inspect'
 alias json='joli -o inspect'
+alias jsonp='pbpaste | joli -o inspect'
 alias vless='vim -u /usr/local/Cellar/vim/8.0.0596/share/vim/vim80/macros/less.vim'
-alias nv='vim -c "NV"'
 
 alias git=hub
 alias g=magic-g
-alias gg="git remote -v | column -t"
-alias ga="git add"
-alias gaa="git add -A"
-alias gdm="g-diff-mega"
-alias gc="git commit"
-alias gl="git log --no-merges -z --pretty=stacked -20"
-alias glm="git log -z --pretty=stacked -20"
-alias d="standard-diff"
-alias D="git diff --staged"
+alias gg='git remote -v | column -t'
+alias gaa='git add -A'
+alias gdm='g-diff-mega'
+alias gc='git commit'
+alias gcf='git commit --fixup='
+alias gl='printf "\n\n" && git log -z --pretty=stacked -20'
+alias gla='printf "\n\n" && git log -z --pretty=stacked --all -20'
+alias glnm='printf "\n\n" && git log -z --pretty=stacked --no-merges -20'
+alias glamn='printf "\n\n" && git log -z --pretty=stacked --all --no-merges-20'
+alias d='standard-diff'
+alias D='git diff --staged'
 alias ds="git diff --stat"
 alias DS="git diff --staged --stat"
-alias cvim="git mergetool --no-prompt"
-alias gvim="git-files-vim"
+alias gvim='git-files-vim'
+alias cvim='git mergetool --no-prompt'
+alias svim='vim `git diff --name-only --diff-filter=d --staged`'
 
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
+aliasestoexpand=(
+  'l'
+  'download-video-as-audio'
+  'vanillavim'
+  't'
+  'ga'
+  'gg'
+  'gc'
+  'gcf'
+  'gl'
+  'gla'
+  'glnm'
+  'glanm'
+  'ds'
+  'D'
+  'DS'
+  'cvim'
+  'svim'
+  'rm'
+)
+
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 
 # suffix
 alias -s git='git clone'
@@ -160,26 +186,6 @@ alias -s git='git clone'
 alias -g UP='@{u}'
 alias -g IN='..@{u}'
 alias -g OUT='@{u}..'
-alias -g INOUT='@{u}...'
-
-aliasestoexpand=(
-  "l"
-  "download-video-as-audio"
-  "vanillavim"
-  "t"
-  "ga"
-  "gg"
-  "gc"
-  "gl"
-  "glm"
-  "glv"
-  "glmv"
-  "D"
-  "ds"
-  "DS"
-  "cvim"
-  "rm"
-)
 # }}}
 # ZLE Functions {{{
 searchup() {
@@ -200,7 +206,7 @@ aliasexpander() {
       fi
   done
   # expand all global aliases
-  if [[ $LBUFFER =~ " [A-Z0-9]+$" ]]; then
+  if [[ $LBUFFER =~ ' [A-Z0-9]+$' ]]; then
     zle _expand_alias
     zle expand-word
   fi
@@ -209,7 +215,7 @@ aliasexpander() {
 
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="fg"
+    BUFFER='fg'
     zle accept-line
   else
     zle push-input
@@ -231,7 +237,7 @@ bam() {
     if [ $1 ]; then
         name=$1
     else
-        name=`date "+%H-%M-%S-%A-%d-%h-%Y"`
+        name=`date '+%H-%M-%S-%A-%d-%h-%Y'`
     fi
 
     mkdir -p "$HOME/dev/scratches/$name" && cd "$HOME/dev/scratches/$name"
@@ -239,7 +245,32 @@ bam() {
 
 jobcount() {
   local jobs=$(jobs | grep ^\\\[ | wc -l | xargs)
-  ((jobs)) && echo -n "${jobs} "
+  ((jobs)) && echo -n "$jobs "
+}
+
+# command-palette() {
+#   local cmd=`cat ~/.commands | awk -F " ## " '! /(^\s*$|^#)/{print "\x1b[32;1m" $1 "\x1b[37m ## " $2 "\x1b[m"}' | fzf -e -s --ansi | awk -F " ## " '{print $2}'`
+#   if [[ -n "$cmd" ]]; then
+#     local output=`eval "$cmd"`
+#     LBUFFER="$LBUFFER$output"
+#   fi
+# }
+
+colortest() {
+  echo -e "\n                 40m     41m     42m     43m\
+       44m     45m     46m     47m";
+
+  for FGs in '    m' '   1m' '  30m' '1;30m' '  31m' '1;31m' '  32m' \
+             '1;32m' '  33m' '1;33m' '  34m' '1;34m' '  35m' '1;35m' \
+             '  36m' '1;36m' '  37m' '1;37m';
+    do FG=${FGs// /}
+    echo -en " $FGs \033[$FG  gYw  "
+    for BG in 40m 41m 42m 43m 44m 45m 46m 47m;
+      do echo -en "$EINS \033[$FG\033[$BG  gYw  \033[0m";
+    done
+    echo;
+  done
+  echo
 }
 # }}}
 # Git things {{{
@@ -257,21 +288,28 @@ magic-g() {
   fi
 }
 
-# open any files that have been edited, or are new and untracked.
-# if working directory is clean, open files edited in last commit (with a prompt).
+# if a ref is passed and -s flag open the files in that ref
+# if a ref is passed `gvim @{REF}` open the files that differ between HEAD and @{REF}
+# otherwise open any files that have been edited, or are new and untracked.
+# otherwise if working directory is clean, open files edited in last commit.
 git-files-vim() {
-  local files=$(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
-  if [[ $files != "" ]]; then
-    vim $(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only)
+  if [[ "$1" == '-s' ]]; then
+      if [[ "$2" == '' ]]; then
+        vim $(git show --name-only --diff-filter=d --pretty=)
+      else
+        vim $(git show --name-only --diff-filter=d --pretty= "$2")
+      fi
   else
     if [ $1 ]; then
-      local REF=$1
+      vim $(git diff --name-only --diff-filter=d "$1"...)
     else
-      local REF="@^"
+      local files=$(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only --diff-filter=d)
+      if [[ $files != "" ]]; then
+        vim $(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only --diff-filter=d)
+      else
+        vim $(git show --name-only --diff-filter=d --pretty=)
+      fi
     fi
-      echo '\nCommits' && git log "$REF.." -z --pretty=stacked && echo '\nFiles' && git diff --stat "$REF.."
-      echo '\nPress any key open these files'; read -k1 -s
-      vim $(git diff --name-only "$REF..")
   fi
 }
 
@@ -319,9 +357,9 @@ fancy-branch() {
   local awk_coloring='BEGIN { prev=""; color=0; } ! /^$/ { first=$1; $1 = ""; if (prev != first) { color=(color + 1) % 6; prev=first; } print "\x1b[3" color ";1m" first "\x1b[m\t" $0; }'
   local other_coloring='{print "\x1b[" color ";1m" text "\x1b[m\t" $1}'
 
-  local local_branches=`git branch --sort=-committerdate | cut -c 3- | awk -v color=36 -v text="local" $other_coloring`
+  local local_branches=`git branch --sort=-committerdate | cut -c 3- | grep -vE 'HEAD' | awk -v color=36 -v text="local" $other_coloring`
   local remote_branches=`git branch -r | grep -vE 'HEAD|--hooks--' | cut -c 3-`
-  local tags=`git tag -l --sort=-taggerdate | awk -v color=37 -v text="tag" $other_coloring`
+  local tags=`git tag -l --sort=-taggerdate | awk -v color=37 -v text="tags" $other_coloring`
 
   local origin=`printf $remote_branches | grep '^\s*origin/'`
   local other=`printf $remote_branches | grep -v '^\s*origin/'`
@@ -333,8 +371,8 @@ fancy-branch() {
     local type=`printf $selected | awk '{print $1}'`
     local target=`printf $selected | awk '{print $2}'`
 
-    if [[ "$type" == "remote" ]]; then
-      target=`print $target | sed 's|.*/||'`
+    if [[ "$type" != "local" && "$type" != "origin" ]]; then
+      target=`print $type/$target`
     fi
 
     if [[ -z "$LBUFFER" ]]; then
@@ -354,4 +392,27 @@ z() {
   fi
 }
 
+# }}}
+# rbenv {{{
+eval "$(rbenv init - --no-rehash)"
+# }}}
+# nvm {{{
+export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Defer initialization of nvm until nvm, node or a node-dependent command is
+# run. Ensure this block is only run once if .bashrc gets sourced multiple times
+# by checking whether __init_nvm is a function.
+if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(whence -w __init_nvm)" = function ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+  declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack')
+  function __init_nvm() {
+    for i in "${__node_commands[@]}"; do unalias $i; done
+    . "$NVM_DIR"/nvm.sh
+    unset __node_commands
+    unset -f __init_nvm
+  }
+  for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
+fi
 # }}}

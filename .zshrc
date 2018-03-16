@@ -4,6 +4,8 @@ source ~/dev/pure/async.zsh
 source ~/dev/pure/pure.zsh
 source ~/dev/z/z.sh
 source ~/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/dev/bam-pow/bam.sh
+source ~/dev/bam-pow/pow.sh
 # }}}
 # Load {{{
 autoload -U run-help
@@ -62,6 +64,9 @@ export PATH=$PATH:$HOME/dev/git-more
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
+
+export BAM_DIR="$HOME/scratches"
+export POW_DIR="$HOME/powder"
 # }}}
 # Misc {{{
 # stop control flow, gimme ctrl-s back
@@ -95,20 +100,18 @@ zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
 zle -N fancy-branch
-bindkey '^b' fancy-branch
+bindkey '^ ' fancy-branch
 
 zle -N up-line-or-beginning-search
 zle -N searchup
-bindkey "^[[A" searchup
+bindkey "^p" searchup
 
 zle -N down-line-or-beginning-search
 zle -N searchdown
-bindkey "^[[B" searchdown
+bindkey "^n" searchdown
 
 zle -N aliasexpander
 bindkey " " aliasexpander
-bindkey "^ " magic-space           # control-space to bypass completion
-bindkey -M isearch " " magic-space # normal space during searches
 
 zle      -N  fzf-history-widget
 bindkey '^R' fzf-history-widget
@@ -134,7 +137,6 @@ alias json='joli -o inspect'
 alias jsonp='pbpaste | joli -o inspect'
 alias vless='vim -u /usr/local/Cellar/vim/8.0.0596/share/vim/vim80/macros/less.vim'
 
-alias git=hub
 alias g=magic-g
 alias gg='git remote -v | column -t'
 alias gaa='git add -A'
@@ -232,17 +234,6 @@ mkcd() {
   mkdir -p $1 && cd $1
 }
 
-bam() {
-    local name
-    if [ $1 ]; then
-        name=$1
-    else
-        name=`date '+%H-%M-%S-%A-%d-%h-%Y'`
-    fi
-
-    mkdir -p "$HOME/dev/scratches/$name" && cd "$HOME/dev/scratches/$name"
-}
-
 jobcount() {
   local jobs=$(jobs | grep ^\\\[ | wc -l | xargs)
   ((jobs)) && echo -n "$jobs "
@@ -275,16 +266,12 @@ colortest() {
 # }}}
 # Git things {{{
 magic-g() {
-  if [[ $# > 0 ]]; then
-    git $@
+  if git rev-parse --git-dir > /dev/null 2>&1; then
+    local remote_branch=$(git rev-parse --abbrev-ref @{u} 2> /dev/null | sed 's|/.*||')
+    local remote_url=$(git remote get-url $remote_branch 2> /dev/null)
+    git -c color.ui=always status -sb | sed "1 s,$, => $remote_url,"
   else
-    if git rev-parse --git-dir > /dev/null 2>&1; then
-      local remote_branch=$(git rev-parse --abbrev-ref @{u} 2> /dev/null | sed 's|/.*||')
-      local remote_url=$(git remote get-url $remote_branch 2> /dev/null)
-      git -c color.ui=always status -sb | sed "1 s,$, => $remote_url,"
-    else
-      lm
-    fi
+    lm
   fi
 }
 
@@ -332,9 +319,9 @@ g-diff-mega() {
 # completion for git functions
 # `alias __git-diff_main=_git_diff` is a hacky edit to get around ... something weird to do with git, hub, zsh, brew?
 # https://github.com/robbyrussell/oh-my-zsh/issues/2394#issuecomment-45287624
-alias __git-diff_main=_git_diff
-compdef _git standard-diff=git-diff
-compdef g git
+# alias __git-diff_main=_git_diff
+# compdef _git standard-diff=git-diff
+# compdef g git
 # }}}
 # FZF things {{{
 export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\

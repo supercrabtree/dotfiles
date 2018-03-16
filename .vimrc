@@ -226,13 +226,15 @@ set smartcase
 set smarttab
 set softtabstop=-1
 set splitright
-set statusline=%m\ %f:%l%<\ of\ %L\ col\ %c\ %r%y%=%{noscrollbar#statusline(20,'■','□')}\ 
+" set statusline=%m\ %f:%l%<\ of\ %L\ col\ %c\ %r%y%=%{noscrollbar#statusline(20,'■','□')}\ 
+set statusline=%m\ %f:%l%<\ of\ %L\ col\ %c\ %r%y
 set synmaxcol=250
 set tabstop=4
 set termguicolors
 set ttimeoutlen=0
 set undodir=$HOME/.vim/undo
 set undofile
+set updatetime=16
 set wildmenu
 set wildcharm=<Tab>
 set wildignore=dist/**,**/node_modules/**,**/bower_components/**
@@ -303,8 +305,11 @@ augroup vimrc
   au BufReadPost $HOME/dev/dotfiles/.vimrc,$HOME/dev/dotfiles/.zshrc setlocal foldmethod=marker|setlocal foldlevel=0
   au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
   au BufWritePre * call s:autoMkDir()
+  au BufReadPost * inoremap <C-F> <right>
 
-  au FileType html,jsx,javascript.jsx inoremap <buffer> <tab> <space><bs><esc>:call SuperTab()<cr>
+  " au FileType html,jsx,javascript.jsx inoremap <buffer> <tab> <space><bs><esc>:call SuperTab(0)<cr>
+  " au FileType html,jsx,javascript.jsx inoremap <buffer> <s-tab> <space><bs><esc>:call SuperTab(1)<cr>
+  " au FileType html,jsx,javascript.jsx xnoremap <buffer> <tab> <esc>:call VisualHTMLTagWrap()<cr>
 
   au QuickFixCmdPost *grep* bo cwindow
 augroup END
@@ -319,29 +324,23 @@ function! s:SetupVAM() " {{{
     execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager' shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
   endif " }}}
   call vam#ActivateAddons([
-  \  'github:ianks/vim-tsx',
-  \  'github:leafgarland/typescript-vim',
-  \  'github:Quramy/tsuquyomi',
-  \  'github:heavenshell/vim-jsdoc',
   \  'github:pangloss/vim-javascript',
   \  'github:mxw/vim-jsx',
-  \
   \  'github:airblade/vim-gitgutter',
-  \  'github:gcavallanti/vim-noscrollbar',
-  \  'github:supercrabtree/vim-subl',
   \  'github:tpope/vim-commentary',
   \  'github:tpope/vim-eunuch',
   \  'github:tpope/vim-fugitive',
   \  'github:tpope/vim-rhubarb',
   \  'github:tpope/vim-sleuth',
   \  'github:tpope/vim-repeat',
-  \  'github:w0rp/ale',
-  \
-  \  'github:kana/vim-textobj-user',
-  \  'github:Julian/vim-textobj-variable-segment',
-  \  'github:saaguero/vim-textobj-pastedtext',
   \], {'auto_install' : 1})
 endfunction
+  " \  'github:w0rp/ale',
+  " \  'github:heavenshell/vim-jsdoc',
+  " \  'github:gcavallanti/vim-noscrollbar',
+  " \  'github:ianks/vim-tsx',
+  " \  'github:leafgarland/typescript-vim',
+  " \  'github:Quramy/tsuquyomi',
 call s:SetupVAM()
 " source $HOME/dev/snaplist/snaplist.vim
 " }}}
@@ -461,6 +460,23 @@ nnoremap cs :%s///n<cr>
 nnoremap yc mz^yg_`z
 nnoremap dc mz^dg_`z
 
+" readline
+inoremap      <C-A> <C-O>^
+inoremap <C-X><C-A> <C-A>
+cnoremap      <C-A> <Home>
+cnoremap <C-X><C-A> <C-A>
+
+inoremap <expr> <C-E> col('.')>strlen(getline('.'))<bar><bar>pumvisible()?"\<Lt>C-E>":"\<Lt>End>"
+
+inoremap <C-B> <left>
+cnoremap <C-B> <left>
+
+" innoremap set in autocmd
+cnoremap <C-F> <right>
+
+inoremap <expr> <C-D> col('.')>strlen(getline('.'))?"\<Lt>C-D>":"\<Lt>Del>"
+cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
+
 " force go file
 nnoremap cgf :e <cfile><CR>
 
@@ -538,8 +554,8 @@ nnoremap <silent> [a <Plug>(ale_previous_wrap)
 nnoremap <silent> ]a <Plug>(ale_next_wrap)
 
 " Diff Movement
-nnoremap J ]c
-nnoremap K [c
+nmap J ]c
+nmap K [c
 
 " Hunk Control
 nnoremap <expr> H &diff ? 'do' : ':GitGutterStageHunk<cr>'
@@ -775,19 +791,38 @@ function! s:qfOpenFiles() " {{{
     nnoremap <silent> <buffer> D :let g:curqflineno=line(".")<cr><cr>:only<cr>:Gdiff<cr>:call <SID>qfOpenFiles()<cr>:99wincmd j<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>:wincmd p<cr>gg
     let w:quickfix_title='Open Files'
 endfunction " }}}
-function! SuperTab() " {{{
+function! SuperTab(shift) " {{{
     let l:charBeforeCursor = matchstr(getline('.'), '.', col('.')-1)
     let l:wordBeforeCursor = expand("<cword>")
     if l:charBeforeCursor == '>'
         exe "norm! a\<cr>\<esc>\<up>o"
         call feedkeys('cc', 'n')
     elseif match(l:wordBeforeCursor, '^[\s]*$') != 0
-        exe "norm! ciw<\<c-r>\"></\<c-r>\">\<esc>F>"
-        call feedkeys('a', 'n')
+        if a:shift == 1
+            exe "norm! ciw<\<c-r>\" />\<esc>F "
+            call feedkeys('a', 'n')
+        else
+            exe "norm! ciw<\<c-r>\"></\<c-r>\">\<esc>F>"
+            call feedkeys('a', 'n')
+        endif
     else
         exe "norm! a\<tab>"
         call feedkeys('a', 'n')
     endif
+endfunction " }}}
+function! VisualHTMLTagWrap() " {{{
+  let tag = input("Encase with: ")
+  if len(tag) > 0
+    normal `>
+    if &selection == 'exclusive'
+      exe "normal i</".tag.">"
+    else
+      exe "normal a</".tag.">"
+    endif
+    normal `<
+    exe "normal i<".tag.">"
+    normal `<
+  endif
 endfunction " }}}
 function! GitCommitOmni(findstart, base) " {{{
   if a:findstart

@@ -584,7 +584,7 @@ command! -nargs=1 Spaces execute "setlocal shiftwidth=" . <args> . " tabstop=" .
 command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" . <args> . " noexpandtab"
 
 command! -nargs=? -bang -complete=file FileDump call s:fileDump("<args>", <bang>0)
-
+command! -nargs=0 -bang Code call s:code(<bang>0)
 command! -nargs=0 Vimrc e ~/dev/dotfiles/.vimrc
 
 command! -nargs=0 VMD call s:vmd()
@@ -633,6 +633,25 @@ endfunction
 
 function! s:setSearchWord(str)
   return s:setSearch(a:str, 1)
+endfunction
+" }}}
+function! s:code(sameWindow) " {{{
+  let l:bufnumbers = filter(range(1, bufnr('$')), 'buflisted(v:val)')
+  let l:bufnames = map(bufnumbers, 'bufname(v:val)')
+  let l:validbufnames = filter(bufnumbers, 'filereadable(v:val)')
+  let l:validbufnames = filter(validbufnames, 'v:val != expand("%")')
+  let l:validbufnames = add(validbufnames, expand('%'))
+  let l:files = join(l:validbufnames, ' ')
+  let l:root = system('cd ' . expand('%:h') . ' && git rev-parse --show-toplevel')[:-2]
+  if (v:shell_error)
+      let l:root = getcwd() . ' ' . expand('%:h')
+  endif
+  let l:flags = '-n '
+  if (a:sameWindow)
+    let l:flags = ''
+  endif
+  execute 'silent !code ' . l:flags . '-g ' . expand('%') . ':' . line('.') . ':' .col('.') . ' ' . l:root . ' ' . l:files
+  redraw!
 endfunction
 " }}}
 function! s:openAllVisuallySelectedFiles() " {{{

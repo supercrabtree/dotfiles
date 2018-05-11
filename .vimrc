@@ -226,7 +226,6 @@ set smartcase
 set smarttab
 set softtabstop=-1
 set splitright
-" set statusline=%m\ %f:%l%<\ of\ %L\ col\ %c\ %r%y%=%{noscrollbar#statusline(20,'■','□')}\ 
 set statusline=%m\ %f:%l%<\ of\ %L\ col\ %c\ %r%y
 set synmaxcol=250
 set tabstop=4
@@ -306,11 +305,6 @@ augroup vimrc
   au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
   au BufWritePre * call s:autoMkDir()
   au BufReadPost * inoremap <C-F> <right>
-
-  " au FileType html,jsx,javascript.jsx inoremap <buffer> <tab> <space><bs><esc>:call SuperTab(0)<cr>
-  " au FileType html,jsx,javascript.jsx inoremap <buffer> <s-tab> <space><bs><esc>:call SuperTab(1)<cr>
-  " au FileType html,jsx,javascript.jsx xnoremap <buffer> <tab> <esc>:call VisualHTMLTagWrap()<cr>
-
   au QuickFixCmdPost *grep* bo cwindow
 augroup END
 " }}}
@@ -345,22 +339,26 @@ call s:SetupVAM()
 " source $HOME/dev/snaplist/snaplist.vim
 " }}}
 " Plugin Settings {{{
-let g:ale_linters = {
-\   'html': [],
-\}
-let g:ale_javascript_eslint_options = '-c ./node_modules/ng-build/tasks/eslint/.eslintrc'
-let g:ale_javascript_eslint_use_global=1
-let g:ale_php_phpcs_standard=$BC_APP_DIR . "tools/standards/Bigcommerce"
-let g:ale_sign_column_always = 1
-" some more ⇨ ⊗ ◗ ⊙ ≫ 𝒆 𝒘 𝓮 𝔀  𝕖 𝕨 𝔼 𝕎
-let g:ale_sign_error = '»'
-let g:ale_sign_warning = '»'
+" let g:ale_linters = {
+" \   'html': [],
+" \}
+" let g:ale_javascript_eslint_options = '-c ./node_modules/ng-build/tasks/eslint/.eslintrc'
+" let g:ale_javascript_eslint_use_global=1
+" let g:ale_php_phpcs_standard=$BC_APP_DIR . "tools/standards/Bigcommerce"
+" let g:ale_sign_column_always = 1
+" " some more ⇨ ⊗ ◗ ⊙ ≫ 𝒆 𝒘 𝓮 𝔀  𝕖 𝕨 𝔼 𝕎
+" let g:ale_sign_error = '»'
+" let g:ale_sign_warning = '»'
+let g:netrw_winsize = 20
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_altfile = 1
 " }}}
 " Disable unused builtin plugins {{{
 let g:loaded_getscriptPlugin = 1
 let g:loaded_gzip = 1
 let g:loaded_logiPat = 1
-let g:loaded_netrwPlugin = 1
+" let g:loaded_netrwPlugin = 1
 let g:loaded_rrhelper = 1
 let g:loaded_tarPlugin = 1
 let g:loaded_vimballPlugin = 1
@@ -444,6 +442,8 @@ nnoremap <C-G> :grep! -F ''<left>
 nnoremap <C-G><C-G> :call <SID>setSearchWord(expand("<cword>"))\|set hlsearch<CR>:call feedkeys(":grep! -F '" . expand("<cword>") . "'")<cr>
 xnoremap <C-G> :call setreg('/', substitute(<SID>getVisualSelection(), "'", "'\\\\''", 'g'))\|set hlsearch<CR>:<c-u>grep! -F '/'
 
+inoremap <C-Z> <esc><C-Z>a
+
 nnoremap Q @q
 nnoremap Y y$
 nnoremap _ g-
@@ -455,6 +455,9 @@ nnoremap k gk
 
 " Count Search
 nnoremap cs :%s///n<cr>
+
+" Current file in Lexplore
+nnoremap - :Lexplore %:h<cr>
 
 " 'line-content' mappings, yank content - delete content
 nnoremap yc mz^yg_`z
@@ -518,8 +521,6 @@ xnoremap ~ "zc<C-R>=<SID>rotateCase(@z)<CR><Esc>v`[
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 cnoremap <C-X> <C-R>=getline(".")<cr>
-cnoremap <expr> <S-Tab> <SID>betterIncSearch('stab')
-cnoremap <expr> <Tab> <SID>betterIncSearch('tab')
 
 " substitute shortcuts
 nnoremap s :%s/
@@ -586,11 +587,6 @@ command! -nargs=1 Tabs   execute "setlocal shiftwidth=" . <args> . " tabstop=" .
 command! -nargs=? -bang -complete=file FileDump call s:fileDump("<args>", <bang>0)
 command! -nargs=0 -bang Code call s:code(<bang>0)
 command! -nargs=0 Vimrc e ~/dev/dotfiles/.vimrc
-
-command! -nargs=0 VMD call s:vmd()
-
-command! -nargs=0 WipeReg for r in split('abcdefghijklmnopqrstuvwxyz"', '\zs') | silent! exec 'let @'. r . ' = ""' | endfor
-
 command! -nargs=0 OnlyBuffer %bd|e#|bd#
 
 " Filter quickfix window
@@ -735,49 +731,6 @@ function! s:getVisualSelection() " {{{
     let @z = l:z_save
   endtry
 endfunction " }}}
-function! s:betterIncSearch(key) abort " {{{
-  let l:cmdType = getcmdtype()
-
-  if l:cmdType ==# '/' || l:cmdType ==# '?'
-    " Search Mode
-    let l:cmd = getcmdline()
-
-    call feedkeys("\<C-C>:set hlsearch\<Enter>")
-
-    if @/ !=# l:cmd
-      call setreg('/', l:cmd)
-    else
-      let l:direction = v:searchforward && l:cmdType ==# '/'
-      if xor(l:direction, a:key ==# 'tab')
-        call feedkeys('N')
-      else
-        call feedkeys('n')
-      end
-    endif
-
-    call feedkeys(l:cmdType . "\<C-R>/")
-    return
-  else
-    " Not in search mode
-    if a:key ==# 'tab'
-      return "\<Tab>"
-    else
-      return "\<S-Tab>"
-    endif
-  endif
-endfunction
-" }}}
-function! s:vmd() " {{{
-  let b:vmd_pid=systemlist("vmd " . shellescape(bufname('')) . "&echo $!")[0]
-  redraw!
-  echo "vmd " . bufname('') . "&echo $!"
-  augroup vmd
-    autocmd!
-    au TextChanged,TextChangedI <buffer> silent write
-    au BufDelete,VimLeave <buffer> call system("kill " . b:vmd_pid)
-  augroup END
-endfunction
-" }}}
 function! s:dirtyFiles() " {{{
   let l:files = system("git status -s | sed 's/^...//'")
   call s:setupFileDumpBuffer(l:files, '.')
@@ -809,39 +762,6 @@ function! s:qfOpenFiles() " {{{
     nnoremap <silent> <buffer> dd :let g:curqflineno=line(".")<cr><cr>:ccl<cr>:exec "try\n:bp\|bd#\ncatch\n:bd\nendtry"<cr>:call <SID>qfOpenFiles()<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>
     nnoremap <silent> <buffer> D :let g:curqflineno=line(".")<cr><cr>:only<cr>:Gdiff<cr>:call <SID>qfOpenFiles()<cr>:99wincmd j<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>:wincmd p<cr>gg
     let w:quickfix_title='Open Files'
-endfunction " }}}
-function! SuperTab(shift) " {{{
-    let l:charBeforeCursor = matchstr(getline('.'), '.', col('.')-1)
-    let l:wordBeforeCursor = expand("<cword>")
-    if l:charBeforeCursor == '>'
-        exe "norm! a\<cr>\<esc>\<up>o"
-        call feedkeys('cc', 'n')
-    elseif match(l:wordBeforeCursor, '^[\s]*$') != 0
-        if a:shift == 1
-            exe "norm! ciw<\<c-r>\" />\<esc>F "
-            call feedkeys('a', 'n')
-        else
-            exe "norm! ciw<\<c-r>\"></\<c-r>\">\<esc>F>"
-            call feedkeys('a', 'n')
-        endif
-    else
-        exe "norm! a\<tab>"
-        call feedkeys('a', 'n')
-    endif
-endfunction " }}}
-function! VisualHTMLTagWrap() " {{{
-  let tag = input("Encase with: ")
-  if len(tag) > 0
-    normal `>
-    if &selection == 'exclusive'
-      exe "normal i</".tag.">"
-    else
-      exe "normal a</".tag.">"
-    endif
-    normal `<
-    exe "normal i<".tag.">"
-    normal `<
-  endif
 endfunction " }}}
 function! GitCommitOmni(findstart, base) " {{{
   if a:findstart

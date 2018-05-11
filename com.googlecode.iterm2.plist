@@ -1165,6 +1165,13 @@
 			<key>Text</key>
 			<string></string>
 		</dict>
+		<key>0x42-0x120000</key>
+		<dict>
+			<key>Action</key>
+			<integer>4</integer>
+			<key>Text</key>
+			<string></string>
+		</dict>
 		<key>0x48-0x120000</key>
 		<dict>
 			<key>Action</key>
@@ -1199,6 +1206,13 @@
 			<integer>25</integer>
 			<key>Text</key>
 			<string>Move Divider Right</string>
+		</dict>
+		<key>0x54-0x120000</key>
+		<dict>
+			<key>Action</key>
+			<integer>5</integer>
+			<key>Text</key>
+			<string></string>
 		</dict>
 		<key>0x55-0x120000</key>
 		<dict>
@@ -1253,13 +1267,6 @@
 		<dict>
 			<key>Action</key>
 			<integer>2</integer>
-			<key>Text</key>
-			<string></string>
-		</dict>
-		<key>0xd-0x20000</key>
-		<dict>
-			<key>Action</key>
-			<integer>4</integer>
 			<key>Text</key>
 			<string></string>
 		</dict>
@@ -1382,13 +1389,13 @@
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>762 786 400 129 0 0 1920 1178 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>610 417 700 622 0 0 1920 1178 </string>
+	<string>1330 934 700 622 0 0 3360 1868 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>128 64 606 469 0 0 1920 1178 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>524 705 796 473 0 0 1920 1178 </string>
+	<string>1485 565 958 451 0 0 3360 1868 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>960 0 960 1178 0 0 1920 1178 </string>
+	<string>1680 0 1680 1868 0 0 3360 1868 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>588 278 570 452 0 0 1920 1177 </string>
 	<key>NeverWarnAboutShortLivedSessions_6CBC121D-AF47-413A-A9FF-ABDBF1CC24C4</key>
@@ -2356,6 +2363,10 @@
 	</array>
 	<key>NoSyncCommandHistoryHasEverBeenUsed</key>
 	<true/>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste</key>
+	<true/>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
+	<integer>0</integer>
 	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt</key>
 	<true/>
 	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt_selection</key>
@@ -2425,7 +2436,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-02-15T05:51:40Z</date>
+	<date>2018-03-28T00:50:22Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>Selection Respects Soft Boundaries</key>
@@ -2481,7 +2492,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.5.beta.2</string>
+	<string>3.1.6beta4</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>2</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

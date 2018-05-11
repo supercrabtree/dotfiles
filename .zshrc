@@ -3,6 +3,7 @@
 source ~/dev/pure/async.zsh
 source ~/dev/pure/pure.zsh
 source ~/dev/z/z.sh
+source ~/dev/k/k.sh
 source ~/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/dev/bam-pow/bam.sh
 source ~/dev/bam-pow/pow.sh
@@ -50,7 +51,6 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[1;34m'
 
 export PATH=$PATH:$HOME/bin
-export PATH=$PATH:$HOME/.npm/bin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/bin
@@ -60,13 +60,14 @@ export PATH=$PATH:/sbin
 
 export PATH=$PATH:$HOME/dev/lm
 export PATH=$PATH:$HOME/dev/git-more
+export PATH=$PATH:$HOME/dev/depot_tools/
 
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
 
-export BAM_DIR="$HOME/scratches"
-export POW_DIR="$HOME/powder"
+export BAM_DIR="$HOME/dev/scratches"
+export POW_DIR="$HOME/dev/powder"
 # }}}
 # Misc {{{
 # stop control flow, gimme ctrl-s back
@@ -92,6 +93,7 @@ test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_int
 
 # }}}
 # Z Style {{{
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu select
 # }}}
@@ -135,14 +137,12 @@ alias vimrc="$EDITOR $HOME/dev/dotfiles/.vimrc"
 alias zshrc="$EDITOR $HOME/dev/dotfiles/.zshrc"
 alias json='joli -o inspect'
 alias jsonp='pbpaste | joli -o inspect'
-alias vless='vim -u /usr/local/Cellar/vim/8.0.0596/share/vim/vim80/macros/less.vim'
+# alias ls='live-server | sed -e "s/\(http:\/\/127.0.0.1:\)\([0-9]*\)/\1\2 http:\/\/$(ipconfig getifaddr en0):\2/"'
 
 alias g=magic-g
 alias gg='git remote -v | column -t'
-alias gaa='git add -A'
 alias gdm='g-diff-mega'
 alias gc='git commit'
-alias gcf='git commit --fixup='
 alias gl='printf "\n\n" && git log -z --pretty=stacked -20'
 alias gla='printf "\n\n" && git log -z --pretty=stacked --all -20'
 alias glnm='printf "\n\n" && git log -z --pretty=stacked --no-merges -20'
@@ -160,7 +160,6 @@ aliasestoexpand=(
   'download-video-as-audio'
   'vanillavim'
   't'
-  'ga'
   'gg'
   'gc'
   'gcf'
@@ -385,7 +384,7 @@ eval "$(rbenv init - --no-rehash)"
 # }}}
 # nvm {{{
 export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # Defer initialization of nvm until nvm, node or a node-dependent command is
 # run. Ensure this block is only run once if .bashrc gets sourced multiple times

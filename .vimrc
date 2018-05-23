@@ -193,7 +193,7 @@ set expandtab
 set encoding=utf-8
 set gdefault
 set grepformat=%f:%l:%c:%m,%f:%l:%m
-set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --hidden
+set grepprg=rg\ --vimgrep\ --smart-case\ --hidden
 set fillchars=vert:\ ,fold:\ ,diff:\ 
 set foldminlines=0
 set foldmethod=indent
@@ -327,6 +327,7 @@ function! s:SetupVAM() " {{{
   \  'github:tpope/vim-rhubarb',
   \  'github:tpope/vim-sleuth',
   \  'github:tpope/vim-repeat',
+  \  'github:skywind3000/asyncrun.vim',
   \], {'auto_install' : 1})
 endfunction
   " \  'github:w0rp/ale',
@@ -353,6 +354,7 @@ let g:netrw_winsize = 20
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_altfile = 1
+let g:asyncrun_open = 12
 " }}}
 " Disable unused builtin plugins {{{
 let g:loaded_getscriptPlugin = 1
@@ -438,9 +440,9 @@ xmap <C-F> *N<esc>:<C-U>FileDump /
 nnoremap <C-F><C-G> :call <SID>dirtyFiles()<cr>
 nnoremap <C-F><C-R> :call <SID>MRU()<cr>
 
-nnoremap <C-G> :grep! -F ''<left>
-nnoremap <C-G><C-G> :call <SID>setSearchWord(expand("<cword>"))\|set hlsearch<CR>:call feedkeys(":grep! -F '" . expand("<cword>") . "'")<cr>
-xnoremap <C-G> :call setreg('/', substitute(<SID>getVisualSelection(), "'", "'\\\\''", 'g'))\|set hlsearch<CR>:<c-u>grep! -F '/'
+nnoremap <C-G> :AsyncRun! rg --vimgrep --smart-case --hidden -F ''<left>
+nnoremap <C-G><C-G> :call <SID>setSearchWord(expand("<cword>"))\|set hlsearch<CR>:call feedkeys(":AsyncRun! rg --vimgrep --smart-case --hidden -F '" . expand("<cword>") . "'")<cr>
+xnoremap <C-G> :call setreg('/', substitute(<SID>getVisualSelection(), "'", "'\\\\''", 'g'))\|set hlsearch<CR>:<c-u>AsyncRun! rg --vimgrep --smart-case --hidden -F '/'
 
 inoremap <C-Z> <esc><C-Z>a
 

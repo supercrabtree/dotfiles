@@ -264,6 +264,9 @@ augroup vimrc
   " au FileType qf wincmd J
   " au FileType qf execute max([min([line("$"), 20]), 3]) . "wincmd _"
   au FileType qf nnoremap <buffer> D <cr>:only<cr>:Gdiff<cr>gg0:bo copen<cr>
+  au FileType qf nnoremap <buffer> dd :let g:curqflineno=line(".")<cr>:call RemoveQfLineAt(g:curqflineno)<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>
+  au FileType qf nnoremap <buffer> u :let g:curqflineno=line(".")<cr>:colder<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>
+  au FileType qf nnoremap <buffer> <c-r> :let g:curqflineno=line(".")<cr>:cnewer<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>
   au FileType qf nnoremap <buffer> o <cr>:copen<cr>
   au FileType qf nnoremap <buffer> O <cr>:vsp<cr><c-w><c-p>:b#<cr><c-w><c-p>:copen<cr>
   au FileType qf nnoremap <buffer> <cr> <cr>:ccl<cr>
@@ -592,12 +595,12 @@ command! -nargs=0 Vimrc e ~/dev/dotfiles/.vimrc
 command! -nargs=0 OnlyBuffer %bd|e#|bd#
 
 " Filter quickfix window
-command! -nargs=* Reject call FilterQuickFix(<q-args>, 1, 'both')
-command! -nargs=* Refine call FilterQuickFix(<q-args>, 0, 'both')
-command! -nargs=* RejectName call FilterQuickFix(<q-args>, 1, 'name')
-command! -nargs=* RefineName call FilterQuickFix(<q-args>, 0, 'name')
-command! -nargs=* RejectContent call FilterQuickFix(<q-args>, 1, 'content')
-command! -nargs=* RefineContent call FilterQuickFix(<q-args>, 0, 'content')
+command! -nargs=1 Reject call FilterQuickFix(<q-args>, 1, 'both')
+command! -nargs=1 Refine call FilterQuickFix(<q-args>, 0, 'both')
+command! -nargs=1 RejectName call FilterQuickFix(<q-args>, 1, 'name')
+command! -nargs=1 RefineName call FilterQuickFix(<q-args>, 0, 'name')
+command! -nargs=1 RejectContent call FilterQuickFix(<q-args>, 1, 'content')
+command! -nargs=1 RefineContent call FilterQuickFix(<q-args>, 0, 'content')
 " }}}
 " Macros {{{
 let @f='ru/<[^ >]\{-} \|" /ezz'
@@ -784,6 +787,12 @@ function! FilterQuickFix(pattern, reject, strategy) " {{{
   if a:strategy == 'content'
     call setqflist(filter(getqflist(), "v:val['text'] " . operator . " a:patttern"))
   endif
+endfunction
+" }}}
+function! RemoveQfLineAt(line) " {{{
+    let l:qflist = getqflist()
+    call remove(l:qflist, a:line-1)
+    call setqflist(l:qflist)
 endfunction
 " }}}
 function! FoldText() " {{{

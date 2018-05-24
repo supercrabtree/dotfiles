@@ -1,6 +1,10 @@
 set nocompatible
 filetype plugin indent on
 syntax enable
+
+" disable line 719 in asyncrun.vim
+" call setqflist([{'text':l:arguments}], 'a')
+
 " Colors {{{
 " white  = #ffffff => 100%
 " grey0  = #fafafa => 99%

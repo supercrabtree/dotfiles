@@ -59,6 +59,7 @@ export PATH=$PATH:/bin
 export PATH=$PATH:/sbin
 
 export PATH=$PATH:$HOME/dev/lm
+export PATH=$PATH:$HOME/dev/git-open/
 export PATH=$PATH:$HOME/dev/git-more
 export PATH=$PATH:$HOME/dev/depot_tools/
 
@@ -143,10 +144,10 @@ alias g=magic-g
 alias gg='git remote -v | column -t'
 alias gdm='g-diff-mega'
 alias gc='git commit'
-alias gl='printf "\n\n" && git log -z --pretty=stacked -20'
-alias gla='printf "\n\n" && git log -z --pretty=stacked --all -20'
-alias glnm='printf "\n\n" && git log -z --pretty=stacked --no-merges -20'
-alias glamn='printf "\n\n" && git log -z --pretty=stacked --all --no-merges-20'
+alias gl='echo "\n" && git log -z --pretty=stacked -20'
+alias gla='echo "\n" && git log -z --pretty=stacked --all -20'
+alias glnm='echo "\n" && git log -z --pretty=stacked --no-merges -20'
+alias glanm='echo "\n" && git log -z --pretty=stacked --all --no-merges-20'
 alias d='standard-diff'
 alias D='git diff --staged'
 alias ds="git diff --stat"
@@ -380,7 +381,7 @@ z() {
 
 # }}}
 # rbenv {{{
-eval "$(rbenv init - --no-rehash)"
+# eval "$(rbenv init - --no-rehash)"
 # }}}
 # nvm {{{
 export NVM_DIR="$HOME/.nvm"

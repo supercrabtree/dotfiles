@@ -19,9 +19,6 @@ fi
 # Global
 #
 
-echo "Disabling startup sound"
-sudo nvram SystemAudioVolume=" "
-
 echo "Disable the “Are you sure you want to open this application?” dialog"
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
@@ -117,6 +114,7 @@ killall Dock
 # Homebrew and apps
 #
 
+echo ""
 echo "Now from appstore install:"
 echo "Better Snap Tool"
 echo "Slack"
@@ -149,6 +147,7 @@ PACKAGES=(
 
 brew tap burntsushi/ripgrep https://github.com/BurntSushi/ripgrep.git
 
+echo ""
 echo "Installing homebrew packages"
 brew install ${PACKAGES[@]}
 
@@ -157,6 +156,7 @@ brew install ${PACKAGES[@]}
 # Repos I want cloned
 #
 
+echo ""
 echo "Downloading stuff from my github"
 echo ""
 
@@ -169,7 +169,7 @@ git clone https://github.com/rupa/z.git
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/paulirish/git-open.git
 git clone https://github.com/chrstphrknwtn/lm.git
-cd lm
+cd "$HOME/dev/lm"
 make install
 cd "$HOME"
 
@@ -178,11 +178,25 @@ cd "$HOME"
 # Symlink dotfiles
 #
 
+echo ""
 echo "Symlinking dotfiles"
 ln -s ~/dev/dotfiles/.zshrc .zshrc
 ln -s ~/dev/dotfiles/.vimrc .vimrc
 ln -s ~/dev/dotfiles/.gitconfig .gitconfig
 ln -s ~/dev/dotfiles/.gitignore .gitignore
+
+
+#
+# sudo -------------------------------------------------------------------------
+#
+
+
+#
+# Disable startup sound
+#
+
+echo "Disabling startup sound"
+sudo nvram SystemAudioVolume=" "
 
 
 #
@@ -192,3 +206,4 @@ ln -s ~/dev/dotfiles/.gitignore .gitignore
 echo "Changing shell to zsh"
 sudo sh -c "echo /usr/local/bin/zsh >> /etc/shells"
 chsh -s /usr/local/bin/zsh
+exec zsh

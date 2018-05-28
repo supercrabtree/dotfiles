@@ -65,7 +65,7 @@ export PATH=$PATH:$HOME/dev/git-more
 export PATH=$PATH:$HOME/dev/depot_tools/
 
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
-export PATH=$PATH:/Users/george.crabtree/.gem/ruby/2.2.0/bin
+export PATH=$PATH:$HOME/.gem/ruby/2.2.0/bin
 export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
 
 export BAM_DIR="$HOME/dev/scratches"
@@ -140,7 +140,7 @@ alias vimrc="$EDITOR $HOME/dev/dotfiles/.vimrc"
 alias zshrc="$EDITOR $HOME/dev/dotfiles/.zshrc"
 alias json='joli -o inspect'
 alias jsonp='pbpaste | joli -o inspect'
-# alias ls='live-server | sed -e "s/\(http:\/\/127.0.0.1:\)\([0-9]*\)/\1\2 http:\/\/$(ipconfig getifaddr en0):\2/"'
+# alias lser='live-server | sed -e "s/\(http:\/\/127.0.0.1:\)\([0-9]*\)/\1\2 http:\/\/$(ipconfig getifaddr en0):\2/"'
 
 alias g=magic-g
 alias gg='git remote -v | column -t'

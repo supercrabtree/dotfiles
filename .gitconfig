@@ -4,7 +4,6 @@
 	add-untracked = !git ls-files -o --exclude-standard -z $(git rev-parse --show-toplevel) | xargs -0 git add
 	check = !git commit -m tmp && git add -A && git stash save check-stash && git reset @^ && git add -A
 	tmp = commit -m tmp
-	wip = commit -m WIP
 [commit]
 	verbose = true
 	template = ~/.config/git/templates/commit
@@ -60,3 +59,5 @@
 	showPatch = true
 [rerere]
 	enabled = true
+[gpg]
+	program = gpg

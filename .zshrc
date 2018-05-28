@@ -59,10 +59,8 @@ export PATH=$PATH:/bin
 export PATH=$PATH:/sbin
 
 export PATH=$PATH:$HOME/bin
-export PATH=$PATH:$HOME/dev/lm
 export PATH=$PATH:$HOME/dev/git-open/
 export PATH=$PATH:$HOME/dev/git-more
-export PATH=$PATH:$HOME/dev/depot_tools/
 
 export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
 export PATH=$PATH:$HOME/.gem/ruby/2.2.0/bin
@@ -126,8 +124,8 @@ bindkey '^R' fzf-history-widget
 # Aliases {{{
 unalias run-help
 alias man='run-help'
-alias l='/usr/local/bin/gls --group-directories-first -A --color'
-alias ll='lm'
+alias l='gls --group-directories-first -A --color'
+alias ll='gls -hgGA --color'
 alias t='tree -a -I "node_modules|.git|.DS_Store|bower_components|dist|build"'
 alias rm='trash'
 
@@ -273,7 +271,7 @@ magic-g() {
     local remote_url=$(git remote get-url $remote_branch 2> /dev/null)
     git -c color.ui=always status -sb | sed "1 s,$, => $remote_url,"
   else
-    lm
+    gls -hgGA --color
   fi
 }
 

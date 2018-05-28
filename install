@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Ask for the administrator password upfront
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+if test ! -d "$HOME/dev"; then
+  mkdir "$HOME/dev"
+fi
+
+if test ! -d "$HOME/Screenshots"; then
+  mkdir "$HOME/Screenshots"
+fi
+
+echo "Save screenshots to $HOME/screenshots"
+defaults write com.apple.screencapture location -string "$HOME/screenshots"
+
+echo "Set dock to the left of the screen, with autohide on and an delayed appearance"
+defaults write com.apple.dock orientation -string left
+defaults write com.apple.dock autohide -int 1
+defaults write com.apple.dock tilesize -int 36;
+
+echo "Remove all defaults from the dock"
+defaults write com.apple.dock persistent-apps -array
+
+echo "Minimize windows into their application’s icon"
+defaults write com.apple.dock minimize-to-application -bool true
+
+echo "Set key repeat faster"
+defaults write -g InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 1
+
+echo "Disabling startup sound"
+sudo nvram SystemAudioVolume=" "
+
+echo "Expand save panel by default"
+defaults write -g NSNavPanelExpandedStateForSaveMode -bool true
+defaults write -g NSNavPanelExpandedStateForSaveMode2 -bool true
+
+echo "Expand print panel by default"
+defaults write -g PMPrintingExpandedStateForPrint -bool true
+defaults write -g PMPrintingExpandedStateForPrint2 -bool true
+
+echo "Disable the “Are you sure you want to open this application?” dialog"
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+echo "Enable full keyboard access for all controls"
+defaults write -g AppleKeyboardUIMode -int 3
+
+echo "Disable press-and-hold for keys in favor of key repeat"
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+echo "Finder: show hidden files by default"
+defaults write com.apple.finder AppleShowAllFiles -bool true
+
+echo "Finder: show all filename extensions"
+defaults write -g AppleShowAllExtensions -bool true
+
+echo "Disable the warning when changing a file extension"
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+echo "Use list view in all Finder windows by default"
+# Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv` `Nlsv`
+defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+
+killall Finder
+killall Dock
+
+echo "Now from appstore install:"
+echo "Better Snap Tool"
+echo "Slack"
+echo ""
+echo "Now from the internet install:"
+echo "Chrome and Chrome Canary"
+echo "Iterm2"
+echo "Visual Studio Code"
+echo "Firefox"
+echo "GPG https://gpgtools.org/gpgsuite.html"
+echo ""
+
+if test ! $(which brew); then
+    echo "Installing homebrew"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+PACKAGES=(
+  coreutils
+  diff-so-fancy
+  findutils
+  fzf
+  git
+  ripgrep-bin
+  trash
+  tree
+  vim
+  zsh
+)
+
+# brew tap caskroom/versions
+brew tap burntsushi/ripgrep https://github.com/BurntSushi/ripgrep.git
+
+echo "Installing homebrew packages"
+brew install ${PACKAGES[@]}
+
+echo "Downloading stuff from my github"
+echo ""
+
+cd "$HOME/dev"
+git clone https://github.com/supercrabtree/dotfiles.git
+git clone https://github.com/supercrabtree/pure.git
+git clone https://github.com/supercrabtree/k.git
+git clone https://github.com/supercrabtree/bam-pow.git
+git clone https://github.com/rupa/z.git
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/paulirish/git-open.git
+git clone https://github.com/chrstphrknwtn/lm.git
+cd lm
+make install
+cd "$HOME"
+
+echo "Symlinking dotfiles"
+ln -s ~/dev/dotfiles/.zshrc .zshrc
+ln -s ~/dev/dotfiles/.vimrc .vimrc
+ln -s ~/dev/dotfiles/.gitconfig .gitconfig
+ln -s ~/dev/dotfiles/.gitignore .gitignore
+
+echo "Changing shell to zsh"
+sudo sh -c "echo /usr/local/bin/zsh >> /etc/shells"
+chsh -s /usr/local/bin/zsh

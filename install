@@ -19,6 +19,9 @@ fi
 # Global
 #
 
+echo "Use a dark menu bar / dock"
+defaults write -g AppleInterfaceStyle Dark
+
 echo "Disable the “Are you sure you want to open this application?” dialog"
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
@@ -42,6 +45,9 @@ defaults write -g AppleKeyboardUIMode -int 3
 
 echo "Disable press-and-hold for keys in favor of key repeat"
 defaults write -g ApplePressAndHoldEnabled -bool false
+
+echo "Disable force click"
+defaults write com.apple.AppleMultitouchTrackpad ForceSuppressed -int 1
 
 
 #
@@ -104,6 +110,22 @@ echo "Enable the Develop menu and the Web Inspector in Safari"
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
 defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+
+echo "Set DuckDuckGo as the search engine"
+defaults write -g NSPreferredWebServices '{
+  NSWebServicesProviderWebSearch = {
+    NSDefaultDisplayName = DuckDuckGo;
+    NSProviderIdentifier = "com.duckduckgo";
+  };
+}'
+
+
+#
+# Text Edit
+#
+
+echo "Plain text for new files"
+defaults write com.apple.TextEdit RichText -int 0
 
 killall Safari
 killall Finder

@@ -9,7 +9,7 @@
 	verbose = true
 	template = ~/.config/git/templates/commit
 [core]
-	excludesfile = ~/.gitignore-global
+	excludesfile = ~/.gitignore
 	; hooksPath = ~/.config/git/hooks
 [diff]
 	mnemonicprefix = true

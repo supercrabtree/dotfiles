@@ -240,7 +240,7 @@ set undofile
 set updatetime=16
 set wildmenu
 set wildcharm=<Tab>
-set wildignore=dist/**,**/node_modules/**,**/bower_components/**
+" set wildignore=dist/**,**/node_modules/**,**/bower_components/**
 
 " start matchit
 runtime macros/matchit.vim
@@ -312,7 +312,7 @@ augroup vimrc
   au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
   au BufWritePre * call s:autoMkDir()
   au BufReadPost * inoremap <C-F> <right>
-  au QuickFixCmdPost *grep* bo cwindow
+  au QuickFixCmdPost * bo copen
 augroup END
 " }}}
 " Plugins {{{

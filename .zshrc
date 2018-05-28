@@ -58,6 +58,7 @@ export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/bin
 export PATH=$PATH:/sbin
 
+export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/dev/lm
 export PATH=$PATH:$HOME/dev/git-open/
 export PATH=$PATH:$HOME/dev/git-more
@@ -131,6 +132,7 @@ alias t='tree -a -I "node_modules|.git|.DS_Store|bower_components|dist|build"'
 alias rm='trash'
 
 alias download-video-as-audio='youtube-dl -x --audio-format=mp3'
+alias code-backup="code --list-extensions > ~/dev/dotfiles/vscode/plugin-list && cp ~/Library/Application\ Support/Code/User/settings.json ~/dev/dotfiles/vscode/settings.json && cp ~/Library/Application\ Support/Code/User/keybindings.json ~/dev/dotfiles/vscode/keybindings.json"
 
 alias vanillavim='command vim -u NONE'
 alias vi="$EDITOR"
@@ -290,9 +292,9 @@ git-files-vim() {
     if [ $1 ]; then
       vim $(git diff --name-only --diff-filter=d "$1"...)
     else
-      local files=$(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only --diff-filter=d)
+      local files=$(git ls-files -o --exclude-standard && git diff --name-only --cached --diff-filter=d && git diff --name-only --diff-filter=d)
       if [[ $files != "" ]]; then
-        vim $(git ls-files -m && git ls-files -o --exclude-standard && git diff --cached --name-only --diff-filter=d)
+        vim $(git ls-files -o --exclude-standard && git diff --name-only --cached --diff-filter=d && git diff --name-only --diff-filter=d)
       else
         vim $(git show --name-only --diff-filter=d --pretty=)
       fi

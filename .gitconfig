@@ -39,6 +39,7 @@
 [mergetool "diffconflicts"]
 	cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
 	trustExitCode = true
+	keepBackup = false
 [pager]
 	log = diff-so-fancy | less --tabs=4
 	diff = diff-so-fancy | less --tabs=4

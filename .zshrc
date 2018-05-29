@@ -1,11 +1,10 @@
 # Plugins {{{
-# source ~/prompt.zsh
-source ~/dev/pure/async.zsh
-source ~/dev/pure/pure.zsh
-source ~/dev/k/k.sh
-source ~/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/dev/bam-pow/bam.sh
-source ~/dev/bam-pow/pow.sh
+source "$HOME/dev/pure/async.zsh"
+source "$HOME/dev/pure/pure.zsh"
+source "$HOME/dev/k/k.sh"
+source "$HOME/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "$HOME/dev/bam-pow/bam.sh"
+source "$HOME/dev/bam-pow/pow.sh"
 if [[ -f /usr/local/etc/profile.d/z.sh ]]; then
   _Z_DATA="$HOME/.z/.z"
   source /usr/local/etc/profile.d/z.sh
@@ -130,7 +129,7 @@ alias t='tree -a -I "node_modules|.git|.DS_Store|bower_components|dist|build"'
 alias rm='trash'
 
 alias download-video-as-audio='youtube-dl -x --audio-format=mp3'
-alias code-backup="code --list-extensions > ~/dev/dotfiles/vscode/plugin-list && cp ~/Library/Application\ Support/Code/User/settings.json ~/dev/dotfiles/vscode/settings.json && cp ~/Library/Application\ Support/Code/User/keybindings.json ~/dev/dotfiles/vscode/keybindings.json"
+alias code-backup="code --list-extensions > $HOME/dev/dotfiles/vscode/plugin-list && cp $HOME/Library/Application\ Support/Code/User/settings.json $HOME/dev/dotfiles/vscode/settings.json && cp $HOME/Library/Application\ Support/Code/User/keybindings.json $HOME/dev/dotfiles/vscode/keybindings.json"
 
 alias vanillavim='command vim -u NONE'
 alias vi="$EDITOR"

@@ -192,7 +192,6 @@ git clone https://github.com/supercrabtree/dotfiles.git
 git clone https://github.com/supercrabtree/pure.git
 git clone https://github.com/supercrabtree/k.git
 git clone https://github.com/supercrabtree/bam-pow.git
-git clone https://github.com/rupa/z.git
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/paulirish/git-open.git
 cd "$HOME"
@@ -230,4 +229,3 @@ sudo nvram SystemAudioVolume=" "
 echo "Changing shell to zsh"
 sudo sh -c "echo /usr/local/bin/zsh >> /etc/shells"
 chsh -s /usr/local/bin/zsh
-exec zsh

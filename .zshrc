@@ -2,11 +2,14 @@
 # source ~/prompt.zsh
 source ~/dev/pure/async.zsh
 source ~/dev/pure/pure.zsh
-source ~/dev/z/z.sh
 source ~/dev/k/k.sh
 source ~/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/dev/bam-pow/bam.sh
 source ~/dev/bam-pow/pow.sh
+if [[ -f /usr/local/etc/profile.d/z.sh ]]; then
+  _Z_DATA="$HOME/.z/.z"
+  source /usr/local/etc/profile.d/z.sh
+fi
 # }}}
 # Load {{{
 autoload -U run-help
@@ -40,7 +43,6 @@ export LSCOLORS=exfxcxdxbxegedabagacad
 export LS_COLORS='di=0;34:ln=0;35:so=0;32:pi=0;33:ex=0;31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:'
 
 export LESS='-RFX'
-export ZDOTDIR=$HOME
 
 export LESS_TERMCAP_mb=$'\E[3;31m'
 export LESS_TERMCAP_md=$'\E[1;32m'
@@ -80,8 +82,6 @@ SAVEHIST=200000
 
 # using the homebrew version of zsh, so point at their docs
 HELPDIR=/usr/local/share/zsh/help
-
-_Z_DATA=~/.z.data/.z
 
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'

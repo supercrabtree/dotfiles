@@ -14,6 +14,10 @@ if test ! -d "$HOME/Screenshots"; then
   mkdir "$HOME/Screenshots"
 fi
 
+if test ! -d "$HOME/.z"; then
+  mkdir "$HOME/.z"
+fi
+
 
 #
 # Global
@@ -164,6 +168,7 @@ PACKAGES=(
   trash
   tree
   vim
+  z
   zsh
 )
 

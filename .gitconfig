@@ -4,6 +4,7 @@
 	add-untracked = !git ls-files -o --exclude-standard -z $(git rev-parse --show-toplevel) | xargs -0 git add
 	check = !git commit -m tmp && git add -A && git stash save check-stash && git reset @^ && git add -A
 	tmp = commit -m tmp
+	reviewer = config --add remote.origin.fetch "+refs/pull/*/head:refs/remotes/origin/pr/*"
 [commit]
 	verbose = true
 	template = ~/.config/git/templates/commit

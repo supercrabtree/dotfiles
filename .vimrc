@@ -231,7 +231,7 @@ set smarttab
 set softtabstop=-1
 set splitright
 set statusline=%m\ %f:%l%<\ of\ %L\ col\ %c\ %r%y
-set synmaxcol=250
+set synmaxcol=1000
 set tabstop=4
 set termguicolors
 set ttimeoutlen=0
@@ -239,8 +239,6 @@ set undodir=$HOME/.vim/undo
 set undofile
 set updatetime=16
 set wildmenu
-set wildcharm=<Tab>
-" set wildignore=dist/**,**/node_modules/**,**/bower_components/**
 
 " start matchit
 runtime macros/matchit.vim

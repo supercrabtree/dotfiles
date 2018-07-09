@@ -342,15 +342,14 @@ fzf-history-widget() {
 fancy-branch() {
   local awk_coloring='BEGIN { prev=""; color=0; } ! /^$/ { first=$1; $1 = ""; if (prev != first) { color=(color + 1) % 6; prev=first; } print "\x1b[3" color ";1m" first "\x1b[m\t" $0; }'
   local other_coloring='{print "\x1b[" color ";1m" text "\x1b[m\t" $1}'
+  local local_branches=`git for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short)' | awk -v color=36 -v text="local" $other_coloring`
 
-  local local_branches=`git branch --sort=-committerdate | cut -c 3- | grep -vE 'HEAD' | awk -v color=36 -v text="local" $other_coloring`
   local remote_branches=`git branch -r | grep -vE 'HEAD|--hooks--' | cut -c 3-`
   local tags=`git tag -l --sort=-taggerdate | awk -v color=37 -v text="tags" $other_coloring`
 
   local origin=`printf $remote_branches | grep '^\s*origin/'`
   local other=`printf $remote_branches | grep -v '^\s*origin/'`
-  local remote_sorted=`printf "$origin\n$other" | awk -F "/" $awk_coloring`
-
+  local remote_sorted=`printf "$origin\n$other" | sed 's|/|^|' | awk -F "^" $awk_coloring`
   local selected=`echo "$local_branches\n$remote_sorted\n$tags" | column -t | sed '/^$/d' | fzf --no-hscroll --ansi +m -d "\t"`
 
   if [[ -n "$selected" ]]; then

@@ -3,11 +3,11 @@
 [alias]
 	add-untracked = !git ls-files -o --exclude-standard -z $(git rev-parse --show-toplevel) | xargs -0 git add
 	check = !git commit -m tmp && git add -A && git stash save check-stash && git reset @^ && git add -A
-	tmp = commit -m tmp
-	reviewer = config --add remote.origin.fetch "+refs/pull/*/head:refs/remotes/origin/pr/*"
+	wip = !git add -A && git commit -m \"WIP $(date \"+%a %d %h %H:%M:%S\") $(git rev-parse --abbrev-ref HEAD)\"
 [commit]
 	verbose = true
 	template = ~/.config/git/templates/commit
+	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore
 	; hooksPath = ~/.config/git/hooks
@@ -17,19 +17,8 @@
 	algorithm = patience
 [difftool]
 	prompt = false
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	required = true
-[filter "hawser"]
-	clean = git hawser clean %f
-	smudge = git hawser smudge %f
-	required = true
-[filter "tabspace"]
-	clean = gexpand --tabs=4 --initial
-	smudge = gunexpand --tabs=4 --first-only
 [merge]
-	tool = diffconflicts
+	tool = fugitive
 	algorithm = patience
 	strategy = recursive
 [mergetool]
@@ -53,12 +42,15 @@
 	showUntrackedFiles = all
 [user]
 	name = George Crabtree
-	email = supercrabtree@googlemail.com
-[includeIf "gitdir:~/dev/bigcommerce"]
-	path = .gitconfig-work
+	email = george@canva.com
 [stash]
 	showPatch = true
 [rerere]
 	enabled = true
 [gpg]
 	program = gpg
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

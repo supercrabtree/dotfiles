@@ -51,6 +51,9 @@ export LESS_TERMCAP_so=$'\E[38;05;00;48;05;03m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[1;34m'
 
+export BAM_DIR="$HOME/dev/scratches"
+export POW_DIR="$HOME/dev/powder"
+
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/sbin
@@ -62,13 +65,8 @@ export PATH=$PATH:/sbin
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/dev/git-open/
 export PATH=$PATH:$HOME/dev/git-more
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-export PATH=$PATH:/usr/local/lib/ruby/gems/2.2.0/bin/
-export PATH=$PATH:$HOME/.gem/ruby/2.2.0/bin
-export PATH=$PATH:/usr/local/Cellar/ruby22/2.2.5_2/lib/ruby/gems/2.2.0/bin
-
-export BAM_DIR="$HOME/dev/scratches"
-export POW_DIR="$HOME/dev/powder"
 # }}}
 # Misc {{{
 # stop control flow, gimme ctrl-s back
@@ -279,23 +277,13 @@ magic-g() {
 # otherwise open any files that have been edited, or are new and untracked.
 # otherwise if working directory is clean, open files edited in last commit.
 git-files-vim() {
-  if [[ "$1" == '-s' ]]; then
-      if [[ "$2" == '' ]]; then
-        vim $(git show --name-only --diff-filter=d --pretty=)
-      else
-        vim $(git show --name-only --diff-filter=d --pretty= "$2")
-      fi
+  local root=$(git rev-parse --show-toplevel)
+  local files=$(git ls-files -o --exclude-standard && git diff --name-only --cached --diff-filter=d && git diff --name-only --diff-filter=d)
+
+  if [[ $files != "" ]]; then
+    vim -c "cd $root" $(git ls-files -o --exclude-standard && git diff --name-only --cached --diff-filter=d && git diff --name-only --diff-filter=d | xargs -I '{}' realpath --relative-to=. "$root"/'{}')
   else
-    if [ $1 ]; then
-      vim $(git diff --name-only --diff-filter=d "$1"...)
-    else
-      local files=$(git ls-files -o --exclude-standard && git diff --name-only --cached --diff-filter=d && git diff --name-only --diff-filter=d)
-      if [[ $files != "" ]]; then
-        vim $(git ls-files -o --exclude-standard && git diff --name-only --cached --diff-filter=d && git diff --name-only --diff-filter=d)
-      else
-        vim $(git show --name-only --diff-filter=d --pretty=)
-      fi
-    fi
+    vim -c "cd $root" $(git show --name-only --diff-filter=d --pretty= | xargs -I '{}' realpath --relative-to=. "$root"/'{}')
   fi
 }
 
@@ -384,20 +372,3 @@ z() {
 # nvm {{{
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# Defer initialization of nvm until nvm, node or a node-dependent command is
-# run. Ensure this block is only run once if .bashrc gets sourced multiple times
-# by checking whether __init_nvm is a function.
-if [ -s "$HOME/.nvm/nvm.sh" ] && [ ! "$(whence -w __init_nvm)" = function ]; then
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-  declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack')
-  function __init_nvm() {
-    for i in "${__node_commands[@]}"; do unalias $i; done
-    . "$NVM_DIR"/nvm.sh
-    unset __node_commands
-    unset -f __init_nvm
-  }
-  for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
-fi
-# }}}

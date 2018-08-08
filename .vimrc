@@ -333,13 +333,13 @@ function! s:SetupVAM() " {{{
   \  'github:tpope/vim-sleuth',
   \  'github:tpope/vim-repeat',
   \  'github:skywind3000/asyncrun.vim',
+  \  'github:ianks/vim-tsx',
+  \  'github:leafgarland/typescript-vim',
   \], {'auto_install' : 1})
 endfunction
   " \  'github:w0rp/ale',
   " \  'github:heavenshell/vim-jsdoc',
   " \  'github:gcavallanti/vim-noscrollbar',
-  " \  'github:ianks/vim-tsx',
-  " \  'github:leafgarland/typescript-vim',
   " \  'github:Quramy/tsuquyomi',
 call s:SetupVAM()
 " source $HOME/dev/snaplist/snaplist.vim
@@ -774,7 +774,7 @@ function! GitCommitOmni(findstart, base) " {{{
   if a:findstart
     return col('$')
   else
-    return systemlist("echo \"$(git log --no-merges --pretty=%s -1 | sed 's/ .*//') $(git rev-parse --abbrev-ref HEAD) \" && git log --pretty=%s --no-merges -5 && git branch | sed -e 's/..//' ")
+    return systemlist("echo \"$(git log --no-merges --pretty=%s -1 | sed 's/ .*//') \" && git log --pretty=%s --no-merges -5 && git branch | sed -e 's/..//' ")
   endif
 endfunction
 " }}}

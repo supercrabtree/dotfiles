@@ -1,68 +1,91 @@
 {
-    "editor.formatOnPaste": true,
-    "explorer.confirmDelete": false,
-    "files.insertFinalNewline": true,
-    "trailing-spaces.highlightCurrentLine": false,
-    "window.zoomLevel": 1,
-    "workbench.colorTheme": "Plastic - deprioritised punctuation",
-    "workbench.sideBar.location": "right",
-    "workbench.statusBar.visible": true,
-    "workbench.iconTheme": "vscode-great-icons",
-    "workbench.colorCustomizations": {
-        "terminal.ansiCyan": "#9494CC",
-        "terminal.ansiBrightCyan": "#9494CC",
-        "terminal.ansiGreen": "#98C379",
-        "terminal.ansiBrightGreen": "#98C379",
-        "terminal.ansiBlue": "#61AFEF",
-        "terminal.ansiBrightBlue": "#61AFEF",
-        "terminal.ansiRed": "#e06c75",
-        "terminal.ansiBrightRed": "#e06c75",
-        "terminal.ansiBrightYellow": "#D19A66",
-        "terminal.ansiYellow": "#D19A66"
+  "css.validate": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.fontFamily": "InconsolataGo, SF Mono, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontSize": 18,
+  "editor.formatOnPaste": true,
+  "editor.lineHeight": 20,
+  "editor.minimap.enabled": false,
+  "editor.rulers": [
+    80
+  ],
+  "eslint.enable": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "files.insertFinalNewline": true,
+  "gitlens.advanced.messages": {
+    "suppressShowKeyBindingsNotice": true
+  },
+  "gitlens.codeLens.enabled": false,
+  "gitlens.codeLens.scopes": [
+    "containers",
+    "document",
+    "blocks"
+  ],
+  "gitlens.currentLine.enabled": false,
+  "gitlens.historyExplorer.enabled": true,
+  "gitlens.historyExplorer.location": "explorer",
+  "gitlens.hovers.currentLine.enabled": false,
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.menus": {
+    "editor": {
+      "blame": false,
+      "clipboard": true,
+      "compare": true,
+      "details": true,
+      "history": false,
+      "remote": true
     },
-    "editor.minimap.enabled": false,
-    "gitlens.hovers.currentLine.over": "line",
-    "gitlens.hovers.currentLine.enabled": false,
-    "search.exclude": {
-        "**/node_modules": true,
-        "**/bower_components": true,
-        "dist": true
+    "editorGroup": {
+      "blame": true,
+      "compare": true,
+      "history": false,
+      "remote": false
     },
-    "gitlens.codeLens.scopes": [
-        "containers",
-        "document",
-        "blocks"
-    ],
-    "gitlens.codeLens.enabled": false,
-    "explorer.confirmDragAndDrop": false,
-    "gitlens.keymap": "chorded",
-    "diffEditor.ignoreTrimWhitespace": false,
-    "eslint.enable": false,
-    "editor.lineHeight": 18,
-    "editor.fontFamily": "InconsolataGo, Menlo, Monaco, 'Courier New', monospace",
-    "editor.fontSize": 15,
-    "gitlens.currentLine.enabled": false,
-    "vim.visualstar": true,
-    "vim.useSystemClipboard": true,
-    "terminal.integrated.fontSize": 15,
-    "vim.handleKeys": {
-        "<C-a>": false,
-        "<C-e>": false,
-        "<C-f>": false,
-        "<C-b>": false,
-        "<C-n>": false,
-        "<C-p>": false
-    },
-    "gitlens.advanced.messages": {
-        "suppressCommitHasNoPreviousCommitWarning": false,
-        "suppressCommitNotFoundWarning": false,
-        "suppressFileNotUnderSourceControlWarning": false,
-        "suppressGitVersionWarning": false,
-        "suppressLineUncommittedWarning": false,
-        "suppressNoRepositoryWarning": false,
-        "suppressResultsExplorerNotice": false,
-        "suppressShowKeyBindingsNotice": true
-    },
-    "gitlens.historyExplorer.enabled": true,
-    "workbench.startupEditor": "newUntitledFile"
+    "explorer": {
+      "compare": true,
+      "history": true,
+      "remote": true
+    }
+  },
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 130,
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimit",
+  "importSorter.importStringConfiguration.tabSize": 2,
+  "importSorter.importStringConfiguration.trailingComma": "multiLine",
+  "importSorter.sortConfiguration.customOrderingRules.defaultNumberOfEmptyLinesAfterGroup": 0,
+  "material-icon-theme.activeIconPack": "react",
+  "material-icon-theme.files.associations": {
+    "DEPS": "credits",
+    "OWNERS": "contributing"
+  },
+  "material-icon-theme.folders.associations": {
+    "export": "",
+    "stories": "class",
+  },
+  "material-icon-theme.folders.color": "#666",
+  "search.exclude": {
+    "**/bower_components": true,
+    "**/node_modules": true,
+    "dist": true
+  },
+  "terminal.integrated.fontSize": 16,
+  "trailing-spaces.highlightCurrentLine": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "workbench.colorCustomizations": {
+    "terminal.ansiBlue": "#61AFEF",
+    "terminal.ansiBrightBlue": "#61AFEF",
+    "terminal.ansiBrightCyan": "#9494CC",
+    "terminal.ansiBrightGreen": "#98C379",
+    "terminal.ansiBrightRed": "#e06c75",
+    "terminal.ansiBrightYellow": "#D19A66",
+    "terminal.ansiCyan": "#9494CC",
+    "terminal.ansiGreen": "#98C379",
+    "terminal.ansiRed": "#e06c75",
+    "terminal.ansiYellow": "#D19A66"
+  },
+  "workbench.colorTheme": "GitHub Plus",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.sideBar.location": "left",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.statusBar.visible": true
 }

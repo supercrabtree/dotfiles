@@ -43,6 +43,7 @@
 [user]
 	name = George Crabtree
 	email = george@canva.com
+	signingkey = D8AED3E0E3EF15C6
 [stash]
 	showPatch = true
 [rerere]

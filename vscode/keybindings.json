@@ -1,17 +1,9 @@
 // Place your key bindings in this file to overwrite the defaults
 [
     {
-        "key": "cmd+k cmd+r",
+        "key": "ctrl+cmd+r",
         "command": "editor.action.rename",
         "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
-    },
-    {
-        "key": "cmd+i",
-        "command": "workbench.action.nextEditor"
-    },
-    {
-        "key": "cmd+u",
-        "command": "workbench.action.previousEditor"
     },
     {
         "key": "ctrl+a",
@@ -31,5 +23,27 @@
     {
         "key": "cmd+r",
         "command": "workbench.files.action.focusFilesExplorer"
+    },
+    {
+        "key": "cmd+=",
+        "command": "editor.action.fontZoomIn"
+    },
+    {
+        "key": "cmd+-",
+        "command": "editor.action.fontZoomOut"
+    },
+    {
+        "key": "cmd+0",
+        "command": "editor.action.fontZoomReset"
+    },
+    {
+        "key": "ctrl+cmd+n",
+        "command": "search.action.focusNextSearchResult",
+        "when": "hasSearchResult"
+    },
+    {
+        "key": "ctrl+cmd+p",
+        "command": "search.action.focusPreviousSearchResult",
+        "when": "hasSearchResult"
     },
 ]

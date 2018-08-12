@@ -52,6 +52,8 @@
 browser_handler = require('browser_handler')
 browser_handler.start()
 
+hs.alert.show('Hammerspoon reloaded', 1)
+
 -- hs.hotkey.bind({'shift'}, 'delete', keyCode('forwarddelete'), nil, keyCode('forwarddelete'))
 
 -- hs.eventtap.new({ hs.eventtap.event.types.NSSystemDefined }, function(event)

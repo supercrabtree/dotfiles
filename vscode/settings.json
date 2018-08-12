@@ -2,7 +2,7 @@
   "css.validate": false,
   "diffEditor.ignoreTrimWhitespace": false,
   "editor.fontFamily": "InconsolataGo, SF Mono, Menlo, Monaco, 'Courier New', monospace",
-  "editor.fontSize": 18,
+  "editor.fontSize": 16,
   "editor.formatOnPaste": true,
   "editor.lineHeight": 20,
   "editor.minimap.enabled": false,
@@ -56,18 +56,14 @@
   "material-icon-theme.activeIconPack": "react",
   "material-icon-theme.files.associations": {
     "DEPS": "credits",
-    "OWNERS": "contributing"
+    "OWNERS": "contributing",
+    "*.proto": "less",
   },
   "material-icon-theme.folders.associations": {
     "export": "",
     "stories": "class",
   },
   "material-icon-theme.folders.color": "#666",
-  "search.exclude": {
-    "**/bower_components": true,
-    "**/node_modules": true,
-    "dist": true
-  },
   "terminal.integrated.fontSize": 16,
   "trailing-spaces.highlightCurrentLine": false,
   "typescript.updateImportsOnFileMove.enabled": "always",
@@ -87,5 +83,10 @@
   "workbench.iconTheme": "material-icon-theme",
   "workbench.sideBar.location": "left",
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.statusBar.visible": true
+  "workbench.statusBar.visible": true,
+  "window.zoomLevel": 0,
+  "editor.tabSize": 2,
+  "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?",
+  "workbench.editor.showTabs": true,
+  "extensions.ignoreRecommendations": false
 }

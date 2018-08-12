@@ -1,4 +1,3 @@
--- module: send clicked links to the most recently used browser
 -- Note: this requires setting the default web browser to Hammerspoon
 -- in OS X System Preferences -> General.
 local m = {}
@@ -13,9 +12,9 @@ local browsers = {
 }
 
 local browserMap = {
-  { regex = 'http.*localhost:*',       id = browsers.chromeCanary },
-  { regex = '.*.127.0.0.1:*',          id = browsers.chromeCanary },
-  { regex = '.*',                      id = browsers.safari },
+  { regex = 'http.*localhost:*',           id = browsers.chromeCanary },
+  { regex = '127.0.0.1:*',                 id = browsers.chromeCanary },
+  { regex = '.*',                          id = browsers.safari },
 }
 
 -- callback, called when a url is clicked. Sends the url to the currentHandler.

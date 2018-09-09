@@ -17,11 +17,11 @@ syntax enable
 " grey7  = #333333 => 20%
 " black  = #000000 => 0%
 "
-" red    = #941a1e
-" green  = #006215
-" blue   = #1a5b94
+" red    = #d73a49
+" green  = #22863a
+" blue   = #005cc5
 " yellow = #ffaf00
-" orange = #ea7a19
+" orange = #e27f2d
 
 "  Name              Foreground    Background    Attributes
 " ------------------------------------------------------------------------------
@@ -37,17 +37,17 @@ hi xGrey6            guifg=#808080 guibg=NONE    cterm=NONE
 hi xGrey4FgGrey2Bg   guifg=#b3b3b3 guibg=#e8e8e8 cterm=NONE
 hi xGrey6FgGrey0Bg   guifg=#808080 guibg=#fafafa cterm=NONE
 hi xGrey7FgGrey2Bg   guifg=#333333 guibg=#e8e8e8 cterm=NONE
-hi xBlue             guifg=#1a5b94 guibg=NONE    cterm=NONE
-hi xGreen            guifg=#006215 guibg=NONE    cterm=NONE
-hi xRed              guifg=#941a1e guibg=NONE    cterm=NONE
-hi xRedBold          guifg=#941a1e guibg=NONE    cterm=bold
-hi xOrangeBold       guifg=#ea7a19 guibg=NONE    cterm=bold
-hi xRedBg            guifg=NONE    guibg=#941a1e cterm=NONE
+hi xBlue             guifg=#005cc5 guibg=NONE    cterm=NONE
+hi xGreen            guifg=#22863a guibg=NONE    cterm=NONE
+hi xRed              guifg=#d73a49 guibg=NONE    cterm=NONE
+hi xRedBold          guifg=#d73a49 guibg=NONE    cterm=bold
+hi xOrangeBold       guifg=#e27f2d guibg=NONE    cterm=bold
+hi xRedBg            guifg=NONE    guibg=#d73a49 cterm=NONE
 hi xBlackFgYellowBg  guifg=#000000 guibg=#ffaf00 cterm=NONE
-hi xOrangeFgGrey1Bg  guifg=#ea7a19 guibg=#f3f3f3 cterm=NONE
-hi xWhiteFgGreenBg   guifg=#ffffff guibg=#006215 cterm=NONE
-hi xWhiteFgRedBg     guifg=#ffffff guibg=#941a1e cterm=NONE
-hi xWhiteFgOrangeBg  guifg=#ffffff guibg=#ea7a19 cterm=NONE
+hi xOrangeFgGrey1Bg  guifg=#e27f2d guibg=#f3f3f3 cterm=NONE
+hi xWhiteFgGreenBg   guifg=#ffffff guibg=#22863a cterm=NONE
+hi xWhiteFgRedBg     guifg=#ffffff guibg=#d73a49 cterm=NONE
+hi xWhiteFgOrangeBg  guifg=#ffffff guibg=#e27f2d cterm=NONE
 hi xWhiteFgGrey7Bg   guifg=#ffffff guibg=#333333 cterm=NONE
 
 " Match above colors " {{{

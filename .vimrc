@@ -258,6 +258,9 @@ set t_ZR=[23m
 " allow $() in sh scripts
 let g:is_posix=1
 
+if !isdirectory($HOME . '/.vim/undo')
+  call system('mkdir -p ' . $HOME . '/.vim/undo')
+endif
 " }}}
 " Auto Commands {{{
 augroup vimrc

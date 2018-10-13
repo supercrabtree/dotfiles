@@ -674,7 +674,7 @@ function! s:fileDump(regex, ignore_git) " {{{
     let l:root = getcwd()
     let l:is_git=0
   else
-    let l:files = system("git -C " . l:root . " ls-files -oc --exclude-standard")
+    let l:files = system("git -C " . expand('%:p:h') . " ls-files -oc --exclude-standard")
     let l:is_git=1
   endif
   if (v:shell_error)

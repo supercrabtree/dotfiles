@@ -12,9 +12,9 @@ local browsers = {
 }
 
 local browserMap = {
-  { regex = 'http.*localhost:*',           id = browsers.chromeCanary },
-  { regex = '127.0.0.1:*',                 id = browsers.chromeCanary },
-  { regex = '.*',                          id = browsers.safari },
+  { regex = '.*localhost:*',         id = browsers.chromeCanary },
+  { regex = '127.0.0.1:*',           id = browsers.chromeCanary },
+  { regex = '.*',                    id = browsers.safari },
 }
 
 -- callback, called when a url is clicked. Sends the url to the currentHandler.

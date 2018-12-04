@@ -230,7 +230,7 @@ set smartcase
 set smarttab
 set softtabstop=-1
 set splitright
-set statusline=%m\ %f:%l%<\ of\ %L\ col\ %c\ %r%y
+set statusline=%m%<\ %f:%l\ of\ %L\ col\ %c\ %r%y
 set synmaxcol=1000
 set tabstop=4
 set termguicolors
@@ -272,7 +272,7 @@ augroup vimrc
   au FileType qf nnoremap <buffer> dd :let g:curqflineno=line(".")<cr>:call RemoveQfLineAt(g:curqflineno)<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>
   au FileType qf nnoremap <buffer> u :let g:curqflineno=line(".")<cr>:colder<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>
   au FileType qf nnoremap <buffer> <c-r> :let g:curqflineno=line(".")<cr>:cnewer<cr>:exec "call cursor(".g:curqflineno.",0)"<cr>
-  au FileType qf nnoremap <buffer> o <cr>:copen<cr>
+  au FileType qf nnoremap <buffer> o <cr>zz:copen<cr>
   au FileType qf nnoremap <buffer> O <cr>:vsp<cr><c-w><c-p>:b#<cr><c-w><c-p>:copen<cr>
   au FileType qf nnoremap <buffer> <cr> <cr>:ccl<cr>
   au FileType qf nnoremap <buffer> s :cfdo %s/<C-R>///c<left><left>
@@ -606,12 +606,22 @@ command! -nargs=1 RejectName call FilterQuickFix(<q-args>, 1, 'name')
 command! -nargs=1 RefineName call FilterQuickFix(<q-args>, 0, 'name')
 command! -nargs=1 RejectContent call FilterQuickFix(<q-args>, 1, 'content')
 command! -nargs=1 RefineContent call FilterQuickFix(<q-args>, 0, 'content')
+
+"vimdiff
+command! -nargs=0 MoreVimdiff execute "normal! :tab sbuf 4\<cr>:diffthis\<cr>:vert sbuf 1\<cr>:diffthis\<cr>:diffthis\<cr>:tab sbuf 4\<cr>:diffthis\<cr>:vert sbuf 2\<cr>:diffthis\<cr>:tab sbuf 4\<cr>:diffthis\<cr>:vert sbuf 3\<cr>:diffthis\<cr>:tabfir\<cr>"
 " }}}
 " Macros {{{
 let @f='ru/<[^ >]\{-} \|" /ezz'
 let @r='gg0f(lciwrefunds'
 " }}}
 " Search Functions {{{
+nnoremap <silent> [n :call <SID>Context(1)<CR>
+nnoremap <silent> ]n :call <SID>Context(0)<CR>
+
+function! s:Context(reverse) abort
+  call search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', a:reverse ? 'bW' : 'W')
+endfunction
+
 function! s:regexEscape(str)
   return escape(a:str, '^$.*~[]')
 endfunction

@@ -141,16 +141,12 @@ alias g=magic-g
 alias gg='git remote -v | column -t'
 alias gdm='g-diff-mega'
 alias gc='git commit'
-alias gl='echo "\n" && git log -z --pretty=stacked -20'
-alias gla='echo "\n" && git log -z --pretty=stacked --all -20'
-alias glnm='echo "\n" && git log -z --pretty=stacked --no-merges -20'
-alias glanm='echo "\n" && git log -z --pretty=stacked --all --no-merges-20'
+alias gl='echo && git log -z --pretty=stacked -10'
 alias d='standard-diff'
 alias D='git diff --staged'
-alias ds="git diff --stat"
-alias DS="git diff --staged --stat"
+
 alias gvim='git-files-vim'
-alias cvim='git mergetool --no-prompt'
+alias cvim='git mergetool'
 alias svim='vim `git diff --name-only --diff-filter=d --staged`'
 
 aliasestoexpand=(

@@ -1,57 +1,48 @@
 [advice]
 	statusHints = false
 [alias]
-	add-untracked = !git ls-files -o --exclude-standard -z $(git rev-parse --show-toplevel) | xargs -0 git add
 	check = !git commit -m tmp && git add -A && git stash save check-stash && git reset @^ && git add -A
-	wip = !git add -A && git commit -m \"WIP $(date \"+%a %d %h %H:%M:%S\") $(git rev-parse --abbrev-ref HEAD)\"
+	wip = !git add -A && git commit --allow-empty -m \"WIP $(date \"+%a %d %h %H:%M:%S\") $(git rev-parse --abbrev-ref HEAD)\"
 [commit]
 	verbose = true
 	template = ~/.config/git/templates/commit
 	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore
-	; hooksPath = ~/.config/git/hooks
+	hooksPath = ~/.config/git/hooks
 [diff]
+	algorithm = patience
 	mnemonicprefix = true
 	tool = vimdiff
-	algorithm = patience
-[difftool]
-	prompt = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[gpg]
+	program = gpg
 [merge]
-	tool = fugitive
-	algorithm = patience
-	strategy = recursive
-[mergetool]
+	tool = dispute
+[mergetool "dispute"]
+	cmd = vimdiff -c \"+3wincmd l\" -c \"+wincmd J\" -c \"MoreVimdiff\" $LOCAL $BASE $REMOTE $MERGED
 	keepBackup = false
-[mergetool "fugitive"]
-	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
-[mergetool "diffconflicts"]
-	cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
 	trustExitCode = true
-	keepBackup = false
+	keepTemporaries = false
 [pager]
 	log = diff-so-fancy | less --tabs=4
 	diff = diff-so-fancy | less --tabs=4
 	show = diff-so-fancy | less --tabs=4
 [pretty]
 	stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an
-	ignacio = %C(yellow)%h %C(green)%<(14,trunc)%an %Creset%s%Cred%d
 [push]
 	default = current
+[rerere]
+	enabled = true
+[stash]
+	showPatch = true
 [status]
 	showUntrackedFiles = all
 [user]
 	name = George Crabtree
 	email = george@canva.com
 	signingkey = D8AED3E0E3EF15C6
-[stash]
-	showPatch = true
-[rerere]
-	enabled = true
-[gpg]
-	program = gpg
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true

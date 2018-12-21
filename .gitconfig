@@ -1,11 +1,9 @@
 [advice]
 	statusHints = false
 [alias]
-	check = !git commit -m tmp && git add -A && git stash save check-stash && git reset @^ && git add -A
-	wip = !git add -A && git commit --allow-empty -m \"WIP $(date \"+%a %d %h %H:%M:%S\") $(git rev-parse --abbrev-ref HEAD)\"
+	wip = !git commit --allow-empty -am \"WIP $(date \"+%a %d %h %H:%M:%S\") $(git symbolic-ref --short --quiet HEAD || git rev-parse --short HEAD)\"
 [commit]
 	verbose = true
-	template = ~/.config/git/templates/commit
 	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore
@@ -37,7 +35,7 @@
 [push]
 	default = current
 [rerere]
-	enabled = true
+	enabled = false
 [stash]
 	showPatch = true
 [status]

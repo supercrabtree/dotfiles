@@ -121,8 +121,8 @@ bindkey '^R' fzf-history-widget
 # Aliases {{{
 unalias run-help
 alias man='run-help'
-alias l='gls --group-directories-first -A --color'
-alias ll='gls -hgGA --color'
+alias l='gls -A --color --group-directories-first'
+alias ll='gls -hgGA --color --group-directories-first'
 alias t='tree -a -I "node_modules|.git|.DS_Store|bower_components|dist|build"'
 alias rm='trash'
 
@@ -151,12 +151,12 @@ alias svim='vim `git diff --name-only --diff-filter=d --staged`'
 
 aliasestoexpand=(
   'l'
+  'll'
   'download-video-as-audio'
   'vanillavim'
   't'
   'gg'
   'gc'
-  'gcf'
   'gl'
   'gla'
   'glnm'
@@ -264,7 +264,7 @@ magic-g() {
     local remote_url=$(git remote get-url $remote_branch 2> /dev/null)
     git -c color.ui=always status -sb | sed "1 s,$, => $remote_url,"
   else
-    gls -hgGA --color
+    ll
   fi
 }
 

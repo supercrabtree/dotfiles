@@ -19,6 +19,8 @@
 	required = true
 [gpg]
 	program = gpg
+[includeIf "gitdir:~/work"]
+	path = ~/work
 [merge]
 	tool = dispute
 [mergetool "dispute"]
@@ -42,5 +44,5 @@
 	showUntrackedFiles = all
 [user]
 	name = George Crabtree
-	email = george@canva.com
-	signingkey = D8AED3E0E3EF15C6
+	email = supercrabtree@googlemail.com
+	signingkey = DAB365C2042C6378

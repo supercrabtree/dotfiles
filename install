@@ -207,6 +207,7 @@ ln -s ~/dev/dotfiles/.zshrc .zshrc
 ln -s ~/dev/dotfiles/.vimrc .vimrc
 ln -s ~/dev/dotfiles/.gitconfig .gitconfig
 ln -s ~/dev/dotfiles/.gitignore .gitignore
+ln -s ~/dev/dotfiles/.git-commit-template .git-commit-template
 
 
 #

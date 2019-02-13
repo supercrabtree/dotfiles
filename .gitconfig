@@ -3,34 +3,36 @@
 [alias]
 	wip = !git commit --allow-empty -am \"WIP $(date \"+%a %d %h %H:%M:%S\") $(git symbolic-ref --short --quiet HEAD || git rev-parse --short HEAD)\"
 [commit]
-	verbose = true
 	gpgsign = true
+	template = ~/.git-commit-template
+	verbose = true
 [core]
 	excludesfile = ~/.gitignore
-	hooksPath = ~/.config/git/hooks
 [diff]
 	algorithm = patience
 	mnemonicprefix = true
 	tool = vimdiff
 [filter "lfs"]
 	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+	smudge = git-lfs smudge -- %f
 [gpg]
-	program = gpg
-[includeIf "gitdir:~/work"]
-	path = ~/work
+	program = gpg2
+[includeIf "gitdir:~/dev/"]
+	path = ~/dev/.gitconfig
+[includeIf "gitdir:~/work/"]
+	path = ~/work/.gitconfig
 [merge]
 	tool = dispute
 [mergetool "dispute"]
 	cmd = vimdiff -c \"+3wincmd l\" -c \"+wincmd J\" -c \"MoreVimdiff\" $LOCAL $BASE $REMOTE $MERGED
 	keepBackup = false
-	trustExitCode = true
 	keepTemporaries = false
+	trustExitCode = true
 [pager]
-	log = diff-so-fancy | less --tabs=4
 	diff = diff-so-fancy | less --tabs=4
+	log = diff-so-fancy | less --tabs=4
 	show = diff-so-fancy | less --tabs=4
 [pretty]
 	stacked = %n%n%-D%n%C(yellow)%h %>(14,trunc)%Cgreen%cr %C(blue)%<(50,trunc)%s %Creset%<(15,trunc)%an
@@ -42,7 +44,3 @@
 	showPatch = true
 [status]
 	showUntrackedFiles = all
-[user]
-	name = George Crabtree
-	email = supercrabtree@googlemail.com
-	signingkey = DAB365C2042C6378

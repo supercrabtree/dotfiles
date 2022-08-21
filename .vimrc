@@ -296,6 +296,7 @@ augroup vimrc
   au FileType markdown setlocal spell
   au FileType markdown setlocal textwidth=80
   au FileType markdown setlocal colorcolumn=81
+  au FileType markdown setlocal wrap
 
   au BufRead,BufNewFile *.filedump setfiletype filedump
   au FileType filedump nnoremap <buffer> <C-C> :bp\|bd#<cr>
@@ -331,7 +332,6 @@ function! s:SetupVAM() " {{{
   \  'github:airblade/vim-gitgutter',
   \  'github:tpope/vim-commentary',
   \  'github:tpope/vim-eunuch',
-  \  'github:tpope/vim-fugitive',
   \  'github:tpope/vim-rhubarb',
   \  'github:tpope/vim-sleuth',
   \  'github:tpope/vim-repeat',

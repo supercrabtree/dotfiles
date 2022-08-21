@@ -1,6 +1,4 @@
 # Plugins {{{
-source "$HOME/dev/pure/async.zsh"
-source "$HOME/dev/pure/pure.zsh"
 source "$HOME/dev/k/k.sh"
 source "$HOME/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "$HOME/dev/bam-pow/bam.sh"
@@ -14,8 +12,9 @@ fi
 autoload -U run-help
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
-autoload -U compinit
-compinit
+autoload -U compinit; compinit
+autoload -U promptinit; promptinit
+prompt pure
 # }}}
 # Zsh setopt {{{
 setopt auto_cd
@@ -32,6 +31,7 @@ setopt hist_ignore_space
 setopt share_history
 # }}}
 # Exports + PATH {{{
+export GPG_TTY=$(tty)
 export EDITOR=vim
 export VISUAL=$EDITOR
 export BACKGROUND=light
@@ -51,7 +51,7 @@ export LESS_TERMCAP_so=$'\E[38;05;00;48;05;03m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[1;34m'
 
-export BAM_DIR="$HOME/dev/scratches"
+export BAM_DIR="$HOME/Documents/Scratches"
 export POW_DIR="$HOME/dev/powder"
 
 export PATH=$PATH:$HOME/bin
@@ -93,6 +93,10 @@ test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_int
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu select
+zstyle :prompt:pure:prompt:success color 250
+zstyle :prompt:pure:git:fetch only_upstream yes
+zstyle :prompt:pure:git:branch:cached 242
+zstyle :prompt:pure:git:branch:dirty 242
 # }}}
 # New Keyboard Shortcuts {{{
 zle -N fancy-ctrl-z
@@ -115,11 +119,14 @@ bindkey " " aliasexpander
 zle      -N  fzf-history-widget
 bindkey '^R' fzf-history-widget
 
+zmodload zsh/mapfile
+
 # zle -N command-palette
 # bindkey '^ ' command-palette
 # }}}
 # Aliases {{{
 unalias run-help
+alias p='~/dev/pomo.sh'
 alias man='run-help'
 alias l='gls -A --color --group-directories-first'
 alias ll='gls -hgGA --color --group-directories-first'
@@ -144,6 +151,7 @@ alias gc='git commit'
 alias gl='echo && git log -z --pretty=stacked -10'
 alias d='standard-diff'
 alias D='git diff --staged'
+alias G="yarn lint:deps:changed:fix && git add -A && git commit -m '.' && git push --force-with-lease && sleep 5 && git trigger-build -C"
 
 alias gvim='git-files-vim'
 alias cvim='git mergetool'
@@ -164,6 +172,7 @@ aliasestoexpand=(
   'ds'
   'D'
   'DS'
+  'G'
   'cvim'
   'svim'
   'rm'
@@ -256,8 +265,42 @@ colortest() {
   done
   echo
 }
+
+owners() {
+  if [ "$#" -gt 2 ]; then
+    echo "Usage: 'owners my-branch' or 'owners master my-branch'" >&2
+    exit 1
+  fi
+  local branches=()
+  if [ "$#" -eq 1 ]; then
+    branches=("master")
+    branches+=("$1")
+  else
+    branches=("$@")
+  fi
+
+  local origin_branches=()
+  for branch in "${branches[@]}"
+    do
+      origin_branches+=("origin/${branch}")
+    done
+  echo "fetching latest changes on the branches"
+  git fetch origin "${branches[@]}"
+  echo "orwell owners changed ${origin_branches[@]}"
+  orwell owners changed "${origin_branches[@]}"
+}
 # }}}
 # Git things {{{
+git() {
+  if [[ "$1" == "pull" && "$@" != *"--help"* ]]; then
+    echo "banned, edit zshrc::git to change"
+  elif [[ "$1" == "fetch" && "$2" == ""  ]]; then
+    echo "banned, edit zshrc::git to change"
+  else
+    command git "$@"
+  fi
+}
+
 magic-g() {
   if git rev-parse --git-dir > /dev/null 2>&1; then
     local remote_branch=$(git rev-parse --abbrev-ref @{u} 2> /dev/null | sed 's|/.*||')
@@ -309,7 +352,7 @@ g-diff-mega() {
 # FZF things {{{
 export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle\
   --bind=ctrl-d:half-page-down,ctrl-u:half-page-up\
-  --color=fg:8,fg+:-1,bg:-1,bg+:-1,hl:0,hl+:3,prompt:2,marker:2,pointer:2,info:9"
+  --color=fg:13,fg+:-1,bg:-1,bg+:-1,hl:0,hl+:3,prompt:2,marker:2,pointer:2,info:9"
 
 fzf-history-widget() {
   local selected num
@@ -368,3 +411,5 @@ z() {
 # nvm {{{
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if [ -e /Users/george/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/george/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

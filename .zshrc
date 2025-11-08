@@ -39,7 +39,7 @@ stty -ixon
 #==============================================================================
 
 # Editor Settings {{{
-export EDITOR=nvim
+export EDITOR=vim
 export VISUAL=$EDITOR
 export GPG_TTY=$(tty)
 # }}}
@@ -124,7 +124,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # Nix profile
-if [ -e /Users/george/.nix-profile/etc/profile.d/nix.sh ]; then 
+if [ -e /Users/george/.nix-profile/etc/profile.d/nix.sh ]; then
   . /Users/george/.nix-profile/etc/profile.d/nix.sh
 fi
 

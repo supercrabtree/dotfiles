@@ -1,49 +1,31 @@
-// Place your key bindings in this file to overwrite the defaults
+// Place your key bindings in this file to override the defaults
 [
     {
-        "key": "ctrl+cmd+r",
-        "command": "editor.action.rename",
-        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+        "key": "shift shift",
+        "command": "workbench.action.quickOpen"
     },
     {
-        "key": "ctrl+a",
-        "command": "cursorHome",
-        "when": "editorTextFocus"
+        "key": "cmd+e",
+        "command": "workbench.action.quickOpen"
     },
     {
-        "key": "ctrl+a",
-        "command": "-cursorLineStart",
-        "when": "editorTextFocus"
+        "key": "cmd+[",
+        "command": "workbench.action.navigateBack",
+        "when": "canNavigateBack"
     },
     {
-        "key": "cmd+f",
-        "command": "filesExplorer.findInFolder",
-        "when": "filesExplorerFocus"
+        "key": "ctrl+-",
+        "command": "-workbench.action.navigateBack",
+        "when": "canNavigateBack"
     },
     {
-        "key": "cmd+r",
-        "command": "workbench.files.action.focusFilesExplorer"
+        "key": "cmd+]",
+        "command": "workbench.action.navigateForward",
+        "when": "canNavigateForward"
     },
     {
-        "key": "cmd+=",
-        "command": "editor.action.fontZoomIn"
-    },
-    {
-        "key": "cmd+-",
-        "command": "editor.action.fontZoomOut"
-    },
-    {
-        "key": "cmd+0",
-        "command": "editor.action.fontZoomReset"
-    },
-    {
-        "key": "ctrl+cmd+n",
-        "command": "search.action.focusNextSearchResult",
-        "when": "hasSearchResult"
-    },
-    {
-        "key": "ctrl+cmd+p",
-        "command": "search.action.focusPreviousSearchResult",
-        "when": "hasSearchResult"
+        "key": "ctrl+shift+-",
+        "command": "-workbench.action.navigateForward",
+        "when": "canNavigateForward"
     },
 ]

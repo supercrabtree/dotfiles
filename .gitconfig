@@ -4,11 +4,12 @@
 	wip = !git add -A && git commit --allow-empty -m \"WIP $(date \"+%a %d %h %H:%M:%S\") $(git symbolic-ref --short --quiet HEAD || git rev-parse --short HEAD)\"
 	thread = !git fetch origin $(git branch --show-current)
 [commit]
-	gpgsign = true
+	gpgsign = false
 	template = ~/.git-commit-template
 	verbose = true
 [core]
 	excludesfile = ~/.gitignore
+	pager = diff-so-fancy | less --tabs=4 -RF
 [diff]
 	algorithm = patience
 	mnemonicprefix = true
@@ -18,6 +19,8 @@
 	process = git-lfs filter-process
 	required = true
 	smudge = git-lfs smudge -- %f
+# [gpg]
+# 	program = /opt/homebrew/bin/gpg
 [includeIf "gitdir:~/dev/"]
 	path = ~/dev/.gitconfig
 [includeIf "gitdir:~/work/"]
@@ -53,3 +56,7 @@
 	version = 2
 [maintenance]
 	repo = /Users/george/dev/canva
+[interactive]
+	diffFilter = diff-so-fancy --patch
+[user]
+	signingkey = 47F6574BAFFDA6EB

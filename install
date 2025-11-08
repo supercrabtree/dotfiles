@@ -131,10 +131,6 @@ defaults write -g NSPreferredWebServices '{
 echo "Plain text for new files"
 defaults write com.apple.TextEdit RichText -int 0
 
-killall Safari
-killall Finder
-killall Dock
-
 
 #
 # Homebrew and apps
@@ -189,7 +185,6 @@ echo ""
 
 cd "$HOME/dev"
 git clone https://github.com/supercrabtree/dotfiles.git
-git clone https://github.com/supercrabtree/pure.git
 git clone https://github.com/supercrabtree/k.git
 git clone https://github.com/supercrabtree/bam-pow.git
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -228,5 +223,5 @@ sudo nvram SystemAudioVolume=" "
 #
 
 echo "Changing shell to zsh"
-sudo sh -c "echo /usr/local/bin/zsh >> /etc/shells"
-chsh -s /usr/local/bin/zsh
+sudo sh -c "echo /opt/homebrew/bin/zsh >> /etc/shells"
+chsh -s /opt/homebrew/bin/zsh

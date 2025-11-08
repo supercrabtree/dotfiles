@@ -23,156 +23,159 @@ syntax enable
 " yellow = #ffaf00
 " orange = #e27f2d
 
-"  Name              Foreground    Background    Attributes
-" ------------------------------------------------------------------------------
-hi xNone             guifg=NONE    guibg=NONE    cterm=NONE
-hi xGrey0Bg          guifg=NONE    guibg=#fafafa cterm=NONE
-hi xGrey1Bg          guifg=NONE    guibg=#f3f3f3 cterm=NONE
-hi xGrey2Bg          guifg=NONE    guibg=#e8e8e8 cterm=NONE
-hi xGrey3Bg          guifg=NONE    guibg=#dbdbdb cterm=NONE
-hi xGrey4            guifg=#b3b3b3 guibg=NONE    cterm=NONE
-hi xGrey5Italic      guifg=#999999 guibg=NONE    cterm=italic
-hi xGrey5            guifg=#999999 guibg=NONE    cterm=NONE
-hi xGrey6            guifg=#808080 guibg=NONE    cterm=NONE
-hi xGrey4FgGrey2Bg   guifg=#b3b3b3 guibg=#e8e8e8 cterm=NONE
-hi xGrey6FgGrey0Bg   guifg=#808080 guibg=#fafafa cterm=NONE
-hi xGrey7FgGrey2Bg   guifg=#333333 guibg=#e8e8e8 cterm=NONE
-hi xBlue             guifg=#005cc5 guibg=NONE    cterm=NONE
-hi xGreen            guifg=#22863a guibg=NONE    cterm=NONE
-hi xRed              guifg=#d73a49 guibg=NONE    cterm=NONE
-hi xRedBold          guifg=#d73a49 guibg=NONE    cterm=bold
-hi xOrangeBold       guifg=#e27f2d guibg=NONE    cterm=bold
-hi xRedBg            guifg=NONE    guibg=#d73a49 cterm=NONE
-hi xBlackFgYellowBg  guifg=#000000 guibg=#ffaf00 cterm=NONE
-hi xOrangeFgGrey1Bg  guifg=#e27f2d guibg=#f3f3f3 cterm=NONE
-hi xWhiteFgGreenBg   guifg=#ffffff guibg=#22863a cterm=NONE
-hi xWhiteFgRedBg     guifg=#ffffff guibg=#d73a49 cterm=NONE
-hi xWhiteFgOrangeBg  guifg=#ffffff guibg=#e27f2d cterm=NONE
-hi xWhiteFgGrey7Bg   guifg=#ffffff guibg=#333333 cterm=NONE
-
-" Match above colors " {{{
-call matchadd('xNone', 'xNone')
-call matchadd('xGrey4', 'xGrey4')
-call matchadd('xGrey5Italic', 'xGrey5Italic')
-call matchadd('xGrey5', 'xGrey5')
-call matchadd('xGrey6', 'xGrey6')
-call matchadd('xGrey4FgGrey2Bg', 'xGrey4FgGrey2Bg')
-call matchadd('xGrey6FgGrey0Bg', 'xGrey6FgGrey0Bg')
-call matchadd('xGrey7FgGrey2Bg', 'xGrey7FgGrey2Bg')
-call matchadd('xBlue', 'xBlue')
-call matchadd('xRed', 'xRed')
-call matchadd('xRedBold', 'xRedBold')
-call matchadd('xOrangeBold', 'xOrangeBold')
-call matchadd('xRedBg', 'xRedBg')
-call matchadd('xGreen', 'xGreen')
-call matchadd('xBlackFgYellowBg', 'xBlackFgYellowBg')
-call matchadd('xOrangeFgGrey1Bg', 'xOrangeFgGrey1Bg')
-call matchadd('xWhiteFgGreenBg', 'xWhiteFgGreenBg')
-call matchadd('xWhiteFgRedBg', 'xWhiteFgRedBg')
-call matchadd('xWhiteFgOrangeBg', 'xWhiteFgOrangeBg')
-call matchadd('xWhiteFgGrey7Bg', 'xWhiteFgGrey7Bg')
-call matchadd('xGrey0Bg', 'xGrey0Bg')
-call matchadd('xGrey1Bg', 'xGrey1Bg')
-call matchadd('xGrey2Bg', 'xGrey2Bg')
-call matchadd('xGrey3Bg', 'xGrey3Bg')
-" }}}
-
-" Black text
-hi! link Normal          xNone
-hi! link Constant        xNone
-hi! link Function        xNone
-hi! link Identifier      xNone
-hi! link Keyword         xNone
-hi! link Preproc         xNone
-hi! link Question        xNone
-hi! link Special         xNone
-hi! link SpellCap        xNone
-hi! link Statement       xNone
-hi! link Title           xNone
-hi! link Type            xNone
-hi! link Underlined      xNone
-hi! link WarningMsg      xNone
-
-" Grey text
-hi! link NonText         xGrey4
-hi! link SpecialKey      xGrey4
-hi! link Comment         xGrey5Italic
-hi! link Todo            xGrey5Italic
-
-" Blue text
-hi! link Boolean         xBlue
-hi! link Directory       xBlue
-hi! link MoreMsg         xBlue
-hi! link Number          xBlue
-hi! link String          xBlue
-
-" Red text
-hi! link BadMsg          xRed
-hi! link SpellBad        xRed
-hi! link Error           xWhiteFgRedBg
-hi! link ErrorMsg        xWhiteFgRedBg
-
-" Green text
-hi! link GoodMsg         xGreen
-hi! link BrightGoodMsg   xWhiteFgGreenBg
-
-" UI elements
-hi! link ColorColumn     xGrey0Bg
-hi! link CursorLine      xGrey1Bg
-hi! link ExtraWhitespace xGrey2Bg
-hi! link Ignore          xGrey2Bg
-hi! link QuickFixLine    xGrey2Bg
-hi! link VertSplit       xGrey2Bg
-hi! link StatusLine      xGrey2Bg
-hi! link StatusLineNC    xGrey4FgGrey2Bg
-hi! link LineNr          xGrey4
-hi! link CursorLineNr    xNone
-hi! link Folded          xGrey6FgGrey0Bg
-hi! link Visual          xGrey3Bg
-
-hi! link IncSearch       xWhiteFgGreenBg
-hi! link MatchParen      xGrey2Bg
-hi! link Search          xBlackFgYellowBg
-hi! link WildMenu        xWhiteFgGrey7Bg
-hi! link PMenu           xGrey7FgGrey2Bg
-hi! link PMenuSel        xWhiteFgGrey7Bg
-
-" Diffs
-hi! link DiffAdd         xGreen
-hi! link DiffChange      xNone
-hi! link DiffDelete      xRedBg
-hi! link DiffText        xOrangeFgGrey1Bg
-hi! link diffAdded       xGreen
-hi! link diffRemoved     xRed
-
-" Git Commits
-hi! link gitcommitSelectedFile  xGreen
-hi! link gitcommitDiscardedFile xGreen
-
-" Git Gutter
-hi! link GitGutterAdd           xGreen
-hi! link GitGutterChange        xGrey4
-hi! link GitGutterDelete        xRed
-hi! link GitGutterChangeDelete  xGrey4
-
-" ALE
-hi! link ALEErrorSign   xWhiteFgRedBg
-hi! link ALEWarningSign xWhiteFgOrangeBg
-hi! link ALEError       xRedBold
-hi! link ALEWarning     xOrangeBold
-
-" Markdown
-hi! link markdownH1               xWhiteFgGrey7Bg
-hi! link markdownH2               xWhiteFgGrey7Bg
-hi! link markdownH3               xWhiteFgGrey7Bg
-hi! link markdownH4               xWhiteFgGrey7Bg
-hi! link markdownH5               xWhiteFgGrey7Bg
-hi! link markdownH6               xWhiteFgGrey7Bg
-hi! link markdownHeadingDelimiter xWhiteFgGrey7Bg
+""  Name              Foreground    Background    Attributes
+"" ------------------------------------------------------------------------------
+"hi xNone             guifg=NONE    guibg=NONE    cterm=NONE
+"hi xGrey0Bg          guifg=NONE    guibg=#fafafa cterm=NONE
+"hi xGrey1Bg          guifg=NONE    guibg=#f3f3f3 cterm=NONE
+"hi xGrey2Bg          guifg=NONE    guibg=#e8e8e8 cterm=NONE
+"hi xGrey3Bg          guifg=NONE    guibg=#dbdbdb cterm=NONE
+"hi xGrey4            guifg=#b3b3b3 guibg=NONE    cterm=NONE
+"hi xGrey5Italic      guifg=#999999 guibg=NONE    cterm=italic
+"hi xGrey5            guifg=#999999 guibg=NONE    cterm=NONE
+"hi xGrey6            guifg=#808080 guibg=NONE    cterm=NONE
+"hi xGrey4FgGrey2Bg   guifg=#b3b3b3 guibg=#e8e8e8 cterm=NONE
+"hi xGrey6FgGrey0Bg   guifg=#808080 guibg=#fafafa cterm=NONE
+"hi xGrey7FgGrey2Bg   guifg=#333333 guibg=#e8e8e8 cterm=NONE
+"hi xBlue             guifg=#005cc5 guibg=NONE    cterm=NONE
+"hi xGreen            guifg=#22863a guibg=NONE    cterm=NONE
+"hi xRed              guifg=#d73a49 guibg=NONE    cterm=NONE
+"hi xRedBold          guifg=#d73a49 guibg=NONE    cterm=bold
+"hi xOrangeBold       guifg=#e27f2d guibg=NONE    cterm=bold
+"hi xRedBg            guifg=NONE    guibg=#d73a49 cterm=NONE
+"hi xBlackFgYellowBg  guifg=#000000 guibg=#ffaf00 cterm=NONE
+"hi xOrangeFgGrey1Bg  guifg=#e27f2d guibg=#f3f3f3 cterm=NONE
+"hi xWhiteFgGreenBg   guifg=#ffffff guibg=#22863a cterm=NONE
+"hi xWhiteFgRedBg     guifg=#ffffff guibg=#d73a49 cterm=NONE
+"hi xWhiteFgOrangeBg  guifg=#ffffff guibg=#e27f2d cterm=NONE
+"hi xWhiteFgGrey7Bg   guifg=#ffffff guibg=#333333 cterm=NONE
+"
+"" Match above colors " {{{
+"call matchadd('xNone', 'xNone')
+"call matchadd('xGrey4', 'xGrey4')
+"call matchadd('xGrey5Italic', 'xGrey5Italic')
+"call matchadd('xGrey5', 'xGrey5')
+"call matchadd('xGrey6', 'xGrey6')
+"call matchadd('xGrey4FgGrey2Bg', 'xGrey4FgGrey2Bg')
+"call matchadd('xGrey6FgGrey0Bg', 'xGrey6FgGrey0Bg')
+"call matchadd('xGrey7FgGrey2Bg', 'xGrey7FgGrey2Bg')
+"call matchadd('xBlue', 'xBlue')
+"call matchadd('xRed', 'xRed')
+"call matchadd('xRedBold', 'xRedBold')
+"call matchadd('xOrangeBold', 'xOrangeBold')
+"call matchadd('xRedBg', 'xRedBg')
+"call matchadd('xGreen', 'xGreen')
+"call matchadd('xBlackFgYellowBg', 'xBlackFgYellowBg')
+"call matchadd('xOrangeFgGrey1Bg', 'xOrangeFgGrey1Bg')
+"call matchadd('xWhiteFgGreenBg', 'xWhiteFgGreenBg')
+"call matchadd('xWhiteFgRedBg', 'xWhiteFgRedBg')
+"call matchadd('xWhiteFgOrangeBg', 'xWhiteFgOrangeBg')
+"call matchadd('xWhiteFgGrey7Bg', 'xWhiteFgGrey7Bg')
+"call matchadd('xGrey0Bg', 'xGrey0Bg')
+"call matchadd('xGrey1Bg', 'xGrey1Bg')
+"call matchadd('xGrey2Bg', 'xGrey2Bg')
+"call matchadd('xGrey3Bg', 'xGrey3Bg')
+"" }}}
+"
+"" Black text
+"hi! link Normal          xNone
+"hi! link Constant        xNone
+"hi! link Function        xNone
+"hi! link Identifier      xNone
+"hi! link Keyword         xNone
+"hi! link Preproc         xNone
+"hi! link Question        xNone
+"hi! link Special         xNone
+"hi! link SpellCap        xNone
+"hi! link Statement       xNone
+"hi! link Title           xNone
+"hi! link Type            xNone
+"hi! link Underlined      xNone
+"hi! link WarningMsg      xNone
+"
+"" Grey text
+"hi! link NonText         xGrey4
+"hi! link SpecialKey      xGrey4
+"hi! link Comment         xGrey5Italic
+"hi! link Todo            xGrey5Italic
+"
+"" Blue text
+"hi! link Boolean         xBlue
+"hi! link Directory       xBlue
+"hi! link MoreMsg         xBlue
+"hi! link Number          xBlue
+"hi! link String          xBlue
+"
+"" Red text
+"hi! link BadMsg          xRed
+"hi! link SpellBad        xRed
+"hi! link Error           xWhiteFgRedBg
+"hi! link ErrorMsg        xWhiteFgRedBg
+"
+"" Green text
+"hi! link GoodMsg         xGreen
+"hi! link BrightGoodMsg   xWhiteFgGreenBg
+"
+"" UI elements
+"hi! link ColorColumn     xGrey0Bg
+"hi! link CursorLine      xGrey1Bg
+"hi! link ExtraWhitespace xGrey2Bg
+"hi! link Ignore          xGrey2Bg
+"hi! link QuickFixLine    xGrey2Bg
+"hi! link VertSplit       xGrey2Bg
+"hi! link StatusLine      xGrey2Bg
+"hi! link StatusLineNC    xGrey4FgGrey2Bg
+"hi! link LineNr          xGrey4
+"hi! link CursorLineNr    xNone
+"hi! link Folded          xGrey6FgGrey0Bg
+"hi! link Visual          xGrey3Bg
+"
+"hi! link IncSearch       xWhiteFgGreenBg
+"hi! link MatchParen      xGrey2Bg
+"hi! link Search          xBlackFgYellowBg
+"hi! link WildMenu        xWhiteFgGrey7Bg
+"hi! link PMenu           xGrey7FgGrey2Bg
+"hi! link PMenuSel        xWhiteFgGrey7Bg
+"
+"" Diffs
+"hi! link DiffAdd         xGreen
+"hi! link DiffChange      xNone
+"hi! link DiffDelete      xRedBg
+"hi! link DiffText        xOrangeFgGrey1Bg
+"hi! link diffAdded       xGreen
+"hi! link diffRemoved     xRed
+"
+"" Git Commits
+"hi! link gitcommitSelectedFile  xGreen
+"hi! link gitcommitDiscardedFile xGreen
+"
+"" Git Gutter
+"hi! link GitGutterAdd           xGreen
+"hi! link GitGutterChange        xGrey4
+"hi! link GitGutterDelete        xRed
+"hi! link GitGutterChangeDelete  xGrey4
+"
+"" ALE
+"hi! link ALEErrorSign   xWhiteFgRedBg
+"hi! link ALEWarningSign xWhiteFgOrangeBg
+"hi! link ALEError       xRedBold
+"hi! link ALEWarning     xOrangeBold
+"
+"" Markdown
+"hi! link markdownH1               xWhiteFgGrey7Bg
+"hi! link markdownH2               xWhiteFgGrey7Bg
+"hi! link markdownH3               xWhiteFgGrey7Bg
+"hi! link markdownH4               xWhiteFgGrey7Bg
+"hi! link markdownH5               xWhiteFgGrey7Bg
+"hi! link markdownH6               xWhiteFgGrey7Bg
+"hi! link markdownHeadingDelimiter xWhiteFgGrey7Bg
 
 " JavaScript
 hi! link jsUndefined xBlue
 hi! link jsNull xBlue
+
+"colorscheme iceberg
+colorscheme nord
 
 augroup whitespace
   autocmd!
@@ -223,7 +226,7 @@ set nowrap
 set path=.,**
 set scroll=10
 set scrolloff=3
-set shell=/usr/local/bin/zsh
+set shell=/opt/homebrew/bin/zsh
 set shiftwidth=4
 set signcolumn=yes
 set smartcase
@@ -261,6 +264,7 @@ let g:is_posix=1
 if !isdirectory($HOME . '/.vim/undo')
   call system('mkdir -p ' . $HOME . '/.vim/undo')
 endif
+
 " }}}
 " Auto Commands {{{
 augroup vimrc
@@ -324,7 +328,7 @@ function! s:SetupVAM() " {{{
   let c.plugin_root_dir = expand('$HOME', 1) . '/.vim/vim-addons'
   let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
   if !isdirectory(c.plugin_root_dir.'/vim-addon-manager/autoload')
-    execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager' shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
+    execute '!git clone --depth=1 https://github.com/MarcWeber/vim-addon-manager' shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
   endif " }}}
   call vam#ActivateAddons([
   \  'github:pangloss/vim-javascript',
@@ -338,6 +342,8 @@ function! s:SetupVAM() " {{{
   \  'github:skywind3000/asyncrun.vim',
   \  'github:ianks/vim-tsx',
   \  'github:leafgarland/typescript-vim',
+  \  'github:cocopon/iceberg.vim',
+  \  'github:arcticicestudio/nord-vim'
   \], {'auto_install' : 1})
 endfunction
   " \  'github:w0rp/ale',
@@ -346,33 +352,6 @@ endfunction
   " \  'github:Quramy/tsuquyomi',
 call s:SetupVAM()
 " source $HOME/dev/snaplist/snaplist.vim
-" }}}
-" Plugin Settings {{{
-" let g:ale_linters = {
-" \   'html': [],
-" \}
-" let g:ale_javascript_eslint_options = '-c ./node_modules/ng-build/tasks/eslint/.eslintrc'
-" let g:ale_javascript_eslint_use_global=1
-" let g:ale_php_phpcs_standard=$BC_APP_DIR . "tools/standards/Bigcommerce"
-" let g:ale_sign_column_always = 1
-" " some more ⇨ ⊗ ◗ ⊙ ≫ 𝒆 𝒘 𝓮 𝔀  𝕖 𝕨 𝔼 𝕎
-" let g:ale_sign_error = '»'
-" let g:ale_sign_warning = '»'
-let g:netrw_winsize = 20
-let g:netrw_liststyle = 3
-let g:netrw_banner = 0
-let g:netrw_altfile = 1
-let g:asyncrun_open = 12
-" }}}
-" Disable unused builtin plugins {{{
-let g:loaded_getscriptPlugin = 1
-let g:loaded_gzip = 1
-let g:loaded_logiPat = 1
-" let g:loaded_netrwPlugin = 1
-let g:loaded_rrhelper = 1
-let g:loaded_tarPlugin = 1
-let g:loaded_vimballPlugin = 1
-let g:loaded_zipPlugin = 1
 " }}}
 " MRU {{{
 if !filereadable($HOME . '/.vim/mru.txt')
@@ -821,5 +800,3 @@ function! FoldText() " {{{
     let line = substitute(line, '^ ', '', 'g')
     return '» ' . line . ' - ' . line_count . line_count_text
 endfunction
-" }}}
-" }}}

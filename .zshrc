@@ -178,6 +178,7 @@ bindkey "^n" searchdown
 # Alias expansion on space
 zle -N aliasexpander
 bindkey " " aliasexpander
+# }}}
 
 #==============================================================================
 # FZF CONFIGURATION
@@ -185,9 +186,9 @@ bindkey " " aliasexpander
 
 # FZF Settings {{{
 export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle --bind=ctrl-d:half-page-down,ctrl-u:half-page-up"
-# }}}
 source <(fzf --zsh)
 source ~/dev/fzf-git.sh/fzf-git.sh
+# }}}
 
 #==============================================================================
 # ALIASES
@@ -244,6 +245,7 @@ alias p='~/dev/pomo.sh'
 alias man='run-help'
 alias json='joli -o inspect'
 alias jsonp='pbpaste | joli -o inspect'
+alias cc="CLAUDE_CODE_MAX_OUTPUT_TOKENS=16384 OTTER_BEDROCK_AUTH_METHOD=mtls otter claude-code"
 # }}}
 
 # Private configuration {{{
@@ -326,6 +328,7 @@ fancy-ctrl-z () {
     zle clear-screen
   fi
 }
+# }}}
 
 # Utility Functions {{{
 mkcd() {

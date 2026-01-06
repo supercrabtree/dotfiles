@@ -186,7 +186,7 @@ command! -nargs=0 ShowHighlightGroup echo
 " }}}
 " Settings {{{
 set backspace=indent,eol,start
-set clipboard=unnamed
+set clipboard=unnamedplus
 set completeopt=menu,longest
 set colorcolumn=81
 set diffopt+=vertical,context:3

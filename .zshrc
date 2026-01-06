@@ -27,7 +27,7 @@ SAVEHIST=200000
 autoload -U run-help
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
-autoload -U compinit; compinit
+autoload -U compinit; compinit -C
 zmodload zsh/mapfile
 
 # Stop control flow to get ctrl-s back
@@ -72,15 +72,15 @@ export LESS_TERMCAP_us=$'\E[1;34m'
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 export PATH=$PATH:$HOME/bin
-export PATH=$PATH:/opt/homebrew/bin
-export PATH=$PATH:/opt/homebrew/sbin
 export PATH=$PATH:$HOME/dev/git-open/
 export PATH=$PATH:$HOME/dev/git-more
-export PATH="/opt/homebrew/opt/pnpm@9/bin:$PATH"
 
 # PNPM configuration
-export PNPM_HOME="/Users/george/Library/pnpm"
-[[ ":$PATH:" != *":$PNPM_HOME:"* ]] && export PATH="$PNPM_HOME:$PATH"
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:/opt/homebrew/opt/pnpm@9/bin:$PATH" ;;
+esac
 
 # Add ZSH function path
 fpath+=($HOME/dev/pure)
@@ -90,7 +90,6 @@ HELPDIR=/usr/local/share/zsh/help
 
 # Prompt Initialization {{{
 autoload -U promptinit; promptinit
-promptinit
 # }}}
 
 #==============================================================================
@@ -124,8 +123,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # Nix profile
-if [ -e /Users/george/.nix-profile/etc/profile.d/nix.sh ]; then
-  . /Users/george/.nix-profile/etc/profile.d/nix.sh
+if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+  . "$HOME/.nix-profile/etc/profile.d/nix.sh"
 fi
 
 # Z directory jumper
@@ -209,6 +208,7 @@ alias rm='trash'
 # Editor & Configuration Aliases {{{
 alias vanillavim='command vim -u NONE'
 alias vi="$EDITOR"
+alias vim="$EDITOR"
 alias vimrc="$EDITOR $HOME/dev/dotfiles/.vimrc"
 alias nvimrc="$EDITOR $HOME/.config/nvim/"
 alias zshrc="$EDITOR $HOME/dev/dotfiles/.zshrc"
@@ -222,6 +222,8 @@ alias gb='git branch -vv'
 alias gc="git commit -m '.'"
 alias gca="git commit -am '.'"
 alias gcA="git add -A && git commit -m '.'"
+alias gco="git checkout"
+alias gcp="git cherry-pick"
 alias gl='echo && git log -z --pretty=stacked -10'
 alias d='standard-diff'
 alias D='git diff --staged'
@@ -257,10 +259,13 @@ aliasestoexpand=(
   'download-video-as-audio'
   'vanillavim'
   't'
+  'g'
   'gg'
   'gc'
   'gcA'
   'gca'
+  'gco'
+  'gcp'
   'gl'
   'gla'
   'glnm'
@@ -291,6 +296,12 @@ searchdown() {
 }
 
 aliasexpander() {
+  # Special case for 'g' - expand to 'git' instead of the alias
+  if [[ $LBUFFER =~ "^g$" ]]; then
+    LBUFFER="git"
+    zle self-insert
+    return
+  fi
   # expand aliases listed in $aliasestoexpand
   for a in ${aliasestoexpand}; do
       if [[ $LBUFFER =~ "^$a$" ]]; then

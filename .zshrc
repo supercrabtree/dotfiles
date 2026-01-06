@@ -82,10 +82,13 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:/opt/homebrew/opt/pnpm@9/bin:$PATH" ;;
 esac
 
+# Cache brew prefix for performance
+BREW_PREFIX="$(brew --prefix)"
+
 # Add ZSH function path
 fpath+=($HOME/dev/pure)
-fpath+=("$(brew --prefix)/share/zsh/site-functions")
-HELPDIR=/usr/local/share/zsh/help
+fpath+=("$BREW_PREFIX/share/zsh/site-functions")
+HELPDIR="$BREW_PREFIX/share/zsh/help"
 # }}}
 
 # Prompt Initialization {{{
@@ -128,9 +131,9 @@ if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
 fi
 
 # Z directory jumper
-if [[ -f "$(brew --prefix)/etc/profile.d/z.sh" ]]; then
+if [[ -f "$BREW_PREFIX/etc/profile.d/z.sh" ]]; then
   _Z_DATA="$HOME/.z/.z"
-  source "$(brew --prefix)/etc/profile.d/z.sh"
+  source "$BREW_PREFIX/etc/profile.d/z.sh"
 fi
 
 # Load local environment
@@ -232,7 +235,7 @@ alias D='git diff --staged'
 # Git editor aliases
 alias gvim='git-files-vim'
 alias cvim='git mergetool'
-alias svim='vim `git diff --name-only --diff-filter=d --staged`'
+alias svim='vim $(git diff --name-only --diff-filter=d --staged)'
 
 # Global git aliases
 alias -g UP='@{u}'
@@ -256,9 +259,6 @@ alias cc="CLAUDE_CODE_MAX_OUTPUT_TOKENS=16384 OTTER_BEDROCK_AUTH_METHOD=mtls ott
 
 # Aliases to expand with space {{{
 aliasestoexpand=(
-  'l'
-  'll'
-  'download-video-as-audio'
   'vanillavim'
   't'
   'g'
@@ -269,13 +269,7 @@ aliasestoexpand=(
   'gco'
   'gcp'
   'gl'
-  'gla'
-  'glnm'
-  'glanm'
-  'ds'
   'D'
-  'DS'
-  'G'
   'cvim'
   'svim'
   'rm'
@@ -332,12 +326,7 @@ fancy-ctrl-z () {
 
 # Utility Functions {{{
 mkcd() {
-  mkdir -p $1 && cd $1
-}
-
-jobcount() {
-  local jobs=$(jobs | grep ^\\\[ | wc -l | xargs)
-  ((jobs)) && echo -n "$jobs "
+  mkdir -p "$1" && cd "$1"
 }
 # }}}
 

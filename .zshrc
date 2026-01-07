@@ -101,7 +101,6 @@ autoload -U promptinit; promptinit
 
 # Plugin Loading {{{
 source "$HOME/dev/k/k.sh"
-source "$HOME/dev/enhancd/init.sh"
 source "$HOME/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "$HOME/dev/bam-pow/bam.sh"
 source "$HOME/dev/bam-pow/pow.sh"
@@ -191,6 +190,19 @@ bindkey " " aliasexpander
 export FZF_DEFAULT_OPTS="--extended --reverse --multi --cycle --bind=ctrl-d:half-page-down,ctrl-u:half-page-up"
 source <(fzf --zsh)
 source ~/dev/fzf-git.sh/fzf-git.sh
+
+# Override branches widget to prepend 'git checkout ' when line is empty
+fzf-git-branches-widget() {
+  local was_empty=$([[ -z "$LBUFFER" ]] && echo 1)
+  local result=$(_fzf_git_branches | __fzf_git_join)
+  zle reset-prompt
+  if [[ -n "$result" && -n "$was_empty" ]]; then
+    LBUFFER="git checkout $result"
+  else
+    LBUFFER+=$result
+  fi
+}
+zle -N fzf-git-branches-widget
 # }}}
 
 #==============================================================================

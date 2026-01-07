@@ -169,11 +169,9 @@ zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
 # History search with up/down
-zle -N up-line-or-beginning-search
 zle -N searchup
 bindkey "^p" searchup
 
-zle -N down-line-or-beginning-search
 zle -N searchdown
 bindkey "^n" searchdown
 
@@ -224,7 +222,6 @@ alias rm='trash'
 # Editor & Configuration Aliases {{{
 alias vanillavim='command vim -u NONE'
 alias vi="$EDITOR"
-alias vim="$EDITOR"
 alias vimrc="$EDITOR $HOME/dev/dotfiles/.vimrc"
 alias nvimrc="$EDITOR $HOME/.config/nvim/"
 alias zshrc="$EDITOR $HOME/dev/dotfiles/.zshrc"
@@ -273,7 +270,6 @@ alias cc="CLAUDE_CODE_MAX_OUTPUT_TOKENS=16384 OTTER_BEDROCK_AUTH_METHOD=mtls ott
 aliasestoexpand=(
   'vanillavim'
   't'
-  'g'
   'gg'
   'gc'
   'gcA'

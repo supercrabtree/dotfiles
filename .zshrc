@@ -169,9 +169,11 @@ zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
 # History search with up/down
+zle -N up-line-or-beginning-search
 zle -N searchup
 bindkey "^p" searchup
 
+zle -N down-line-or-beginning-search
 zle -N searchdown
 bindkey "^n" searchdown
 
